@@ -16,6 +16,7 @@ type CMSLinkType = {
     value: Page | Post | string | number
   } | null
   size?: ButtonProps['size'] | null
+  style?: React.CSSProperties
   type?: 'custom' | 'reference' | null
   url?: string | null
 }
@@ -30,6 +31,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     newTab,
     reference,
     size: sizeFromProps,
+    style,
     url,
   } = props
 
@@ -48,7 +50,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+      <Link className={cn(className)} href={href || url || ''} style={style} {...newTabProps}>
         {label && label}
         {children && children}
       </Link>
@@ -56,8 +58,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   }
 
   return (
-    <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+    <Button asChild className={className} size={size} style={style} variant={appearance}>
+      <Link className={cn(className)} href={href || url || ''} style={style} {...newTabProps}>
         {label && label}
         {children && children}
       </Link>

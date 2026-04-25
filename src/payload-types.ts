@@ -106,16 +106,18 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {
     header: Header;
     footer: Footer;
+    themeColors: ThemeColor;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    themeColors: ThemeColorsSelect<false> | ThemeColorsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -156,7 +158,7 @@ export interface UserAuthOperations {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: string;
+  id: number;
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -183,11 +185,11 @@ export interface Page {
             reference?:
               | ({
                   relationTo: 'pages';
-                  value: string | Page;
+                  value: number | Page;
                 } | null)
               | ({
                   relationTo: 'posts';
-                  value: string | Post;
+                  value: number | Post;
                 } | null);
             url?: string | null;
             label: string;
@@ -199,15 +201,27 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
-    media?: (string | null) | Media;
+    media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | TitleBlock
+    | SubtitleBlock
+    | FlexboxBlock
+    | FeatureGridBlock
+    | BackgroundContainerBlock
+    | UpcomingEventsBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -225,9 +239,9 @@ export interface Page {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: string;
+  id: number;
   title: string;
-  heroImage?: (string | null) | Media;
+  heroImage?: (number | null) | Media;
   content: {
     root: {
       type: string;
@@ -243,18 +257,18 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
-  authors?: (string | User)[] | null;
+  authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
         id?: string | null;
@@ -275,7 +289,7 @@ export interface Post {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt?: string | null;
   caption?: {
     root: {
@@ -292,7 +306,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  folder?: (string | null) | FolderInterface;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -368,18 +382,18 @@ export interface Media {
  * via the `definition` "payload-folders".
  */
 export interface FolderInterface {
-  id: string;
+  id: number;
   name: string;
-  folder?: (string | null) | FolderInterface;
+  folder?: (number | null) | FolderInterface;
   documentsAndFolders?: {
     docs?: (
       | {
           relationTo?: 'payload-folders';
-          value: string | FolderInterface;
+          value: number | FolderInterface;
         }
       | {
           relationTo?: 'media';
-          value: string | Media;
+          value: number | Media;
         }
     )[];
     hasNextPage?: boolean;
@@ -394,17 +408,17 @@ export interface FolderInterface {
  * via the `definition` "categories".
  */
 export interface Category {
-  id: string;
+  id: number;
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
-  parent?: (string | null) | Category;
+  parent?: (number | null) | Category;
   breadcrumbs?:
     | {
-        doc?: (string | null) | Category;
+        doc?: (number | null) | Category;
         url?: string | null;
         label?: string | null;
         id?: string | null;
@@ -418,7 +432,7 @@ export interface Category {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -459,6 +473,31 @@ export interface CallToActionBlock {
     };
     [k: string]: unknown;
   } | null;
+  backgroundImage?: (number | null) | Media;
+  borderStyle?: ('default' | 'none') | null;
+  colors?: {
+    textColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'white' | 'black') | null;
+    buttonTextColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'white' | 'black') | null;
+  };
+  spacing?: {
+    gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    actionsGap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  typography?: {
+    fontSize?: ('small' | 'base' | 'large' | 'lead') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+  };
   links?:
     | {
         link: {
@@ -467,11 +506,11 @@ export interface CallToActionBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -483,6 +522,17 @@ export interface CallToActionBlock {
         id?: string | null;
       }[]
     | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
@@ -517,11 +567,11 @@ export interface ContentBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -533,16 +583,237 @@ export interface ContentBlock {
         id?: string | null;
       }[]
     | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TitleBlock".
+ */
+export interface TitleBlock {
+  /**
+   * Supporta anche ritorni a capo per ottenere titoli su piu righe.
+   */
+  title: string;
+  /**
+   * Inserisce ritorni a capo dopo parole o frasi specifiche del titolo. Le regole vengono applicate in ordine.
+   */
+  lineBreaks?:
+    | {
+        word: string;
+        /**
+         * 0 = tutte le occorrenze trovate.
+         */
+        occurrences?: number | null;
+        breaks?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Legacy field kept to avoid deleting existing data. Use the Subtitle block for new content.
+   */
+  subtitle?: string | null;
+  fontSize?: ('compact' | 'medium' | 'large' | 'hero' | 'massive') | null;
+  fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  distress?: ('none' | 'light' | 'worn' | 'destroyed') | null;
+  align?: ('center' | 'left') | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'title';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubtitleBlock".
+ */
+export interface SubtitleBlock {
+  /**
+   * Supporta anche ritorni a capo per ottenere sottotitoli su piu righe.
+   */
+  text: string;
+  /**
+   * Inserisce ritorni a capo dopo parole o frasi specifiche del sottotitolo. Le regole vengono applicate in ordine.
+   */
+  lineBreaks?:
+    | {
+        word: string;
+        /**
+         * 0 = tutte le occorrenze trovate.
+         */
+        occurrences?: number | null;
+        breaks?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  fontSize?: ('small' | 'base' | 'large' | 'lead') | null;
+  fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  distress?: ('none' | 'light' | 'worn' | 'destroyed') | null;
+  textTransform?: ('normal' | 'uppercase') | null;
+  align?: ('center' | 'left') | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'subtitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FlexboxBlock".
+ */
+export interface FlexboxBlock {
+  direction?: ('row' | 'column' | 'responsiveRow') | null;
+  wrap?: ('wrap' | 'nowrap') | null;
+  justify?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
+  align?: ('start' | 'center' | 'end' | 'stretch' | 'baseline') | null;
+  gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  minHeight?: ('none' | 'small' | 'medium' | 'large' | 'screen') | null;
+  blocks: (
+    | CallToActionBlock
+    | ContentBlock
+    | TitleBlock
+    | SubtitleBlock
+    | FeatureGridBlock
+    | UpcomingEventsBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+  )[];
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'flexbox';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock".
+ */
+export interface FeatureGridBlock {
+  columns: 'two' | 'three' | 'four';
+  style: 'gothamDark' | 'transparent';
+  items: {
+    icon?: (number | null) | Media;
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingEventsBlock".
+ */
+export interface UpcomingEventsBlock {
+  heading: string;
+  events: {
+    day: string;
+    month: string;
+    title: string;
+    description: string;
+    /**
+     * Link used by the "Scopri di piu" action.
+     */
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: number | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+    id?: string | null;
+  }[];
+  featureImage: number | Media;
+  /**
+   * Optional text shown over the image, like the poster in the reference.
+   */
+  posterText?: string | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'upcomingEvents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
-  media: string | Media;
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -569,14 +840,25 @@ export interface ArchiveBlock {
   } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
-  categories?: (string | Category)[] | null;
+  categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       }[]
     | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
@@ -586,7 +868,7 @@ export interface ArchiveBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  form: string | Form;
+  form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
     root: {
@@ -603,6 +885,17 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -612,7 +905,7 @@ export interface FormBlock {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: string;
+  id: number;
   title: string;
   fields?:
     | (
@@ -783,10 +1076,46 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundContainerBlock".
+ */
+export interface BackgroundContainerBlock {
+  backgroundImage: number | Media;
+  overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
+  width?: ('full' | 'contained') | null;
+  padding?: ('small' | 'medium' | 'large') | null;
+  blocks: (
+    | CallToActionBlock
+    | ContentBlock
+    | TitleBlock
+    | SubtitleBlock
+    | FlexboxBlock
+    | FeatureGridBlock
+    | UpcomingEventsBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+  )[];
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'backgroundContainer';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: string;
+  id: number;
   /**
    * You will need to rebuild the website when changing this field.
    */
@@ -796,11 +1125,11 @@ export interface Redirect {
     reference?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
         } | null);
     url?: string | null;
   };
@@ -812,8 +1141,8 @@ export interface Redirect {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: string;
-  form: string | Form;
+  id: number;
+  form: number | Form;
   submissionData?:
     | {
         field: string;
@@ -831,18 +1160,18 @@ export interface FormSubmission {
  * via the `definition` "search".
  */
 export interface Search {
-  id: string;
+  id: number;
   title?: string | null;
   priority?: number | null;
   doc: {
     relationTo: 'posts';
-    value: string | Post;
+    value: number | Post;
   };
   slug?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
   };
   categories?:
     | {
@@ -860,7 +1189,7 @@ export interface Search {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -877,7 +1206,7 @@ export interface PayloadKv {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: string;
+  id: number;
   /**
    * Input data provided to the job
    */
@@ -969,52 +1298,52 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'pages';
-        value: string | Page;
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'categories';
-        value: string | Category;
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: string | Redirect;
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
-        value: string | Form;
+        value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: string | FormSubmission;
+        value: number | FormSubmission;
       } | null)
     | ({
         relationTo: 'search';
-        value: string | Search;
+        value: number | Search;
       } | null)
     | ({
         relationTo: 'payload-folders';
-        value: string | FolderInterface;
+        value: number | FolderInterface;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -1024,10 +1353,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -1047,7 +1376,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1086,6 +1415,12 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        title?: T | TitleBlockSelect<T>;
+        subtitle?: T | SubtitleBlockSelect<T>;
+        flexbox?: T | FlexboxBlockSelect<T>;
+        featureGrid?: T | FeatureGridBlockSelect<T>;
+        backgroundContainer?: T | BackgroundContainerBlockSelect<T>;
+        upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
@@ -1110,6 +1445,37 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
   richText?: T;
+  backgroundImage?: T;
+  borderStyle?: T;
+  colors?:
+    | T
+    | {
+        textColor?: T;
+        buttonTextColor?: T;
+      };
+  spacing?:
+    | T
+    | {
+        gap?: T;
+        actionsGap?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+      };
+  typography?:
+    | T
+    | {
+        fontSize?: T;
+        fontWeight?: T;
+        fontFamily?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+      };
   links?:
     | T
     | {
@@ -1124,6 +1490,19 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
               appearance?: T;
             };
         id?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
       };
   id?: T;
   blockName?: T;
@@ -1151,6 +1530,207 @@ export interface ContentBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TitleBlock_select".
+ */
+export interface TitleBlockSelect<T extends boolean = true> {
+  title?: T;
+  lineBreaks?:
+    | T
+    | {
+        word?: T;
+        occurrences?: T;
+        breaks?: T;
+        id?: T;
+      };
+  subtitle?: T;
+  fontSize?: T;
+  fontWeight?: T;
+  fontFamily?: T;
+  verticalScale?: T;
+  distress?: T;
+  align?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SubtitleBlock_select".
+ */
+export interface SubtitleBlockSelect<T extends boolean = true> {
+  text?: T;
+  lineBreaks?:
+    | T
+    | {
+        word?: T;
+        occurrences?: T;
+        breaks?: T;
+        id?: T;
+      };
+  fontSize?: T;
+  fontWeight?: T;
+  fontFamily?: T;
+  verticalScale?: T;
+  letterSpacing?: T;
+  distress?: T;
+  textTransform?: T;
+  align?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FlexboxBlock_select".
+ */
+export interface FlexboxBlockSelect<T extends boolean = true> {
+  direction?: T;
+  wrap?: T;
+  justify?: T;
+  align?: T;
+  gap?: T;
+  minHeight?: T;
+  blocks?:
+    | T
+    | {
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        title?: T | TitleBlockSelect<T>;
+        subtitle?: T | SubtitleBlockSelect<T>;
+        featureGrid?: T | FeatureGridBlockSelect<T>;
+        upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        archive?: T | ArchiveBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock_select".
+ */
+export interface FeatureGridBlockSelect<T extends boolean = true> {
+  columns?: T;
+  style?: T;
+  items?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingEventsBlock_select".
+ */
+export interface UpcomingEventsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  events?:
+    | T
+    | {
+        day?: T;
+        month?: T;
+        title?: T;
+        description?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  featureImage?: T;
+  posterText?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1160,6 +1740,19 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1174,6 +1767,19 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
   categories?: T;
   limit?: T;
   selectedDocs?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1185,6 +1791,58 @@ export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BackgroundContainerBlock_select".
+ */
+export interface BackgroundContainerBlockSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  overlay?: T;
+  width?: T;
+  padding?: T;
+  blocks?:
+    | T
+    | {
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        title?: T | TitleBlockSelect<T>;
+        subtitle?: T | SubtitleBlockSelect<T>;
+        flexbox?: T | FlexboxBlockSelect<T>;
+        featureGrid?: T | FeatureGridBlockSelect<T>;
+        upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        archive?: T | ArchiveBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1636,7 +2294,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1645,11 +2303,11 @@ export interface Header {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1665,7 +2323,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1674,11 +2332,11 @@ export interface Footer {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1686,6 +2344,33 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "themeColors".
+ */
+export interface ThemeColor {
+  id: number;
+  text?: {
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    primary?: string | null;
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    secondary?: string | null;
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    muted?: string | null;
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    accent?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1737,6 +2422,23 @@ export interface FooterSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "themeColors_select".
+ */
+export interface ThemeColorsSelect<T extends boolean = true> {
+  text?:
+    | T
+    | {
+        primary?: T;
+        secondary?: T;
+        muted?: T;
+        accent?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections_widget".
  */
 export interface CollectionsWidget {
@@ -1756,14 +2458,14 @@ export interface TaskSchedulePublish {
     doc?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: (number | null) | User;
   };
   output?: unknown;
 }

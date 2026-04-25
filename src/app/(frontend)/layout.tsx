@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
+import { Rye } from 'next/font/google'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -16,11 +18,30 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
+const rye = Rye({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-rye',
+})
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const themeColors = await getCachedGlobal('themeColors', 0)().catch(() => null)
+  const textColors = themeColors?.text
+  const themeColorStyle = {
+    '--theme-text-primary': textColors?.primary || '#f4f4f5',
+    '--theme-text-secondary': textColors?.secondary || '#fde68a',
+    '--theme-text-muted': textColors?.muted || 'rgb(253 230 138 / 0.85)',
+    '--theme-text-accent': textColors?.accent || '#a3e635',
+  } as React.CSSProperties
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html
+      className={cn(GeistSans.variable, GeistMono.variable, rye.variable)}
+      lang="en"
+      suppressHydrationWarning
+      style={themeColorStyle}
+    >
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />

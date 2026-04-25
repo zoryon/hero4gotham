@@ -4,17 +4,222 @@ import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
+import { Media } from '@/components/Media'
+import { typographyFontFamilyStyles } from '@/fields/typography'
+import { cn } from '@/utilities/ui'
 
-export const CallToActionBlock: React.FC<CTABlockProps> = ({ links, richText }) => {
+export const CallToActionBlock: React.FC<CTABlockProps> = ({
+  backgroundImage,
+  borderStyle = 'default',
+  colors,
+  links,
+  richText,
+  spacing,
+  typography,
+}) => {
+  const hasBackgroundImage = Boolean(backgroundImage && typeof backgroundImage === 'object')
+
+  const gapClasses = {
+    lg: 'gap-12',
+    md: 'gap-8',
+    none: 'gap-0',
+    sm: 'gap-5',
+    xl: 'gap-16',
+    xs: 'gap-3',
+  }
+
+  const paddingTopClasses = {
+    lg: 'pt-12',
+    md: 'pt-8',
+    none: 'pt-0',
+    sm: 'pt-4',
+    xl: 'pt-16',
+    xs: 'pt-2',
+  }
+
+  const paddingRightClasses = {
+    lg: 'pr-12',
+    md: 'pr-8',
+    none: 'pr-0',
+    sm: 'pr-4',
+    xl: 'pr-16',
+    xs: 'pr-2',
+  }
+
+  const paddingBottomClasses = {
+    lg: 'pb-12',
+    md: 'pb-8',
+    none: 'pb-0',
+    sm: 'pb-4',
+    xl: 'pb-16',
+    xs: 'pb-2',
+  }
+
+  const paddingLeftClasses = {
+    lg: 'pl-12',
+    md: 'pl-8',
+    none: 'pl-0',
+    sm: 'pl-4',
+    xl: 'pl-16',
+    xs: 'pl-2',
+  }
+
+  const marginTopClasses = {
+    lg: 'mt-12',
+    md: 'mt-8',
+    none: 'mt-0',
+    sm: 'mt-4',
+    xl: 'mt-16',
+    xs: 'mt-2',
+  }
+
+  const marginRightClasses = {
+    lg: 'mr-12',
+    md: 'mr-8',
+    none: 'mr-0',
+    sm: 'mr-4',
+    xl: 'mr-16',
+    xs: 'mr-2',
+  }
+
+  const marginBottomClasses = {
+    lg: 'mb-12',
+    md: 'mb-8',
+    none: 'mb-0',
+    sm: 'mb-4',
+    xl: 'mb-16',
+    xs: 'mb-2',
+  }
+
+  const marginLeftClasses = {
+    lg: 'ml-12',
+    md: 'ml-8',
+    none: 'ml-0',
+    sm: 'ml-4',
+    xl: 'ml-16',
+    xs: 'ml-2',
+  }
+
+  const textSizeClasses = {
+    base: '[&_p]:text-base [&_li]:text-base [&_h1]:text-4xl [&_h2]:text-3xl [&_h3]:text-2xl [&_h4]:text-xl',
+    large: '[&_p]:text-lg [&_li]:text-lg [&_h1]:text-5xl [&_h2]:text-4xl [&_h3]:text-3xl [&_h4]:text-2xl',
+    lead: '[&_p]:text-xl [&_li]:text-xl [&_h1]:text-6xl [&_h2]:text-5xl [&_h3]:text-4xl [&_h4]:text-3xl',
+    small: '[&_p]:text-sm [&_li]:text-sm [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl [&_h4]:text-lg',
+  }
+
+  const textWeightClasses = {
+    black: '[&_*]:font-black',
+    bold: '[&_*]:font-bold',
+    medium: '[&_*]:font-medium',
+    regular: '[&_*]:font-normal',
+    semibold: '[&_*]:font-semibold',
+  }
+
+  const letterSpacingClasses = {
+    normal: '[&_*]:tracking-[0.1em]',
+    poster: '[&_*]:tracking-[0.45em]',
+    tight: '[&_*]:tracking-[0.04em]',
+    wide: '[&_*]:tracking-[0.22em]',
+    wider: '[&_*]:tracking-[0.32em]',
+  }
+
+  const textTransformClasses = {
+    normal: 'normal-case',
+    uppercase: 'uppercase',
+  }
+
+  const selectedFontFamily =
+    typographyFontFamilyStyles[typography?.fontFamily || 'geistSans']
+
+  const colorValues = {
+    accent: 'var(--theme-text-accent)',
+    black: '#000',
+    default: hasBackgroundImage ? '#fff' : 'var(--theme-text-primary)',
+    muted: 'var(--theme-text-muted)',
+    primary: 'var(--theme-text-primary)',
+    secondary: 'var(--theme-text-secondary)',
+    white: '#fff',
+  }
+  const selectedTextColor = colorValues[colors?.textColor || 'default']
+  const selectedButtonTextColor =
+    colors?.buttonTextColor === 'default' ? undefined : colorValues[colors?.buttonTextColor || 'default']
+
+  const hasBorder = (borderStyle ?? 'default') !== 'none'
+
   return (
-    <div className="container">
-      <div className="bg-card rounded border-border border p-4 flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
-        <div className="max-w-[48rem] flex items-center">
-          {richText && <RichText className="mb-0" data={richText} enableGutter={false} />}
+    <div className="w-full">
+      <div
+        className={cn(
+          'relative isolate overflow-hidden flex flex-col md:flex-row md:justify-between md:items-center',
+          hasBorder ? 'border border-border' : 'border-0',
+          gapClasses[spacing?.gap || 'md'],
+          paddingTopClasses[spacing?.paddingTop || 'sm'],
+          paddingRightClasses[spacing?.paddingRight || 'sm'],
+          paddingBottomClasses[spacing?.paddingBottom || 'sm'],
+          paddingLeftClasses[spacing?.paddingLeft || 'sm'],
+          hasBackgroundImage ? 'bg-zinc-950 text-white' : 'bg-card',
+        )}
+      >
+        {hasBackgroundImage ? (
+          <>
+            <Media
+              fill
+              imgClassName="object-cover"
+              pictureClassName="absolute inset-0 -z-20"
+              resource={backgroundImage}
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 bg-zinc-950/55"
+            />
+          </>
+        ) : null}
+
+        <div
+          className={cn(
+            'max-w-[48rem] flex items-center',
+            marginTopClasses[spacing?.marginTop || 'none'],
+            marginRightClasses[spacing?.marginRight || 'none'],
+            marginBottomClasses[spacing?.marginBottom || 'none'],
+            marginLeftClasses[spacing?.marginLeft || 'none'],
+          )}
+        >
+          {richText && (
+            <RichText
+              className={cn(
+                'mb-0',
+                textSizeClasses[typography?.fontSize || 'base'],
+                textWeightClasses[typography?.fontWeight || 'regular'],
+                letterSpacingClasses[typography?.letterSpacing || 'normal'],
+                textTransformClasses[typography?.textTransform || 'normal'],
+                '[&_a]:font-[family-name:var(--cta-font-family)] [&_a]:text-[color:var(--cta-text-color)] [&_h1]:font-[family-name:var(--cta-font-family)] [&_h1]:text-[color:var(--cta-text-color)] [&_h2]:font-[family-name:var(--cta-font-family)] [&_h2]:text-[color:var(--cta-text-color)] [&_h3]:font-[family-name:var(--cta-font-family)] [&_h3]:text-[color:var(--cta-text-color)] [&_h4]:font-[family-name:var(--cta-font-family)] [&_h4]:text-[color:var(--cta-text-color)] [&_li]:font-[family-name:var(--cta-font-family)] [&_li]:text-[color:var(--cta-text-color)] [&_p]:font-[family-name:var(--cta-font-family)] [&_p]:text-[color:var(--cta-text-color)]',
+              )}
+              data={richText}
+              enableGutter={false}
+              style={{
+                '--cta-font-family': selectedFontFamily,
+                '--cta-text-color': selectedTextColor,
+                color: selectedTextColor,
+                fontFamily: selectedFontFamily,
+              } as React.CSSProperties}
+            />
+          )}
         </div>
-        <div className="flex flex-col gap-8">
+        <div className={cn('flex flex-col', gapClasses[spacing?.actionsGap || 'md'])}>
           {(links || []).map(({ link }, i) => {
-            return <CMSLink key={i} size="lg" {...link} />
+            return (
+              <CMSLink
+                className={selectedButtonTextColor ? 'text-[color:var(--cta-button-text-color)]' : undefined}
+                key={i}
+                size="lg"
+                style={
+                  selectedButtonTextColor
+                    ? ({ '--cta-button-text-color': selectedButtonTextColor } as React.CSSProperties)
+                    : undefined
+                }
+                {...link}
+              />
+            )
           })}
         </div>
       </div>
