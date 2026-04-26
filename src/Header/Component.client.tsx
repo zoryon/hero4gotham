@@ -7,10 +7,159 @@ import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
+import { CMSLink } from '@/components/Link'
+import { Media } from '@/components/Media'
+import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
+import { cn } from '@/utilities/ui'
 
 interface HeaderClientProps {
   data: Header
+}
+
+type HeaderNavItem = NonNullable<Header['navItems']>[number]
+type HeaderSocialItem = NonNullable<Header['socialItems']>[number]
+type HeaderTypography = NonNullable<Header['eyebrowTypography']>
+
+const typographyDefaults = {
+  brandTypography: {
+    fontFamily: 'cinzel',
+    fontSize: 27,
+    fontWeight: 'black',
+    letterSpacing: 0.03,
+    lineHeight: 0.95,
+    textTransform: 'uppercase',
+    verticalScale: 'normal',
+  },
+  eyebrowTypography: {
+    fontFamily: 'cinzel',
+    fontSize: 13,
+    fontWeight: 'black',
+    letterSpacing: 0.1,
+    lineHeight: 0.95,
+    textTransform: 'uppercase',
+    verticalScale: 'normal',
+  },
+  navTypography: {
+    fontFamily: 'cinzel',
+    fontSize: 14,
+    fontWeight: 'black',
+    letterSpacing: 0.03,
+    lineHeight: 1,
+    textTransform: 'uppercase',
+    verticalScale: 'normal',
+  },
+  socialTypography: {
+    fontFamily: 'sans',
+    fontSize: 18,
+    fontWeight: 'black',
+    letterSpacing: 0,
+    lineHeight: 1,
+    textTransform: 'normal',
+    verticalScale: 'normal',
+  },
+  taglineTypography: {
+    fontFamily: 'cinzel',
+    fontSize: 16,
+    fontWeight: 'black',
+    letterSpacing: 0.12,
+    lineHeight: 0.95,
+    textTransform: 'uppercase',
+    verticalScale: 'normal',
+  },
+} as const
+
+const fontWeightValues = {
+  black: 900,
+  bold: 700,
+  medium: 500,
+  regular: 400,
+  semibold: 600,
+} as const
+
+const px = (value: number | null | undefined, fallback: number) => `${value ?? fallback}px`
+const em = (value: number | null | undefined, fallback: number) => `${value ?? fallback}em`
+
+const typographyVars = (
+  prefix: string,
+  typography: HeaderTypography | null | undefined,
+  defaults: (typeof typographyDefaults)[keyof typeof typographyDefaults],
+) => {
+  const fontFamily = typography?.fontFamily || defaults.fontFamily
+  const fontWeight = typography?.fontWeight || defaults.fontWeight
+  const verticalScale = typography?.verticalScale || defaults.verticalScale
+
+  return {
+    [`--${prefix}-family`]:
+      typographyFontFamilyStyles[fontFamily as keyof typeof typographyFontFamilyStyles],
+    [`--${prefix}-size`]: px(typography?.fontSize, defaults.fontSize),
+    [`--${prefix}-weight`]: fontWeightValues[fontWeight as keyof typeof fontWeightValues],
+    [`--${prefix}-letter-spacing`]: em(typography?.letterSpacing, defaults.letterSpacing),
+    [`--${prefix}-line-height`]: typography?.lineHeight ?? defaults.lineHeight,
+    [`--${prefix}-text-transform`]: typography?.textTransform || defaults.textTransform,
+    [`--${prefix}-vertical-scale`]:
+      typographyVerticalScaleValues[verticalScale as keyof typeof typographyVerticalScaleValues],
+  }
+}
+
+const getNavHref = (link: HeaderNavItem['link']) => {
+  if (link?.type === 'custom') return link.url || ''
+  if (
+    link?.type === 'reference' &&
+    link.reference?.value &&
+    typeof link.reference.value === 'object' &&
+    'slug' in link.reference.value
+  ) {
+    const slug = link.reference.value.slug
+    return link.reference.relationTo === 'pages'
+      ? `/${slug}`
+      : `/${link.reference.relationTo}/${slug}`
+  }
+
+  return ''
+}
+
+const getSocialHref = (item: HeaderSocialItem) => {
+  if (item.platform === 'email' && item.url && !item.url.startsWith('mailto:')) {
+    return `mailto:${item.url}`
+  }
+
+  return item.url || '#'
+}
+
+const SocialIcon: React.FC<{
+  platform?: HeaderSocialItem['platform'] | null
+  label?: string | null
+}> = ({ label, platform }) => {
+  if (platform === 'instagram') {
+    return (
+      <svg aria-hidden className="size-[1.05em]" fill="none" viewBox="0 0 24 24">
+        <rect height="16" rx="5" stroke="currentColor" strokeWidth="2.4" width="16" x="4" y="4" />
+        <circle cx="12" cy="12" r="3.2" stroke="currentColor" strokeWidth="2.4" />
+        <circle cx="17.2" cy="6.8" fill="currentColor" r="1.2" />
+      </svg>
+    )
+  }
+
+  if (platform === 'email') {
+    return (
+      <svg aria-hidden className="size-[1.05em]" fill="none" viewBox="0 0 24 24">
+        <rect height="14" rx="2.5" stroke="currentColor" strokeWidth="2.4" width="18" x="3" y="5" />
+        <path
+          d="m4.5 7 7.5 6 7.5-6"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2.4"
+        />
+      </svg>
+    )
+  }
+
+  return (
+    <span className="font-black lowercase leading-none">
+      {platform === 'facebook' ? 'f' : label?.slice(0, 1)}
+    </span>
+  )
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
@@ -18,6 +167,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const navItems = data?.navItems || []
+  const socialItems = data?.socialItems || []
+  const hasLogo = Boolean(data?.logo && typeof data.logo === 'object')
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -30,12 +182,97 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+    <header
+      className="site-header z-20 w-full"
+      style={
+        {
+          '--header-accent': data?.accentColor || '#a6bd17',
+          '--header-bg': data?.backgroundColor || 'transparent',
+          '--header-height': `${data?.height || 92}px`,
+          '--header-logo-width': `${data?.logoWidth || 82}px`,
+          '--header-max-width': `${data?.maxWidth || 1240}px`,
+          '--header-text': data?.textColor || '#f4f0dc',
+          ...typographyVars(
+            'header-eyebrow',
+            data?.eyebrowTypography,
+            typographyDefaults.eyebrowTypography,
+          ),
+          ...typographyVars(
+            'header-brand',
+            data?.brandTypography,
+            typographyDefaults.brandTypography,
+          ),
+          ...typographyVars(
+            'header-tagline',
+            data?.taglineTypography,
+            typographyDefaults.taglineTypography,
+          ),
+          ...typographyVars('header-nav', data?.navTypography, typographyDefaults.navTypography),
+          ...typographyVars(
+            'header-social',
+            data?.socialTypography,
+            typographyDefaults.socialTypography,
+          ),
+        } as React.CSSProperties
+      }
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <div className="site-header__inner">
+        <Link aria-label="Home" className="site-header__brand" href="/">
+          <span className="site-header__logo" aria-hidden={!hasLogo}>
+            {hasLogo ? (
+              <Media
+                className="h-full w-full"
+                imgClassName="h-full w-full object-contain"
+                loading="eager"
+                priority
+                resource={data.logo}
+              />
+            ) : (
+              <Logo loading="eager" priority="high" className="h-full w-full object-contain" />
+            )}
+          </span>
+          <span className="site-header__brand-copy">
+            {data?.eyebrow ? <span className="site-header__eyebrow">{data.eyebrow}</span> : null}
+            {data?.brandName ? <span className="site-header__name">{data.brandName}</span> : null}
+            {data?.tagline ? <span className="site-header__tagline">{data.tagline}</span> : null}
+          </span>
         </Link>
-        <HeaderNav data={data} />
+
+        <nav aria-label="Primary navigation" className="site-header__nav">
+          {navItems.map(({ link }, i) => {
+            const href = getNavHref(link)
+            const isActive = href ? pathname === href : false
+
+            return (
+              <CMSLink
+                key={i}
+                {...link}
+                appearance="inline"
+                className={cn('site-header__nav-link', isActive && 'site-header__nav-link--active')}
+              />
+            )
+          })}
+        </nav>
+
+        {socialItems.length ? (
+          <nav aria-label="Social links" className="site-header__social">
+            {socialItems.map((item, index) => (
+              <a
+                aria-label={item.label || item.platform || 'Social'}
+                className="site-header__social-link"
+                href={getSocialHref(item)}
+                key={`${item.platform}-${index}`}
+                rel="noopener noreferrer"
+                target={item.platform === 'email' ? undefined : '_blank'}
+              >
+                <span className="site-header__social-glyph">
+                  <SocialIcon label={item.label} platform={item.platform} />
+                </span>
+              </a>
+            ))}
+          </nav>
+        ) : null}
       </div>
     </header>
   )

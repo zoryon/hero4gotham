@@ -23,6 +23,12 @@ export type TitleProps = {
   fontFamily?: TypographyFontFamily | null
   verticalScale?: TypographyVerticalScale | null
   distress?: TypographyDistress | null
+  margin?: {
+    top?: number | null
+    right?: number | null
+    bottom?: number | null
+    left?: number | null
+  } | null
   lineBreaks?:
     | {
         word?: string
@@ -93,6 +99,7 @@ export const TitleBlock: React.FC<TitleProps> = ({
   fontFamily = 'cinzel',
   verticalScale = 'normal',
   distress = 'none',
+  margin,
   lineBreaks,
 }) => {
   const isCentered = align === 'center'
@@ -113,6 +120,10 @@ export const TitleBlock: React.FC<TitleProps> = ({
             style={{
               color: 'color-mix(in srgb, var(--theme-text-primary) 78%, #a1a1aa)',
               fontFamily: typographyFontFamilyStyles[fontFamily ?? 'cinzel'],
+              marginBottom: margin?.bottom ?? 0,
+              marginLeft: margin?.left ?? 0,
+              marginRight: margin?.right ?? 0,
+              marginTop: margin?.top ?? 0,
               transform: `scaleY(${typographyVerticalScaleValues[resolvedVerticalScale]})`,
               textShadow: '0 2px 0 rgba(0,0,0,0.35), 0 10px 24px rgba(0,0,0,0.45)',
               ...typographyDistressStyles[resolvedDistress],

@@ -705,6 +705,12 @@ export interface TitleBlock {
   verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
   distress?: ('none' | 'light' | 'worn' | 'destroyed') | null;
   align?: ('center' | 'left') | null;
+  margin?: {
+    top?: number | null;
+    right?: number | null;
+    bottom?: number | null;
+    left?: number | null;
+  };
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -1784,6 +1790,14 @@ export interface TitleBlockSelect<T extends boolean = true> {
   verticalScale?: T;
   distress?: T;
   align?: T;
+  margin?:
+    | T
+    | {
+        top?: T;
+        right?: T;
+        bottom?: T;
+        left?: T;
+      };
   layout?:
     | T
     | {
@@ -2617,6 +2631,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
+  logo?: (number | null) | Media;
+  eyebrow?: string | null;
+  brandName?: string | null;
+  tagline?: string | null;
   navItems?:
     | {
         link: {
@@ -2637,6 +2655,65 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  socialItems?:
+    | {
+        platform: 'facebook' | 'instagram' | 'email' | 'custom';
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  textColor?: string | null;
+  accentColor?: string | null;
+  backgroundColor?: string | null;
+  maxWidth?: number | null;
+  height?: number | null;
+  logoWidth?: number | null;
+  eyebrowTypography?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontSize?: number | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    letterSpacing?: number | null;
+    lineHeight?: number | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+  };
+  brandTypography?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontSize?: number | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    letterSpacing?: number | null;
+    lineHeight?: number | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+  };
+  taglineTypography?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontSize?: number | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    letterSpacing?: number | null;
+    lineHeight?: number | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+  };
+  navTypography?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontSize?: number | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    letterSpacing?: number | null;
+    lineHeight?: number | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+  };
+  socialTypography?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontSize?: number | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    letterSpacing?: number | null;
+    lineHeight?: number | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2701,6 +2778,10 @@ export interface ThemeColor {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logo?: T;
+  eyebrow?: T;
+  brandName?: T;
+  tagline?: T;
   navItems?:
     | T
     | {
@@ -2714,6 +2795,75 @@ export interface HeaderSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  socialItems?:
+    | T
+    | {
+        platform?: T;
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  textColor?: T;
+  accentColor?: T;
+  backgroundColor?: T;
+  maxWidth?: T;
+  height?: T;
+  logoWidth?: T;
+  eyebrowTypography?:
+    | T
+    | {
+        fontFamily?: T;
+        fontSize?: T;
+        fontWeight?: T;
+        verticalScale?: T;
+        letterSpacing?: T;
+        lineHeight?: T;
+        textTransform?: T;
+      };
+  brandTypography?:
+    | T
+    | {
+        fontFamily?: T;
+        fontSize?: T;
+        fontWeight?: T;
+        verticalScale?: T;
+        letterSpacing?: T;
+        lineHeight?: T;
+        textTransform?: T;
+      };
+  taglineTypography?:
+    | T
+    | {
+        fontFamily?: T;
+        fontSize?: T;
+        fontWeight?: T;
+        verticalScale?: T;
+        letterSpacing?: T;
+        lineHeight?: T;
+        textTransform?: T;
+      };
+  navTypography?:
+    | T
+    | {
+        fontFamily?: T;
+        fontSize?: T;
+        fontWeight?: T;
+        verticalScale?: T;
+        letterSpacing?: T;
+        lineHeight?: T;
+        textTransform?: T;
+      };
+  socialTypography?:
+    | T
+    | {
+        fontFamily?: T;
+        fontSize?: T;
+        fontWeight?: T;
+        verticalScale?: T;
+        letterSpacing?: T;
+        lineHeight?: T;
+        textTransform?: T;
       };
   updatedAt?: T;
   createdAt?: T;

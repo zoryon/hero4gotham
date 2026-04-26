@@ -34,13 +34,23 @@ const blockComponents = {
   upcomingEvents: UpcomingEventsBlock,
 }
 
+type RenderableBlockProps = Page['layout'][0] & {
+  disableInnerContainer?: boolean
+  isFirstPageBlock?: boolean
+}
+
 export const RenderBlocks: React.FC<{
   blocks: (Page['layout'][0] & { layout?: BlockLayoutSettings | null })[]
+  markFirstBlock?: boolean
   wrapperClassName?: string
 }> = (props) => {
-  const { blocks, wrapperClassName = 'my-16' } = props
+  const { blocks, markFirstBlock = false, wrapperClassName = 'my-16' } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
+  const firstRenderableIndex =
+    hasBlocks && markFirstBlock
+      ? blocks.findIndex(({ blockType }) => Boolean(blockType && blockType in blockComponents))
+      : -1
 
   if (hasBlocks) {
     return (
@@ -52,13 +62,21 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
+              const BlockToRender = Block as React.ComponentType<RenderableBlockProps>
+
               return (
                 <div
-                  className={cn(getBlockLayoutClasses(block.layout, wrapperClassName))}
+                  className={cn(
+                    getBlockLayoutClasses(block.layout, wrapperClassName),
+                    index === firstRenderableIndex && 'mt-0',
+                  )}
                   key={index}
                 >
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
-                  <Block {...block} disableInnerContainer />
+                  <BlockToRender
+                    {...block}
+                    disableInnerContainer
+                    isFirstPageBlock={index === firstRenderableIndex}
+                  />
                 </div>
               )
             }

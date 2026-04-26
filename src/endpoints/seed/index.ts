@@ -221,18 +221,25 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'header',
       data: {
+        accentColor: '#a6bd17',
+        backgroundColor: 'transparent',
+        brandName: 'IL SORRISO STORTO',
+        eyebrow: 'ASSOCIAZIONE CULTURALE',
+        height: 92,
+        logoWidth: 82,
+        maxWidth: 1240,
         navItems: [
           {
             link: {
               type: 'custom',
-              label: 'Posts',
-              url: '/posts',
+              label: 'Home',
+              url: '/',
             },
           },
           {
             link: {
               type: 'reference',
-              label: 'Contact',
+              label: 'Contatti',
               reference: {
                 relationTo: 'pages',
                 value: contactPage.id,
@@ -240,6 +247,25 @@ export const seed = async ({
             },
           },
         ],
+        socialItems: [
+          {
+            label: 'Facebook',
+            platform: 'facebook',
+            url: 'https://facebook.com',
+          },
+          {
+            label: 'Instagram',
+            platform: 'instagram',
+            url: 'https://instagram.com',
+          },
+          {
+            label: 'Email',
+            platform: 'email',
+            url: 'info@example.com',
+          },
+        ],
+        tagline: 'IDEA. CAOS. ARTE.',
+        textColor: '#f4f0dc',
       },
     }),
     payload.updateGlobal({

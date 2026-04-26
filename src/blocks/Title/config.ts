@@ -108,6 +108,75 @@ export const Title: Block = {
       defaultValue: 'center',
       options: [...textAlignOptions],
     },
+    {
+      type: 'collapsible',
+      label: 'Title margin (px)',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'margin',
+          type: 'group',
+          label: false,
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'top',
+                  type: 'number',
+                  defaultValue: 0,
+                  label: 'Top',
+                  max: 1000,
+                  min: -1000,
+                  admin: {
+                    step: 1,
+                    width: '25%',
+                  },
+                },
+                {
+                  name: 'right',
+                  type: 'number',
+                  defaultValue: 0,
+                  label: 'Right',
+                  max: 1000,
+                  min: -1000,
+                  admin: {
+                    step: 1,
+                    width: '25%',
+                  },
+                },
+                {
+                  name: 'bottom',
+                  type: 'number',
+                  defaultValue: 0,
+                  label: 'Bottom',
+                  max: 1000,
+                  min: -1000,
+                  admin: {
+                    step: 1,
+                    width: '25%',
+                  },
+                },
+                {
+                  name: 'left',
+                  type: 'number',
+                  defaultValue: 0,
+                  label: 'Left',
+                  max: 1000,
+                  min: -1000,
+                  admin: {
+                    step: 1,
+                    width: '25%',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ],
   labels: {
     singular: 'Title',

@@ -19,9 +19,14 @@ const paddingClasses = {
   small: 'py-8 md:py-12',
 }
 
-export const BackgroundContainerBlock: React.FC<BackgroundContainerBlockProps> = ({
+type BackgroundContainerProps = BackgroundContainerBlockProps & {
+  isFirstPageBlock?: boolean
+}
+
+export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
   backgroundImage,
   blocks,
+  isFirstPageBlock = false,
   overlay = 'medium',
   padding = 'medium',
   width = 'full',
@@ -30,7 +35,8 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerBlockProps> =
     <section className={cn(width === 'contained' && 'container')}>
       <div
         className={cn(
-          'relative isolate overflow-hidden text-white',
+          'background-container relative isolate overflow-hidden text-white',
+          isFirstPageBlock && 'background-container--under-header',
           width === 'contained' && 'rounded border border-border',
           paddingClasses[padding || 'medium'],
         )}
@@ -46,7 +52,10 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerBlockProps> =
 
         <div
           aria-hidden
-          className={cn('pointer-events-none absolute inset-0 -z-10', overlayClasses[overlay || 'medium'])}
+          className={cn(
+            'pointer-events-none absolute inset-0 -z-10',
+            overlayClasses[overlay || 'medium'],
+          )}
         />
 
         <RenderBlocks blocks={blocks || []} wrapperClassName="my-8 first:mt-0 last:mb-0" />

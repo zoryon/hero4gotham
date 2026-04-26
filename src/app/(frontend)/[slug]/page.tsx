@@ -12,6 +12,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { cn } from '@/utilities/ui'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -65,9 +66,17 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
+  const hasHero = Boolean(hero?.type && hero.type !== 'none')
+  const hasHighImpactHero = hero?.type === 'highImpact'
+  const firstRenderableBlock = layout?.find(({ blockType }) => Boolean(blockType))
+  const startsWithBackgroundContainer =
+    !hasHero && firstRenderableBlock?.blockType === 'backgroundContainer'
+  const startsUnderHeader = hasHighImpactHero || startsWithBackgroundContainer
 
   return (
-    <article className="pt-16 pb-24">
+    <article
+      className={cn('pb-24', !startsUnderHeader && 'pt-[calc(var(--header-height,92px)+2rem)]')}
+    >
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
@@ -75,7 +84,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      <RenderBlocks blocks={layout} markFirstBlock={!hasHero} />
     </article>
   )
 }

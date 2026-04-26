@@ -87,6 +87,239 @@
 }
 
 @layer components {
+  .site-header {
+    background: transparent;
+    color: var(--header-text);
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 20;
+  }
+
+  .high-impact-hero {
+    min-height: 100svh;
+    padding-bottom: 4rem;
+    padding-top: calc(var(--header-height, 92px) + 3rem);
+  }
+
+  .background-container--under-header {
+    padding-top: calc(var(--header-height, 92px) + 3rem);
+  }
+
+  @media (width >= 48rem) {
+    .high-impact-hero {
+      min-height: 80vh;
+      padding-top: calc(var(--header-height, 92px) + 4rem);
+    }
+
+    .background-container--under-header {
+      padding-top: calc(var(--header-height, 92px) + 4rem);
+    }
+  }
+
+  .site-header__inner {
+    align-items: center;
+    display: grid;
+    gap: clamp(1rem, 2.4vw, 2.4rem);
+    grid-template-columns: minmax(17rem, 1.05fr) minmax(20rem, 1.5fr) auto;
+    min-height: var(--header-height);
+    margin-inline: auto;
+    max-width: none;
+    padding: clamp(0.75rem, 1.1vw, 1rem) clamp(1rem, 1.6vw, 1.6rem);
+    width: 100%;
+  }
+
+  .site-header__brand {
+    align-items: center;
+    color: var(--header-text);
+    display: inline-flex;
+    gap: 0.75rem;
+    min-width: 0;
+    text-decoration: none;
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    flex: 0 0 var(--header-logo-width);
+    height: calc(var(--header-logo-width) * 0.86);
+    width: var(--header-logo-width);
+  }
+
+  .site-header__logo > * {
+    height: 100%;
+    width: 100%;
+  }
+
+  .site-header__brand-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .site-header__eyebrow {
+    color: color-mix(in srgb, var(--header-text) 88%, transparent);
+    display: inline-block;
+    font-family: var(--header-eyebrow-family);
+    font-size: var(--header-eyebrow-size);
+    font-weight: var(--header-eyebrow-weight);
+    letter-spacing: var(--header-eyebrow-letter-spacing);
+    line-height: var(--header-eyebrow-line-height);
+    margin-bottom: 0.22rem;
+    text-transform: var(--header-eyebrow-text-transform);
+    transform: scaleY(var(--header-eyebrow-vertical-scale));
+    transform-origin: center;
+  }
+
+  .site-header__name {
+    color: var(--header-text);
+    display: inline-block;
+    font-family: var(--header-brand-family);
+    font-size: var(--header-brand-size);
+    font-weight: var(--header-brand-weight);
+    letter-spacing: var(--header-brand-letter-spacing);
+    line-height: var(--header-brand-line-height);
+    text-transform: var(--header-brand-text-transform);
+    transform: scaleY(var(--header-brand-vertical-scale));
+    transform-origin: center;
+    white-space: nowrap;
+  }
+
+  .site-header__tagline {
+    color: var(--header-accent);
+    display: inline-block;
+    font-family: var(--header-tagline-family);
+    font-size: var(--header-tagline-size);
+    font-weight: var(--header-tagline-weight);
+    letter-spacing: var(--header-tagline-letter-spacing);
+    line-height: var(--header-tagline-line-height);
+    margin-top: 0.35rem;
+    text-transform: var(--header-tagline-text-transform);
+    transform: scaleY(var(--header-tagline-vertical-scale));
+    transform-origin: center;
+    white-space: nowrap;
+  }
+
+  .site-header__nav {
+    align-items: center;
+    display: flex;
+    gap: clamp(1.05rem, 2.15vw, 2.2rem);
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .site-header__nav-link {
+    color: color-mix(in srgb, var(--header-text) 82%, transparent);
+    display: inline-block;
+    font-family: var(--header-nav-family);
+    font-size: var(--header-nav-size);
+    font-weight: var(--header-nav-weight);
+    letter-spacing: var(--header-nav-letter-spacing);
+    line-height: var(--header-nav-line-height);
+    padding-block: 0.85rem;
+    position: relative;
+    text-decoration: none;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.38);
+    text-transform: var(--header-nav-text-transform);
+    transform: scaleY(var(--header-nav-vertical-scale));
+    transform-origin: center;
+    white-space: nowrap;
+  }
+
+  .site-header__nav-link::after {
+    background: var(--header-accent);
+    bottom: 0.42rem;
+    content: '';
+    height: 0.12rem;
+    left: 50%;
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-50%);
+    transition:
+      opacity 160ms ease,
+      width 160ms ease;
+    width: 64%;
+  }
+
+  .site-header__nav-link:hover,
+  .site-header__nav-link--active {
+    color: var(--header-accent);
+  }
+
+  .site-header__nav-link:hover::after,
+  .site-header__nav-link--active::after {
+    opacity: 1;
+    width: 78%;
+  }
+
+  .site-header__social {
+    align-items: center;
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+  }
+
+  .site-header__social-link {
+    align-items: center;
+    background: var(--header-accent);
+    border-radius: 999px;
+    color: #23310a;
+    display: inline-flex;
+    font-family: var(--header-social-family);
+    font-size: var(--header-social-size);
+    font-weight: var(--header-social-weight);
+    height: 2.08rem;
+    justify-content: center;
+    letter-spacing: var(--header-social-letter-spacing);
+    line-height: var(--header-social-line-height);
+    text-decoration: none;
+    text-transform: var(--header-social-text-transform);
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease;
+    width: 2.08rem;
+  }
+
+  .site-header__social-glyph {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    transform: scaleY(var(--header-social-vertical-scale));
+    transform-origin: center;
+  }
+
+  .site-header__social-link:hover {
+    transform: translateY(-1px);
+  }
+
+  @media (width < 64rem) {
+    .site-header__inner {
+      grid-template-columns: 1fr auto;
+      padding-block: 0.7rem;
+    }
+
+    .site-header__nav {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+    }
+  }
+
+  @media (width < 42rem) {
+    .site-header__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .site-header__social {
+      justify-content: flex-start;
+    }
+
+    .site-header__brand {
+      gap: 0.6rem;
+    }
+  }
+
   .cta-rich-text-shell,
   .cta-rich-text-shell :where(*) {
     color: var(--cta-text-color) !important;
