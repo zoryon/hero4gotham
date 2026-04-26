@@ -1,14 +1,14 @@
 export const typographyFontSizeOptions = [
   {
-    label: 'Compatto',
+    label: 'Compact',
     value: 'compact',
   },
   {
-    label: 'Medio',
+    label: 'Medium',
     value: 'medium',
   },
   {
-    label: 'Grande',
+    label: 'Large',
     value: 'large',
   },
   {
@@ -16,22 +16,22 @@ export const typographyFontSizeOptions = [
     value: 'hero',
   },
   {
-    label: 'Massivo',
+    label: 'Massive',
     value: 'massive',
   },
 ] as const
 
 export const typographySubtitleFontSizeOptions = [
   {
-    label: 'Piccolo',
+    label: 'Small',
     value: 'small',
   },
   {
-    label: 'Normale',
+    label: 'Normal',
     value: 'base',
   },
   {
-    label: 'Grande',
+    label: 'Large',
     value: 'large',
   },
   {
@@ -81,22 +81,22 @@ export const typographyFontFamilyOptions = [
     value: 'geistMono',
   },
   {
-    label: 'Serif classico',
+    label: 'Classic serif',
     value: 'serif',
   },
   {
-    label: 'Sans classico',
+    label: 'Classic sans',
     value: 'sans',
   },
 ] as const
 
 export const typographyVerticalScaleOptions = [
   {
-    label: 'Normale',
+    label: 'Normal',
     value: 'normal',
   },
   {
-    label: 'Alto',
+    label: 'High',
     value: 'tall',
   },
   {
@@ -104,45 +104,45 @@ export const typographyVerticalScaleOptions = [
     value: 'poster',
   },
   {
-    label: 'Estremo',
+    label: 'Extreme',
     value: 'extreme',
   },
 ] as const
 
 export const typographyDistressOptions = [
   {
-    label: 'Nessuno',
+    label: 'None',
     value: 'none',
   },
   {
-    label: 'Sporco leggero',
+    label: 'Light distress',
     value: 'light',
   },
   {
-    label: 'Consumato',
+    label: 'Worn',
     value: 'worn',
   },
   {
-    label: 'Distrutto',
+    label: 'Destroyed',
     value: 'destroyed',
   },
 ] as const
 
 export const typographyLetterSpacingOptions = [
   {
-    label: 'Compatta',
+    label: 'Compact',
     value: 'tight',
   },
   {
-    label: 'Normale',
+    label: 'Normal',
     value: 'normal',
   },
   {
-    label: 'Aperta',
+    label: 'Open',
     value: 'wide',
   },
   {
-    label: 'Molto aperta',
+    label: 'Very open',
     value: 'wider',
   },
   {

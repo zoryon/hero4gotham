@@ -204,6 +204,7 @@ export interface Page {
     media?: (number | null) | Media;
   };
   layout: (
+    | ArrowBlock
     | CallToActionBlock
     | ContentBlock
     | TitleBlock
@@ -211,6 +212,7 @@ export interface Page {
     | FlexboxBlock
     | FeatureGridBlock
     | BackgroundContainerBlock
+    | TornCardsBlock
     | UpcomingEventsBlock
     | MediaBlock
     | ArchiveBlock
@@ -455,6 +457,76 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArrowBlock".
+ */
+export interface ArrowBlock {
+  variant: 'chevron' | 'arrow' | 'doubleChevron';
+  direction: 'down' | 'up' | 'left' | 'right';
+  align: 'left' | 'center' | 'right';
+  animation: 'none' | 'bounce' | 'pulse';
+  size: 'sm' | 'md' | 'lg' | 'xl' | 'custom';
+  strokeWidth: number;
+  /**
+   * Use rounded line endings and joins.
+   */
+  roundedEnds?: boolean | null;
+  customWidth?: number | null;
+  customHeight?: number | null;
+  colorMode: 'theme' | 'custom';
+  themeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'white' | 'black' | 'success') | null;
+  /**
+   * Any valid CSS color, e.g. #7dff2a or rgb(125 255 42).
+   */
+  customColor?: string | null;
+  backgroundStyle: 'none' | 'soft' | 'solid';
+  backgroundColor?: string | null;
+  showGlow?: boolean | null;
+  glowColor?: string | null;
+  image?: (number | null) | Media;
+  /**
+   * Optional text rendered near the arrow.
+   */
+  label?: string | null;
+  description?: string | null;
+  /**
+   * Used for accessibility when the arrow is interactive.
+   */
+  ariaLabel?: string | null;
+  enableLink?: boolean | null;
+  /**
+   * Optional target for the arrow. Use internal or custom URL.
+   */
+  link?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'arrow';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -495,7 +567,9 @@ export interface CallToActionBlock {
     fontSize?: ('small' | 'base' | 'large' | 'lead') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    buttonVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     textTransform?: ('normal' | 'uppercase') | null;
   };
   links?:
@@ -704,6 +778,7 @@ export interface FlexboxBlock {
   gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
   minHeight?: ('none' | 'small' | 'medium' | 'large' | 'screen') | null;
   blocks: (
+    | ArrowBlock
     | CallToActionBlock
     | ContentBlock
     | TitleBlock
@@ -1084,12 +1159,14 @@ export interface BackgroundContainerBlock {
   width?: ('full' | 'contained') | null;
   padding?: ('small' | 'medium' | 'large') | null;
   blocks: (
+    | ArrowBlock
     | CallToActionBlock
     | ContentBlock
     | TitleBlock
     | SubtitleBlock
     | FlexboxBlock
     | FeatureGridBlock
+    | TornCardsBlock
     | UpcomingEventsBlock
     | MediaBlock
     | ArchiveBlock
@@ -1109,6 +1186,92 @@ export interface BackgroundContainerBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'backgroundContainer';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TornCardsBlock".
+ */
+export interface TornCardsBlock {
+  items: {
+    image?: (number | null) | Media;
+    imageSize?: ('sm' | 'md' | 'lg') | null;
+    title: string;
+    description?: string | null;
+    imageTitleGap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    titleDescriptionGap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    padding?: {
+      top?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      right?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      bottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      left?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    };
+    margin?: {
+      top?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      right?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      bottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      left?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    };
+    titleType?: {
+      family?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+      size?: number | null;
+      weight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    };
+    descType?: {
+      family?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+      size?: number | null;
+      weight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    };
+    descBreaks?:
+      | {
+          word: string;
+          /**
+           * 0 = every matching occurrence.
+           */
+          occurrences?: number | null;
+          breaks?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  fillDirection: 'row' | 'column';
+  responsive: {
+    mobile: {
+      columns: number;
+      rows: number;
+      minHeight: number;
+    };
+    tablet: {
+      columns: number;
+      rows: number;
+      minHeight: number;
+    };
+    desktop: {
+      columns: number;
+      rows: number;
+      minHeight: number;
+    };
+  };
+  cardBg?: string | null;
+  shadowColor?: string | null;
+  borderColor?: string | null;
+  accentColor?: string | null;
+  titleColor?: string | null;
+  textColor?: string | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'tornCards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1413,6 +1576,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
@@ -1420,6 +1584,7 @@ export interface PagesSelect<T extends boolean = true> {
         flexbox?: T | FlexboxBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
         backgroundContainer?: T | BackgroundContainerBlockSelect<T>;
+        tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
@@ -1438,6 +1603,56 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArrowBlock_select".
+ */
+export interface ArrowBlockSelect<T extends boolean = true> {
+  variant?: T;
+  direction?: T;
+  align?: T;
+  animation?: T;
+  size?: T;
+  strokeWidth?: T;
+  roundedEnds?: T;
+  customWidth?: T;
+  customHeight?: T;
+  colorMode?: T;
+  themeColor?: T;
+  customColor?: T;
+  backgroundStyle?: T;
+  backgroundColor?: T;
+  showGlow?: T;
+  glowColor?: T;
+  image?: T;
+  label?: T;
+  description?: T;
+  ariaLabel?: T;
+  enableLink?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1473,7 +1688,9 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
         fontSize?: T;
         fontWeight?: T;
         fontFamily?: T;
+        verticalScale?: T;
         letterSpacing?: T;
+        buttonVerticalScale?: T;
         textTransform?: T;
       };
   links?:
@@ -1635,6 +1852,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
+        arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
@@ -1819,17 +2037,121 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
+        arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         flexbox?: T | FlexboxBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
+        tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TornCardsBlock_select".
+ */
+export interface TornCardsBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        image?: T;
+        imageSize?: T;
+        title?: T;
+        description?: T;
+        imageTitleGap?: T;
+        titleDescriptionGap?: T;
+        padding?:
+          | T
+          | {
+              top?: T;
+              right?: T;
+              bottom?: T;
+              left?: T;
+            };
+        margin?:
+          | T
+          | {
+              top?: T;
+              right?: T;
+              bottom?: T;
+              left?: T;
+            };
+        titleType?:
+          | T
+          | {
+              family?: T;
+              size?: T;
+              weight?: T;
+            };
+        descType?:
+          | T
+          | {
+              family?: T;
+              size?: T;
+              weight?: T;
+            };
+        descBreaks?:
+          | T
+          | {
+              word?: T;
+              occurrences?: T;
+              breaks?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  fillDirection?: T;
+  responsive?:
+    | T
+    | {
+        mobile?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+              minHeight?: T;
+            };
+        tablet?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+              minHeight?: T;
+            };
+        desktop?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+              minHeight?: T;
+            };
+      };
+  cardBg?: T;
+  shadowColor?: T;
+  borderColor?: T;
+  accentColor?: T;
+  titleColor?: T;
+  textColor?: T;
   layout?:
     | T
     | {

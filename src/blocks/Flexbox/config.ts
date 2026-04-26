@@ -1,6 +1,15 @@
+import {
+  flexDirectionOptions,
+  flexWrapOptions,
+  justifyOptions,
+  alignOptions,
+  paddingOptions,
+  minHeightOptions,
+} from '@/fields/uiOptions'
 import type { Block } from 'payload'
 
 import { Archive } from '@/blocks/ArchiveBlock/config'
+import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
@@ -12,6 +21,7 @@ import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 
 const flexChildBlocks = withBlockLayoutFields([
+  Arrow,
   CallToAction,
   Content,
   Title,
@@ -31,157 +41,43 @@ export const Flexbox: Block = {
       name: 'direction',
       type: 'select',
       defaultValue: 'row',
-      label: 'Direzione',
-      options: [
-        {
-          label: 'Riga',
-          value: 'row',
-        },
-        {
-          label: 'Colonna',
-          value: 'column',
-        },
-        {
-          label: 'Riga su desktop, colonna su mobile',
-          value: 'responsiveRow',
-        },
-      ],
+      label: 'Direction',
+      options: [...flexDirectionOptions],
     },
     {
       name: 'wrap',
       type: 'select',
       defaultValue: 'wrap',
       label: 'Wrap',
-      options: [
-        {
-          label: 'Wrap',
-          value: 'wrap',
-        },
-        {
-          label: 'No wrap',
-          value: 'nowrap',
-        },
-      ],
+      options: [...flexWrapOptions],
     },
     {
       name: 'justify',
       type: 'select',
       defaultValue: 'center',
       label: 'Justify content',
-      options: [
-        {
-          label: 'Start',
-          value: 'start',
-        },
-        {
-          label: 'Center',
-          value: 'center',
-        },
-        {
-          label: 'End',
-          value: 'end',
-        },
-        {
-          label: 'Space between',
-          value: 'between',
-        },
-        {
-          label: 'Space around',
-          value: 'around',
-        },
-        {
-          label: 'Space evenly',
-          value: 'evenly',
-        },
-      ],
+      options: [...justifyOptions],
     },
     {
       name: 'align',
       type: 'select',
       defaultValue: 'center',
       label: 'Align items',
-      options: [
-        {
-          label: 'Start',
-          value: 'start',
-        },
-        {
-          label: 'Center',
-          value: 'center',
-        },
-        {
-          label: 'End',
-          value: 'end',
-        },
-        {
-          label: 'Stretch',
-          value: 'stretch',
-        },
-        {
-          label: 'Baseline',
-          value: 'baseline',
-        },
-      ],
+      options: [...alignOptions],
     },
     {
       name: 'gap',
       type: 'select',
       defaultValue: 'md',
       label: 'Gap',
-      options: [
-        {
-          label: 'Nessuno',
-          value: 'none',
-        },
-        {
-          label: 'XS',
-          value: 'xs',
-        },
-        {
-          label: 'SM',
-          value: 'sm',
-        },
-        {
-          label: 'MD',
-          value: 'md',
-        },
-        {
-          label: 'LG',
-          value: 'lg',
-        },
-        {
-          label: 'XL',
-          value: 'xl',
-        },
-      ],
+      options: [...paddingOptions],
     },
     {
       name: 'minHeight',
       type: 'select',
       defaultValue: 'none',
-      label: 'Altezza minima',
-      options: [
-        {
-          label: 'Nessuna',
-          value: 'none',
-        },
-        {
-          label: 'Small',
-          value: 'small',
-        },
-        {
-          label: 'Medium',
-          value: 'medium',
-        },
-        {
-          label: 'Large',
-          value: 'large',
-        },
-        {
-          label: 'Viewport',
-          value: 'screen',
-        },
-      ],
+      label: 'Minimum height',
+      options: [...minHeightOptions],
     },
     {
       name: 'blocks',

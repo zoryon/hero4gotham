@@ -1,3 +1,4 @@
+import { textAlignOptions, textTransformOptions } from '@/fields/uiOptions'
 import type { Block } from 'payload'
 
 import {
@@ -25,7 +26,7 @@ export const Subtitle: Block = {
     {
       name: 'lineBreaks',
       type: 'array',
-      label: 'A capo automatici',
+      label: 'Automatic line breaks',
       admin: {
         description:
           'Inserisce ritorni a capo dopo parole o frasi specifiche del sottotitolo. Le regole vengono applicate in ordine.',
@@ -35,7 +36,7 @@ export const Subtitle: Block = {
           name: 'word',
           type: 'text',
           required: true,
-          label: 'Parola o frase',
+          label: 'Word or phrase',
         },
         {
           name: 'occurrences',
@@ -43,7 +44,7 @@ export const Subtitle: Block = {
           defaultValue: 1,
           min: 0,
           max: 20,
-          label: 'Quante occorrenze',
+          label: 'Occurrence count',
           admin: {
             description: '0 = tutte le occorrenze trovate.',
           },
@@ -54,7 +55,7 @@ export const Subtitle: Block = {
           defaultValue: 1,
           min: 1,
           max: 5,
-          label: 'Quanti a capo',
+          label: 'Line break count',
         },
       ],
     },
@@ -62,74 +63,56 @@ export const Subtitle: Block = {
       name: 'fontSize',
       type: 'select',
       defaultValue: 'base',
-      label: 'Dimensione font',
+      label: 'Font size',
       options: [...typographySubtitleFontSizeOptions],
     },
     {
       name: 'fontWeight',
       type: 'select',
       defaultValue: 'regular',
-      label: 'Peso font',
+      label: 'Font weight',
       options: [...typographyFontWeightOptions],
     },
     {
       name: 'fontFamily',
       type: 'select',
       defaultValue: 'geistSans',
-      label: 'Famiglia font',
+      label: 'Font family',
       options: [...typographyFontFamilyOptions],
     },
     {
       name: 'verticalScale',
       type: 'select',
       defaultValue: 'normal',
-      label: 'Altezza lettere',
+      label: 'Line height',
       options: [...typographyVerticalScaleOptions],
     },
     {
       name: 'letterSpacing',
       type: 'select',
       defaultValue: 'wide',
-      label: 'Distanza lettere',
+      label: 'Letter spacing',
       options: [...typographyLetterSpacingOptions],
     },
     {
       name: 'distress',
       type: 'select',
       defaultValue: 'none',
-      label: 'Effetto usura',
+      label: 'Distress effect',
       options: [...typographyDistressOptions],
     },
     {
       name: 'textTransform',
       type: 'select',
       defaultValue: 'uppercase',
-      label: 'Trasformazione testo',
-      options: [
-        {
-          label: 'Normale',
-          value: 'normal',
-        },
-        {
-          label: 'Uppercase',
-          value: 'uppercase',
-        },
-      ],
+      label: 'Text transform',
+      options: [...textTransformOptions],
     },
     {
       name: 'align',
       type: 'select',
       defaultValue: 'center',
-      options: [
-        {
-          label: 'Center',
-          value: 'center',
-        },
-        {
-          label: 'Left',
-          value: 'left',
-        },
-      ],
+      options: [...textAlignOptions],
     },
   ],
   labels: {

@@ -7,70 +7,14 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-import { linkGroup } from '../../fields/linkGroup'
 import {
   typographyFontFamilyOptions,
   typographyFontWeightOptions,
   typographyLetterSpacingOptions,
+  typographyVerticalScaleOptions,
 } from '@/fields/typography'
-
-const spacingOptions = [
-  {
-    label: 'Nessuno',
-    value: 'none',
-  },
-  {
-    label: 'XS',
-    value: 'xs',
-  },
-  {
-    label: 'SM',
-    value: 'sm',
-  },
-  {
-    label: 'MD',
-    value: 'md',
-  },
-  {
-    label: 'LG',
-    value: 'lg',
-  },
-  {
-    label: 'XL',
-    value: 'xl',
-  },
-] as const
-
-const colorOptions = [
-  {
-    label: 'Default',
-    value: 'default',
-  },
-  {
-    label: 'Text primary',
-    value: 'primary',
-  },
-  {
-    label: 'Text secondary',
-    value: 'secondary',
-  },
-  {
-    label: 'Text muted',
-    value: 'muted',
-  },
-  {
-    label: 'Text accent',
-    value: 'accent',
-  },
-  {
-    label: 'Bianco',
-    value: 'white',
-  },
-  {
-    label: 'Nero',
-    value: 'black',
-  },
-] as const
+import { linkGroup } from '../../fields/linkGroup'
+import { colorOptions, paddingOptions, textTransformOptions } from '@/fields/uiOptions'
 
 export const CallToAction: Block = {
   slug: 'cta',
@@ -101,14 +45,14 @@ export const CallToAction: Block = {
       name: 'borderStyle',
       type: 'select',
       defaultValue: 'default',
-      label: 'Bordo',
+      label: 'Border',
       options: [
         {
           label: 'Default',
           value: 'default',
         },
         {
-          label: 'Nessuno',
+          label: 'None',
           value: 'none',
         },
       ],
@@ -132,7 +76,7 @@ export const CallToAction: Block = {
                   name: 'textColor',
                   type: 'select',
                   defaultValue: 'default',
-                  label: 'Colore testo',
+                  label: 'Text color',
                   options: [...colorOptions],
                   admin: {
                     width: '50%',
@@ -142,7 +86,7 @@ export const CallToAction: Block = {
                   name: 'buttonTextColor',
                   type: 'select',
                   defaultValue: 'default',
-                  label: 'Colore testo bottoni',
+                  label: 'Button text color',
                   options: [...colorOptions],
                   admin: {
                     width: '50%',
@@ -174,8 +118,8 @@ export const CallToAction: Block = {
                   type: 'select',
                   dbName: 'gap',
                   defaultValue: 'md',
-                  label: 'Gap contenuto/azioni',
-                  options: [...spacingOptions],
+                  label: 'Content/actions gap',
+                  options: [...paddingOptions],
                   admin: {
                     width: '50%',
                   },
@@ -185,8 +129,8 @@ export const CallToAction: Block = {
                   type: 'select',
                   dbName: 'agap',
                   defaultValue: 'md',
-                  label: 'Gap bottoni',
-                  options: [...spacingOptions],
+                  label: 'Button gap',
+                  options: [...paddingOptions],
                   admin: {
                     width: '50%',
                   },
@@ -202,7 +146,7 @@ export const CallToAction: Block = {
                   dbName: 'pt',
                   defaultValue: 'sm',
                   label: 'Padding top',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -213,7 +157,7 @@ export const CallToAction: Block = {
                   dbName: 'pr',
                   defaultValue: 'sm',
                   label: 'Padding right',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -224,7 +168,7 @@ export const CallToAction: Block = {
                   dbName: 'pb',
                   defaultValue: 'sm',
                   label: 'Padding bottom',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -235,7 +179,7 @@ export const CallToAction: Block = {
                   dbName: 'pl',
                   defaultValue: 'sm',
                   label: 'Padding left',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -251,7 +195,7 @@ export const CallToAction: Block = {
                   dbName: 'mt',
                   defaultValue: 'none',
                   label: 'Margin top',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -262,7 +206,7 @@ export const CallToAction: Block = {
                   dbName: 'mr',
                   defaultValue: 'none',
                   label: 'Margin right',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -273,7 +217,7 @@ export const CallToAction: Block = {
                   dbName: 'mb',
                   defaultValue: 'none',
                   label: 'Margin bottom',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -284,7 +228,7 @@ export const CallToAction: Block = {
                   dbName: 'ml',
                   defaultValue: 'none',
                   label: 'Margin left',
-                  options: [...spacingOptions],
+                  options: [...paddingOptions],
                   admin: {
                     width: '25%',
                   },
@@ -314,18 +258,18 @@ export const CallToAction: Block = {
                   name: 'fontSize',
                   type: 'select',
                   defaultValue: 'base',
-                  label: 'Dimensione font',
+                  label: 'Font size',
                   options: [
                     {
-                      label: 'Piccolo',
+                      label: 'Small',
                       value: 'small',
                     },
                     {
-                      label: 'Normale',
+                      label: 'Normal',
                       value: 'base',
                     },
                     {
-                      label: 'Grande',
+                      label: 'Large',
                       value: 'large',
                     },
                     {
@@ -341,7 +285,7 @@ export const CallToAction: Block = {
                   name: 'fontWeight',
                   type: 'select',
                   defaultValue: 'regular',
-                  label: 'Peso font',
+                  label: 'Font weight',
                   options: [...typographyFontWeightOptions],
                   admin: {
                     width: '50%',
@@ -356,18 +300,43 @@ export const CallToAction: Block = {
                   name: 'fontFamily',
                   type: 'select',
                   defaultValue: 'geistSans',
-                  label: 'Famiglia font',
+                  label: 'Font family',
                   options: [...typographyFontFamilyOptions],
                   admin: {
                     width: '50%',
                   },
                 },
                 {
+                  name: 'verticalScale',
+                  type: 'select',
+                  defaultValue: 'normal',
+                  label: 'Text height stretch',
+                  options: [...typographyVerticalScaleOptions],
+                  admin: {
+                    width: '50%',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
                   name: 'letterSpacing',
                   type: 'select',
                   defaultValue: 'normal',
-                  label: 'Distanza lettere',
+                  label: 'Letter spacing',
                   options: [...typographyLetterSpacingOptions],
+                  admin: {
+                    width: '50%',
+                  },
+                },
+                {
+                  name: 'buttonVerticalScale',
+                  type: 'select',
+                  defaultValue: 'normal',
+                  label: 'Button text height stretch',
+                  options: [...typographyVerticalScaleOptions],
                   admin: {
                     width: '50%',
                   },
@@ -378,17 +347,8 @@ export const CallToAction: Block = {
               name: 'textTransform',
               type: 'select',
               defaultValue: 'normal',
-              label: 'Trasformazione testo',
-              options: [
-                {
-                  label: 'Normale',
-                  value: 'normal',
-                },
-                {
-                  label: 'Uppercase',
-                  value: 'uppercase',
-                },
-              ],
+              label: 'Text transform',
+              options: [...textTransformOptions],
             },
           ],
         },

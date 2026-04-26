@@ -1,5 +1,6 @@
 import type { Block, Field } from 'payload'
 
+import { paddingOptions, spacingOptions } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 export type BlockLayoutSpacing = 'default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -18,39 +19,6 @@ export type BlockLayoutSettings = {
   paddingLeft?: BlockLayoutPadding | null
 }
 
-const spacingOptions = [
-  {
-    label: 'Default',
-    value: 'default',
-  },
-  {
-    label: 'Nessuno',
-    value: 'none',
-  },
-  {
-    label: 'XS',
-    value: 'xs',
-  },
-  {
-    label: 'SM',
-    value: 'sm',
-  },
-  {
-    label: 'MD',
-    value: 'md',
-  },
-  {
-    label: 'LG',
-    value: 'lg',
-  },
-  {
-    label: 'XL',
-    value: 'xl',
-  },
-] as const
-
-const paddingOptions = spacingOptions.filter((option) => option.value !== 'default')
-
 export const blockLayoutField = (): Field => ({
   type: 'collapsible',
   label: 'Layout',
@@ -68,7 +36,7 @@ export const blockLayoutField = (): Field => ({
           type: 'select',
           dbName: 'sz',
           defaultValue: 'default',
-          label: 'Dimensione',
+          label: 'Size',
           options: [
             {
               label: 'Default',
@@ -313,7 +281,9 @@ export const getBlockLayoutClasses = (
   )
 }
 
-export const stripBlockSpacing = (layout?: BlockLayoutSettings | null): BlockLayoutSettings | null => {
+export const stripBlockSpacing = (
+  layout?: BlockLayoutSettings | null,
+): BlockLayoutSettings | null => {
   return {
     ...(layout || {}),
     marginBottom: 'none',

@@ -23,12 +23,14 @@ export type TitleProps = {
   fontFamily?: TypographyFontFamily | null
   verticalScale?: TypographyVerticalScale | null
   distress?: TypographyDistress | null
-  lineBreaks?: {
-    word?: string
-    occurrences?: number | null
-    breaks?: number | null
-    id?: string | null
-  }[] | null
+  lineBreaks?:
+    | {
+        word?: string
+        occurrences?: number | null
+        breaks?: number | null
+        id?: string | null
+      }[]
+    | null
 }
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -109,7 +111,7 @@ export const TitleBlock: React.FC<TitleProps> = ({
               resolvedVerticalScale === 'normal' ? undefined : 'inline-block',
             )}
             style={{
-              color: 'var(--theme-text-primary)',
+              color: 'color-mix(in srgb, var(--theme-text-primary) 78%, #a1a1aa)',
               fontFamily: typographyFontFamilyStyles[fontFamily ?? 'cinzel'],
               transform: `scaleY(${typographyVerticalScaleValues[resolvedVerticalScale]})`,
               textShadow: '0 2px 0 rgba(0,0,0,0.35), 0 10px 24px rgba(0,0,0,0.45)',

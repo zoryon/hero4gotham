@@ -5,7 +5,7 @@ import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import { typographyFontFamilyStyles } from '@/fields/typography'
+import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
 import { cn } from '@/utilities/ui'
 
 export const CallToActionBlock: React.FC<CTABlockProps> = ({
@@ -102,9 +102,11 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
 
   const textSizeClasses = {
     base: '[&_p]:text-base [&_li]:text-base [&_h1]:text-4xl [&_h2]:text-3xl [&_h3]:text-2xl [&_h4]:text-xl',
-    large: '[&_p]:text-lg [&_li]:text-lg [&_h1]:text-5xl [&_h2]:text-4xl [&_h3]:text-3xl [&_h4]:text-2xl',
+    large:
+      '[&_p]:text-lg [&_li]:text-lg [&_h1]:text-5xl [&_h2]:text-4xl [&_h3]:text-3xl [&_h4]:text-2xl',
     lead: '[&_p]:text-xl [&_li]:text-xl [&_h1]:text-6xl [&_h2]:text-5xl [&_h3]:text-4xl [&_h4]:text-3xl',
-    small: '[&_p]:text-sm [&_li]:text-sm [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl [&_h4]:text-lg',
+    small:
+      '[&_p]:text-sm [&_li]:text-sm [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl [&_h4]:text-lg',
   }
 
   const textWeightClasses = {
@@ -128,8 +130,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
     uppercase: 'uppercase',
   }
 
-  const selectedFontFamily =
-    typographyFontFamilyStyles[typography?.fontFamily || 'geistSans']
+  const selectedFontFamily = typographyFontFamilyStyles[typography?.fontFamily || 'geistSans']
 
   const colorValues = {
     accent: 'var(--theme-text-accent)',
@@ -142,7 +143,11 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
   }
   const selectedTextColor = colorValues[colors?.textColor || 'default']
   const selectedButtonTextColor =
-    colors?.buttonTextColor === 'default' ? undefined : colorValues[colors?.buttonTextColor || 'default']
+    colors?.buttonTextColor === 'default'
+      ? undefined
+      : colorValues[colors?.buttonTextColor || 'default']
+  const resolvedVerticalScale = typography?.verticalScale || 'normal'
+  const resolvedButtonVerticalScale = typography?.buttonVerticalScale || 'normal'
 
   const hasBorder = (borderStyle ?? 'default') !== 'none'
 
@@ -185,40 +190,56 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
           )}
         >
           {richText && (
-            <RichText
+            <div
               className={cn(
-                'mb-0',
-                textSizeClasses[typography?.fontSize || 'base'],
-                textWeightClasses[typography?.fontWeight || 'regular'],
-                letterSpacingClasses[typography?.letterSpacing || 'normal'],
-                textTransformClasses[typography?.textTransform || 'normal'],
-                '[&_a]:font-[family-name:var(--cta-font-family)] [&_a]:text-[color:var(--cta-text-color)] [&_h1]:font-[family-name:var(--cta-font-family)] [&_h1]:text-[color:var(--cta-text-color)] [&_h2]:font-[family-name:var(--cta-font-family)] [&_h2]:text-[color:var(--cta-text-color)] [&_h3]:font-[family-name:var(--cta-font-family)] [&_h3]:text-[color:var(--cta-text-color)] [&_h4]:font-[family-name:var(--cta-font-family)] [&_h4]:text-[color:var(--cta-text-color)] [&_li]:font-[family-name:var(--cta-font-family)] [&_li]:text-[color:var(--cta-text-color)] [&_p]:font-[family-name:var(--cta-font-family)] [&_p]:text-[color:var(--cta-text-color)]',
+                'cta-rich-text-shell origin-center',
+                resolvedVerticalScale === 'normal' ? undefined : 'inline-block',
               )}
-              data={richText}
-              enableGutter={false}
-              style={{
-                '--cta-font-family': selectedFontFamily,
-                '--cta-text-color': selectedTextColor,
-                color: selectedTextColor,
-                fontFamily: selectedFontFamily,
-              } as React.CSSProperties}
-            />
+              style={
+                {
+                  '--cta-font-family': selectedFontFamily,
+                  '--cta-text-color': selectedTextColor,
+                  color: selectedTextColor,
+                  fontFamily: selectedFontFamily,
+                  transform: `scaleY(${typographyVerticalScaleValues[resolvedVerticalScale]})`,
+                } as React.CSSProperties
+              }
+            >
+              <RichText
+                className={cn(
+                  'mb-0 cta-rich-text',
+                  textSizeClasses[typography?.fontSize || 'base'],
+                  textWeightClasses[typography?.fontWeight || 'regular'],
+                  letterSpacingClasses[typography?.letterSpacing || 'normal'],
+                  textTransformClasses[typography?.textTransform || 'normal'],
+                )}
+                data={richText}
+                enableGutter={false}
+              />
+            </div>
           )}
         </div>
-        <div className={cn('flex flex-col', gapClasses[spacing?.actionsGap || 'md'])}>
+        <div className={cn('cta-actions flex flex-col', gapClasses[spacing?.actionsGap || 'md'])}>
           {(links || []).map(({ link }, i) => {
+            const { label, ...linkProps } = link
+
             return (
-              <CMSLink
-                className={selectedButtonTextColor ? 'text-[color:var(--cta-button-text-color)]' : undefined}
+              <span
+                className="cta-action-shell inline-flex"
                 key={i}
-                size="lg"
                 style={
-                  selectedButtonTextColor
-                    ? ({ '--cta-button-text-color': selectedButtonTextColor } as React.CSSProperties)
-                    : undefined
+                  {
+                    '--cta-button-text-color': selectedButtonTextColor,
+                    color: selectedButtonTextColor,
+                    '--cta-button-text-scale':
+                      typographyVerticalScaleValues[resolvedButtonVerticalScale],
+                  } as React.CSSProperties
                 }
-                {...link}
-              />
+              >
+                <CMSLink className="cta-action-link" label={undefined} size="lg" {...linkProps}>
+                  {label ? <span className="cta-action-label">{label}</span> : null}
+                </CMSLink>
+              </span>
             )
           })}
         </div>

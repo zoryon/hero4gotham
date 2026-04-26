@@ -3,7 +3,7 @@ import React from 'react'
 import type { Page } from '@/payload-types'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { stripBlockSpacing, type BlockLayoutSettings } from '@/fields/blockLayout'
+import type { BlockLayoutSettings } from '@/fields/blockLayout'
 import { cn } from '@/utilities/ui'
 
 type FlexboxItem = Page['layout'][0]
@@ -75,11 +75,6 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
 }) => {
   if (!blocks?.length) return null
 
-  const blocksWithoutSpacing = (blocks as FlexboxItemWithLayout[]).map((block) => ({
-    ...block,
-    layout: stripBlockSpacing(block.layout),
-  })) as FlexboxItemWithLayout[]
-
   return (
     <div
       className={cn(
@@ -92,7 +87,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
         minHeightClasses[minHeight ?? 'none'],
       )}
     >
-      <RenderBlocks blocks={blocksWithoutSpacing} wrapperClassName="m-0" />
+      <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0" />
     </div>
   )
 }

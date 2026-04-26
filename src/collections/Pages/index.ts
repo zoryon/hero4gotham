@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
+import { Arrow } from '../../blocks/Arrow/config'
 import { BackgroundContainer } from '../../blocks/BackgroundContainer/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
@@ -12,6 +13,7 @@ import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { Subtitle } from '../../blocks/Subtitle/config'
 import { Title } from '../../blocks/Title/config'
+import { TornCards } from '../../blocks/TornCards/config'
 import { UpcomingEvents } from '../../blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 import { hero } from '@/heros/config'
@@ -80,6 +82,7 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               blocks: withBlockLayoutFields([
+                Arrow,
                 CallToAction,
                 Content,
                 Title,
@@ -87,6 +90,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 Flexbox,
                 FeatureGrid,
                 BackgroundContainer,
+                TornCards,
                 UpcomingEvents,
                 MediaBlock,
                 Archive,

@@ -1,3 +1,4 @@
+import { textAlignOptions, textTransformOptions } from '@/fields/uiOptions'
 import type { Block } from 'payload'
 
 import {
@@ -24,7 +25,7 @@ export const Title: Block = {
     {
       name: 'lineBreaks',
       type: 'array',
-      label: 'A capo automatici',
+      label: 'Automatic line breaks',
       admin: {
         description:
           'Inserisce ritorni a capo dopo parole o frasi specifiche del titolo. Le regole vengono applicate in ordine.',
@@ -34,7 +35,7 @@ export const Title: Block = {
           name: 'word',
           type: 'text',
           required: true,
-          label: 'Parola o frase',
+          label: 'Word or phrase',
         },
         {
           name: 'occurrences',
@@ -42,7 +43,7 @@ export const Title: Block = {
           defaultValue: 1,
           min: 0,
           max: 20,
-          label: 'Quante occorrenze',
+          label: 'Occurrence count',
           admin: {
             description: '0 = tutte le occorrenze trovate.',
           },
@@ -53,7 +54,7 @@ export const Title: Block = {
           defaultValue: 1,
           min: 1,
           max: 5,
-          label: 'Quanti a capo',
+          label: 'Line break count',
         },
       ],
     },
@@ -70,51 +71,42 @@ export const Title: Block = {
       name: 'fontSize',
       type: 'select',
       defaultValue: 'hero',
-      label: 'Dimensione font',
+      label: 'Font size',
       options: [...typographyFontSizeOptions],
     },
     {
       name: 'fontWeight',
       type: 'select',
       defaultValue: 'regular',
-      label: 'Peso font',
+      label: 'Font weight',
       options: [...typographyFontWeightOptions],
     },
     {
       name: 'fontFamily',
       type: 'select',
       defaultValue: 'cinzel',
-      label: 'Famiglia font',
+      label: 'Font family',
       options: [...typographyFontFamilyOptions],
     },
     {
       name: 'verticalScale',
       type: 'select',
       defaultValue: 'normal',
-      label: 'Altezza lettere',
+      label: 'Line height',
       options: [...typographyVerticalScaleOptions],
     },
     {
       name: 'distress',
       type: 'select',
       defaultValue: 'none',
-      label: 'Effetto usura',
+      label: 'Distress effect',
       options: [...typographyDistressOptions],
     },
     {
       name: 'align',
       type: 'select',
       defaultValue: 'center',
-      options: [
-        {
-          label: 'Center',
-          value: 'center',
-        },
-        {
-          label: 'Left',
-          value: 'left',
-        },
-      ],
+      options: [...textAlignOptions],
     },
   ],
   labels: {
