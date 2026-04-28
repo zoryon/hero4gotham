@@ -337,10 +337,15 @@
   }
 
   .torn-grid {
-    background: var(--torn-card-bg);
+    aspect-ratio: 583 / 1511;
+    background-image: var(--torn-bg-mobile);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     grid-auto-flow: row;
     grid-template-columns: repeat(var(--torn-cols-mobile), minmax(0, 1fr));
-    grid-template-rows: repeat(var(--torn-rows-mobile), minmax(var(--torn-min-h-mobile), auto));
+    grid-template-rows: repeat(var(--torn-rows-mobile), minmax(0, 1fr));
+    overflow: hidden;
   }
 
   .torn-grid--flow-column {
@@ -348,29 +353,51 @@
   }
 
   .torn-card {
-    background: var(--torn-card-bg);
-    min-height: var(--torn-min-h-mobile);
+    min-height: 0;
+    padding: clamp(1rem, 5vw, 2rem);
   }
 
-  @media (width >= 48rem) {
+  @media (width >= 36rem) {
     .torn-grid {
+      aspect-ratio: 1010 / 800;
+      background-image: var(--torn-bg-tablet);
+      background-size: 100% 100%;
       grid-template-columns: repeat(var(--torn-cols-tablet), minmax(0, 1fr));
-      grid-template-rows: repeat(var(--torn-rows-tablet), minmax(var(--torn-min-h-tablet), auto));
+      grid-template-rows: repeat(var(--torn-rows-tablet), minmax(0, 1fr));
     }
 
     .torn-card {
-      min-height: var(--torn-min-h-tablet);
+      padding: clamp(1rem, 3vw, 2.25rem);
     }
   }
 
-  @media (width >= 64rem) {
+  @media (width >= 62rem) {
     .torn-grid {
+      aspect-ratio: 1249 / 380;
+      background-image: var(--torn-bg-desktop);
+      background-size: 100% 100%;
       grid-template-columns: repeat(var(--torn-cols-desktop), minmax(0, 1fr));
-      grid-template-rows: repeat(var(--torn-rows-desktop), minmax(var(--torn-min-h-desktop), auto));
+      grid-template-rows: repeat(var(--torn-rows-desktop), minmax(0, 1fr));
+      margin-block: clamp(3rem, 7vw, 6rem);
     }
 
     .torn-card {
-      min-height: var(--torn-min-h-desktop);
+      padding: clamp(2rem, 3vw, 3.5rem) clamp(0.75rem, 1.45vw, 1.75rem);
+    }
+  }
+
+  @media (width >= 68rem) {
+    .torn-grid {
+      aspect-ratio: 1249 / 280;
+      background-image: var(--torn-bg-desktop);
+      background-size: 100% 100%;
+      grid-template-columns: repeat(var(--torn-cols-desktop), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--torn-rows-desktop), minmax(0, 1fr));
+      margin-block: clamp(3rem, 7vw, 6rem);
+    }
+
+    .torn-card {
+      padding: clamp(2rem, 3vw, 3.5rem) clamp(0.75rem, 1.45vw, 1.75rem);
     }
   }
 }

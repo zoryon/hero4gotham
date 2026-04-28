@@ -1,4 +1,5 @@
 'use client'
+
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -110,6 +111,8 @@ const getNavHref = (link: HeaderNavItem['link']) => {
     'slug' in link.reference.value
   ) {
     const slug = link.reference.value.slug
+    if (link.reference.relationTo === 'pages' && slug === 'home') return '/'
+
     return link.reference.relationTo === 'pages'
       ? `/${slug}`
       : `/${link.reference.relationTo}/${slug}`
@@ -124,6 +127,22 @@ const getSocialHref = (item: HeaderSocialItem) => {
   }
 
   return item.url || '#'
+}
+
+const normalizePath = (path: string) => {
+  const pathname = path.split(/[?#]/)[0] || '/'
+  return pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
+}
+
+const isNavItemActive = (pathname: string, href: string) => {
+  if (!href || href.startsWith('#')) return false
+
+  const currentPath = normalizePath(pathname)
+  const navPath = normalizePath(href)
+
+  if (navPath === '/') return currentPath === '/'
+
+  return currentPath === navPath || currentPath.startsWith(`${navPath}/`)
 }
 
 const SocialIcon: React.FC<{
@@ -242,7 +261,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <nav aria-label="Primary navigation" className="site-header__nav">
           {navItems.map(({ link }, i) => {
             const href = getNavHref(link)
-            const isActive = href ? pathname === href : false
+            const isActive = isNavItemActive(pathname, href)
 
             return (
               <CMSLink

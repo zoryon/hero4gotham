@@ -8,7 +8,6 @@ import { paddingOptions } from '@/fields/uiOptions'
 
 const breakpointFields = (name: string, label: string, defaults: {
   columns: number
-  minHeight: number
   rows: number
 }): Field => ({
   name,
@@ -23,7 +22,7 @@ const breakpointFields = (name: string, label: string, defaults: {
           type: 'number',
           admin: {
             step: 1,
-            width: '33%',
+            width: '50%',
           },
           defaultValue: defaults.columns,
           label: 'Columns',
@@ -36,25 +35,12 @@ const breakpointFields = (name: string, label: string, defaults: {
           type: 'number',
           admin: {
             step: 1,
-            width: '33%',
+            width: '50%',
           },
           defaultValue: defaults.rows,
           label: 'Rows',
           max: 12,
           min: 1,
-          required: true,
-        },
-        {
-          name: 'minHeight',
-          type: 'number',
-          admin: {
-            step: 10,
-            width: '33%',
-          },
-          defaultValue: defaults.minHeight,
-          label: 'Minimum card height',
-          max: 800,
-          min: 120,
           required: true,
         },
       ],
@@ -345,20 +331,53 @@ export const TornCards: Block = {
           fields: [
             breakpointFields('mobile', 'Mobile', {
               columns: 1,
-              minHeight: 210,
               rows: 4,
             }),
             breakpointFields('tablet', 'Tablet', {
               columns: 2,
-              minHeight: 220,
               rows: 2,
             }),
             breakpointFields('desktop', 'Desktop', {
               columns: 4,
-              minHeight: 210,
               rows: 1,
             }),
           ],
+        },
+      ],
+    },
+    {
+      type: 'collapsible',
+      label: 'Grid background',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'backgroundMobile',
+          type: 'upload',
+          admin: {
+            description: 'Use the 1x4 grid image for mobile layouts.',
+          },
+          label: 'Mobile background',
+          relationTo: 'media',
+        },
+        {
+          name: 'backgroundTablet',
+          type: 'upload',
+          admin: {
+            description: 'Use the 2x2 grid image for tablet layouts.',
+          },
+          label: 'Tablet background',
+          relationTo: 'media',
+        },
+        {
+          name: 'backgroundDesktop',
+          type: 'upload',
+          admin: {
+            description: 'Use the 4x1 grid image for desktop layouts.',
+          },
+          label: 'Desktop background',
+          relationTo: 'media',
         },
       ],
     },
@@ -369,52 +388,6 @@ export const TornCards: Block = {
         initCollapsed: true,
       },
       fields: [
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'cardBg',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-              defaultValue: '#1f1428',
-              label: 'Card background',
-            },
-            {
-              name: 'shadowColor',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-              defaultValue: '#0a0704',
-              label: 'Torn edge shadow',
-            },
-          ],
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'borderColor',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-              defaultValue: '#6b4635',
-              label: 'Border color',
-            },
-            {
-              name: 'accentColor',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-              defaultValue: '#8d2c8c',
-              label: 'Accent',
-            },
-          ],
-        },
         {
           type: 'row',
           fields: [

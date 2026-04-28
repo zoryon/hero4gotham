@@ -511,7 +511,7 @@ export interface ArrowBlock {
     url?: string | null;
   };
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -597,7 +597,7 @@ export interface CallToActionBlock {
       }[]
     | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -658,7 +658,7 @@ export interface ContentBlock {
       }[]
     | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -712,7 +712,7 @@ export interface TitleBlock {
     left?: number | null;
   };
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -758,7 +758,7 @@ export interface SubtitleBlock {
   textTransform?: ('normal' | 'uppercase') | null;
   align?: ('center' | 'left') | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -796,7 +796,7 @@ export interface FlexboxBlock {
     | FormBlock
   )[];
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -824,7 +824,7 @@ export interface FeatureGridBlock {
     id?: string | null;
   }[];
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -875,7 +875,7 @@ export interface UpcomingEventsBlock {
    */
   posterText?: string | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -930,7 +930,7 @@ export interface ArchiveBlock {
       }[]
     | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -967,7 +967,7 @@ export interface FormBlock {
     [k: string]: unknown;
   } | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -1179,7 +1179,7 @@ export interface BackgroundContainerBlock {
     | FormBlock
   )[];
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -1245,27 +1245,32 @@ export interface TornCardsBlock {
     mobile: {
       columns: number;
       rows: number;
-      minHeight: number;
     };
     tablet: {
       columns: number;
       rows: number;
-      minHeight: number;
     };
     desktop: {
       columns: number;
       rows: number;
-      minHeight: number;
     };
   };
-  cardBg?: string | null;
-  shadowColor?: string | null;
-  borderColor?: string | null;
-  accentColor?: string | null;
+  /**
+   * Use the 1x4 grid image for mobile layouts.
+   */
+  backgroundMobile?: (number | null) | Media;
+  /**
+   * Use the 2x2 grid image for tablet layouts.
+   */
+  backgroundTablet?: (number | null) | Media;
+  /**
+   * Use the 4x1 grid image for desktop layouts.
+   */
+  backgroundDesktop?: (number | null) | Media;
   titleColor?: string | null;
   textColor?: string | null;
   layout?: {
-    size?: ('default' | 'full' | 'wide' | 'container' | 'narrow') | null;
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -2143,27 +2148,23 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
           | {
               columns?: T;
               rows?: T;
-              minHeight?: T;
             };
         tablet?:
           | T
           | {
               columns?: T;
               rows?: T;
-              minHeight?: T;
             };
         desktop?:
           | T
           | {
               columns?: T;
               rows?: T;
-              minHeight?: T;
             };
       };
-  cardBg?: T;
-  shadowColor?: T;
-  borderColor?: T;
-  accentColor?: T;
+  backgroundMobile?: T;
+  backgroundTablet?: T;
+  backgroundDesktop?: T;
   titleColor?: T;
   textColor?: T;
   layout?:

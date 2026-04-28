@@ -5,7 +5,7 @@ import { cn } from '@/utilities/ui'
 
 export type BlockLayoutSpacing = 'default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 export type BlockLayoutPadding = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-export type BlockLayoutSize = 'default' | 'full' | 'wide' | 'container' | 'narrow'
+export type BlockLayoutSize = 'default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow'
 
 export type BlockLayoutSettings = {
   size?: BlockLayoutSize | null
@@ -49,6 +49,10 @@ export const blockLayoutField = (): Field => ({
             {
               label: 'Wide',
               value: 'wide',
+            },
+            {
+              label: 'Extra wide',
+              value: 'extraWide',
             },
             {
               label: 'Container',
@@ -178,6 +182,7 @@ const sizeClasses = {
   default: '',
   full: 'w-full',
   narrow: 'mx-auto w-full max-w-3xl px-4 md:px-8',
+  extraWide: 'mx-auto w-full max-w-[88rem] px-4 md:px-8',
   wide: 'mx-auto w-full max-w-7xl px-4 md:px-8',
 } satisfies Record<BlockLayoutSize, string>
 

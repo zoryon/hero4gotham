@@ -4,13 +4,11 @@ import type { TornCardsBlock as TornCardsBlockProps } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyFontWeightClasses } from '@/fields/typography'
+import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { cn } from '@/utilities/ui'
 
 type TornCardItem = NonNullable<TornCardsBlockProps['items']>[number]
 type ResponsiveLayout = NonNullable<TornCardsBlockProps['responsive']>
-
-const EDGE_WIDTH = 1000
-const EDGE_HEIGHT = 72
 
 const imageSizeClasses = {
   lg: 'h-24 w-24',
@@ -27,105 +25,10 @@ const spacingValues = {
   xs: '0.75rem',
 } as const
 
-function seededRand(seed: number) {
-  let s = seed
-
-  return () => {
-    s = (s * 16807) % 2147483647
-    return (s - 1) / 2147483646
-  }
-}
-
-function buildTornPath(width: number, seed: number, facingUp: boolean): string {
-  const rand = seededRand(seed)
-  const segments = 36
-  const points: [number, number][] = []
-
-  points.push([0, 0])
-  for (let i = 1; i < segments; i++) {
-    const x = (width / segments) * i + (rand() - 0.5) * 16
-    const base = (rand() - 0.5) * 20
-    const spike = rand() > 0.82 ? (rand() - 0.5) * 28 : 0
-    points.push([x, base + spike])
-  }
-  points.push([width, 0])
-
-  let d = `M ${points[0][0]} ${points[0][1]}`
-  for (let i = 1; i < points.length; i++) {
-    const prev = points[i - 1]
-    const curr = points[i]
-    const mx = (prev[0] + curr[0]) / 2
-    const my = (prev[1] + curr[1]) / 2
-    d += ` Q ${prev[0]} ${prev[1]} ${mx} ${my}`
-  }
-
-  const closeY = facingUp ? -EDGE_HEIGHT : EDGE_HEIGHT
-  d += ` L ${points[points.length - 1][0]} ${points[points.length - 1][1]}`
-  d += ` L ${width} ${closeY} L 0 ${closeY} Z`
-
-  return d
-}
-
-function buildVerticalTornPath(height: number, seed: number, facingLeft: boolean): string {
-  const rand = seededRand(seed)
-  const segments = 32
-  const points: [number, number][] = []
-
-  points.push([0, 0])
-  for (let i = 1; i < segments; i++) {
-    const y = (height / segments) * i + (rand() - 0.5) * 16
-    const base = (rand() - 0.5) * 20
-    const spike = rand() > 0.82 ? (rand() - 0.5) * 28 : 0
-    points.push([base + spike, y])
-  }
-  points.push([0, height])
-
-  let d = `M ${points[0][0]} ${points[0][1]}`
-  for (let i = 1; i < points.length; i++) {
-    const prev = points[i - 1]
-    const curr = points[i]
-    const mx = (prev[0] + curr[0]) / 2
-    const my = (prev[1] + curr[1]) / 2
-    d += ` Q ${prev[0]} ${prev[1]} ${mx} ${my}`
-  }
-
-  const closeX = facingLeft ? -EDGE_HEIGHT : EDGE_HEIGHT
-  d += ` L ${points[points.length - 1][0]} ${points[points.length - 1][1]}`
-  d += ` L ${closeX} ${height} L ${closeX} 0 Z`
-
-  return d
-}
-
-const TornEdge: React.FC<{
-  className?: string
-  direction: 'bottom' | 'left' | 'right' | 'top'
-  seed: number
-}> = ({ className, direction, seed }) => {
-  const isVertical = direction === 'left' || direction === 'right'
-  const mainPath = isVertical
-    ? buildVerticalTornPath(EDGE_WIDTH, seed, direction === 'right')
-    : buildTornPath(EDGE_WIDTH, seed, direction === 'bottom')
-  const shadowPath = isVertical
-    ? buildVerticalTornPath(EDGE_WIDTH, seed + 1, direction === 'right')
-    : buildTornPath(EDGE_WIDTH, seed + 1, direction === 'bottom')
-
-  return (
-    <svg
-      aria-hidden
-      className={cn('pointer-events-none absolute z-20 overflow-visible', className)}
-      preserveAspectRatio="none"
-      viewBox={isVertical ? `0 0 ${EDGE_HEIGHT} ${EDGE_WIDTH}` : `0 0 ${EDGE_WIDTH} ${EDGE_HEIGHT}`}
-    >
-      <path d={shadowPath} fill="var(--torn-shadow-color)" opacity={0.42} />
-      <path d={mainPath} fill="var(--torn-card-bg)" />
-    </svg>
-  )
-}
-
 const getSetting = (
   responsive: ResponsiveLayout | null | undefined,
   breakpoint: keyof ResponsiveLayout,
-  key: 'columns' | 'minHeight' | 'rows',
+  key: 'columns' | 'rows',
   fallback: number,
 ) => {
   const value = responsive?.[breakpoint]?.[key]
@@ -200,37 +103,42 @@ const getCardSpacingStyle = (item: TornCardItem): React.CSSProperties => ({
   paddingTop: getSpacingValue(item.padding?.top || 'sm'),
 })
 
+const getBackgroundImage = (
+  image: TornCardsBlockProps['backgroundMobile'] | null | undefined,
+  fallback: string,
+) => {
+  if (!image || typeof image !== 'object') return `url("${fallback}")`
+
+  if (image.filename?.startsWith('grid-1x4')) {
+    return 'url("/grid/grid-1x4.png")'
+  }
+
+  if (image.filename?.startsWith('grid-2x2')) {
+    return 'url("/grid/grid-2x2.png")'
+  }
+
+  if (image.filename?.startsWith('grid-4x1')) {
+    return 'url("/grid/grid-4x1.png")'
+  }
+
+  const url = getMediaUrl(image.url, image.updatedAt)
+  if (!url) return `url("${fallback}")`
+
+  return `url("${url.replace(/"/g, '\\"')}")`
+}
+
 const TornCard: React.FC<{
   item: TornCardItem
-  index: number
-}> = ({ item, index }) => {
+}> = ({ item }) => {
   const hasImage = Boolean(item.image && typeof item.image === 'object')
   const titleTypography = item.titleType
   const descriptionTypography = item.descType
 
   return (
     <article
-      className="torn-card relative isolate flex flex-col items-center justify-center overflow-hidden border-2 border-[color:var(--torn-border-color)] text-center"
+      className="torn-card relative isolate flex flex-col items-center justify-center text-center"
       style={getCardSpacingStyle(item)}
     >
-      <TornEdge className="-top-px left-0 h-8 w-full" direction="top" seed={index * 53 + 71} />
-      <TornEdge
-        className="-bottom-px left-0 h-8 w-full"
-        direction="bottom"
-        seed={index * 97 + 13}
-      />
-      <TornEdge className="bottom-0 -left-px h-full w-8" direction="left" seed={index * 31 + 19} />
-      <TornEdge
-        className="bottom-0 -right-px h-full w-8"
-        direction="right"
-        seed={index * 41 + 29}
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-30 border border-[color:var(--torn-border-color)]"
-      />
-
       <div className="relative z-40 flex max-w-72 flex-col items-center">
         {hasImage ? (
           <div
@@ -283,13 +191,12 @@ const TornCard: React.FC<{
 }
 
 export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
-  accentColor = '#8d2c8c',
-  borderColor = '#6b4635',
-  cardBg = '#221429',
+  backgroundDesktop,
+  backgroundMobile,
+  backgroundTablet,
   fillDirection = 'row',
   items,
   responsive,
-  shadowColor = '#0a0704',
   textColor = '#d9d0c2',
   titleColor = '#e8d5a0',
 }) => {
@@ -300,6 +207,9 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
   const mobileColumns = getSetting(responsive, 'mobile', 'columns', 1)
   const tabletColumns = getSetting(responsive, 'tablet', 'columns', Math.min(2, cards.length))
   const desktopColumns = getSetting(responsive, 'desktop', 'columns', Math.min(4, cards.length))
+  const mobileBackground = backgroundMobile || backgroundTablet || backgroundDesktop
+  const tabletBackground = backgroundTablet || backgroundDesktop || backgroundMobile
+  const desktopBackground = backgroundDesktop || backgroundTablet || backgroundMobile
 
   return (
     <section
@@ -309,15 +219,12 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
       )}
       style={
         {
-          '--torn-accent-color': accentColor || '#8d2c8c',
-          '--torn-border-color': borderColor || '#6b4635',
-          '--torn-card-bg': cardBg || '#1f1428',
+          '--torn-bg-desktop': getBackgroundImage(desktopBackground, '/grid/grid-4x1.png'),
+          '--torn-bg-mobile': getBackgroundImage(mobileBackground, '/grid/grid-1x4.png'),
+          '--torn-bg-tablet': getBackgroundImage(tabletBackground, '/grid/grid-2x2.png'),
           '--torn-cols-desktop': desktopColumns,
           '--torn-cols-mobile': mobileColumns,
           '--torn-cols-tablet': tabletColumns,
-          '--torn-min-h-desktop': `${getSetting(responsive, 'desktop', 'minHeight', 210)}px`,
-          '--torn-min-h-mobile': `${getSetting(responsive, 'mobile', 'minHeight', 210)}px`,
-          '--torn-min-h-tablet': `${getSetting(responsive, 'tablet', 'minHeight', 220)}px`,
           '--torn-rows-desktop': getSetting(
             responsive,
             'desktop',
@@ -336,14 +243,13 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
             'rows',
             Math.ceil(cards.length / tabletColumns),
           ),
-          '--torn-shadow-color': shadowColor || '#0a0704',
           '--torn-text-color': textColor || '#d9d0c2',
           '--torn-title-color': titleColor || '#e8d5a0',
         } as React.CSSProperties
       }
     >
       {cards.map((item, index) => (
-        <TornCard index={index} item={item} key={item.id || index} />
+        <TornCard item={item} key={item.id || index} />
       ))}
     </section>
   )
