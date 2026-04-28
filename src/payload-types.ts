@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    events: Event;
     media: Media;
     categories: Category;
     users: User;
@@ -91,6 +92,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -844,36 +846,44 @@ export interface FeatureGridBlock {
  */
 export interface UpcomingEventsBlock {
   heading: string;
-  events: {
-    day: string;
-    month: string;
-    title: string;
-    description: string;
-    /**
-     * Link used by the "Scopri di piu" action.
-     */
-    link: {
-      type?: ('reference' | 'custom') | null;
-      newTab?: boolean | null;
-      reference?:
-        | ({
-            relationTo: 'pages';
-            value: number | Page;
-          } | null)
-        | ({
-            relationTo: 'posts';
-            value: number | Post;
-          } | null);
-      url?: string | null;
-      label: string;
-    };
-    id?: string | null;
-  }[];
-  featureImage: number | Media;
+  emptyEventsTitle: string;
+  emptyEventsText?: string | null;
+  eventLinkLabel: string;
+  eventSource: 'automatic' | 'manual';
   /**
-   * Optional text shown over the image, like the poster in the reference.
+   * Choose the events to show. The block will render the first two selected.
    */
-  posterText?: string | null;
+  manualEvents?: (number | Event)[] | null;
+  leftBackground?: (number | null) | Media;
+  featureImage?: (number | null) | Media;
+  rightBackground?: (number | null) | Media;
+  ctaTitle: string;
+  ctaText?: string | null;
+  ctaLink: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  ctaLinkFallbackLabel: string;
+  ctaGlyph?: (number | null) | Media;
+  headingColor?: string | null;
+  dateColor?: string | null;
+  eventTitleColor?: string | null;
+  eventTextColor?: string | null;
+  eventLinkColor?: string | null;
+  ctaTextColor?: string | null;
+  ctaButtonBackgroundColor?: string | null;
+  ctaButtonTextColor?: string | null;
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -888,6 +898,44 @@ export interface UpcomingEventsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'upcomingEvents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  startsAt: string;
+  /**
+   * Optional override for the displayed day.
+   */
+  dateDayLabel?: string | null;
+  /**
+   * Optional override for the displayed month.
+   */
+  dateMonthLabel?: string | null;
+  description: string;
+  /**
+   * Link used by the "Scopri di piu" event action.
+   */
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1483,6 +1531,10 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -1935,26 +1987,35 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
  */
 export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   heading?: T;
-  events?:
+  emptyEventsTitle?: T;
+  emptyEventsText?: T;
+  eventLinkLabel?: T;
+  eventSource?: T;
+  manualEvents?: T;
+  leftBackground?: T;
+  featureImage?: T;
+  rightBackground?: T;
+  ctaTitle?: T;
+  ctaText?: T;
+  ctaLink?:
     | T
     | {
-        day?: T;
-        month?: T;
-        title?: T;
-        description?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
       };
-  featureImage?: T;
-  posterText?: T;
+  ctaLinkFallbackLabel?: T;
+  ctaGlyph?: T;
+  headingColor?: T;
+  dateColor?: T;
+  eventTitleColor?: T;
+  eventTextColor?: T;
+  eventLinkColor?: T;
+  ctaTextColor?: T;
+  ctaButtonBackgroundColor?: T;
+  ctaButtonTextColor?: T;
   layout?:
     | T
     | {
@@ -2213,6 +2274,28 @@ export interface PostsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  startsAt?: T;
+  dateDayLabel?: T;
+  dateMonthLabel?: T;
+  description?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
