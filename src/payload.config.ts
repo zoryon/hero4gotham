@@ -2,6 +2,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+import { it } from 'payload/i18n/it'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -26,9 +27,6 @@ export default buildConfig({
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
-      beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -67,6 +65,10 @@ export default buildConfig({
   collections: [Pages, Posts, Events, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ThemeColors],
+  i18n: {
+    fallbackLanguage: 'it',
+    supportedLanguages: { it },
+  },
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

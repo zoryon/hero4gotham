@@ -1,15 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '@/access/authenticated'
+import { adminOrEventsManager } from '@/access/roles'
 import { link } from '@/fields/link'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: adminOrEventsManager,
+    delete: adminOrEventsManager,
     read: () => true,
-    update: authenticated,
+    update: adminOrEventsManager,
   },
   admin: {
     defaultColumns: ['title', 'startsAt', 'updatedAt'],

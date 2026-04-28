@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
@@ -7,6 +8,10 @@ export const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
     read: () => true,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {

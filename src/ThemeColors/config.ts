@@ -1,5 +1,6 @@
 import type { Field, GlobalConfig } from 'payload'
 
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { revalidateThemeColors } from './hooks/revalidateThemeColors'
 
 const colorField = (name: string, label: string, defaultValue: string): Field => ({
@@ -17,6 +18,10 @@ export const ThemeColors: GlobalConfig = {
   label: 'Theme Colors',
   access: {
     read: () => true,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {

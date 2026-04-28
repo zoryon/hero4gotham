@@ -8,6 +8,7 @@ import {
 import { textTransformOptions } from '@/fields/uiOptions'
 import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 
 const socialPlatformOptions = [
   {
@@ -137,6 +138,10 @@ export const Header: GlobalConfig = {
   slug: 'header',
   access: {
     read: () => true,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {
