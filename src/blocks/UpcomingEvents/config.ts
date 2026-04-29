@@ -1,6 +1,127 @@
-import type { Block } from 'payload'
+import type { Block, Field } from 'payload'
 
 import { link } from '@/fields/link'
+import {
+  typographyFontFamilyOptions,
+  typographyFontSizeOptions,
+  typographyFontWeightOptions,
+  typographyLetterSpacingOptions,
+  typographySubtitleFontSizeOptions,
+  typographyVerticalScaleOptions,
+} from '@/fields/typography'
+
+const fontStyleOptions = [
+  {
+    label: 'Normal',
+    value: 'normal',
+  },
+  {
+    label: 'Italic',
+    value: 'italic',
+  },
+] as const
+
+const textStyleFields = ({
+  defaults,
+  label,
+  name,
+  sizeOptions = typographySubtitleFontSizeOptions,
+}: {
+  defaults: {
+    fontFamily?: string
+    fontSize?: string
+    fontStyle?: string
+    fontWeight?: string
+    letterSpacing?: string
+    verticalScale?: string
+  }
+  label: string
+  name: string
+  sizeOptions?: typeof typographyFontSizeOptions | typeof typographySubtitleFontSizeOptions
+}): Field => ({
+  type: 'collapsible',
+  label,
+  admin: {
+    initCollapsed: true,
+  },
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          name: `${name}FontFamily`,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: defaults.fontFamily || 'cinzel',
+          label: 'Font family',
+          options: [...typographyFontFamilyOptions],
+        },
+        {
+          name: `${name}FontSize`,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: defaults.fontSize || 'base',
+          label: 'Font size',
+          options: [...sizeOptions],
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: `${name}FontWeight`,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: defaults.fontWeight || 'black',
+          label: 'Font weight',
+          options: [...typographyFontWeightOptions],
+        },
+        {
+          name: `${name}FontStyle`,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: defaults.fontStyle || 'normal',
+          label: 'Font style',
+          options: [...fontStyleOptions],
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: `${name}VerticalScale`,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: defaults.verticalScale || 'normal',
+          label: 'Letter height',
+          options: [...typographyVerticalScaleOptions],
+        },
+        {
+          name: `${name}LetterSpacing`,
+          type: 'select',
+          admin: {
+            width: '50%',
+          },
+          defaultValue: defaults.letterSpacing || 'normal',
+          label: 'Letter spacing',
+          options: [...typographyLetterSpacingOptions],
+        },
+      ],
+    },
+  ],
+})
 
 export const UpcomingEvents: Block = {
   slug: 'upcomingEvents',
@@ -215,6 +336,125 @@ export const UpcomingEvents: Block = {
             },
           ],
         },
+      ],
+    },
+    {
+      type: 'collapsible',
+      label: 'Left panel text formats',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'small',
+            fontWeight: 'black',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'Heading',
+          name: 'heading',
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'medium',
+            fontWeight: 'black',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'Date day',
+          name: 'dateDay',
+          sizeOptions: typographyFontSizeOptions,
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'small',
+            fontWeight: 'black',
+            letterSpacing: 'normal',
+            verticalScale: 'normal',
+          },
+          label: 'Date month',
+          name: 'dateMonth',
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'small',
+            fontWeight: 'black',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'Event title',
+          name: 'eventTitle',
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'geistSans',
+            fontSize: 'small',
+            fontWeight: 'regular',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'Event text',
+          name: 'eventText',
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'small',
+            fontWeight: 'black',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'Event link',
+          name: 'eventLink',
+        }),
+      ],
+    },
+    {
+      type: 'collapsible',
+      label: 'Right panel text formats',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'compact',
+            fontWeight: 'black',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'CTA title',
+          name: 'ctaTitle',
+          sizeOptions: typographyFontSizeOptions,
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'geistSans',
+            fontSize: 'small',
+            fontWeight: 'regular',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'CTA text',
+          name: 'ctaText',
+        }),
+        textStyleFields({
+          defaults: {
+            fontFamily: 'cinzel',
+            fontSize: 'small',
+            fontWeight: 'black',
+            letterSpacing: 'tight',
+            verticalScale: 'normal',
+          },
+          label: 'CTA button',
+          name: 'ctaButton',
+        }),
       ],
     },
   ],
