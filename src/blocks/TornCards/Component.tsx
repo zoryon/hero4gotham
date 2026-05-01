@@ -3,6 +3,7 @@ import React from 'react'
 import type { Media as MediaDocument, TornCardsBlock as TornCardsBlockProps } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import type { BlockLayoutSettings } from '@/fields/blockLayout'
 import {
   typographyFontFamilyStyles,
   typographyFontWeightClasses,
@@ -14,6 +15,9 @@ import { cn } from '@/utilities/ui'
 type TornCardItem = NonNullable<TornCardsBlockProps['items']>[number]
 type ResponsiveLayout = NonNullable<TornCardsBlockProps['responsive']>
 type TextStyle = TornCardsBlockProps['headingStyle']
+type TornCardsComponentProps = TornCardsBlockProps & {
+  layout?: BlockLayoutSettings | null
+}
 
 const containerWidthClasses = {
   container: 'container',
@@ -303,7 +307,7 @@ const TornCard: React.FC<{
   )
 }
 
-export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
+export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
   containerWidth = 'wide',
   fillDirection = 'row',
   heading,
@@ -312,6 +316,7 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
   headingPaddingY = 8,
   headingStyle,
   items,
+  layout,
   responsive,
   textColor = '#d9d0c2',
   textColorMode = 'custom',
@@ -360,9 +365,12 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
     titleColor,
     '#e8d5a0',
   )
+  const containerClassName = layout?.scribbleBorder
+    ? 'w-full'
+    : containerWidthClasses[containerWidth || 'wide']
 
   return (
-    <div className={cn('relative', containerWidthClasses[containerWidth || 'wide'])}>
+    <div className={cn('relative', containerClassName)}>
       {heading ? (
         <div className="absolute left-1/2 top-0 z-30 flex w-fit -translate-x-1/2 -translate-y-1/2 justify-center overflow-hidden">
           {headingImage ? (

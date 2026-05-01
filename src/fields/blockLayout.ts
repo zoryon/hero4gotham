@@ -196,6 +196,15 @@ const sizeClasses = {
   wide: 'mx-auto w-full max-w-7xl px-4 md:px-8',
 } satisfies Record<BlockLayoutSize, string>
 
+const borderedSizeClasses = {
+  container: 'container px-0',
+  default: '',
+  full: 'w-full',
+  narrow: 'mx-auto w-full max-w-3xl px-0',
+  extraWide: 'mx-auto w-full max-w-[88rem] px-0',
+  wide: 'mx-auto w-full max-w-7xl px-0',
+} satisfies Record<BlockLayoutSize, string>
+
 const marginTopClasses = {
   default: '',
   lg: 'mt-20',
@@ -280,7 +289,11 @@ export const getBlockLayoutClasses = (
 
   return cn(
     fallbackClassName,
-    layout.size ? sizeClasses[layout.size] : undefined,
+    layout.size
+      ? layout.scribbleBorder
+        ? borderedSizeClasses[layout.size]
+        : sizeClasses[layout.size]
+      : undefined,
     layout.marginTop === 'default' ? undefined : marginTopClasses[layout.marginTop || 'default'],
     layout.marginRight === 'default'
       ? undefined

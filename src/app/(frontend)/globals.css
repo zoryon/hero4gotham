@@ -338,7 +338,7 @@
 
   .scribble-border,
   .cornice-vintage {
-    --vintage-border-outset: 10px;
+    --vintage-border-outset: 0;
     --vintage-border-width: 15px;
     --vintage-border-slice: 65;
 
@@ -351,11 +351,12 @@
   .scribble-border::after,
   .cornice-vintage::after {
     border: var(--vintage-border-width, 15px) solid transparent;
-    border-image-outset: var(--vintage-border-outset, 10px);
+    border-image-outset: var(--vintage-border-outset, 0);
     border-image-repeat: round;
     border-image-slice: var(--vintage-border-slice, 65);
     border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
     border-image-width: var(--vintage-border-width, 15px);
+    box-sizing: border-box;
     content: '';
     inset: 0;
     pointer-events: none;
@@ -387,6 +388,16 @@
 
   .torn-grid--flow-column {
     grid-auto-flow: column;
+  }
+
+  .three-panel-panel-border {
+    overflow: hidden !important;
+  }
+
+  .three-panel-panel-border::after {
+    border-image-outset: 0;
+    inset: calc(var(--vintage-border-width, 15px) * -0.5);
+    z-index: 30;
   }
 
   .activity-detail-grid {
@@ -481,6 +492,10 @@
 
   .torn-card.scribble-border {
     margin: 0 !important;
+  }
+
+  .torn-grid--generated .torn-card.scribble-border::after {
+    inset: calc(var(--vintage-border-width, 15px) * -0.75);
   }
 
   .torn-grid--generated .torn-card {

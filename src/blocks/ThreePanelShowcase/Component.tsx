@@ -70,24 +70,26 @@ const PanelImage: React.FC<{
 }> = ({ bordered, className, image, label }) => (
   <div
     className={cn(
-      'relative min-h-[var(--three-panel-mobile-height)] overflow-hidden p-0 xl:min-h-0',
-      bordered && 'scribble-border',
+      'three-panel-image relative min-h-[var(--three-panel-mobile-height)] p-0 xl:min-h-0',
+      bordered && 'scribble-border three-panel-panel-border',
       className,
     )}
   >
-    {image ? (
-      <Media
-        fill
-        imgClassName="object-cover object-center"
-        pictureClassName="absolute inset-0"
-        resource={image}
-        size="(max-width: 768px) 100vw, 38vw"
-      />
-    ) : (
-      <div className="flex h-full min-h-[var(--three-panel-mobile-height)] items-center justify-center text-xs uppercase tracking-[0.18em] text-zinc-500">
-        {label}
-      </div>
-    )}
+    <div className="absolute inset-0 overflow-hidden">
+      {image ? (
+        <Media
+          fill
+          imgClassName="object-cover object-center p-0 m-0"
+          pictureClassName="absolute inset-0"
+          resource={image}
+          size="(max-width: 768px) 100vw, 38vw"
+        />
+      ) : (
+        <div className="flex h-full min-h-[var(--three-panel-mobile-height)] m-0 items-center justify-center text-xs uppercase tracking-[0.18em] text-zinc-500">
+          {label}
+        </div>
+      )}
+    </div>
   </div>
 )
 
@@ -136,7 +138,7 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
         <div
           className={cn(
             'relative isolate flex min-h-[var(--three-panel-mobile-height)] items-center overflow-hidden px-7 py-8 md:order-2 md:min-h-0 md:justify-start md:text-left xl:order-none xl:min-h-[var(--three-panel-height)]',
-            centerBorder && 'scribble-border',
+            centerBorder && 'scribble-border three-panel-panel-border',
           )}
           style={{
             padding: contentPadding ?? 38,
