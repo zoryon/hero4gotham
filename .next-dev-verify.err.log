@@ -51,3 +51,219 @@
 [browser] Image with src "/api/media/file/flower-atom-icon.png?2026-05-01T15%3A35%3A16.140Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [browser] Image with src "/api/media/file/random-sitting-men-icon.png?2026-05-01T15%3A36%3A53.408Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
 [browser] Image with src "/api/media/file/market-shop-icon.png?2026-05-01T15%3A37%3A12.377Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/jolly-icon.png?2026-04-25T15%3A09%3A17.936Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/void-icon.png?2026-04-25T15%3A12%3A46.100Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/book-icon.png?2026-05-01T11%3A09%3A33.911Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/cards-icon.png?2026-04-25T15%3A11%3A43.450Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/tools-icon.png?2026-05-01T11%3A09%3A56.218Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/balloon-icon.png?2026-04-25T15%3A14%3A06.447Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/thoughtful-men-icon.png?2026-05-01T15%3A29%3A13.335Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/gamepad-icon.png?2026-05-01T15%3A29%3A35.490Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/purple-cta-bg.png?2026-04-30T16%3A34%3A46.118Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/weird-tools-icon.png?2026-05-01T15%3A34%3A56.594Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/flower-atom-icon.png?2026-05-01T15%3A35%3A16.140Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/random-sitting-men-icon.png?2026-05-01T15%3A36%3A53.408Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/market-shop-icon.png?2026-05-01T15%3A37%3A12.377Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/green-info-bg.png?2026-04-30T16%3A45%3A49.439Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/neon-smile-face-icon.png?2026-05-01T19%3A06%3A16.446Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+⨯ Failed to generate static paths for /[slug]:
+Error: Failed query: ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+params: 
+    at async generateStaticParams (src\app\(frontend)\[slug]\page.tsx:18:19)
+  16 |
+  17 | export async function generateStaticParams() {
+> 18 |   const payload = await getPayload({ config: configPromise })
+     |                   ^
+  19 |   const pages = await payload.find({
+  20 |     collection: 'pages',
+  21 |     draft: false, {
+  type: 'DrizzleQueryError',
+  query: 'ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;',
+  params: [],
+  payloadInitError: true,
+  [cause]: {
+    length: 206,
+    name: 'error',
+    severity: 'ERROR',
+    code: '42710',
+    file: 'tablecmds.c',
+    line: '9833',
+    routine: 'ATExecAddConstraint'
+  }
+}
+⨯ Failed to generate static paths for /[slug]:
+Error: Failed query: ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+params: 
+    at async generateStaticParams (src\app\(frontend)\[slug]\page.tsx:18:19)
+  16 |
+  17 | export async function generateStaticParams() {
+> 18 |   const payload = await getPayload({ config: configPromise })
+     |                   ^
+  19 |   const pages = await payload.find({
+  20 |     collection: 'pages',
+  21 |     draft: false, {
+  type: 'DrizzleQueryError',
+  query: 'ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;',
+  params: [],
+  payloadInitError: true,
+  [cause]: {
+    length: 206,
+    name: 'error',
+    severity: 'ERROR',
+    code: '42710',
+    file: 'tablecmds.c',
+    line: '9833',
+    routine: 'ATExecAddConstraint'
+  }
+}
+⨯ Failed to generate static paths for /[slug]:
+Error: Failed query: ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+params: 
+    at async generateStaticParams (src\app\(frontend)\[slug]\page.tsx:18:19)
+  16 |
+  17 | export async function generateStaticParams() {
+> 18 |   const payload = await getPayload({ config: configPromise })
+     |                   ^
+  19 |   const pages = await payload.find({
+  20 |     collection: 'pages',
+  21 |     draft: false, {
+  type: 'DrizzleQueryError',
+  query: 'ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;',
+  params: [],
+  payloadInitError: true,
+  [cause]: {
+    length: 206,
+    name: 'error',
+    severity: 'ERROR',
+    code: '42710',
+    file: 'tablecmds.c',
+    line: '9833',
+    routine: 'ATExecAddConstraint'
+  }
+}
+⨯ Failed to generate static paths for /[slug]:
+Error: Failed query: ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+params: 
+    at async generateStaticParams (src\app\(frontend)\[slug]\page.tsx:18:19)
+  16 |
+  17 | export async function generateStaticParams() {
+> 18 |   const payload = await getPayload({ config: configPromise })
+     |                   ^
+  19 |   const pages = await payload.find({
+  20 |     collection: 'pages',
+  21 |     draft: false, {
+  type: 'DrizzleQueryError',
+  query: 'ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;',
+  params: [],
+  payloadInitError: true,
+  [cause]: {
+    length: 206,
+    name: 'error',
+    severity: 'ERROR',
+    code: '42710',
+    file: 'tablecmds.c',
+    line: '9833',
+    routine: 'ATExecAddConstraint'
+  }
+}
+⨯ Failed to generate static paths for /[slug]:
+Error: Failed query: ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+params: 
+    at async generateStaticParams (src\app\(frontend)\[slug]\page.tsx:18:19)
+  16 |
+  17 | export async function generateStaticParams() {
+> 18 |   const payload = await getPayload({ config: configPromise })
+     |                   ^
+  19 |   const pages = await payload.find({
+  20 |     collection: 'pages',
+  21 |     draft: false, {
+  type: 'DrizzleQueryError',
+  query: 'ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;',
+  params: [],
+  payloadInitError: true,
+  [cause]: {
+    length: 206,
+    name: 'error',
+    severity: 'ERROR',
+    code: '42710',
+    file: 'tablecmds.c',
+    line: '9833',
+    routine: 'ATExecAddConstraint'
+  }
+}
+⨯ Failed to generate static paths for /[slug]:
+Error: Failed query: ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+params: 
+    at async generateStaticParams (src\app\(frontend)\[slug]\page.tsx:18:19)
+  16 |
+  17 | export async function generateStaticParams() {
+> 18 |   const payload = await getPayload({ config: configPromise })
+     |                   ^
+  19 |   const pages = await payload.find({
+  20 |     collection: 'pages',
+  21 |     draft: false, {
+  type: 'DrizzleQueryError',
+  query: 'ALTER TABLE "_pages_v_blocks_upcoming_events" ADD CONSTRAINT "_pages_v_blocks_upcoming_events_heading_background_image_id_media_id_fk" FOREIGN KEY ("heading_background_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;',
+  params: [],
+  payloadInitError: true,
+  [cause]: {
+    length: 206,
+    name: 'error',
+    severity: 'ERROR',
+    code: '42710',
+    file: 'tablecmds.c',
+    line: '9833',
+    routine: 'ATExecAddConstraint'
+  }
+}
+[browser] Image with src "/api/media/file/neon-smile-face-icon.png?2026-05-01T19%3A06%3A16.446Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/green-info-bg.png?2026-04-30T16%3A45%3A49.439Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/jolly-icon.png?2026-04-25T15%3A09%3A17.936Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/balloon-icon.png?2026-04-25T15%3A14%3A06.447Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/void-icon.png?2026-04-25T15%3A12%3A46.100Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/green-info-bg.png?2026-04-30T16%3A45%3A49.439Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/book-icon.png?2026-05-01T11%3A09%3A33.911Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/cards-icon.png?2026-04-25T15%3A11%3A43.450Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/tools-icon.png?2026-05-01T11%3A09%3A56.218Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/thoughtful-men-icon.png?2026-05-01T15%3A29%3A13.335Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/gamepad-icon.png?2026-05-01T15%3A29%3A35.490Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/purple-cta-bg.png?2026-04-30T16%3A34%3A46.118Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/weird-tools-icon.png?2026-05-01T15%3A34%3A56.594Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/flower-atom-icon.png?2026-05-01T15%3A35%3A16.140Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/random-sitting-men-icon.png?2026-05-01T15%3A36%3A53.408Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/market-shop-icon.png?2026-05-01T15%3A37%3A12.377Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/neon-smile-face-icon.png?2026-05-01T19%3A06%3A16.446Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/jolly-icon.png?2026-04-25T15%3A09%3A17.936Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/void-icon.png?2026-04-25T15%3A12%3A46.100Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/book-icon.png?2026-05-01T11%3A09%3A33.911Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/cards-icon.png?2026-04-25T15%3A11%3A43.450Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/tools-icon.png?2026-05-01T11%3A09%3A56.218Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/balloon-icon.png?2026-04-25T15%3A14%3A06.447Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/green-info-bg.png?2026-04-30T16%3A45%3A49.439Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/thoughtful-men-icon.png?2026-05-01T15%3A29%3A13.335Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/gamepad-icon.png?2026-05-01T15%3A29%3A35.490Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/purple-cta-bg.png?2026-04-30T16%3A34%3A46.118Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/weird-tools-icon.png?2026-05-01T15%3A34%3A56.594Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/flower-atom-icon.png?2026-05-01T15%3A35%3A16.140Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/random-sitting-men-icon.png?2026-05-01T15%3A36%3A53.408Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/market-shop-icon.png?2026-05-01T15%3A37%3A12.377Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/neon-smile-face-icon.png?2026-05-01T19%3A06%3A16.446Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/jolly-icon.png?2026-04-25T15%3A09%3A17.936Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/cards-icon.png?2026-04-25T15%3A11%3A43.450Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/void-icon.png?2026-04-25T15%3A12%3A46.100Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/balloon-icon.png?2026-04-25T15%3A14%3A06.447Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/jolly-icon.png?2026-04-25T15%3A09%3A17.936Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/void-icon.png?2026-04-25T15%3A12%3A46.100Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/book-icon.png?2026-05-01T11%3A09%3A33.911Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/cards-icon.png?2026-04-25T15%3A11%3A43.450Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/tools-icon.png?2026-05-01T11%3A09%3A56.218Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/balloon-icon.png?2026-04-25T15%3A14%3A06.447Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/green-info-bg.png?2026-04-30T16%3A45%3A49.439Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/thoughtful-men-icon.png?2026-05-01T15%3A29%3A13.335Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/gamepad-icon.png?2026-05-01T15%3A29%3A35.490Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/purple-cta-bg.png?2026-04-30T16%3A34%3A46.118Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/weird-tools-icon.png?2026-05-01T15%3A34%3A56.594Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/flower-atom-icon.png?2026-05-01T15%3A35%3A16.140Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/random-sitting-men-icon.png?2026-05-01T15%3A36%3A53.408Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/market-shop-icon.png?2026-05-01T15%3A37%3A12.377Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/api/media/file/neon-smile-face-icon.png?2026-05-01T19%3A06%3A16.446Z" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes

@@ -347,10 +347,7 @@
     border-image-outset: var(--vintage-border-outset);
     border-image-repeat: round;
     border-image-slice: var(--vintage-border-slice);
-    border-image-source: var(
-      --vintage-border-image,
-      url('../../../.design/border/border.png')
-    );
+    border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
     border-image-width: var(--vintage-border-width);
     box-sizing: border-box;
   }
@@ -383,6 +380,24 @@
     grid-auto-flow: column;
   }
 
+  .three-panel-image-border {
+    border: 0;
+  }
+
+  .three-panel-image-border::after {
+    border: var(--vintage-border-width, 15px) solid transparent;
+    border-image-outset: var(--vintage-border-outset, 10px);
+    border-image-repeat: round;
+    border-image-slice: var(--vintage-border-slice, 65);
+    border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
+    border-image-width: var(--vintage-border-width, 15px);
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 20;
+  }
+
   .activity-detail-grid {
     align-items: stretch;
     gap: 0 !important;
@@ -407,10 +422,7 @@
     border-image-outset: 0;
     border-image-repeat: round;
     border-image-slice: var(--vintage-border-slice, 65);
-    border-image-source: var(
-      --vintage-border-image,
-      url('../../../.design/border/border.png')
-    );
+    border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
     border-image-width: var(--activity-detail-border-width);
     content: '';
     inset: 0;
@@ -510,7 +522,6 @@
     .torn-grid--generated {
       /* Kept as a compatibility class for existing rendered markup. */
     }
-
   }
 
   @media (width >= 62rem) {

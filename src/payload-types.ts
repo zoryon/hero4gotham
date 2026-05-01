@@ -1610,6 +1610,9 @@ export interface ThreePanelShowcaseBlock {
   leftImage?: (number | null) | Media;
   centerImage?: (number | null) | Media;
   rightImage?: (number | null) | Media;
+  leftBorder?: boolean | null;
+  centerBorder?: boolean | null;
+  rightBorder?: boolean | null;
   height?: number | null;
   mobilePanelHeight?: number | null;
   title: string;
@@ -1788,6 +1791,26 @@ export interface BackgroundContainerBlock {
  * via the `definition` "TornCardsBlock".
  */
 export interface TornCardsBlock {
+  heading?: string | null;
+  headingBannerImage?: (number | null) | Media;
+  headingPaddingX?: number | null;
+  headingPaddingY?: number | null;
+  headingStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
   items: {
     image?: (number | null) | Media;
     imageSize?: ('sm' | 'md' | 'lg') | null;
@@ -1815,11 +1838,13 @@ export interface TornCardsBlock {
       family?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
       size?: number | null;
       weight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+      verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     };
     descType?: {
       family?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
       size?: number | null;
       weight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+      verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     };
     descBreaks?:
       | {
@@ -1853,7 +1878,17 @@ export interface TornCardsBlock {
       rows: number;
     };
   };
+  titleColorMode?: ('custom' | 'theme') | null;
+  titleThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green') | null;
+  /**
+   * Custom CSS color, for example #e8d5a0.
+   */
   titleColor?: string | null;
+  textColorMode?: ('custom' | 'theme') | null;
+  textThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green') | null;
+  /**
+   * Custom CSS color, for example #d9d0c2.
+   */
   textColor?: string | null;
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
@@ -3031,6 +3066,9 @@ export interface ThreePanelShowcaseBlockSelect<T extends boolean = true> {
   leftImage?: T;
   centerImage?: T;
   rightImage?: T;
+  leftBorder?: T;
+  centerBorder?: T;
+  rightBorder?: T;
   height?: T;
   mobilePanelHeight?: T;
   title?: T;
@@ -3201,6 +3239,25 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
  * via the `definition` "TornCardsBlock_select".
  */
 export interface TornCardsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBannerImage?: T;
+  headingPaddingX?: T;
+  headingPaddingY?: T;
+  headingStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
   items?:
     | T
     | {
@@ -3233,6 +3290,7 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
               family?: T;
               size?: T;
               weight?: T;
+              verticalScale?: T;
             };
         descType?:
           | T
@@ -3240,6 +3298,7 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
               family?: T;
               size?: T;
               weight?: T;
+              verticalScale?: T;
             };
         descBreaks?:
           | T
@@ -3280,7 +3339,11 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
               rows?: T;
             };
       };
+  titleColorMode?: T;
+  titleThemeColor?: T;
   titleColor?: T;
+  textColorMode?: T;
+  textThemeColor?: T;
   textColor?: T;
   layout?:
     | T

@@ -3,8 +3,10 @@ import type { Block, Field } from 'payload'
 import {
   typographyFontFamilyOptions,
   typographyFontWeightOptions,
+  typographyLetterSpacingOptions,
+  typographyVerticalScaleOptions,
 } from '@/fields/typography'
-import { paddingOptions } from '@/fields/uiOptions'
+import { paddingOptions, textTransformOptions } from '@/fields/uiOptions'
 
 const tornCardSpacingOptions = paddingOptions.flatMap((option) =>
   option.value === 'xs'
@@ -18,10 +20,208 @@ const tornCardSpacingOptions = paddingOptions.flatMap((option) =>
     : [option],
 )
 
-const breakpointFields = (name: string, label: string, defaults: {
-  columns: number
-  rows: number
-}): Field => ({
+const themeColorOptions = [
+  {
+    label: 'Primary text',
+    value: 'primary',
+  },
+  {
+    label: 'Secondary text',
+    value: 'secondary',
+  },
+  {
+    label: 'Accent text',
+    value: 'accent',
+  },
+  {
+    label: 'Muted text',
+    value: 'muted',
+  },
+  {
+    label: 'Green text',
+    value: 'green',
+  },
+] as const
+
+const textStyleFields = (
+  name: string,
+  label: string,
+  defaults: {
+    color: string
+    fontFamily: string
+    fontSizeDesktop: number
+    fontSizeMobile: number
+    fontStyle: string
+    fontWeight: string
+    letterSpacing: string
+    lineHeight: number
+    textTransform: string
+    verticalScale: string
+  },
+): Field => ({
+  name,
+  type: 'group',
+  label,
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'fontFamily',
+          type: 'select',
+          dbName: 'ff',
+          defaultValue: defaults.fontFamily,
+          label: 'Font family',
+          options: [...typographyFontFamilyOptions],
+          admin: {
+            width: '25%',
+          },
+        },
+        {
+          name: 'fontWeight',
+          type: 'select',
+          dbName: 'fw',
+          defaultValue: defaults.fontWeight,
+          label: 'Font weight',
+          options: [...typographyFontWeightOptions],
+          admin: {
+            width: '25%',
+          },
+        },
+        {
+          name: 'fontStyle',
+          type: 'select',
+          dbName: 'fst',
+          defaultValue: defaults.fontStyle,
+          label: 'Font style',
+          options: [
+            {
+              label: 'Normal',
+              value: 'normal',
+            },
+            {
+              label: 'Italic',
+              value: 'italic',
+            },
+          ],
+          admin: {
+            width: '25%',
+          },
+        },
+        {
+          name: 'verticalScale',
+          type: 'select',
+          dbName: 'vs',
+          defaultValue: defaults.verticalScale,
+          label: 'Height stretch',
+          options: [...typographyVerticalScaleOptions],
+          admin: {
+            width: '25%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'fontSizeMobile',
+          type: 'number',
+          defaultValue: defaults.fontSizeMobile,
+          label: 'Mobile size (px)',
+          min: 8,
+          max: 180,
+          admin: {
+            step: 1,
+            width: '25%',
+          },
+        },
+        {
+          name: 'fontSizeDesktop',
+          type: 'number',
+          defaultValue: defaults.fontSizeDesktop,
+          label: 'Desktop size (px)',
+          min: 8,
+          max: 220,
+          admin: {
+            step: 1,
+            width: '25%',
+          },
+        },
+        {
+          name: 'lineHeight',
+          type: 'number',
+          defaultValue: defaults.lineHeight,
+          label: 'Line height',
+          min: 0.6,
+          max: 3,
+          admin: {
+            step: 0.01,
+            width: '25%',
+          },
+        },
+        {
+          name: 'letterSpacing',
+          type: 'select',
+          dbName: 'ls',
+          defaultValue: defaults.letterSpacing,
+          label: 'Letter spacing',
+          options: [...typographyLetterSpacingOptions],
+          admin: {
+            width: '25%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'textTransform',
+          type: 'select',
+          dbName: 'tt',
+          defaultValue: defaults.textTransform,
+          label: 'Text transform',
+          options: [...textTransformOptions],
+          admin: {
+            width: '33%',
+          },
+        },
+        {
+          name: 'color',
+          type: 'text',
+          defaultValue: defaults.color,
+          label: 'Text color',
+          admin: {
+            description: 'CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).',
+            width: '34%',
+          },
+        },
+        {
+          name: 'maxWidth',
+          type: 'number',
+          defaultValue: 520,
+          label: 'Max width (px)',
+          min: 120,
+          max: 1400,
+          admin: {
+            step: 1,
+            width: '33%',
+          },
+        },
+      ],
+    },
+  ],
+})
+
+const breakpointFields = (
+  name: string,
+  label: string,
+  defaults: {
+    columns: number
+    rows: number
+  },
+): Field => ({
   name,
   type: 'group',
   label,
@@ -60,11 +260,16 @@ const breakpointFields = (name: string, label: string, defaults: {
   ],
 })
 
-const cardTypographyFields = (name: string, label: string, defaults: {
-  fontFamily: string
-  fontSize: number
-  fontWeight: string
-}): Field => ({
+const cardTypographyFields = (
+  name: string,
+  label: string,
+  defaults: {
+    fontFamily: string
+    fontSize: number
+    fontWeight: string
+    verticalScale: string
+  },
+): Field => ({
   name,
   type: 'group',
   label,
@@ -76,7 +281,7 @@ const cardTypographyFields = (name: string, label: string, defaults: {
           name: 'family',
           type: 'select',
           admin: {
-            width: '33%',
+            width: '25%',
           },
           defaultValue: defaults.fontFamily,
           label: 'Font family',
@@ -87,7 +292,7 @@ const cardTypographyFields = (name: string, label: string, defaults: {
           type: 'number',
           admin: {
             step: 1,
-            width: '33%',
+            width: '25%',
           },
           defaultValue: defaults.fontSize,
           label: 'Font size',
@@ -98,11 +303,21 @@ const cardTypographyFields = (name: string, label: string, defaults: {
           name: 'weight',
           type: 'select',
           admin: {
-            width: '34%',
+            width: '25%',
           },
           defaultValue: defaults.fontWeight,
           label: 'Font weight',
           options: [...typographyFontWeightOptions],
+        },
+        {
+          name: 'verticalScale',
+          type: 'select',
+          admin: {
+            width: '25%',
+          },
+          defaultValue: defaults.verticalScale,
+          label: 'Height stretch',
+          options: [...typographyVerticalScaleOptions],
         },
       ],
     },
@@ -166,6 +381,60 @@ export const TornCards: Block = {
   slug: 'tornCards',
   interfaceName: 'TornCardsBlock',
   fields: [
+    {
+      type: 'collapsible',
+      label: 'Heading',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          label: 'Heading text',
+        },
+        {
+          name: 'headingBannerImage',
+          type: 'upload',
+          label: 'Heading banner image',
+          relationTo: 'media',
+        },
+        {
+          name: 'headingPaddingX',
+          type: 'number',
+          defaultValue: 34,
+          label: 'Heading horizontal padding (px)',
+          min: 0,
+          max: 240,
+          admin: {
+            step: 1,
+          },
+        },
+        {
+          name: 'headingPaddingY',
+          type: 'number',
+          defaultValue: 8,
+          label: 'Heading vertical padding (px)',
+          min: 0,
+          max: 120,
+          admin: {
+            step: 1,
+          },
+        },
+        textStyleFields('headingStyle', 'Heading typography', {
+          color: '#1b1b1b',
+          fontFamily: 'cinzel',
+          fontSizeDesktop: 22,
+          fontSizeMobile: 16,
+          fontStyle: 'normal',
+          fontWeight: 'black',
+          letterSpacing: 'wide',
+          lineHeight: 1,
+          textTransform: 'uppercase',
+          verticalScale: 'normal',
+        }),
+      ],
+    },
     {
       name: 'items',
       type: 'array',
@@ -266,11 +535,13 @@ export const TornCards: Block = {
               fontFamily: 'cinzel',
               fontSize: 14,
               fontWeight: 'semibold',
+              verticalScale: 'normal',
             }),
             cardTypographyFields('descType', 'Description typography', {
               fontFamily: 'geistSans',
               fontSize: 12,
               fontWeight: 'regular',
+              verticalScale: 'normal',
             }),
           ],
         },
@@ -381,22 +652,93 @@ export const TornCards: Block = {
           type: 'row',
           fields: [
             {
+              name: 'titleColorMode',
+              type: 'radio',
+              defaultValue: 'custom',
+              label: 'Title color mode',
+              options: [
+                {
+                  label: 'Custom color',
+                  value: 'custom',
+                },
+                {
+                  label: 'Theme color',
+                  value: 'theme',
+                },
+              ],
+              admin: {
+                layout: 'horizontal',
+                width: '50%',
+              },
+            },
+            {
+              name: 'titleThemeColor',
+              type: 'select',
+              defaultValue: 'secondary',
+              label: 'Theme title color',
+              options: [...themeColorOptions],
+              admin: {
+                condition: (_, siblingData) => siblingData?.titleColorMode === 'theme',
+                width: '50%',
+              },
+            },
+            {
               name: 'titleColor',
               type: 'text',
               admin: {
+                condition: (_, siblingData) => siblingData?.titleColorMode !== 'theme',
+                description: 'Custom CSS color, for example #e8d5a0.',
                 width: '50%',
               },
               defaultValue: '#e8d5a0',
-              label: 'Title color',
+              label: 'Custom title color',
+            },
+          ],
+        },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'textColorMode',
+              type: 'radio',
+              defaultValue: 'custom',
+              label: 'Text color mode',
+              options: [
+                {
+                  label: 'Custom color',
+                  value: 'custom',
+                },
+                {
+                  label: 'Theme color',
+                  value: 'theme',
+                },
+              ],
+              admin: {
+                layout: 'horizontal',
+                width: '50%',
+              },
+            },
+            {
+              name: 'textThemeColor',
+              type: 'select',
+              defaultValue: 'primary',
+              label: 'Theme text color',
+              options: [...themeColorOptions],
+              admin: {
+                condition: (_, siblingData) => siblingData?.textColorMode === 'theme',
+                width: '50%',
+              },
             },
             {
               name: 'textColor',
               type: 'text',
               admin: {
+                condition: (_, siblingData) => siblingData?.textColorMode !== 'theme',
+                description: 'Custom CSS color, for example #d9d0c2.',
                 width: '50%',
               },
               defaultValue: '#d9d0c2',
-              label: 'Text color',
+              label: 'Custom text color',
             },
           ],
         },

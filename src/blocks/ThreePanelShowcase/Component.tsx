@@ -63,13 +63,15 @@ const textTransformClass = (value: string | null | undefined) =>
   value === 'uppercase' ? 'uppercase' : undefined
 
 const PanelImage: React.FC<{
+  bordered?: boolean | null
   className?: string
   image: MediaDocument | null
   label: string
-}> = ({ className, image, label }) => (
+}> = ({ bordered, className, image, label }) => (
   <div
     className={cn(
-      'relative min-h-[var(--three-panel-mobile-height)] overflow-hidden xl:min-h-0',
+      'relative min-h-[var(--three-panel-mobile-height)] overflow-hidden p-0 xl:min-h-0',
+      bordered && 'scribble-border three-panel-image-border',
       className,
     )}
   >
@@ -92,14 +94,17 @@ const PanelImage: React.FC<{
 export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = ({
   body,
   bodyStyle,
+  centerBorder,
   centerColumn = 25,
   centerImage,
   containerWidth = 'full',
   contentPadding = 38,
   height = 380,
+  leftBorder,
   leftColumn = 36,
   leftImage,
   mobilePanelHeight = 260,
+  rightBorder,
   rightImage,
   title,
   titleStyle,
@@ -110,7 +115,7 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
   return (
     <section className={containerWidthClasses[containerWidth ?? 'full']}>
       <div
-        className="grid overflow-hidden md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:grid-cols-[var(--three-panel-left)_var(--three-panel-center)_var(--three-panel-right)]"
+        className="grid overflow-visible md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:grid-cols-[var(--three-panel-left)_var(--three-panel-center)_var(--three-panel-right)]"
         style={
           {
             '--three-panel-center': `${centerColumn ?? 25}%`,
@@ -122,13 +127,17 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
         }
       >
         <PanelImage
+          bordered={leftBorder}
           className="md:order-1 md:row-span-2 md:min-h-[var(--three-panel-height)] xl:order-none xl:row-auto"
           image={getPanelImage(leftImage)}
           label="Left image"
         />
 
         <div
-          className="relative isolate flex min-h-[var(--three-panel-mobile-height)] items-center overflow-hidden px-7 py-8 md:order-2 md:min-h-0 md:justify-start md:text-left xl:order-none xl:min-h-[var(--three-panel-height)]"
+          className={cn(
+            'relative isolate flex min-h-[var(--three-panel-mobile-height)] items-center overflow-hidden px-7 py-8 md:order-2 md:min-h-0 md:justify-start md:text-left xl:order-none xl:min-h-[var(--three-panel-height)]',
+            centerBorder && 'scribble-border',
+          )}
           style={{
             padding: contentPadding ?? 38,
           }}
@@ -197,6 +206,7 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
         </div>
 
         <PanelImage
+          bordered={rightBorder}
           className="md:order-3 md:col-start-2 md:min-h-[calc(var(--three-panel-height)*0.58)] xl:order-none xl:col-auto"
           image={getPanelImage(rightImage)}
           label="Right image"

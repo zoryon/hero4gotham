@@ -205,6 +205,38 @@ export const ThreePanelShowcase: Block = {
               ],
             },
             {
+              type: 'row',
+              fields: [
+                {
+                  name: 'leftBorder',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Left panel vintage border',
+                  admin: {
+                    width: '33%',
+                  },
+                },
+                {
+                  name: 'centerBorder',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Center panel vintage border',
+                  admin: {
+                    width: '34%',
+                  },
+                },
+                {
+                  name: 'rightBorder',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Right panel vintage border',
+                  admin: {
+                    width: '33%',
+                  },
+                },
+              ],
+            },
+            {
               name: 'height',
               type: 'number',
               defaultValue: 380,
