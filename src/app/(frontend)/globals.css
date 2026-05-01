@@ -385,16 +385,20 @@
 
   .activity-detail-grid {
     align-items: stretch;
+    gap: 0 !important;
     grid-template-columns: repeat(var(--activity-detail-cols-mobile), minmax(0, 1fr));
     grid-template-rows: repeat(var(--activity-detail-rows-mobile), minmax(max-content, 1fr));
+    overflow: hidden;
   }
 
   .activity-detail-card-frame {
     --activity-detail-border-width: var(--vintage-border-width, 15px);
+    --activity-detail-frame-overlap: calc(var(--activity-detail-border-width) * -0.5);
     --activity-detail-frame-inset: calc(var(--activity-detail-border-width) * 0.72);
     --activity-detail-frame-bottom-inset: var(--activity-detail-frame-inset);
 
     background: transparent;
+    margin: var(--activity-detail-frame-overlap);
     overflow: hidden;
   }
 

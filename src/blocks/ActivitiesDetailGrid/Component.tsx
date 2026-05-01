@@ -502,7 +502,6 @@ export const ActivitiesDetailGridBlock = async ({
   descriptionStyle,
   detailStyle,
   dividerColor,
-  gridGap = 0,
   heading,
   headingBannerImage,
   headingPaddingX = 34,
@@ -601,7 +600,7 @@ export const ActivitiesDetailGridBlock = async ({
             '--activity-detail-rows-laptop': laptopRows,
             '--activity-detail-rows-mobile': mobileRows,
             '--activity-detail-rows-tablet': tabletRows,
-            gap: gridGap ?? 0,
+            gap: 0,
           } as React.CSSProperties
         }
       >
