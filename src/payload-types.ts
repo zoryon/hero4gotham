@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    activities: Activity;
     events: Event;
     media: Media;
     categories: Category;
@@ -92,6 +93,7 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
@@ -206,13 +208,17 @@ export interface Page {
     media?: (number | null) | Media;
   };
   layout: (
+    | ActivitiesDetailGridBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
     | TitleBlock
     | SubtitleBlock
+    | TextBackdropBlock
     | FlexboxBlock
     | FeatureGridBlock
+    | ThreePanelShowcaseBlock
+    | QuoteBannerBlock
     | BackgroundContainerBlock
     | TornCardsBlock
     | UpcomingEventsBlock
@@ -460,6 +466,243 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivitiesDetailGridBlock".
+ */
+export interface ActivitiesDetailGridBlock {
+  heading?: string | null;
+  headingBannerImage?: (number | null) | Media;
+  headingPaddingX?: number | null;
+  headingPaddingY?: number | null;
+  headingStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  source?: ('automatic' | 'manual') | null;
+  activities?:
+    | {
+        image?: (number | null) | Media;
+        imagePosition?: ('left' | 'right' | 'top' | 'bottom') | null;
+        imageSize?: number | null;
+        title: string;
+        description?: string | null;
+        cta?: string | null;
+        ctaImage?: (number | null) | Media;
+        /**
+         * Adds the reusable vintage border to this single activity.
+         */
+        border?: boolean | null;
+        details?:
+          | {
+              icon?: (number | null) | Media;
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        titleStyle?: {
+          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+          fontStyle?: ('normal' | 'italic') | null;
+          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+          fontSizeMobile?: number | null;
+          fontSizeDesktop?: number | null;
+          lineHeight?: number | null;
+          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+          textTransform?: ('normal' | 'uppercase') | null;
+          /**
+           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           */
+          color?: string | null;
+          maxWidth?: number | null;
+        };
+        descriptionStyle?: {
+          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+          fontStyle?: ('normal' | 'italic') | null;
+          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+          fontSizeMobile?: number | null;
+          fontSizeDesktop?: number | null;
+          lineHeight?: number | null;
+          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+          textTransform?: ('normal' | 'uppercase') | null;
+          /**
+           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           */
+          color?: string | null;
+          maxWidth?: number | null;
+        };
+        detailStyle?: {
+          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+          fontStyle?: ('normal' | 'italic') | null;
+          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+          fontSizeMobile?: number | null;
+          fontSizeDesktop?: number | null;
+          lineHeight?: number | null;
+          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+          textTransform?: ('normal' | 'uppercase') | null;
+          /**
+           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           */
+          color?: string | null;
+          maxWidth?: number | null;
+        };
+        ctaStyle?: {
+          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+          fontStyle?: ('normal' | 'italic') | null;
+          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+          fontSizeMobile?: number | null;
+          fontSizeDesktop?: number | null;
+          lineHeight?: number | null;
+          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+          textTransform?: ('normal' | 'uppercase') | null;
+          /**
+           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           */
+          color?: string | null;
+          maxWidth?: number | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  responsive: {
+    mobile: {
+      columns: number;
+      rows: number;
+    };
+    tablet: {
+      columns: number;
+      rows: number;
+    };
+    laptop: {
+      columns: number;
+      rows: number;
+    };
+    desktop: {
+      columns: number;
+      rows: number;
+    };
+  };
+  containerWidth?: ('full' | 'contained' | 'wide') | null;
+  automaticImagePosition?: ('left' | 'right' | 'top' | 'bottom') | null;
+  automaticImageSize?: number | null;
+  automaticBorder?: boolean | null;
+  /**
+   * Caps automatic fetches. The collection itself is also limited to 8.
+   */
+  automaticLimit?: number | null;
+  cellMinHeight?: number | null;
+  contentPadding?: number | null;
+  /**
+   * Creates the soft blend where image and content meet. No background color is added.
+   */
+  imageFadeSize?: number | null;
+  gridGap?: number | null;
+  titleStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  descriptionStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  detailStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  ctaStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  /**
+   * Leave empty for transparent. Use this only if you want the purple/dark panel color later.
+   */
+  panelBg?: string | null;
+  /**
+   * Leave empty for no hard-coded divider color.
+   */
+  dividerColor?: string | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'activitiesDetailGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArrowBlock".
  */
 export interface ArrowBlock {
@@ -476,7 +719,7 @@ export interface ArrowBlock {
   customWidth?: number | null;
   customHeight?: number | null;
   colorMode: 'theme' | 'custom';
-  themeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'white' | 'black' | 'success') | null;
+  themeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'white' | 'black' | 'success') | null;
   /**
    * Any valid CSS color, e.g. #7dff2a or rgb(125 255 42).
    */
@@ -523,6 +766,10 @@ export interface ArrowBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -551,8 +798,8 @@ export interface CallToActionBlock {
   backgroundImage?: (number | null) | Media;
   borderStyle?: ('default' | 'none') | null;
   colors?: {
-    textColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'white' | 'black') | null;
-    buttonTextColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'white' | 'black') | null;
+    textColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    buttonTextColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
   };
   spacing?: {
     gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -609,6 +856,10 @@ export interface CallToActionBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -670,6 +921,10 @@ export interface ContentBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -724,6 +979,10 @@ export interface TitleBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -757,6 +1016,12 @@ export interface SubtitleBlock {
   fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
   verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
   letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  textColorMode?: ('custom' | 'theme') | null;
+  themeTextColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green') | null;
+  /**
+   * Optional CSS color, for example #f4f0dc or rgba(255,255,255,0.85).
+   */
+  textColor?: string | null;
   distress?: ('none' | 'light' | 'worn' | 'destroyed') | null;
   textTransform?: ('normal' | 'uppercase') | null;
   align?: ('center' | 'left') | null;
@@ -770,10 +1035,66 @@ export interface SubtitleBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
   blockType: 'subtitle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextBackdropBlock".
+ */
+export interface TextBackdropBlock {
+  preset?: ('leftFog' | 'centerFog' | 'rightFog' | 'wideWash') | null;
+  intensity?: ('light' | 'medium' | 'strong' | 'heavy') | null;
+  width?: ('content' | 'narrow' | 'container' | 'wide' | 'extraWide' | 'full') | null;
+  /**
+   * Optional width in px for this one backdrop. Useful when a title needs a specific two-line layout.
+   */
+  customMaxWidth?: number | null;
+  align?: ('left' | 'center' | 'right') | null;
+  padding?: ('tight' | 'medium' | 'loose') | null;
+  offsetX?: number | null;
+  offsetY?: number | null;
+  manualMargin?: {
+    top?: number | null;
+    right?: number | null;
+    bottom?: number | null;
+    left?: number | null;
+  };
+  blocks: (
+    | ActivitiesDetailGridBlock
+    | TitleBlock
+    | SubtitleBlock
+    | ContentBlock
+    | ArrowBlock
+    | CallToActionBlock
+    | FlexboxBlock
+    | FeatureGridBlock
+    | MediaBlock
+  )[];
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textBackdrop';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -787,6 +1108,7 @@ export interface FlexboxBlock {
   gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
   minHeight?: ('none' | 'small' | 'medium' | 'large' | 'screen') | null;
   blocks: (
+    | ActivitiesDetailGridBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
@@ -808,6 +1130,10 @@ export interface FlexboxBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -836,6 +1162,10 @@ export interface FeatureGridBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -847,6 +1177,7 @@ export interface FeatureGridBlock {
  */
 export interface UpcomingEventsBlock {
   heading: string;
+  headingBackgroundImage?: (number | null) | Media;
   emptyEventsTitle: string;
   emptyEventsText?: string | null;
   eventLinkLabel: string;
@@ -855,7 +1186,7 @@ export interface UpcomingEventsBlock {
    * Choose the events to show. The block will render the first two selected.
    */
   manualEvents?: (number | Event)[] | null;
-  leftBackground?: (number | null) | Media;
+  leftPanelScribbleBorder?: boolean | null;
   featureImage?: (number | null) | Media;
   rightBackground?: (number | null) | Media;
   ctaTitle: string;
@@ -876,6 +1207,7 @@ export interface UpcomingEventsBlock {
     label: string;
   };
   ctaLinkFallbackLabel: string;
+  ctaLinkBackgroundImage?: (number | null) | Media;
   ctaGlyph?: (number | null) | Media;
   headingColor?: string | null;
   dateColor?: string | null;
@@ -910,7 +1242,7 @@ export interface UpcomingEventsBlock {
   eventTitleVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
   eventTitleLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
   eventTextFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-  eventTextFontSize?: ('small' | 'base' | 'large' | 'lead') | null;
+  eventTextFontSize?: ('tiny' | 'xs' | 'small' | 'base' | 'large' | 'lead') | null;
   eventTextFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
   eventTextFontStyle?: ('normal' | 'italic') | null;
   eventTextVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
@@ -949,6 +1281,10 @@ export interface UpcomingEventsBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1042,6 +1378,10 @@ export interface ArchiveBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1079,6 +1419,10 @@ export interface FormBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1260,6 +1604,141 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThreePanelShowcaseBlock".
+ */
+export interface ThreePanelShowcaseBlock {
+  leftImage?: (number | null) | Media;
+  centerImage?: (number | null) | Media;
+  rightImage?: (number | null) | Media;
+  height?: number | null;
+  mobilePanelHeight?: number | null;
+  title: string;
+  body: string;
+  titleStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  bodyStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+    maxWidth?: number | null;
+  };
+  containerWidth?: ('full' | 'contained' | 'wide') | null;
+  leftColumn?: number | null;
+  centerColumn?: number | null;
+  contentPadding?: number | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'threePanelShowcase';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBannerBlock".
+ */
+export interface QuoteBannerBlock {
+  backgroundImage?: (number | null) | Media;
+  quote: string;
+  showQuotes?: boolean | null;
+  leftQuote?: string | null;
+  rightQuote?: string | null;
+  textStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #2f1631, white, or rgba(0,0,0,0.8).
+     */
+    color?: string | null;
+    align?: ('center' | 'left') | null;
+  };
+  quoteMarkStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #2f1631, white, or rgba(0,0,0,0.8).
+     */
+    color?: string | null;
+    align?: ('center' | 'left') | null;
+  };
+  heightMobile?: number | null;
+  heightDesktop?: number | null;
+  contentMaxWidth?: number | null;
+  quoteGap?: number | null;
+  paddingX?: number | null;
+  paddingY?: number | null;
+  quoteOffsetY?: number | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quoteBanner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BackgroundContainerBlock".
  */
 export interface BackgroundContainerBlock {
@@ -1268,13 +1747,17 @@ export interface BackgroundContainerBlock {
   width?: ('full' | 'contained') | null;
   padding?: ('small' | 'medium' | 'large') | null;
   blocks: (
+    | ActivitiesDetailGridBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
     | TitleBlock
     | SubtitleBlock
+    | TextBackdropBlock
     | FlexboxBlock
     | FeatureGridBlock
+    | ThreePanelShowcaseBlock
+    | QuoteBannerBlock
     | TornCardsBlock
     | UpcomingEventsBlock
     | MediaBlock
@@ -1291,6 +1774,10 @@ export interface BackgroundContainerBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
@@ -1306,19 +1793,23 @@ export interface TornCardsBlock {
     imageSize?: ('sm' | 'md' | 'lg') | null;
     title: string;
     description?: string | null;
-    imageTitleGap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    titleDescriptionGap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the optional vintage border to this single card.
+     */
+    scribbleBorder?: boolean | null;
+    imageTitleGap?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    titleDescriptionGap?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     padding?: {
-      top?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-      right?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-      bottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-      left?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      top?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      right?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      bottom?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      left?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     };
     margin?: {
-      top?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-      right?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-      bottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-      left?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      top?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      right?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      bottom?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+      left?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     };
     titleType?: {
       family?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -1353,23 +1844,15 @@ export interface TornCardsBlock {
       columns: number;
       rows: number;
     };
+    laptop: {
+      columns: number;
+      rows: number;
+    };
     desktop: {
       columns: number;
       rows: number;
     };
   };
-  /**
-   * Use the 1x4 grid image for mobile layouts.
-   */
-  backgroundMobile?: (number | null) | Media;
-  /**
-   * Use the 2x2 grid image for tablet layouts.
-   */
-  backgroundTablet?: (number | null) | Media;
-  /**
-   * Use the 4x1 grid image for desktop layouts.
-   */
-  backgroundDesktop?: (number | null) | Media;
   titleColor?: string | null;
   textColor?: string | null;
   layout?: {
@@ -1382,10 +1865,39 @@ export interface TornCardsBlock {
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
   };
   id?: string | null;
   blockName?: string | null;
   blockType: 'tornCards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: number;
+  title: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  cta?: string | null;
+  ctaImage?: (number | null) | Media;
+  details?:
+    | {
+        icon?: (number | null) | Media;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Lower numbers appear first in automatic activity blocks.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1586,6 +2098,10 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
+        relationTo: 'activities';
+        value: number | Activity;
+      } | null)
+    | ({
         relationTo: 'events';
         value: number | Event;
       } | null)
@@ -1694,13 +2210,17 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
+        textBackdrop?: T | TextBackdropBlockSelect<T>;
         flexbox?: T | FlexboxBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
+        threePanelShowcase?: T | ThreePanelShowcaseBlockSelect<T>;
+        quoteBanner?: T | QuoteBannerBlockSelect<T>;
         backgroundContainer?: T | BackgroundContainerBlockSelect<T>;
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
@@ -1721,6 +2241,227 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivitiesDetailGridBlock_select".
+ */
+export interface ActivitiesDetailGridBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBannerImage?: T;
+  headingPaddingX?: T;
+  headingPaddingY?: T;
+  headingStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  source?: T;
+  activities?:
+    | T
+    | {
+        image?: T;
+        imagePosition?: T;
+        imageSize?: T;
+        title?: T;
+        description?: T;
+        cta?: T;
+        ctaImage?: T;
+        border?: T;
+        details?:
+          | T
+          | {
+              icon?: T;
+              text?: T;
+              id?: T;
+            };
+        titleStyle?:
+          | T
+          | {
+              fontFamily?: T;
+              fontWeight?: T;
+              fontStyle?: T;
+              verticalScale?: T;
+              fontSizeMobile?: T;
+              fontSizeDesktop?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textTransform?: T;
+              color?: T;
+              maxWidth?: T;
+            };
+        descriptionStyle?:
+          | T
+          | {
+              fontFamily?: T;
+              fontWeight?: T;
+              fontStyle?: T;
+              verticalScale?: T;
+              fontSizeMobile?: T;
+              fontSizeDesktop?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textTransform?: T;
+              color?: T;
+              maxWidth?: T;
+            };
+        detailStyle?:
+          | T
+          | {
+              fontFamily?: T;
+              fontWeight?: T;
+              fontStyle?: T;
+              verticalScale?: T;
+              fontSizeMobile?: T;
+              fontSizeDesktop?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textTransform?: T;
+              color?: T;
+              maxWidth?: T;
+            };
+        ctaStyle?:
+          | T
+          | {
+              fontFamily?: T;
+              fontWeight?: T;
+              fontStyle?: T;
+              verticalScale?: T;
+              fontSizeMobile?: T;
+              fontSizeDesktop?: T;
+              lineHeight?: T;
+              letterSpacing?: T;
+              textTransform?: T;
+              color?: T;
+              maxWidth?: T;
+            };
+        id?: T;
+      };
+  responsive?:
+    | T
+    | {
+        mobile?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+            };
+        tablet?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+            };
+        laptop?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+            };
+        desktop?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+            };
+      };
+  containerWidth?: T;
+  automaticImagePosition?: T;
+  automaticImageSize?: T;
+  automaticBorder?: T;
+  automaticLimit?: T;
+  cellMinHeight?: T;
+  contentPadding?: T;
+  imageFadeSize?: T;
+  gridGap?: T;
+  titleStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  descriptionStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  detailStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  ctaStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  panelBg?: T;
+  dividerColor?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1768,6 +2509,7 @@ export interface ArrowBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -1838,6 +2580,7 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -1877,6 +2620,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -1922,6 +2666,7 @@ export interface TitleBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -1945,6 +2690,9 @@ export interface SubtitleBlockSelect<T extends boolean = true> {
   fontFamily?: T;
   verticalScale?: T;
   letterSpacing?: T;
+  textColorMode?: T;
+  themeTextColor?: T;
+  textColor?: T;
   distress?: T;
   textTransform?: T;
   align?: T;
@@ -1960,6 +2708,58 @@ export interface SubtitleBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TextBackdropBlock_select".
+ */
+export interface TextBackdropBlockSelect<T extends boolean = true> {
+  preset?: T;
+  intensity?: T;
+  width?: T;
+  customMaxWidth?: T;
+  align?: T;
+  padding?: T;
+  offsetX?: T;
+  offsetY?: T;
+  manualMargin?:
+    | T
+    | {
+        top?: T;
+        right?: T;
+        bottom?: T;
+        left?: T;
+      };
+  blocks?:
+    | T
+    | {
+        activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
+        title?: T | TitleBlockSelect<T>;
+        subtitle?: T | SubtitleBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        arrow?: T | ArrowBlockSelect<T>;
+        cta?: T | CallToActionBlockSelect<T>;
+        flexbox?: T | FlexboxBlockSelect<T>;
+        featureGrid?: T | FeatureGridBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -1978,6 +2778,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
+        activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -2001,6 +2802,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2032,6 +2834,7 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2042,12 +2845,13 @@ export interface FeatureGridBlockSelect<T extends boolean = true> {
  */
 export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   heading?: T;
+  headingBackgroundImage?: T;
   emptyEventsTitle?: T;
   emptyEventsText?: T;
   eventLinkLabel?: T;
   eventSource?: T;
   manualEvents?: T;
-  leftBackground?: T;
+  leftPanelScribbleBorder?: T;
   featureImage?: T;
   rightBackground?: T;
   ctaTitle?: T;
@@ -2062,6 +2866,7 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
         label?: T;
       };
   ctaLinkFallbackLabel?: T;
+  ctaLinkBackgroundImage?: T;
   ctaGlyph?: T;
   headingColor?: T;
   dateColor?: T;
@@ -2137,6 +2942,7 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2159,6 +2965,7 @@ export interface MediaBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2186,6 +2993,7 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2210,6 +3018,134 @@ export interface FormBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ThreePanelShowcaseBlock_select".
+ */
+export interface ThreePanelShowcaseBlockSelect<T extends boolean = true> {
+  leftImage?: T;
+  centerImage?: T;
+  rightImage?: T;
+  height?: T;
+  mobilePanelHeight?: T;
+  title?: T;
+  body?: T;
+  titleStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  bodyStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        maxWidth?: T;
+      };
+  containerWidth?: T;
+  leftColumn?: T;
+  centerColumn?: T;
+  contentPadding?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBannerBlock_select".
+ */
+export interface QuoteBannerBlockSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  quote?: T;
+  showQuotes?: T;
+  leftQuote?: T;
+  rightQuote?: T;
+  textStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        align?: T;
+      };
+  quoteMarkStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+        align?: T;
+      };
+  heightMobile?: T;
+  heightDesktop?: T;
+  contentMaxWidth?: T;
+  quoteGap?: T;
+  paddingX?: T;
+  paddingY?: T;
+  quoteOffsetY?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2226,13 +3162,17 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
+        activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
+        textBackdrop?: T | TextBackdropBlockSelect<T>;
         flexbox?: T | FlexboxBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
+        threePanelShowcase?: T | ThreePanelShowcaseBlockSelect<T>;
+        quoteBanner?: T | QuoteBannerBlockSelect<T>;
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -2251,6 +3191,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2267,6 +3208,7 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
         imageSize?: T;
         title?: T;
         description?: T;
+        scribbleBorder?: T;
         imageTitleGap?: T;
         titleDescriptionGap?: T;
         padding?:
@@ -2325,6 +3267,12 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
               columns?: T;
               rows?: T;
             };
+        laptop?:
+          | T
+          | {
+              columns?: T;
+              rows?: T;
+            };
         desktop?:
           | T
           | {
@@ -2332,9 +3280,6 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
               rows?: T;
             };
       };
-  backgroundMobile?: T;
-  backgroundTablet?: T;
-  backgroundDesktop?: T;
   titleColor?: T;
   textColor?: T;
   layout?:
@@ -2349,6 +3294,7 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
         paddingRight?: T;
         paddingBottom?: T;
         paddingLeft?: T;
+        scribbleBorder?: T;
       };
   id?: T;
   blockName?: T;
@@ -2383,6 +3329,27 @@ export interface PostsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities_select".
+ */
+export interface ActivitiesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  cta?: T;
+  ctaImage?: T;
+  details?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2963,7 +3930,15 @@ export interface ThemeColor {
      * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
      */
     accent?: string | null;
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    green?: string | null;
   };
+  /**
+   * Image used by the optional Scribble border / cornice vintage style.
+   */
+  vintageBorderImage?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3098,7 +4073,9 @@ export interface ThemeColorsSelect<T extends boolean = true> {
         secondary?: T;
         muted?: T;
         accent?: T;
+        green?: T;
       };
+  vintageBorderImage?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

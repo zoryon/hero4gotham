@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import { getBlockLayoutClasses, type BlockLayoutSettings } from '@/fields/blockLayout'
+import { ActivitiesDetailGridBlock } from '@/blocks/ActivitiesDetailGrid/Component'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { ArrowBlock } from '@/blocks/Arrow/Component'
 import { BackgroundContainerBlock } from '@/blocks/BackgroundContainer/Component'
@@ -12,13 +13,17 @@ import { FeatureGridBlock } from '@/blocks/FeatureGrid/Component'
 import { FlexboxBlock } from '@/blocks/Flexbox/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { QuoteBannerBlock } from '@/blocks/QuoteBanner/Component'
 import { SubtitleBlock } from '@/blocks/Subtitle/Component'
+import { TextBackdropBlock } from '@/blocks/TextBackdrop/Component'
+import { ThreePanelShowcaseBlock } from '@/blocks/ThreePanelShowcase/Component'
 import { TitleBlock } from '@/blocks/Title/Component'
 import { TornCardsBlock } from '@/blocks/TornCards/Component'
 import { UpcomingEventsBlock } from '@/blocks/UpcomingEvents/Component'
 import { cn } from '@/utilities/ui'
 
 const blockComponents = {
+  activitiesDetailGrid: ActivitiesDetailGridBlock,
   archive: ArchiveBlock,
   arrow: ArrowBlock,
   backgroundContainer: BackgroundContainerBlock,
@@ -28,11 +33,20 @@ const blockComponents = {
   flexbox: FlexboxBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  quoteBanner: QuoteBannerBlock,
   subtitle: SubtitleBlock,
+  textBackdrop: TextBackdropBlock,
+  threePanelShowcase: ThreePanelShowcaseBlock,
   title: TitleBlock,
   tornCards: TornCardsBlock,
   upcomingEvents: UpcomingEventsBlock,
 }
+
+const flushBlockTypes = new Set<keyof typeof blockComponents>([
+  'quoteBanner',
+  'threePanelShowcase',
+  'tornCards',
+])
 
 type RenderableBlockProps = Page['layout'][0] & {
   disableInnerContainer?: boolean
@@ -63,11 +77,14 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               const BlockToRender = Block as React.ComponentType<RenderableBlockProps>
+              const blockWrapperClassName = flushBlockTypes.has(blockType)
+                ? undefined
+                : wrapperClassName
 
               return (
                 <div
                   className={cn(
-                    getBlockLayoutClasses(block.layout, wrapperClassName),
+                    getBlockLayoutClasses(block.layout, blockWrapperClassName),
                     index === firstRenderableIndex && 'mt-0',
                   )}
                   key={index}

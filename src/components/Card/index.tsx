@@ -17,7 +17,7 @@ export const Card: React.FC<{
   relationTo?: 'posts'
   showCategories?: boolean
   title?: string
-}> = (props) => {
+}> = React.memo((props) => {
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
@@ -39,7 +39,9 @@ export const Card: React.FC<{
     >
       <div className="relative w-full ">
         {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media resource={metaImage} size="(max-width: 768px) 100vw, 33vw" />
+        )}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
@@ -77,4 +79,6 @@ export const Card: React.FC<{
       </div>
     </article>
   )
-}
+})
+
+Card.displayName = 'Card'

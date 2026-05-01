@@ -4,7 +4,6 @@ import type { TornCardsBlock as TornCardsBlockProps } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyFontWeightClasses } from '@/fields/typography'
-import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { cn } from '@/utilities/ui'
 
 type TornCardItem = NonNullable<TornCardsBlockProps['items']>[number]
@@ -23,6 +22,7 @@ const spacingValues = {
   sm: '1.5rem',
   xl: '5rem',
   xs: '0.75rem',
+  xxs: '0.35rem',
 } as const
 
 const getSetting = (
@@ -103,30 +103,6 @@ const getCardSpacingStyle = (item: TornCardItem): React.CSSProperties => ({
   paddingTop: getSpacingValue(item.padding?.top || 'sm'),
 })
 
-const getBackgroundImage = (
-  image: TornCardsBlockProps['backgroundMobile'] | null | undefined,
-  fallback: string,
-) => {
-  if (!image || typeof image !== 'object') return `url("${fallback}")`
-
-  if (image.filename?.startsWith('grid-1x4')) {
-    return 'url("/grid/grid-1x4.png")'
-  }
-
-  if (image.filename?.startsWith('grid-2x2')) {
-    return 'url("/grid/grid-2x2.png")'
-  }
-
-  if (image.filename?.startsWith('grid-4x1')) {
-    return 'url("/grid/grid-4x1.png")'
-  }
-
-  const url = getMediaUrl(image.url, image.updatedAt)
-  if (!url) return `url("${fallback}")`
-
-  return `url("${url.replace(/"/g, '\\"')}")`
-}
-
 const TornCard: React.FC<{
   item: TornCardItem
 }> = ({ item }) => {
@@ -136,7 +112,10 @@ const TornCard: React.FC<{
 
   return (
     <article
-      className="torn-card relative isolate flex flex-col items-center justify-center text-center"
+      className={cn(
+        'torn-card relative isolate flex flex-col items-center justify-center text-center',
+        item.scribbleBorder && 'scribble-border',
+      )}
       style={getCardSpacingStyle(item)}
     >
       <div className="relative z-40 flex max-w-72 flex-col items-center">
@@ -191,9 +170,6 @@ const TornCard: React.FC<{
 }
 
 export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
-  backgroundDesktop,
-  backgroundMobile,
-  backgroundTablet,
   fillDirection = 'row',
   items,
   responsive,
@@ -206,43 +182,49 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
 
   const mobileColumns = getSetting(responsive, 'mobile', 'columns', 1)
   const tabletColumns = getSetting(responsive, 'tablet', 'columns', Math.min(2, cards.length))
+  const laptopColumns = getSetting(responsive, 'laptop', 'columns', Math.min(3, cards.length))
   const desktopColumns = getSetting(responsive, 'desktop', 'columns', Math.min(4, cards.length))
-  const mobileBackground = backgroundMobile || backgroundTablet || backgroundDesktop
-  const tabletBackground = backgroundTablet || backgroundDesktop || backgroundMobile
-  const desktopBackground = backgroundDesktop || backgroundTablet || backgroundMobile
+  const mobileRows = getSetting(
+    responsive,
+    'mobile',
+    'rows',
+    Math.ceil(cards.length / mobileColumns),
+  )
+  const tabletRows = getSetting(
+    responsive,
+    'tablet',
+    'rows',
+    Math.ceil(cards.length / tabletColumns),
+  )
+  const laptopRows = getSetting(
+    responsive,
+    'laptop',
+    'rows',
+    Math.ceil(cards.length / laptopColumns),
+  )
+  const desktopRows = getSetting(
+    responsive,
+    'desktop',
+    'rows',
+    Math.ceil(cards.length / desktopColumns),
+  )
 
   return (
     <section
       className={cn(
-        'torn-grid grid w-full',
+        'torn-grid torn-grid--generated grid',
         fillDirection === 'column' && 'torn-grid--flow-column',
       )}
       style={
         {
-          '--torn-bg-desktop': getBackgroundImage(desktopBackground, '/grid/grid-4x1.png'),
-          '--torn-bg-mobile': getBackgroundImage(mobileBackground, '/grid/grid-1x4.png'),
-          '--torn-bg-tablet': getBackgroundImage(tabletBackground, '/grid/grid-2x2.png'),
           '--torn-cols-desktop': desktopColumns,
+          '--torn-cols-laptop': laptopColumns,
           '--torn-cols-mobile': mobileColumns,
           '--torn-cols-tablet': tabletColumns,
-          '--torn-rows-desktop': getSetting(
-            responsive,
-            'desktop',
-            'rows',
-            Math.ceil(cards.length / desktopColumns),
-          ),
-          '--torn-rows-mobile': getSetting(
-            responsive,
-            'mobile',
-            'rows',
-            Math.ceil(cards.length / mobileColumns),
-          ),
-          '--torn-rows-tablet': getSetting(
-            responsive,
-            'tablet',
-            'rows',
-            Math.ceil(cards.length / tabletColumns),
-          ),
+          '--torn-rows-desktop': desktopRows,
+          '--torn-rows-laptop': laptopRows,
+          '--torn-rows-mobile': mobileRows,
+          '--torn-rows-tablet': tabletRows,
           '--torn-text-color': textColor || '#d9d0c2',
           '--torn-title-color': titleColor || '#e8d5a0',
         } as React.CSSProperties

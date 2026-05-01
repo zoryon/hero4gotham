@@ -18,12 +18,16 @@ const nextConfig: NextConfig = {
     loadPaths: ['./node_modules/@payloadcms/ui/dist/scss/'],
   },
   images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 31536000,
+    deviceSizes: [390, 640, 768, 1024, 1280, 1536, 1920],
+    imageSizes: [64, 96, 128, 256, 384, 512],
     localPatterns: [
       {
         pathname: '/api/media/file/**',
       },
     ],
-    qualities: [100],
+    qualities: [75, 82, 90, 100],
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)

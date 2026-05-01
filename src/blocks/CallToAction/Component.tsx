@@ -136,6 +136,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
     accent: 'var(--theme-text-accent)',
     black: '#000',
     default: hasBackgroundImage ? '#fff' : 'var(--theme-text-primary)',
+    green: 'var(--theme-text-green)',
     muted: 'var(--theme-text-muted)',
     primary: 'var(--theme-text-primary)',
     secondary: 'var(--theme-text-secondary)',
@@ -162,22 +163,16 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
           paddingRightClasses[spacing?.paddingRight || 'sm'],
           paddingBottomClasses[spacing?.paddingBottom || 'sm'],
           paddingLeftClasses[spacing?.paddingLeft || 'sm'],
-          hasBackgroundImage ? 'bg-zinc-950 text-white' : 'bg-card',
+          hasBackgroundImage ? 'text-white' : undefined,
         )}
       >
         {hasBackgroundImage ? (
-          <>
-            <Media
-              fill
-              imgClassName="object-cover"
-              pictureClassName="absolute inset-0 -z-20"
-              resource={backgroundImage}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 -z-10 bg-zinc-950/55"
-            />
-          </>
+          <Media
+            fill
+            imgClassName="object-cover"
+            pictureClassName="absolute inset-0 -z-20"
+            resource={backgroundImage}
+          />
         ) : null}
 
         <div

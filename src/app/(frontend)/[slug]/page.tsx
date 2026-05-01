@@ -66,8 +66,13 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
-  const hasHero = Boolean(hero?.type && hero.type !== 'none')
-  const hasHighImpactHero = hero?.type === 'highImpact'
+  const hasHeroContent = Boolean(
+    hero?.richText ||
+    hero?.media ||
+    (Array.isArray(hero?.links) && hero.links.some(({ link }) => Boolean(link))),
+  )
+  const hasHero = Boolean(hero?.type && hero.type !== 'none' && hasHeroContent)
+  const hasHighImpactHero = hasHero && hero?.type === 'highImpact'
   const firstRenderableBlock = layout?.find(({ blockType }) => Boolean(blockType))
   const startsWithBackgroundContainer =
     !hasHero && firstRenderableBlock?.blockType === 'backgroundContainer'
@@ -83,7 +88,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {draft && <LivePreviewListener />}
 
-      <RenderHero {...hero} />
+      {hasHero ? <RenderHero {...hero} /> : null}
       <RenderBlocks blocks={layout} markFirstBlock={!hasHero} />
     </article>
   )

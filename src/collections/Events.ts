@@ -13,6 +13,7 @@ export const Events: CollectionConfig<'events'> = {
   },
   admin: {
     defaultColumns: ['title', 'startsAt', 'updatedAt'],
+    group: 'Content',
     useAsTitle: 'title',
   },
   defaultPopulate: {
@@ -32,6 +33,7 @@ export const Events: CollectionConfig<'events'> = {
     {
       name: 'startsAt',
       type: 'date',
+      index: true,
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',

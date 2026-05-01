@@ -8,10 +8,7 @@ import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
-
-const { breakpoints } = cssVariables
 
 // A base64 encoded image to use as a placeholder while the image is loading
 const placeholderBlur =
@@ -45,13 +42,14 @@ const placeholderBlur =
  * remotePatterns for optimization. Only add `loader` if using external CDNs with custom transforms.
  */
 
-export const ImageMedia: React.FC<MediaProps> = (props) => {
+export const ImageMedia: React.FC<MediaProps> = React.memo((props) => {
   const {
     alt: altFromProps,
     fill,
     pictureClassName,
     imgClassName,
     priority,
+    quality,
     resource,
     size: sizeFromProps,
     src: srcFromProps,
@@ -77,12 +75,9 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
-  // NOTE: this is used by the browser to determine which image to download at different screen sizes
-  const sizes = sizeFromProps
-    ? sizeFromProps
-    : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
-        .join(', ')
+  // Keep the default conservative: callers can pass tighter sizes for cards and thumbnails.
+  const sizes = sizeFromProps || '100vw'
+  const imageQuality = quality || (priority ? 90 : 82)
 
   return (
     <picture className={cn(pictureClassName)}>
@@ -94,7 +89,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         placeholder="blur"
         blurDataURL={placeholderBlur}
         priority={priority}
-        quality={100}
+        quality={imageQuality}
         loading={loading}
         sizes={sizes}
         src={src}
@@ -102,4 +97,6 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       />
     </picture>
   )
-}
+})
+
+ImageMedia.displayName = 'ImageMedia'

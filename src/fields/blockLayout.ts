@@ -17,6 +17,7 @@ export type BlockLayoutSettings = {
   paddingRight?: BlockLayoutPadding | null
   paddingBottom?: BlockLayoutPadding | null
   paddingLeft?: BlockLayoutPadding | null
+  scribbleBorder?: boolean | null
 }
 
 export const blockLayoutField = (): Field => ({
@@ -162,6 +163,15 @@ export const blockLayoutField = (): Field => ({
             },
           ],
         },
+        {
+          name: 'scribbleBorder',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Scribble border',
+          admin: {
+            description: 'Adds the reusable yellow hand-drawn border around this block.',
+          },
+        },
       ],
     },
   ],
@@ -283,6 +293,7 @@ export const getBlockLayoutClasses = (
     paddingRightClasses[layout.paddingRight || 'none'],
     paddingBottomClasses[layout.paddingBottom || 'none'],
     paddingLeftClasses[layout.paddingLeft || 'none'],
+    layout.scribbleBorder && 'scribble-border',
   )
 }
 
@@ -299,5 +310,6 @@ export const stripBlockSpacing = (
     paddingLeft: 'none',
     paddingRight: 'none',
     paddingTop: 'none',
+    scribbleBorder: false,
   }
 }

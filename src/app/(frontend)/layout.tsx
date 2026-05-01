@@ -12,6 +12,7 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
+import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
@@ -26,13 +27,23 @@ const rye = Rye({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
-  const themeColors = await getCachedGlobal('themeColors', 0)().catch(() => null)
+  const themeColors = await getCachedGlobal('themeColors', 1)().catch(() => null)
   const textColors = themeColors?.text
+  const vintageBorderImage =
+    themeColors?.vintageBorderImage && typeof themeColors.vintageBorderImage === 'object'
+      ? getMediaUrl(themeColors.vintageBorderImage.url, themeColors.vintageBorderImage.updatedAt)
+      : ''
   const themeColorStyle = {
     '--theme-text-primary': textColors?.primary || '#f4f4f5',
     '--theme-text-secondary': textColors?.secondary || '#fde68a',
     '--theme-text-muted': textColors?.muted || 'rgb(253 230 138 / 0.85)',
     '--theme-text-accent': textColors?.accent || '#a3e635',
+    '--theme-text-green': textColors?.green || '#90a434',
+    ...(vintageBorderImage
+      ? {
+          '--vintage-border-image': `url("${vintageBorderImage.replace(/"/g, '\\"')}")`,
+        }
+      : {}),
   } as React.CSSProperties
 
   return (

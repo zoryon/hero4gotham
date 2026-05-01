@@ -6,6 +6,7 @@ import { it } from 'payload/i18n/it'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { Activities } from './collections/Activities'
 import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -62,7 +63,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Events, Media, Categories, Users],
+  collections: [Pages, Posts, Activities, Events, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ThemeColors],
   i18n: {

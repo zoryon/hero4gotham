@@ -8,6 +8,7 @@ import {
 } from '@/fields/uiOptions'
 import type { Block } from 'payload'
 
+import { ActivitiesDetailGrid } from '@/blocks/ActivitiesDetailGrid/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
@@ -21,6 +22,7 @@ import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 
 const flexChildBlocks = withBlockLayoutFields([
+  ActivitiesDetailGrid,
   Arrow,
   CallToAction,
   Content,

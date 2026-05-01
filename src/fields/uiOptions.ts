@@ -53,6 +53,10 @@ export const colorOptions = [
     value: 'accent',
   },
   {
+    label: 'Text green',
+    value: 'green',
+  },
+  {
     label: 'White',
     value: 'white',
   },

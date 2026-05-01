@@ -21,6 +21,18 @@ const fontStyleOptions = [
   },
 ] as const
 
+const eventTextFontSizeOptions = [
+  {
+    label: 'Tiny',
+    value: 'tiny',
+  },
+  {
+    label: 'Extra small',
+    value: 'xs',
+  },
+  ...typographySubtitleFontSizeOptions,
+] as const
+
 const textStyleFields = ({
   defaults,
   label,
@@ -37,7 +49,7 @@ const textStyleFields = ({
   }
   label: string
   name: string
-  sizeOptions?: typeof typographyFontSizeOptions | typeof typographySubtitleFontSizeOptions
+  sizeOptions?: ReadonlyArray<{ label: string; value: string }>
 }): Field => ({
   type: 'collapsible',
   label,
@@ -134,6 +146,12 @@ export const UpcomingEvents: Block = {
       required: true,
     },
     {
+      name: 'headingBackgroundImage',
+      type: 'upload',
+      label: 'Heading background image',
+      relationTo: 'media',
+    },
+    {
       name: 'emptyEventsTitle',
       type: 'text',
       defaultValue: 'Nessun evento in programma',
@@ -186,10 +204,10 @@ export const UpcomingEvents: Block = {
       relationTo: 'events',
     },
     {
-      name: 'leftBackground',
-      type: 'upload',
-      label: 'Events panel background',
-      relationTo: 'media',
+      name: 'leftPanelScribbleBorder',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Left panel scribble border',
     },
     {
       name: 'featureImage',
@@ -230,6 +248,12 @@ export const UpcomingEvents: Block = {
       defaultValue: 'Unisciti a noi',
       label: 'CTA link fallback label',
       required: true,
+    },
+    {
+      name: 'ctaLinkBackgroundImage',
+      type: 'upload',
+      label: 'CTA link background image',
+      relationTo: 'media',
     },
     {
       name: 'ctaGlyph',
@@ -393,13 +417,14 @@ export const UpcomingEvents: Block = {
         textStyleFields({
           defaults: {
             fontFamily: 'geistSans',
-            fontSize: 'small',
+            fontSize: 'xs',
             fontWeight: 'regular',
             letterSpacing: 'tight',
             verticalScale: 'normal',
           },
           label: 'Event text',
           name: 'eventText',
+          sizeOptions: eventTextFontSizeOptions,
         }),
         textStyleFields({
           defaults: {

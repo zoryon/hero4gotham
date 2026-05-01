@@ -10,6 +10,29 @@ import {
   typographyFontWeightOptions,
 } from '@/fields/typography'
 
+const themeColorOptions = [
+  {
+    label: 'Primary text',
+    value: 'primary',
+  },
+  {
+    label: 'Secondary text',
+    value: 'secondary',
+  },
+  {
+    label: 'Accent text',
+    value: 'accent',
+  },
+  {
+    label: 'Muted text',
+    value: 'muted',
+  },
+  {
+    label: 'Green text',
+    value: 'green',
+  },
+] as const
+
 export const Subtitle: Block = {
   slug: 'subtitle',
   interfaceName: 'SubtitleBlock',
@@ -93,6 +116,53 @@ export const Subtitle: Block = {
       defaultValue: 'wide',
       label: 'Letter spacing',
       options: [...typographyLetterSpacingOptions],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'textColorMode',
+          type: 'radio',
+          defaultValue: 'custom',
+          label: 'Text color mode',
+          options: [
+            {
+              label: 'Custom color',
+              value: 'custom',
+            },
+            {
+              label: 'Theme color',
+              value: 'theme',
+            },
+          ],
+          admin: {
+            layout: 'horizontal',
+            width: '50%',
+          },
+        },
+        {
+          name: 'themeTextColor',
+          type: 'select',
+          defaultValue: 'secondary',
+          label: 'Theme text color',
+          options: [...themeColorOptions],
+          admin: {
+            condition: (_, siblingData) => siblingData?.textColorMode === 'theme',
+            width: '50%',
+          },
+        },
+        {
+          name: 'textColor',
+          type: 'text',
+          defaultValue: '',
+          label: 'Custom text color',
+          admin: {
+            condition: (_, siblingData) => siblingData?.textColorMode !== 'theme',
+            description: 'Optional CSS color, for example #f4f0dc or rgba(255,255,255,0.85).',
+            width: '50%',
+          },
+        },
+      ],
     },
     {
       name: 'distress',

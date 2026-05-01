@@ -1,0 +1,75 @@
+import * as migration_20260430_211638_three_panel_showcase from './20260430_211638_three_panel_showcase';
+import * as migration_20260501_091300_theme_color_green from './20260501_091300_theme_color_green';
+import * as migration_20260501_112830_block_layout_scribble_border from './20260501_112830_block_layout_scribble_border';
+import * as migration_20260501_115530_remove_torn_cards_backgrounds from './20260501_115530_remove_torn_cards_backgrounds';
+import * as migration_20260501_120700_torn_card_item_scribble_border from './20260501_120700_torn_card_item_scribble_border';
+import * as migration_20260501_121530_torn_cards_laptop_responsive from './20260501_121530_torn_cards_laptop_responsive';
+import * as migration_20260501_122500_theme_vintage_border_image from './20260501_122500_theme_vintage_border_image';
+import * as migration_20260501_123530_remove_upcoming_events_left_background from './20260501_123530_remove_upcoming_events_left_background';
+import * as migration_20260501_123900_upcoming_events_left_panel_scribble_border from './20260501_123900_upcoming_events_left_panel_scribble_border';
+import * as migration_20260501_125420_add_xxs_spacing_option from './20260501_125420_add_xxs_spacing_option';
+import * as migration_20260501_155900_activities_detail_grid from './20260501_155900_activities_detail_grid';
+import * as migration_20260501_165200_activities_collection_and_auto_grid from './20260501_165200_activities_collection_and_auto_grid';
+
+export const migrations = [
+  {
+    up: migration_20260430_211638_three_panel_showcase.up,
+    down: migration_20260430_211638_three_panel_showcase.down,
+    name: '20260430_211638_three_panel_showcase',
+  },
+  {
+    up: migration_20260501_091300_theme_color_green.up,
+    down: migration_20260501_091300_theme_color_green.down,
+    name: '20260501_091300_theme_color_green',
+  },
+  {
+    up: migration_20260501_112830_block_layout_scribble_border.up,
+    down: migration_20260501_112830_block_layout_scribble_border.down,
+    name: '20260501_112830_block_layout_scribble_border',
+  },
+  {
+    up: migration_20260501_115530_remove_torn_cards_backgrounds.up,
+    down: migration_20260501_115530_remove_torn_cards_backgrounds.down,
+    name: '20260501_115530_remove_torn_cards_backgrounds',
+  },
+  {
+    up: migration_20260501_120700_torn_card_item_scribble_border.up,
+    down: migration_20260501_120700_torn_card_item_scribble_border.down,
+    name: '20260501_120700_torn_card_item_scribble_border',
+  },
+  {
+    up: migration_20260501_121530_torn_cards_laptop_responsive.up,
+    down: migration_20260501_121530_torn_cards_laptop_responsive.down,
+    name: '20260501_121530_torn_cards_laptop_responsive',
+  },
+  {
+    up: migration_20260501_122500_theme_vintage_border_image.up,
+    down: migration_20260501_122500_theme_vintage_border_image.down,
+    name: '20260501_122500_theme_vintage_border_image',
+  },
+  {
+    up: migration_20260501_123530_remove_upcoming_events_left_background.up,
+    down: migration_20260501_123530_remove_upcoming_events_left_background.down,
+    name: '20260501_123530_remove_upcoming_events_left_background',
+  },
+  {
+    up: migration_20260501_123900_upcoming_events_left_panel_scribble_border.up,
+    down: migration_20260501_123900_upcoming_events_left_panel_scribble_border.down,
+    name: '20260501_123900_upcoming_events_left_panel_scribble_border',
+  },
+  {
+    up: migration_20260501_125420_add_xxs_spacing_option.up,
+    down: migration_20260501_125420_add_xxs_spacing_option.down,
+    name: '20260501_125420_add_xxs_spacing_option',
+  },
+  {
+    up: migration_20260501_155900_activities_detail_grid.up,
+    down: migration_20260501_155900_activities_detail_grid.down,
+    name: '20260501_155900_activities_detail_grid',
+  },
+  {
+    up: migration_20260501_165200_activities_collection_and_auto_grid.up,
+    down: migration_20260501_165200_activities_collection_and_auto_grid.down,
+    name: '20260501_165200_activities_collection_and_auto_grid',
+  },
+];

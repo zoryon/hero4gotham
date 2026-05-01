@@ -1,5 +1,6 @@
 import type { Block } from 'payload'
 
+import { ActivitiesDetailGrid } from '@/blocks/ActivitiesDetailGrid/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
@@ -8,9 +9,12 @@ import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { Flexbox } from '@/blocks/Flexbox/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { QuoteBanner } from '@/blocks/QuoteBanner/config'
 import { Subtitle } from '@/blocks/Subtitle/config'
+import { TextBackdrop } from '@/blocks/TextBackdrop/config'
 import { Title } from '@/blocks/Title/config'
 import { TornCards } from '@/blocks/TornCards/config'
+import { ThreePanelShowcase } from '@/blocks/ThreePanelShowcase/config'
 import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 
@@ -86,13 +90,17 @@ export const BackgroundContainer: Block = {
       name: 'blocks',
       type: 'blocks',
       blocks: withBlockLayoutFields([
+        ActivitiesDetailGrid,
         Arrow,
         CallToAction,
         Content,
         Title,
         Subtitle,
+        TextBackdrop,
         Flexbox,
         FeatureGrid,
+        ThreePanelShowcase,
+        QuoteBanner,
         TornCards,
         UpcomingEvents,
         MediaBlock,

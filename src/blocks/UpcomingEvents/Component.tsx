@@ -19,12 +19,39 @@ import {
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
+
+const extendedSubtitleFontSizeClasses = {
+  tiny: 'text-[0.62rem] md:text-xs',
+  xs: 'text-[0.68rem] md:text-[0.8rem]',
+  ...typographySubtitleFontSizeClasses,
+}
 
 const eventDateFormatter = new Intl.DateTimeFormat('it-IT', {
   day: '2-digit',
   month: 'short',
 })
+
+const eventSelect = {
+  dateDayLabel: true,
+  dateMonthLabel: true,
+  description: true,
+  link: true,
+  startsAt: true,
+  title: true,
+} as const
+
+type UpcomingEventData = Pick<
+  EventDocument,
+  | 'dateDayLabel'
+  | 'dateMonthLabel'
+  | 'description'
+  | 'id'
+  | 'link'
+  | 'startsAt'
+  | 'title'
+>
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
   if (!image || typeof image !== 'object') return undefined
@@ -47,7 +74,7 @@ const getFontSizeClass = (
     return getRecordValue(typographyFontSizeClasses, value, 'compact')
   }
 
-  return getRecordValue(typographySubtitleFontSizeClasses, value, 'small')
+  return getRecordValue(extendedSubtitleFontSizeClasses, value, 'small')
 }
 
 const getReducedCtaTitleSize = (value: null | string | undefined) => {
@@ -117,7 +144,7 @@ const isEventDocument = (event: EventDocument | number | null | undefined): even
 
 const getManualEvents = async (
   manualEvents: UpcomingEventsBlockProps['manualEvents'],
-): Promise<EventDocument[]> => {
+): Promise<UpcomingEventData[]> => {
   const selected = (manualEvents || []).filter(Boolean)
   const populated = selected.filter(isEventDocument)
 
@@ -132,8 +159,10 @@ const getManualEvents = async (
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
     collection: 'events',
+    depth: 1,
     limit: 2,
     pagination: false,
+    select: eventSelect,
     sort: 'startsAt',
     where: {
       id: {
@@ -142,37 +171,48 @@ const getManualEvents = async (
     },
   })
 
-  return result.docs
+  return result.docs as UpcomingEventData[]
 }
 
-const getAutomaticEvents = async (): Promise<EventDocument[]> => {
-  const payload = await getPayload({ config: configPromise })
-  const now = new Date()
-  now.setHours(0, 0, 0, 0)
+const getAutomaticEvents = unstable_cache(
+  async (): Promise<UpcomingEventData[]> => {
+    const payload = await getPayload({ config: configPromise })
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
 
-  const upcoming = await payload.find({
-    collection: 'events',
-    limit: 2,
-    pagination: false,
-    sort: 'startsAt',
-    where: {
-      startsAt: {
-        greater_than_equal: now.toISOString(),
+    const upcoming = await payload.find({
+      collection: 'events',
+      depth: 1,
+      limit: 2,
+      pagination: false,
+      select: eventSelect,
+      sort: 'startsAt',
+      where: {
+        startsAt: {
+          greater_than_equal: now.toISOString(),
+        },
       },
-    },
-  })
+    })
 
-  if (upcoming.docs.length) return upcoming.docs
+    if (upcoming.docs.length) return upcoming.docs as UpcomingEventData[]
 
-  const latest = await payload.find({
-    collection: 'events',
-    limit: 2,
-    pagination: false,
-    sort: '-startsAt',
-  })
+    const latest = await payload.find({
+      collection: 'events',
+      depth: 1,
+      limit: 2,
+      pagination: false,
+      select: eventSelect,
+      sort: '-startsAt',
+    })
 
-  return latest.docs
-}
+    return latest.docs as UpcomingEventData[]
+  },
+  ['upcoming-events-automatic'],
+  {
+    revalidate: 300,
+    tags: ['events'],
+  },
+)
 
 export const UpcomingEventsBlock = async ({
   ctaButtonBackgroundColor = '#84cc16',
@@ -185,6 +225,7 @@ export const UpcomingEventsBlock = async ({
   ctaButtonTextColor = '#251414',
   ctaGlyph,
   ctaLink,
+  ctaLinkBackgroundImage,
   ctaLinkFallbackLabel = 'Unisciti a noi',
   ctaText,
   ctaTextColor = '#ffffff',
@@ -226,7 +267,7 @@ export const UpcomingEventsBlock = async ({
   eventLinkLabel = 'Scopri di piu',
   eventSource = 'automatic',
   eventTextFontFamily,
-  eventTextFontSize,
+  eventTextFontSize = 'xs',
   eventTextFontStyle,
   eventTextFontWeight,
   eventTextLetterSpacing,
@@ -241,6 +282,7 @@ export const UpcomingEventsBlock = async ({
   eventTitleColor = '#fef3c7',
   featureImage,
   heading,
+  headingBackgroundImage,
   headingFontFamily,
   headingFontSize,
   headingFontStyle,
@@ -248,7 +290,7 @@ export const UpcomingEventsBlock = async ({
   headingLetterSpacing,
   headingVerticalScale,
   headingColor = '#211713',
-  leftBackground,
+  leftPanelScribbleBorder = false,
   manualEvents,
   rightBackground,
 }: UpcomingEventsBlockProps) => {
@@ -256,18 +298,35 @@ export const UpcomingEventsBlock = async ({
     eventSource === 'manual' ? await getManualEvents(manualEvents) : await getAutomaticEvents()
 
   return (
-    <section className="-mt-14 grid gap-4 lg:-mt-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.58fr)] lg:items-stretch xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)]">
+    <section className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.58fr)] lg:items-stretch xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)]">
       <div
-        className="relative isolate min-h-72 overflow-hidden px-7 pb-5 pt-4 lg:pb-5 lg:pl-16 lg:pr-5 lg:pt-4 xl:pb-6 xl:pl-20 xl:pr-6 xl:pt-5"
-        style={{
-          backgroundImage: resolveBackgroundImage(leftBackground),
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          clipPath: 'polygon(1% 2.5%, 99% 0.5%, 98% 97.5%, 1.5% 99%)',
-        }}
+        className={cn(
+          'relative isolate min-h-72',
+          leftPanelScribbleBorder && 'scribble-border upcoming-events-left-border',
+        )}
       >
-        <div className="mb-4 inline-block -rotate-2">
+        <div
+          className="relative isolate min-h-72 overflow-hidden px-7 pb-5 pt-4 lg:pb-5 lg:pl-5 lg:pr-5 lg:pt-4 xl:pb-6 xl:pl-6 xl:pr-6 xl:pt-5"
+          style={{
+            clipPath: 'polygon(1% 2.5%, 99% 0.5%, 98% 97.5%, 1.5% 99%)',
+          }}
+        >
+        <div
+          className={cn(
+            'mb-4 inline-flex -rotate-2 items-center justify-center text-center',
+            headingBackgroundImage && 'min-w-56 px-8 py-3 md:min-w-64 md:px-10 md:py-4',
+          )}
+          style={
+            headingBackgroundImage
+              ? {
+                  backgroundImage: resolveBackgroundImage(headingBackgroundImage),
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '100% 100%',
+                }
+              : undefined
+          }
+        >
           <h2
             className={getTextClassName({
               base: 'uppercase opacity-95 drop-shadow-[0_1px_0_rgba(0,0,0,0.65)]',
@@ -296,7 +355,7 @@ export const UpcomingEventsBlock = async ({
 
                 return (
                   <article
-                    className="grid grid-cols-[3.9rem_minmax(0,1fr)] gap-2.5 py-2.5 xl:grid-cols-[4.25rem_minmax(0,1fr)] xl:gap-3 xl:py-3"
+                    className="grid grid-cols-[3.55rem_minmax(0,1fr)] gap-2 py-2.5 xl:grid-cols-[3.85rem_minmax(0,1fr)] xl:gap-2.5 xl:py-3"
                     key={event.id}
                   >
                     <div className="text-center uppercase leading-none">
@@ -463,6 +522,7 @@ export const UpcomingEventsBlock = async ({
           </div>
         </div>
       </div>
+      </div>
 
       <aside
         className="relative isolate flex min-h-72 overflow-hidden px-7 py-7 lg:min-h-full lg:px-7 lg:py-6 xl:px-9 xl:py-7"
@@ -493,7 +553,7 @@ export const UpcomingEventsBlock = async ({
           {ctaText ? (
             <p
               className={getTextClassName({
-                base: 'mt-4 max-w-full md:max-w-[70%]',
+                base: 'mt-4 max-w-[75%]',
                 fontSize: ctaTextFontSize,
                 fontWeight: ctaTextFontWeight,
                 letterSpacing: ctaTextLetterSpacing,
@@ -511,14 +571,20 @@ export const UpcomingEventsBlock = async ({
           <CMSLink
             {...ctaLink}
             className={getTextClassName({
-              base: 'mt-7 inline-flex w-fit px-8 py-3 uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)]',
+              base: 'mt-7 inline-flex w-fit px-8 py-4 uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)]',
               fontSize: ctaButtonFontSize,
               fontWeight: ctaButtonFontWeight,
               letterSpacing: ctaButtonLetterSpacing,
             })}
             label={ctaLink?.label || ctaLinkFallbackLabel || 'Unisciti a noi'}
             style={{
-              backgroundColor: ctaButtonBackgroundColor || '#84cc16',
+              backgroundColor: ctaLinkBackgroundImage
+                ? 'transparent'
+                : ctaButtonBackgroundColor || '#84cc16',
+              backgroundImage: resolveBackgroundImage(ctaLinkBackgroundImage),
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '100% 100%',
               color: ctaButtonTextColor || '#251414',
               clipPath: 'polygon(2% 0, 100% 0, 98% 93%, 0 100%)',
               fontFamily: getRecordValue(typographyFontFamilyStyles, ctaButtonFontFamily, 'cinzel'),

@@ -35,7 +35,7 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
     <section className={cn(width === 'contained' && 'container')}>
       <div
         className={cn(
-          'background-container relative isolate overflow-hidden text-white',
+          'background-container relative isolate overflow-hidden bg-cover bg-center bg-no-repeat text-white',
           isFirstPageBlock && 'background-container--under-header',
           width === 'contained' && 'rounded border border-border',
           paddingClasses[padding || 'medium'],
@@ -44,9 +44,10 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
         {backgroundImage && typeof backgroundImage === 'object' ? (
           <Media
             fill
-            imgClassName="object-cover"
+            imgClassName="object-cover object-center"
             pictureClassName="absolute inset-0 -z-20"
             resource={backgroundImage}
+            size="100vw"
           />
         ) : null}
 

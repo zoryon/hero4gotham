@@ -92,6 +92,10 @@ const themeColorOptions = [
     value: 'muted',
   },
   {
+    label: 'Green text',
+    value: 'green',
+  },
+  {
     label: 'White',
     value: 'white',
   },

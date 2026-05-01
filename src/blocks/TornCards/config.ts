@@ -6,6 +6,18 @@ import {
 } from '@/fields/typography'
 import { paddingOptions } from '@/fields/uiOptions'
 
+const tornCardSpacingOptions = paddingOptions.flatMap((option) =>
+  option.value === 'xs'
+    ? [
+        option,
+        {
+          label: 'XXS',
+          value: 'xxs',
+        },
+      ]
+    : [option],
+)
+
 const breakpointFields = (name: string, label: string, defaults: {
   columns: number
   rows: number
@@ -113,7 +125,7 @@ const cardSpacingFields = (name: string, label: string): Field => ({
           },
           defaultValue: name === 'padding' ? 'sm' : 'none',
           label: 'Top',
-          options: [...paddingOptions],
+          options: [...tornCardSpacingOptions],
         },
         {
           name: 'right',
@@ -123,7 +135,7 @@ const cardSpacingFields = (name: string, label: string): Field => ({
           },
           defaultValue: name === 'padding' ? 'sm' : 'none',
           label: 'Right',
-          options: [...paddingOptions],
+          options: [...tornCardSpacingOptions],
         },
         {
           name: 'bottom',
@@ -133,7 +145,7 @@ const cardSpacingFields = (name: string, label: string): Field => ({
           },
           defaultValue: name === 'padding' ? 'sm' : 'none',
           label: 'Bottom',
-          options: [...paddingOptions],
+          options: [...tornCardSpacingOptions],
         },
         {
           name: 'left',
@@ -143,7 +155,7 @@ const cardSpacingFields = (name: string, label: string): Field => ({
           },
           defaultValue: name === 'padding' ? 'sm' : 'none',
           label: 'Left',
-          options: [...paddingOptions],
+          options: [...tornCardSpacingOptions],
         },
       ],
     },
@@ -199,6 +211,15 @@ export const TornCards: Block = {
           label: 'Description',
         },
         {
+          name: 'scribbleBorder',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Scribble border',
+          admin: {
+            description: 'Adds the optional vintage border to this single card.',
+          },
+        },
+        {
           type: 'collapsible',
           label: 'Spacing',
           admin: {
@@ -216,7 +237,7 @@ export const TornCards: Block = {
                   },
                   defaultValue: 'xs',
                   label: 'Image/title gap',
-                  options: [...paddingOptions],
+                  options: [...tornCardSpacingOptions],
                 },
                 {
                   name: 'titleDescriptionGap',
@@ -226,7 +247,7 @@ export const TornCards: Block = {
                   },
                   defaultValue: 'xs',
                   label: 'Title/description gap',
-                  options: [...paddingOptions],
+                  options: [...tornCardSpacingOptions],
                 },
               ],
             },
@@ -337,47 +358,15 @@ export const TornCards: Block = {
               columns: 2,
               rows: 2,
             }),
+            breakpointFields('laptop', 'Laptop', {
+              columns: 3,
+              rows: 2,
+            }),
             breakpointFields('desktop', 'Desktop', {
               columns: 4,
               rows: 1,
             }),
           ],
-        },
-      ],
-    },
-    {
-      type: 'collapsible',
-      label: 'Grid background',
-      admin: {
-        initCollapsed: true,
-      },
-      fields: [
-        {
-          name: 'backgroundMobile',
-          type: 'upload',
-          admin: {
-            description: 'Use the 1x4 grid image for mobile layouts.',
-          },
-          label: 'Mobile background',
-          relationTo: 'media',
-        },
-        {
-          name: 'backgroundTablet',
-          type: 'upload',
-          admin: {
-            description: 'Use the 2x2 grid image for tablet layouts.',
-          },
-          label: 'Tablet background',
-          relationTo: 'media',
-        },
-        {
-          name: 'backgroundDesktop',
-          type: 'upload',
-          admin: {
-            description: 'Use the 4x1 grid image for desktop layouts.',
-          },
-          label: 'Desktop background',
-          relationTo: 'media',
         },
       ],
     },

@@ -336,68 +336,226 @@
     transform-origin: center;
   }
 
+  .scribble-border,
+  .cornice-vintage {
+    --vintage-border-outset: 10px;
+    --vintage-border-width: 15px;
+    --vintage-border-slice: 65;
+
+    background-color: transparent;
+    border: var(--vintage-border-width) solid transparent;
+    border-image-outset: var(--vintage-border-outset);
+    border-image-repeat: round;
+    border-image-slice: var(--vintage-border-slice);
+    border-image-source: var(
+      --vintage-border-image,
+      url('../../../.design/border/border.png')
+    );
+    border-image-width: var(--vintage-border-width);
+    box-sizing: border-box;
+  }
+
+  .upcoming-events-left-border {
+    --vintage-border-outset: 0;
+    --vintage-border-width: 12px;
+  }
+
   .torn-grid {
-    aspect-ratio: 583 / 1511;
-    background-image: var(--torn-bg-mobile);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    align-items: stretch;
+    aspect-ratio: auto;
+    background-image: none;
+    column-gap: 0;
+    gap: 0;
     grid-auto-flow: row;
     grid-template-columns: repeat(var(--torn-cols-mobile), minmax(0, 1fr));
-    grid-template-rows: repeat(var(--torn-rows-mobile), minmax(0, 1fr));
-    overflow: hidden;
+    grid-template-rows: repeat(var(--torn-rows-mobile), minmax(max-content, 1fr));
+    left: 50%;
+    margin-inline: 0;
+    max-width: none;
+    overflow: visible;
+    position: relative;
+    row-gap: 0;
+    transform: translateX(-50%);
+    width: min(100vw, 92rem);
   }
 
   .torn-grid--flow-column {
     grid-auto-flow: column;
   }
 
+  .activity-detail-grid {
+    align-items: stretch;
+    grid-template-columns: repeat(var(--activity-detail-cols-mobile), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--activity-detail-rows-mobile), minmax(max-content, 1fr));
+  }
+
+  .activity-detail-card-frame {
+    --activity-detail-border-width: var(--vintage-border-width, 15px);
+    --activity-detail-frame-inset: calc(var(--activity-detail-border-width) * 0.72);
+    --activity-detail-frame-bottom-inset: var(--activity-detail-frame-inset);
+
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .activity-detail-card-frame--bordered::after {
+    border: var(--activity-detail-border-width) solid transparent;
+    border-image-outset: 0;
+    border-image-repeat: round;
+    border-image-slice: var(--vintage-border-slice, 65);
+    border-image-source: var(
+      --vintage-border-image,
+      url('../../../.design/border/border.png')
+    );
+    border-image-width: var(--activity-detail-border-width);
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 50;
+  }
+
+  .activity-detail-card {
+    background: transparent;
+    bottom: var(--activity-detail-frame-bottom-inset);
+    left: var(--activity-detail-frame-inset);
+    position: absolute;
+    right: var(--activity-detail-frame-inset);
+    top: var(--activity-detail-frame-inset);
+  }
+
+  .activity-detail-card > * {
+    min-width: 0;
+  }
+
+  .activity-detail-card__media {
+    margin: 0;
+  }
+
+  .activity-detail-card__media--left {
+    border-right: 1px solid var(--activity-detail-divider-color, transparent);
+  }
+
+  .activity-detail-card__media--right {
+    border-left: 1px solid var(--activity-detail-divider-color, transparent);
+  }
+
+  .activity-detail-card__media--top {
+    border-bottom: 1px solid var(--activity-detail-divider-color, transparent);
+  }
+
+  .activity-detail-card__media--bottom {
+    border-top: 1px solid var(--activity-detail-divider-color, transparent);
+  }
+
+  .activity-detail-card__media picture,
+  .activity-detail-card__media img {
+    display: block;
+    height: 100% !important;
+    inset: 0;
+    margin: 0 !important;
+    max-width: none;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .activity-detail-card__content {
+    overflow: hidden;
+  }
+
+  .torn-grid--generated {
+    /* Kept as a compatibility class for existing rendered markup. */
+  }
+
   .torn-card {
-    min-height: 0;
+    margin: 0 !important;
     padding: clamp(1rem, 5vw, 2rem);
+  }
+
+  .torn-card.scribble-border {
+    margin: 0 !important;
+  }
+
+  .torn-grid--generated .torn-card {
+    overflow: visible;
+  }
+
+  .torn-grid--generated .torn-card::before {
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
   }
 
   @media (width >= 36rem) {
     .torn-grid {
-      aspect-ratio: 1010 / 800;
-      background-image: var(--torn-bg-tablet);
-      background-size: 100% 100%;
       grid-template-columns: repeat(var(--torn-cols-tablet), minmax(0, 1fr));
-      grid-template-rows: repeat(var(--torn-rows-tablet), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--torn-rows-tablet), minmax(max-content, 1fr));
+    }
+
+    .activity-detail-grid {
+      grid-template-columns: repeat(var(--activity-detail-cols-tablet), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--activity-detail-rows-tablet), minmax(max-content, 1fr));
     }
 
     .torn-card {
       padding: clamp(1rem, 3vw, 2.25rem);
     }
+
+    .torn-grid--generated {
+      /* Kept as a compatibility class for existing rendered markup. */
+    }
+
   }
 
   @media (width >= 62rem) {
     .torn-grid {
-      aspect-ratio: 1249 / 380;
-      background-image: var(--torn-bg-desktop);
-      background-size: 100% 100%;
-      grid-template-columns: repeat(var(--torn-cols-desktop), minmax(0, 1fr));
-      grid-template-rows: repeat(var(--torn-rows-desktop), minmax(0, 1fr));
-      margin-block: clamp(3rem, 7vw, 6rem);
+      grid-template-columns: repeat(var(--torn-cols-laptop), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--torn-rows-laptop), minmax(max-content, 1fr));
+      margin-block: 0;
+    }
+
+    .activity-detail-grid {
+      grid-template-columns: repeat(var(--activity-detail-cols-laptop), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--activity-detail-rows-laptop), minmax(max-content, 1fr));
     }
 
     .torn-card {
       padding: clamp(2rem, 3vw, 3.5rem) clamp(0.75rem, 1.45vw, 1.75rem);
+    }
+
+    .torn-grid--generated {
+      /* Kept as a compatibility class for existing rendered markup. */
+    }
+
+    .torn-grid--generated .torn-card {
+      padding: clamp(1.75rem, 2.2vw, 2.75rem) clamp(0.75rem, 1.2vw, 1.5rem);
     }
   }
 
-  @media (width >= 68rem) {
+  @media (width >= 80rem) {
     .torn-grid {
-      aspect-ratio: 1249 / 280;
-      background-image: var(--torn-bg-desktop);
-      background-size: 100% 100%;
       grid-template-columns: repeat(var(--torn-cols-desktop), minmax(0, 1fr));
-      grid-template-rows: repeat(var(--torn-rows-desktop), minmax(0, 1fr));
-      margin-block: clamp(3rem, 7vw, 6rem);
+      grid-template-rows: repeat(var(--torn-rows-desktop), minmax(max-content, 1fr));
+      margin-block: 0;
+    }
+
+    .activity-detail-grid {
+      grid-template-columns: repeat(var(--activity-detail-cols-desktop), minmax(0, 1fr));
+      grid-template-rows: repeat(var(--activity-detail-rows-desktop), minmax(max-content, 1fr));
     }
 
     .torn-card {
       padding: clamp(2rem, 3vw, 3.5rem) clamp(0.75rem, 1.45vw, 1.75rem);
+    }
+
+    .torn-grid--generated {
+      /* Kept as a compatibility class for existing rendered markup. */
+    }
+
+    .torn-grid--generated .torn-card {
+      padding: clamp(1.75rem, 2.2vw, 2.75rem) clamp(0.75rem, 1.2vw, 1.5rem);
     }
   }
 }

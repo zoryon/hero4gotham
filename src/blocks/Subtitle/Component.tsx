@@ -29,13 +29,18 @@ export type SubtitleProps = {
   verticalScale?: TypographyVerticalScale | null
   distress?: TypographyDistress | null
   textTransform?: 'normal' | 'uppercase' | null
+  textColorMode?: 'theme' | 'custom' | null
+  themeTextColor?: 'primary' | 'secondary' | 'accent' | 'muted' | 'green' | null
+  textColor?: string | null
   letterSpacing?: TypographyLetterSpacing | null
-  lineBreaks?: {
-    word?: string
-    occurrences?: number | null
-    breaks?: number | null
-    id?: string | null
-  }[] | null
+  lineBreaks?:
+    | {
+        word?: string
+        occurrences?: number | null
+        breaks?: number | null
+        id?: string | null
+      }[]
+    | null
 }
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -99,12 +104,26 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
   verticalScale = 'normal',
   distress = 'none',
   textTransform = 'uppercase',
+  textColorMode = 'custom',
+  themeTextColor = 'secondary',
+  textColor,
   letterSpacing = 'wide',
   lineBreaks,
 }) => {
   const isCentered = align === 'center'
   const resolvedVerticalScale = verticalScale ?? 'normal'
   const resolvedDistress = distress ?? 'none'
+  const themeTextColorValues = {
+    accent: 'var(--theme-text-accent)',
+    green: 'var(--theme-text-green)',
+    muted: 'var(--theme-text-muted)',
+    primary: 'var(--theme-text-primary)',
+    secondary: 'var(--theme-text-secondary)',
+  }
+  const resolvedTextColor =
+    textColorMode === 'theme'
+      ? themeTextColorValues[themeTextColor || 'secondary']
+      : textColor || 'var(--theme-text-secondary)'
 
   return (
     <section className={cn('container', isCentered ? 'text-center' : 'text-left', className)}>
@@ -118,7 +137,7 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
           resolvedVerticalScale === 'normal' ? undefined : 'inline-block',
         )}
         style={{
-          color: 'var(--theme-text-secondary)',
+          color: resolvedTextColor,
           fontFamily: typographyFontFamilyStyles[fontFamily ?? 'geistSans'],
           transform: `scaleY(${typographyVerticalScaleValues[resolvedVerticalScale]})`,
           ...typographyDistressStyles[resolvedDistress],

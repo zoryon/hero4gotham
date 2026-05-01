@@ -16,7 +16,16 @@ type ArrowProps = {
   strokeWidth?: number | null
   roundedEnds?: boolean | null
   colorMode?: 'theme' | 'custom' | null
-  themeColor?: 'primary' | 'secondary' | 'accent' | 'muted' | 'white' | 'black' | 'success' | null
+  themeColor?:
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'muted'
+    | 'green'
+    | 'white'
+    | 'black'
+    | 'success'
+    | null
   customColor?: string | null
   backgroundStyle?: 'none' | 'soft' | 'solid' | null
   backgroundColor?: string | null
@@ -79,6 +88,7 @@ const animationClasses = {
 const themeColors = {
   accent: 'var(--theme-text-accent)',
   black: '#111111',
+  green: 'var(--theme-text-green)',
   muted: 'var(--theme-text-muted)',
   primary: 'var(--theme-text-primary)',
   secondary: 'var(--theme-text-secondary)',

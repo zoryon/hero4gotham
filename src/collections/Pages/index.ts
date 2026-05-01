@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { ActivitiesDetailGrid } from '../../blocks/ActivitiesDetailGrid/config'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { Arrow } from '../../blocks/Arrow/config'
 import { BackgroundContainer } from '../../blocks/BackgroundContainer/config'
@@ -11,9 +12,12 @@ import { FeatureGrid } from '../../blocks/FeatureGrid/config'
 import { Flexbox } from '../../blocks/Flexbox/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { QuoteBanner } from '../../blocks/QuoteBanner/config'
 import { Subtitle } from '../../blocks/Subtitle/config'
+import { TextBackdrop } from '../../blocks/TextBackdrop/config'
 import { Title } from '../../blocks/Title/config'
 import { TornCards } from '../../blocks/TornCards/config'
+import { ThreePanelShowcase } from '../../blocks/ThreePanelShowcase/config'
 import { UpcomingEvents } from '../../blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 import { hero } from '@/heros/config'
@@ -83,13 +87,17 @@ export const Pages: CollectionConfig<'pages'> = {
               name: 'layout',
               type: 'blocks',
               blocks: withBlockLayoutFields([
+                ActivitiesDetailGrid,
                 Arrow,
                 CallToAction,
                 Content,
                 Title,
                 Subtitle,
+                TextBackdrop,
                 Flexbox,
                 FeatureGrid,
+                ThreePanelShowcase,
+                QuoteBanner,
                 BackgroundContainer,
                 TornCards,
                 UpcomingEvents,

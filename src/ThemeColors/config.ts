@@ -33,7 +33,17 @@ export const ThemeColors: GlobalConfig = {
         colorField('secondary', 'Text secondary', '#fde68a'),
         colorField('muted', 'Text muted', 'rgb(253 230 138 / 0.85)'),
         colorField('accent', 'Text accent', '#a3e635'),
+        colorField('green', 'Text green', '#90a434'),
       ],
+    },
+    {
+      name: 'vintageBorderImage',
+      type: 'upload',
+      label: 'Vintage border image',
+      relationTo: 'media',
+      admin: {
+        description: 'Image used by the optional Scribble border / cornice vintage style.',
+      },
     },
   ],
   hooks: {

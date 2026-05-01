@@ -306,6 +306,7 @@ export const seed = async ({
           secondary: '#fde68a',
           muted: 'rgb(253 230 138 / 0.85)',
           accent: '#a3e635',
+          green: '#90a434',
         },
       },
     }),
