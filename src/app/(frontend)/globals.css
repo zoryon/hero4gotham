@@ -396,7 +396,7 @@
 
   .three-panel-panel-border::after {
     border-image-outset: 0;
-    inset: calc(var(--vintage-border-width, 15px) * -0.5);
+    inset: calc(var(--vintage-border-width, 15px) * -0.65);
     z-index: 30;
   }
 
