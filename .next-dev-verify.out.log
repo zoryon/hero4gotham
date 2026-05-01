@@ -239,3 +239,14 @@ key not found: plugin-redirects:customUrl
 [2K[1G[⡿] Pulling schema from database...
 [2K[1G[✓] Pulling schema from database...
 [20:35:48] [33mWARN[39m: [36mNo email adapter provided. Email will be written to console. More info at https://payloadcms.com/docs/email/overview.[39m
+✓ Compiled in 1102ms
+ GET / 200 in 1184ms (next.js: 10ms, application-code: 1175ms)
+ GET /api/media/file/thoughtful-men-icon.png?2026-05-01T15%3A29%3A13.335Z 200 in 254ms (next.js: 26ms, application-code: 228ms)
+ GET /api/media/file/weird-tools-icon.png?2026-05-01T15%3A34%3A56.594Z 200 in 277ms (next.js: 10ms, application-code: 268ms)
+ GET /api/media/file/gamepad-icon.png?2026-05-01T15%3A29%3A35.490Z 200 in 379ms (next.js: 41ms, application-code: 338ms)
+ GET /api/media/file/flower-atom-icon.png?2026-05-01T15%3A35%3A16.140Z 200 in 295ms (next.js: 28ms, application-code: 267ms)
+✓ Compiled in 1093ms
+ GET / 200 in 1076ms (next.js: 5ms, application-code: 1071ms)
+ GET /admin/logout-inactivity?redirect=%2Fadmin%2Fcollections%2Fpages%2F5 200 in 457ms (next.js: 45ms, application-code: 412ms)
+ GET /admin/login?redirect=%2Fadmin%2Fcollections%2Fpages%2F5 200 in 324ms (next.js: 7ms, application-code: 317ms)
+ GET /admin/login?redirect=%2Fadmin%2Fcollections%2Fpages%2F5 200 in 148ms (next.js: 5ms, application-code: 143ms)
