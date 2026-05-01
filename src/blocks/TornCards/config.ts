@@ -610,6 +610,30 @@ export const TornCards: Block = {
       required: true,
     },
     {
+      name: 'containerWidth',
+      type: 'select',
+      defaultValue: 'wide',
+      label: 'Width',
+      options: [
+        {
+          label: 'Full width',
+          value: 'full',
+        },
+        {
+          label: 'Container',
+          value: 'container',
+        },
+        {
+          label: 'Wide',
+          value: 'wide',
+        },
+        {
+          label: 'Extra wide',
+          value: 'extraWide',
+        },
+      ],
+    },
+    {
       type: 'collapsible',
       label: 'Responsive layout',
       admin: {

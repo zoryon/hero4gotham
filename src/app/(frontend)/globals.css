@@ -343,13 +343,24 @@
     --vintage-border-slice: 65;
 
     background-color: transparent;
-    border: var(--vintage-border-width) solid transparent;
-    border-image-outset: var(--vintage-border-outset);
-    border-image-repeat: round;
-    border-image-slice: var(--vintage-border-slice);
-    border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
-    border-image-width: var(--vintage-border-width);
+    border: 0;
     box-sizing: border-box;
+    position: relative;
+  }
+
+  .scribble-border::after,
+  .cornice-vintage::after {
+    border: var(--vintage-border-width, 15px) solid transparent;
+    border-image-outset: var(--vintage-border-outset, 10px);
+    border-image-repeat: round;
+    border-image-slice: var(--vintage-border-slice, 65);
+    border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
+    border-image-width: var(--vintage-border-width, 15px);
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 20;
   }
 
   .upcoming-events-left-border {
@@ -366,36 +377,16 @@
     grid-auto-flow: row;
     grid-template-columns: repeat(var(--torn-cols-mobile), minmax(0, 1fr));
     grid-template-rows: repeat(var(--torn-rows-mobile), minmax(max-content, 1fr));
-    left: 50%;
     margin-inline: 0;
     max-width: none;
     overflow: visible;
     position: relative;
     row-gap: 0;
-    transform: translateX(-50%);
-    width: min(100vw, 92rem);
+    width: 100%;
   }
 
   .torn-grid--flow-column {
     grid-auto-flow: column;
-  }
-
-  .three-panel-image-border {
-    border: 0;
-  }
-
-  .three-panel-image-border::after {
-    border: var(--vintage-border-width, 15px) solid transparent;
-    border-image-outset: var(--vintage-border-outset, 10px);
-    border-image-repeat: round;
-    border-image-slice: var(--vintage-border-slice, 65);
-    border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
-    border-image-width: var(--vintage-border-width, 15px);
-    content: '';
-    inset: 0;
-    pointer-events: none;
-    position: absolute;
-    z-index: 20;
   }
 
   .activity-detail-grid {

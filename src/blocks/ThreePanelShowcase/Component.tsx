@@ -71,7 +71,7 @@ const PanelImage: React.FC<{
   <div
     className={cn(
       'relative min-h-[var(--three-panel-mobile-height)] overflow-hidden p-0 xl:min-h-0',
-      bordered && 'scribble-border three-panel-image-border',
+      bordered && 'scribble-border',
       className,
     )}
   >

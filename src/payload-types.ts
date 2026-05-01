@@ -1860,6 +1860,7 @@ export interface TornCardsBlock {
     id?: string | null;
   }[];
   fillDirection: 'row' | 'column';
+  containerWidth?: ('full' | 'container' | 'wide' | 'extraWide') | null;
   responsive: {
     mobile: {
       columns: number;
@@ -3311,6 +3312,7 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
         id?: T;
       };
   fillDirection?: T;
+  containerWidth?: T;
   responsive?:
     | T
     | {

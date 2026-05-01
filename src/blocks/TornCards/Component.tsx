@@ -15,6 +15,13 @@ type TornCardItem = NonNullable<TornCardsBlockProps['items']>[number]
 type ResponsiveLayout = NonNullable<TornCardsBlockProps['responsive']>
 type TextStyle = TornCardsBlockProps['headingStyle']
 
+const containerWidthClasses = {
+  container: 'container',
+  extraWide: 'mx-auto w-full max-w-[88rem] px-4 md:px-8',
+  full: 'w-full',
+  wide: 'mx-auto w-full max-w-7xl px-4 md:px-8',
+} as const
+
 const imageSizeClasses = {
   lg: 'h-24 w-24',
   md: 'h-20 w-20',
@@ -297,6 +304,7 @@ const TornCard: React.FC<{
 }
 
 export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
+  containerWidth = 'wide',
   fillDirection = 'row',
   heading,
   headingBannerImage,
@@ -354,7 +362,7 @@ export const TornCardsBlock: React.FC<TornCardsBlockProps> = ({
   )
 
   return (
-    <div className="relative">
+    <div className={cn('relative', containerWidthClasses[containerWidth || 'wide'])}>
       {heading ? (
         <div className="absolute left-1/2 top-0 z-30 flex w-fit -translate-x-1/2 -translate-y-1/2 justify-center overflow-hidden">
           {headingImage ? (
