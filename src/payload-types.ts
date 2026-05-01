@@ -209,6 +209,7 @@ export interface Page {
   };
   layout: (
     | ActivitiesDetailGridBlock
+    | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
@@ -703,6 +704,121 @@ export interface ActivitiesDetailGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivityChoiceCtaBlock".
+ */
+export interface ActivityChoiceCtaBlock {
+  leftImage?: (number | null) | Media;
+  rightImage?: (number | null) | Media;
+  leftImagePosition?: ('center' | 'top' | 'bottom' | 'left' | 'right') | null;
+  rightImagePosition?: ('center' | 'top' | 'bottom' | 'left' | 'right') | null;
+  topText: string;
+  bottomText: string;
+  accentText: string;
+  topTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+  };
+  bottomTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+  };
+  accentTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+  };
+  ctaBackgroundImage?: (number | null) | Media;
+  ctaTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    /**
+     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     */
+    color?: string | null;
+  };
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  heightDesktop?: number | null;
+  heightTablet?: number | null;
+  mobileImageHeight?: number | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'activityChoiceCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArrowBlock".
  */
 export interface ArrowBlock {
@@ -1109,6 +1225,7 @@ export interface FlexboxBlock {
   minHeight?: ('none' | 'small' | 'medium' | 'large' | 'screen') | null;
   blocks: (
     | ActivitiesDetailGridBlock
+    | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
@@ -1751,6 +1868,7 @@ export interface BackgroundContainerBlock {
   padding?: ('small' | 'medium' | 'large') | null;
   blocks: (
     | ActivitiesDetailGridBlock
+    | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
@@ -2247,6 +2365,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
+        activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -2482,6 +2601,109 @@ export interface ActivitiesDetailGridBlockSelect<T extends boolean = true> {
       };
   panelBg?: T;
   dividerColor?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ActivityChoiceCtaBlock_select".
+ */
+export interface ActivityChoiceCtaBlockSelect<T extends boolean = true> {
+  leftImage?: T;
+  rightImage?: T;
+  leftImagePosition?: T;
+  rightImagePosition?: T;
+  topText?: T;
+  bottomText?: T;
+  accentText?: T;
+  topTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  bottomTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  accentTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  ctaBackgroundImage?: T;
+  ctaTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  heightDesktop?: T;
+  heightTablet?: T;
+  mobileImageHeight?: T;
   layout?:
     | T
     | {
@@ -2815,6 +3037,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
     | T
     | {
         activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
+        activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -3202,6 +3425,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
     | T
     | {
         activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
+        activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;

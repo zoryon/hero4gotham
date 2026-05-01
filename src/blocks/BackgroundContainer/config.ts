@@ -1,6 +1,7 @@
 import type { Block } from 'payload'
 
 import { ActivitiesDetailGrid } from '@/blocks/ActivitiesDetailGrid/config'
+import { ActivityChoiceCta } from '@/blocks/ActivityChoiceCta/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
@@ -91,6 +92,7 @@ export const BackgroundContainer: Block = {
       type: 'blocks',
       blocks: withBlockLayoutFields([
         ActivitiesDetailGrid,
+        ActivityChoiceCta,
         Arrow,
         CallToAction,
         Content,

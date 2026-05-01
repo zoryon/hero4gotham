@@ -4,6 +4,7 @@ import type { Page } from '@/payload-types'
 
 import { getBlockLayoutClasses, type BlockLayoutSettings } from '@/fields/blockLayout'
 import { ActivitiesDetailGridBlock } from '@/blocks/ActivitiesDetailGrid/Component'
+import { ActivityChoiceCtaBlock } from '@/blocks/ActivityChoiceCta/Component'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { ArrowBlock } from '@/blocks/Arrow/Component'
 import { BackgroundContainerBlock } from '@/blocks/BackgroundContainer/Component'
@@ -24,6 +25,7 @@ import { cn } from '@/utilities/ui'
 
 const blockComponents = {
   activitiesDetailGrid: ActivitiesDetailGridBlock,
+  activityChoiceCta: ActivityChoiceCtaBlock,
   archive: ArchiveBlock,
   arrow: ArrowBlock,
   backgroundContainer: BackgroundContainerBlock,
@@ -43,6 +45,7 @@ const blockComponents = {
 }
 
 const flushBlockTypes = new Set<keyof typeof blockComponents>([
+  'activityChoiceCta',
   'quoteBanner',
   'threePanelShowcase',
   'tornCards',

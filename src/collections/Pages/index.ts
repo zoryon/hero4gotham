@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { ActivitiesDetailGrid } from '../../blocks/ActivitiesDetailGrid/config'
+import { ActivityChoiceCta } from '../../blocks/ActivityChoiceCta/config'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { Arrow } from '../../blocks/Arrow/config'
 import { BackgroundContainer } from '../../blocks/BackgroundContainer/config'
@@ -88,6 +89,7 @@ export const Pages: CollectionConfig<'pages'> = {
               type: 'blocks',
               blocks: withBlockLayoutFields([
                 ActivitiesDetailGrid,
+                ActivityChoiceCta,
                 Arrow,
                 CallToAction,
                 Content,
