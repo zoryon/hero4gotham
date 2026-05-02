@@ -19,6 +19,18 @@ const paddingClasses = {
   small: 'py-8 md:py-12',
 }
 
+const objectPositionValues = {
+  bottom: 'center bottom',
+  bottomLeft: 'left bottom',
+  bottomRight: 'right bottom',
+  center: 'center center',
+  left: 'left center',
+  right: 'right center',
+  top: 'center top',
+  topLeft: 'left top',
+  topRight: 'right top',
+} as const
+
 type BackgroundContainerProps = BackgroundContainerBlockProps & {
   isFirstPageBlock?: boolean
 }
@@ -26,6 +38,10 @@ type BackgroundContainerProps = BackgroundContainerBlockProps & {
 export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
   backgroundImage,
   blocks,
+  imagePositionDesktop = 'center',
+  imagePositionMobile = 'center',
+  imagePositionTablet = 'center',
+  imageQuality = 95,
   isFirstPageBlock = false,
   overlay = 'medium',
   padding = 'medium',
@@ -35,19 +51,41 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
     <section className={cn(width === 'contained' && 'container')}>
       <div
         className={cn(
-          'background-container relative isolate overflow-hidden bg-cover bg-center bg-no-repeat text-white',
+          'background-container relative isolate overflow-hidden text-white',
           isFirstPageBlock && 'background-container--under-header',
           width === 'contained' && 'rounded border border-border',
           paddingClasses[padding || 'medium'],
         )}
+        style={
+          {
+            '--background-container-image-position-desktop':
+              objectPositionValues[
+                (imagePositionDesktop || 'center') as keyof typeof objectPositionValues
+              ],
+            '--background-container-image-position-mobile':
+              objectPositionValues[
+                (imagePositionMobile || 'center') as keyof typeof objectPositionValues
+              ],
+            '--background-container-image-position-tablet':
+              objectPositionValues[
+                (imagePositionTablet || 'center') as keyof typeof objectPositionValues
+              ],
+          } as React.CSSProperties
+        }
       >
         {backgroundImage && typeof backgroundImage === 'object' ? (
           <Media
             fill
-            imgClassName="object-cover object-center"
+            imgClassName="background-container__image object-cover"
             pictureClassName="absolute inset-0 -z-20"
+            priority={isFirstPageBlock}
+            quality={imageQuality || 95}
             resource={backgroundImage}
-            size="100vw"
+            size={
+              width === 'contained'
+                ? '(max-width: 767px) 100vw, (max-width: 1439px) 100vw, 1280px'
+                : '100vw'
+            }
           />
         ) : null}
 

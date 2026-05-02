@@ -10,6 +10,8 @@ import * as migration_20260501_123900_upcoming_events_left_panel_scribble_border
 import * as migration_20260501_125420_add_xxs_spacing_option from './20260501_125420_add_xxs_spacing_option';
 import * as migration_20260501_155900_activities_detail_grid from './20260501_155900_activities_detail_grid';
 import * as migration_20260501_165200_activities_collection_and_auto_grid from './20260501_165200_activities_collection_and_auto_grid';
+import * as migration_20260502_090000_event_filters from './20260502_090000_event_filters';
+import * as migration_20260502_100000_background_container_image_rendering from './20260502_100000_background_container_image_rendering';
 
 export const migrations = [
   {
@@ -71,5 +73,15 @@ export const migrations = [
     up: migration_20260501_165200_activities_collection_and_auto_grid.up,
     down: migration_20260501_165200_activities_collection_and_auto_grid.down,
     name: '20260501_165200_activities_collection_and_auto_grid',
+  },
+  {
+    up: migration_20260502_090000_event_filters.up,
+    down: migration_20260502_090000_event_filters.down,
+    name: '20260502_090000_event_filters',
+  },
+  {
+    up: migration_20260502_100000_background_container_image_rendering.up,
+    down: migration_20260502_100000_background_container_image_rendering.down,
+    name: '20260502_100000_background_container_image_rendering',
   },
 ];

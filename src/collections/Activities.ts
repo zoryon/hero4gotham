@@ -25,7 +25,7 @@ export const Activities: CollectionConfig<'activities'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'order', 'updatedAt'],
+    defaultColumns: ['title', 'shortName', 'order', 'updatedAt'],
     group: 'Content',
     useAsTitle: 'title',
   },
@@ -36,12 +36,22 @@ export const Activities: CollectionConfig<'activities'> = {
     details: true,
     image: true,
     order: true,
+    shortName: true,
     title: true,
   },
   fields: [
     {
       name: 'title',
       type: 'text',
+      required: true,
+    },
+    {
+      name: 'shortName',
+      type: 'text',
+      admin: {
+        description: 'Short label used by event filter buttons.',
+      },
+      label: 'Short Name',
       required: true,
     },
     {

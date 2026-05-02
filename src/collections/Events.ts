@@ -12,23 +12,34 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'startsAt', 'updatedAt'],
+    defaultColumns: ['title', 'activity', 'startsAt', 'venue', 'updatedAt'],
     group: 'Content',
     useAsTitle: 'title',
   },
   defaultPopulate: {
+    activity: true,
     dateDayLabel: true,
     dateMonthLabel: true,
     description: true,
     link: true,
     startsAt: true,
     title: true,
+    venue: true,
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'activity',
+      type: 'relationship',
+      admin: {
+        description: 'Activity used by the event filters.',
+      },
+      label: 'Event type',
+      relationTo: 'activities',
     },
     {
       name: 'startsAt',
@@ -69,6 +80,15 @@ export const Events: CollectionConfig<'events'> = {
       name: 'description',
       type: 'textarea',
       required: true,
+    },
+    {
+      name: 'venue',
+      type: 'text',
+      admin: {
+        description: 'Place used by the event filters.',
+      },
+      index: true,
+      label: 'Venue',
     },
     link({
       appearances: false,

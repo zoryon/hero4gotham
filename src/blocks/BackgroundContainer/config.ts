@@ -6,6 +6,7 @@ import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
+import { EventFilters } from '@/blocks/EventFilters/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { Flexbox } from '@/blocks/Flexbox/config'
 import { FormBlock } from '@/blocks/Form/config'
@@ -19,6 +20,45 @@ import { ThreePanelShowcase } from '@/blocks/ThreePanelShowcase/config'
 import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 
+const imagePositionOptions = [
+  {
+    label: 'Center',
+    value: 'center',
+  },
+  {
+    label: 'Top',
+    value: 'top',
+  },
+  {
+    label: 'Bottom',
+    value: 'bottom',
+  },
+  {
+    label: 'Left',
+    value: 'left',
+  },
+  {
+    label: 'Right',
+    value: 'right',
+  },
+  {
+    label: 'Top left',
+    value: 'topLeft',
+  },
+  {
+    label: 'Top right',
+    value: 'topRight',
+  },
+  {
+    label: 'Bottom left',
+    value: 'bottomLeft',
+  },
+  {
+    label: 'Bottom right',
+    value: 'bottomRight',
+  },
+] as const
+
 export const BackgroundContainer: Block = {
   slug: 'backgroundContainer',
   interfaceName: 'BackgroundContainerBlock',
@@ -29,6 +69,67 @@ export const BackgroundContainer: Block = {
       label: 'Background image',
       relationTo: 'media',
       required: true,
+    },
+    {
+      type: 'collapsible',
+      label: 'Background image rendering',
+      admin: {
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'imageQuality',
+              type: 'number',
+              defaultValue: 95,
+              label: 'Image quality',
+              min: 75,
+              max: 100,
+              admin: {
+                description:
+                  'Higher values reduce compression artifacts. Use 95-100 for full-screen textured backgrounds.',
+                step: 1,
+                width: '25%',
+              },
+            },
+            {
+              name: 'imagePositionMobile',
+              type: 'select',
+              dbName: 'img_pos_m',
+              defaultValue: 'center',
+              label: 'Mobile position',
+              options: [...imagePositionOptions],
+              admin: {
+                width: '25%',
+              },
+            },
+            {
+              name: 'imagePositionTablet',
+              type: 'select',
+              dbName: 'img_pos_t',
+              defaultValue: 'center',
+              label: 'Tablet position',
+              options: [...imagePositionOptions],
+              admin: {
+                width: '25%',
+              },
+            },
+            {
+              name: 'imagePositionDesktop',
+              type: 'select',
+              dbName: 'img_pos_d',
+              defaultValue: 'center',
+              label: 'Desktop position',
+              options: [...imagePositionOptions],
+              admin: {
+                width: '25%',
+              },
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'overlay',
@@ -96,6 +197,7 @@ export const BackgroundContainer: Block = {
         Arrow,
         CallToAction,
         Content,
+        EventFilters,
         Title,
         Subtitle,
         TextBackdrop,

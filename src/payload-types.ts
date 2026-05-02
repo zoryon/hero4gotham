@@ -213,6 +213,7 @@ export interface Page {
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
+    | EventFiltersBlock
     | TitleBlock
     | SubtitleBlock
     | TextBackdropBlock
@@ -1048,6 +1049,109 @@ export interface ContentBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventFiltersBlock".
+ */
+export interface EventFiltersBlock {
+  allEventsLabel: string;
+  filterByLabel: string;
+  searchPlaceholder: string;
+  dateLabel: string;
+  typeLabel: string;
+  textColor?: string | null;
+  accentColor?: string | null;
+  mutedColor?: string | null;
+  activityItemBorder?: boolean | null;
+  searchBorder?: boolean | null;
+  dateBorder?: boolean | null;
+  activityTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    colorMode?: ('global' | 'custom') | null;
+    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    /**
+     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
+     */
+    colorCustom?: string | null;
+  };
+  activeActivityTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    colorMode?: ('global' | 'custom') | null;
+    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    /**
+     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
+     */
+    colorCustom?: string | null;
+  };
+  controlTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    colorMode?: ('global' | 'custom') | null;
+    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    /**
+     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
+     */
+    colorCustom?: string | null;
+  };
+  filterLabelTextStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'uppercase') | null;
+    colorMode?: ('global' | 'custom') | null;
+    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    /**
+     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventFilters';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TitleBlock".
  */
 export interface TitleBlock {
@@ -1187,6 +1291,7 @@ export interface TextBackdropBlock {
     | TitleBlock
     | SubtitleBlock
     | ContentBlock
+    | EventFiltersBlock
     | ArrowBlock
     | CallToActionBlock
     | FlexboxBlock
@@ -1229,6 +1334,7 @@ export interface FlexboxBlock {
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
+    | EventFiltersBlock
     | TitleBlock
     | SubtitleBlock
     | FeatureGridBlock
@@ -1414,6 +1520,10 @@ export interface UpcomingEventsBlock {
 export interface Event {
   id: number;
   title: string;
+  /**
+   * Activity used by the event filters.
+   */
+  activity?: (number | null) | Activity;
   startsAt: string;
   /**
    * Optional override for the displayed day.
@@ -1424,6 +1534,10 @@ export interface Event {
    */
   dateMonthLabel?: string | null;
   description: string;
+  /**
+   * Place used by the event filters.
+   */
+  venue?: string | null;
   /**
    * Link used by the "Scopri di piu" event action.
    */
@@ -1442,6 +1556,35 @@ export interface Event {
     url?: string | null;
     label: string;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: number;
+  title: string;
+  /**
+   * Short label used by event filter buttons.
+   */
+  shortName: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  cta?: string | null;
+  ctaImage?: (number | null) | Media;
+  details?:
+    | {
+        icon?: (number | null) | Media;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Lower numbers appear first in automatic activity blocks.
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1863,6 +2006,19 @@ export interface QuoteBannerBlock {
  */
 export interface BackgroundContainerBlock {
   backgroundImage: number | Media;
+  /**
+   * Higher values reduce compression artifacts. Use 95-100 for full-screen textured backgrounds.
+   */
+  imageQuality?: number | null;
+  imagePositionMobile?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionTablet?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionDesktop?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
   overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
   width?: ('full' | 'contained') | null;
   padding?: ('small' | 'medium' | 'large') | null;
@@ -1872,6 +2028,7 @@ export interface BackgroundContainerBlock {
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
+    | EventFiltersBlock
     | TitleBlock
     | SubtitleBlock
     | TextBackdropBlock
@@ -2027,31 +2184,6 @@ export interface TornCardsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tornCards';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "activities".
- */
-export interface Activity {
-  id: number;
-  title: string;
-  description?: string | null;
-  image?: (number | null) | Media;
-  cta?: string | null;
-  ctaImage?: (number | null) | Media;
-  details?:
-    | {
-        icon?: (number | null) | Media;
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Lower numbers appear first in automatic activity blocks.
-   */
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2369,6 +2501,7 @@ export interface PagesSelect<T extends boolean = true> {
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        eventFilters?: T | EventFiltersBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         textBackdrop?: T | TextBackdropBlockSelect<T>;
@@ -2885,6 +3018,103 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventFiltersBlock_select".
+ */
+export interface EventFiltersBlockSelect<T extends boolean = true> {
+  allEventsLabel?: T;
+  filterByLabel?: T;
+  searchPlaceholder?: T;
+  dateLabel?: T;
+  typeLabel?: T;
+  textColor?: T;
+  accentColor?: T;
+  mutedColor?: T;
+  activityItemBorder?: T;
+  searchBorder?: T;
+  dateBorder?: T;
+  activityTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorMode?: T;
+        colorGlobal?: T;
+        colorCustom?: T;
+      };
+  activeActivityTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorMode?: T;
+        colorGlobal?: T;
+        colorCustom?: T;
+      };
+  controlTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorMode?: T;
+        colorGlobal?: T;
+        colorCustom?: T;
+      };
+  filterLabelTextStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorMode?: T;
+        colorGlobal?: T;
+        colorCustom?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TitleBlock_select".
  */
 export interface TitleBlockSelect<T extends boolean = true> {
@@ -2999,6 +3229,7 @@ export interface TextBackdropBlockSelect<T extends boolean = true> {
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        eventFilters?: T | EventFiltersBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         flexbox?: T | FlexboxBlockSelect<T>;
@@ -3041,6 +3272,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        eventFilters?: T | EventFiltersBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
@@ -3418,6 +3650,10 @@ export interface QuoteBannerBlockSelect<T extends boolean = true> {
  */
 export interface BackgroundContainerBlockSelect<T extends boolean = true> {
   backgroundImage?: T;
+  imageQuality?: T;
+  imagePositionMobile?: T;
+  imagePositionTablet?: T;
+  imagePositionDesktop?: T;
   overlay?: T;
   width?: T;
   padding?: T;
@@ -3429,6 +3665,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        eventFilters?: T | EventFiltersBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         textBackdrop?: T | TextBackdropBlockSelect<T>;
@@ -3625,6 +3862,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface ActivitiesSelect<T extends boolean = true> {
   title?: T;
+  shortName?: T;
   description?: T;
   image?: T;
   cta?: T;
@@ -3646,10 +3884,12 @@ export interface ActivitiesSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  activity?: T;
   startsAt?: T;
   dateDayLabel?: T;
   dateMonthLabel?: T;
   description?: T;
+  venue?: T;
   link?:
     | T
     | {

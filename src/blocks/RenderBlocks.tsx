@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import type { Page } from '@/payload-types'
 
@@ -10,6 +10,7 @@ import { ArrowBlock } from '@/blocks/Arrow/Component'
 import { BackgroundContainerBlock } from '@/blocks/BackgroundContainer/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
+import { EventFiltersBlock } from '@/blocks/EventFilters/Component'
 import { FeatureGridBlock } from '@/blocks/FeatureGrid/Component'
 import { FlexboxBlock } from '@/blocks/Flexbox/Component'
 import { FormBlock } from '@/blocks/Form/Component'
@@ -21,6 +22,7 @@ import { ThreePanelShowcaseBlock } from '@/blocks/ThreePanelShowcase/Component'
 import { TitleBlock } from '@/blocks/Title/Component'
 import { TornCardsBlock } from '@/blocks/TornCards/Component'
 import { UpcomingEventsBlock } from '@/blocks/UpcomingEvents/Component'
+import { EventFiltersProvider } from '@/providers/EventFilters'
 import { cn } from '@/utilities/ui'
 
 const blockComponents = {
@@ -31,6 +33,7 @@ const blockComponents = {
   backgroundContainer: BackgroundContainerBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
+  eventFilters: EventFiltersBlock,
   featureGrid: FeatureGridBlock,
   flexbox: FlexboxBlock,
   formBlock: FormBlock,
@@ -71,7 +74,7 @@ export const RenderBlocks: React.FC<{
 
   if (hasBlocks) {
     return (
-      <Fragment>
+      <EventFiltersProvider>
         {blocks.map((block, index) => {
           const { blockType } = block
 
@@ -103,7 +106,7 @@ export const RenderBlocks: React.FC<{
           }
           return null
         })}
-      </Fragment>
+      </EventFiltersProvider>
     )
   }
 
