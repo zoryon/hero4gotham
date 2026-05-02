@@ -4,19 +4,11 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     ALTER TABLE IF EXISTS "pages_blocks_background_container"
       ADD COLUMN IF NOT EXISTS "bg_tab_id" integer,
-      ADD COLUMN IF NOT EXISTS "bg_mob_id" integer,
-      ADD COLUMN IF NOT EXISTS "image_quality" numeric DEFAULT 95,
-      ADD COLUMN IF NOT EXISTS "img_pos_m" varchar DEFAULT 'center',
-      ADD COLUMN IF NOT EXISTS "img_pos_t" varchar DEFAULT 'center',
-      ADD COLUMN IF NOT EXISTS "img_pos_d" varchar DEFAULT 'center';
+      ADD COLUMN IF NOT EXISTS "bg_mob_id" integer;
 
     ALTER TABLE IF EXISTS "_pages_v_blocks_background_container"
       ADD COLUMN IF NOT EXISTS "bg_tab_id" integer,
-      ADD COLUMN IF NOT EXISTS "bg_mob_id" integer,
-      ADD COLUMN IF NOT EXISTS "image_quality" numeric DEFAULT 95,
-      ADD COLUMN IF NOT EXISTS "img_pos_m" varchar DEFAULT 'center',
-      ADD COLUMN IF NOT EXISTS "img_pos_t" varchar DEFAULT 'center',
-      ADD COLUMN IF NOT EXISTS "img_pos_d" varchar DEFAULT 'center';
+      ADD COLUMN IF NOT EXISTS "bg_mob_id" integer;
 
     CREATE INDEX IF NOT EXISTS "bg_container_bg_tab_idx"
       ON "pages_blocks_background_container" USING btree ("bg_tab_id");
@@ -78,18 +70,10 @@ export async function down({ db }: MigrateDownArgs): Promise<void> {
 
     ALTER TABLE IF EXISTS "pages_blocks_background_container"
       DROP COLUMN IF EXISTS "bg_tab_id",
-      DROP COLUMN IF EXISTS "bg_mob_id",
-      DROP COLUMN IF EXISTS "image_quality",
-      DROP COLUMN IF EXISTS "img_pos_m",
-      DROP COLUMN IF EXISTS "img_pos_t",
-      DROP COLUMN IF EXISTS "img_pos_d";
+      DROP COLUMN IF EXISTS "bg_mob_id";
 
     ALTER TABLE IF EXISTS "_pages_v_blocks_background_container"
       DROP COLUMN IF EXISTS "bg_tab_id",
-      DROP COLUMN IF EXISTS "bg_mob_id",
-      DROP COLUMN IF EXISTS "image_quality",
-      DROP COLUMN IF EXISTS "img_pos_m",
-      DROP COLUMN IF EXISTS "img_pos_t",
-      DROP COLUMN IF EXISTS "img_pos_d";
+      DROP COLUMN IF EXISTS "bg_mob_id";
   `)
 }

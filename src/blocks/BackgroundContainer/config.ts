@@ -66,9 +66,27 @@ export const BackgroundContainer: Block = {
     {
       name: 'backgroundImage',
       type: 'upload',
-      label: 'Background image',
+      label: 'Desktop background image',
       relationTo: 'media',
       required: true,
+    },
+    {
+      name: 'bgTab',
+      type: 'upload',
+      label: 'Tablet background image',
+      relationTo: 'media',
+      admin: {
+        description: 'Optional. Falls back to the desktop image if empty.',
+      },
+    },
+    {
+      name: 'bgMob',
+      type: 'upload',
+      label: 'Mobile background image',
+      relationTo: 'media',
+      admin: {
+        description: 'Optional. Falls back to the tablet or desktop image if empty.',
+      },
     },
     {
       type: 'collapsible',

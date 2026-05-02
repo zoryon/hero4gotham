@@ -37,6 +37,18 @@ export const ThemeColors: GlobalConfig = {
       ],
     },
     {
+      name: 'background',
+      type: 'group',
+      label: 'Background colors',
+      fields: [
+        colorField(
+          'backgroundContainerOverflow',
+          'Background container overflow',
+          '#050505',
+        ),
+      ],
+    },
+    {
       name: 'vintageBorderImage',
       type: 'upload',
       label: 'Vintage border image',

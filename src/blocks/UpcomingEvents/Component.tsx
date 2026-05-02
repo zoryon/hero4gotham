@@ -44,13 +44,7 @@ const eventSelect = {
 
 type UpcomingEventData = Pick<
   EventDocument,
-  | 'dateDayLabel'
-  | 'dateMonthLabel'
-  | 'description'
-  | 'id'
-  | 'link'
-  | 'startsAt'
-  | 'title'
+  'dateDayLabel' | 'dateMonthLabel' | 'description' | 'id' | 'link' | 'startsAt' | 'title'
 >
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
@@ -66,10 +60,7 @@ const getRecordValue = <T extends Record<string, string>>(
   fallback: keyof T,
 ) => record[(value || fallback) as keyof T] || record[fallback]
 
-const getFontSizeClass = (
-  value: null | string | undefined,
-  sizeKind: 'display' | 'subtitle',
-) => {
+const getFontSizeClass = (value: null | string | undefined, sizeKind: 'display' | 'subtitle') => {
   if (sizeKind === 'display') {
     return getRecordValue(typographyFontSizeClasses, value, 'compact')
   }
@@ -139,8 +130,9 @@ const formatEventDate = (value: string) => {
   }
 }
 
-const isEventDocument = (event: EventDocument | number | null | undefined): event is EventDocument =>
-  Boolean(event && typeof event === 'object')
+const isEventDocument = (
+  event: EventDocument | number | null | undefined,
+): event is EventDocument => Boolean(event && typeof event === 'object')
 
 const getManualEvents = async (
   manualEvents: UpcomingEventsBlockProps['manualEvents'],
@@ -298,7 +290,7 @@ export const UpcomingEventsBlock = async ({
     eventSource === 'manual' ? await getManualEvents(manualEvents) : await getAutomaticEvents()
 
   return (
-    <section className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.58fr)] lg:items-stretch xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)]">
+    <section className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)] xl:items-stretch">
       <div
         className={cn(
           'relative isolate min-h-72',
@@ -311,217 +303,215 @@ export const UpcomingEventsBlock = async ({
             clipPath: 'polygon(1% 2.5%, 99% 0.5%, 98% 97.5%, 1.5% 99%)',
           }}
         >
-        <div
-          className={cn(
-            'mb-4 inline-flex -rotate-2 items-center justify-center text-center',
-            headingBackgroundImage && 'min-w-56 px-8 py-3 md:min-w-64 md:px-10 md:py-4',
-          )}
-          style={
-            headingBackgroundImage
-              ? {
-                  backgroundImage: resolveBackgroundImage(headingBackgroundImage),
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: '100% 100%',
+          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(14rem,42%)] md:items-stretch xl:grid-cols-[minmax(0,1fr)_minmax(16rem,46%)]">
+            <div className="grid content-start">
+              <div
+                className={cn(
+                  'mb-4 inline-flex -rotate-2 items-center justify-center justify-self-start text-center',
+                  headingBackgroundImage && 'min-w-56 px-8 py-3 md:min-w-64 md:px-10 md:py-4',
+                )}
+                style={
+                  headingBackgroundImage
+                    ? {
+                        backgroundImage: resolveBackgroundImage(headingBackgroundImage),
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: '100% 100%',
+                      }
+                    : undefined
                 }
-              : undefined
-          }
-        >
-          <h2
-            className={getTextClassName({
-              base: 'uppercase opacity-95 drop-shadow-[0_1px_0_rgba(0,0,0,0.65)]',
-              fontSize: headingFontSize,
-              fontWeight: headingFontWeight,
-              letterSpacing: headingLetterSpacing,
-            })}
-            style={getTextStyle({
-              color: getReadableHeadingColor(headingColor),
-              fontFamily: headingFontFamily,
-              fontStyle: headingFontStyle,
-              verticalScale: headingVerticalScale,
-            })}
-          >
-            {heading}
-          </h2>
-        </div>
-
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(10rem,32%)] lg:items-center lg:gap-3 xl:grid-cols-[minmax(0,1fr)_minmax(12rem,35%)] xl:gap-4">
-          <div className="divide-y divide-[#7b5a2f]/35">
-            {eventItems.length ? (
-              eventItems.map((event) => {
-                const formattedDate = formatEventDate(event.startsAt)
-                const day = event.dateDayLabel || formattedDate.day
-                const month = event.dateMonthLabel || formattedDate.month
-
-                return (
-                  <article
-                    className="grid grid-cols-[3.55rem_minmax(0,1fr)] gap-2 py-2.5 xl:grid-cols-[3.85rem_minmax(0,1fr)] xl:gap-2.5 xl:py-3"
-                    key={event.id}
-                  >
-                    <div className="text-center uppercase leading-none">
-                      <div
-                        className={getTextClassName({
-                          base: '-mb-1',
-                          fontSize: dateDayFontSize,
-                          fontWeight: dateDayFontWeight,
-                          letterSpacing: dateDayLetterSpacing,
-                          sizeKind: 'display',
-                        })}
-                        style={getTextStyle({
-                          color: dateColor || '#e879f9',
-                          fontFamily: dateDayFontFamily,
-                          fontStyle: dateDayFontStyle,
-                          verticalScale: dateDayVerticalScale,
-                        })}
-                      >
-                        {day}
-                      </div>
-                      <div
-                        className={getTextClassName({
-                          base: 'mt-0',
-                          fontSize: dateMonthFontSize,
-                          fontWeight: dateMonthFontWeight,
-                          letterSpacing: dateMonthLetterSpacing,
-                        })}
-                        style={getTextStyle({
-                          color: eventTextColor || '#f4f4f5',
-                          fontFamily: dateMonthFontFamily,
-                          fontStyle: dateMonthFontStyle,
-                          verticalScale: dateMonthVerticalScale,
-                        })}
-                      >
-                        {month}
-                      </div>
-                    </div>
-
-                    <div className="grid gap-2">
-                      <div>
-                        <h3
-                          className={getTextClassName({
-                            base: 'uppercase',
-                            fontSize: eventTitleFontSize,
-                            fontWeight: eventTitleFontWeight,
-                            letterSpacing: eventTitleLetterSpacing,
-                          })}
-                          style={{
-                            ...getTextStyle({
-                              color: eventTitleColor || '#fef3c7',
-                              fontFamily: eventTitleFontFamily,
-                              fontStyle: eventTitleFontStyle,
-                              verticalScale: eventTitleVerticalScale,
-                            }),
-                            display: 'block',
-                          }}
-                        >
-                          {event.title}
-                        </h3>
-                        <p
-                          className={getTextClassName({
-                            base: 'mt-1 max-w-[15rem] xl:max-w-[17rem]',
-                            fontSize: eventTextFontSize,
-                            fontWeight: eventTextFontWeight,
-                            letterSpacing: eventTextLetterSpacing,
-                          })}
-                          style={{
-                            ...getTextStyle({
-                              color: eventTextColor || '#d7d0d3',
-                              fontFamily: eventTextFontFamily,
-                              fontStyle: eventTextFontStyle,
-                              verticalScale: eventTextVerticalScale,
-                            }),
-                            display: 'block',
-                          }}
-                        >
-                          {event.description}
-                        </p>
-                      </div>
-
-                      <CMSLink
-                        {...event.link}
-                        className={cn(
-                          getTextClassName({
-                            base: 'justify-self-start whitespace-nowrap uppercase',
-                            fontSize: eventLinkFontSize,
-                            fontWeight: eventLinkFontWeight,
-                            letterSpacing: eventLinkLetterSpacing,
-                          }),
-                          'text-[0.58rem] md:text-[0.62rem]',
-                        )}
-                        label={event.link?.label || eventLinkLabel || 'Scopri di piu'}
-                        style={getTextStyle({
-                          color: eventLinkColor || '#a3e635',
-                          fontFamily: eventLinkFontFamily,
-                          fontStyle: eventLinkFontStyle,
-                          verticalScale: eventLinkVerticalScale,
-                        })}
-                      />
-                    </div>
-                  </article>
-                )
-              })
-            ) : (
-              <div className="py-8">
-                <h3
+              >
+                <h2
                   className={getTextClassName({
-                    base: 'uppercase',
-                    fontSize: eventTitleFontSize,
-                    fontWeight: eventTitleFontWeight,
-                    letterSpacing: eventTitleLetterSpacing,
+                    base: 'uppercase opacity-95 drop-shadow-[0_1px_0_rgba(0,0,0,0.65)]',
+                    fontSize: headingFontSize,
+                    fontWeight: headingFontWeight,
+                    letterSpacing: headingLetterSpacing,
                   })}
-                  style={{
-                    ...getTextStyle({
-                      color: eventTitleColor || '#fef3c7',
-                      fontFamily: eventTitleFontFamily,
-                      fontStyle: eventTitleFontStyle,
-                      verticalScale: eventTitleVerticalScale,
-                    }),
-                    display: 'block',
-                  }}
+                  style={getTextStyle({
+                    color: getReadableHeadingColor(headingColor),
+                    fontFamily: headingFontFamily,
+                    fontStyle: headingFontStyle,
+                    verticalScale: headingVerticalScale,
+                  })}
                 >
-                  {emptyEventsTitle}
-                </h3>
-                {emptyEventsText ? (
-                  <p
-                    className={getTextClassName({
-                      base: 'mt-2 max-w-md',
-                      fontSize: eventTextFontSize,
-                      fontWeight: eventTextFontWeight,
-                      letterSpacing: eventTextLetterSpacing,
-                    })}
-                    style={{
-                      ...getTextStyle({
-                        color: eventTextColor || '#f4f4f5',
-                        fontFamily: eventTextFontFamily,
-                        fontStyle: eventTextFontStyle,
-                        verticalScale: eventTextVerticalScale,
-                      }),
-                      display: 'block',
-                    }}
-                  >
-                    {emptyEventsText}
-                  </p>
-                ) : null}
+                  {heading}
+                </h2>
               </div>
-            )}
-          </div>
 
-          <div
-            className="relative mt-1 min-h-44 overflow-hidden shadow-[7px_0_0_rgb(0_0_0_/_0.78)] lg:mt-0 lg:min-h-48 xl:min-h-52"
-            style={{
-              clipPath: 'polygon(1.5% 4%, 99% 0, 97.5% 96.5%, 3.5% 100%)',
-            }}
-          >
-            {featureImage && typeof featureImage === 'object' ? (
-              <Media
-                fill
-                imgClassName="object-cover saturate-[0.9] contrast-[1.08]"
-                pictureClassName="absolute inset-0"
-                resource={featureImage}
-              />
-            ) : null}
+              <div className="max-w-[31rem] divide-y divide-[#7b5a2f]/35 md:max-w-[28rem] xl:max-w-[31rem]">
+                {eventItems.length ? (
+                  eventItems.map((event) => {
+                    const formattedDate = formatEventDate(event.startsAt)
+                    const day = event.dateDayLabel || formattedDate.day
+                    const month = event.dateMonthLabel || formattedDate.month
+
+                    return (
+                      <article
+                        className="grid grid-cols-[3.55rem_minmax(0,1fr)] gap-2 py-2.5 xl:grid-cols-[3.85rem_minmax(0,1fr)] xl:gap-2.5 xl:py-3"
+                        key={event.id}
+                      >
+                        <div className="text-center uppercase leading-none">
+                          <div
+                            className={getTextClassName({
+                              base: '-mb-1',
+                              fontSize: dateDayFontSize,
+                              fontWeight: dateDayFontWeight,
+                              letterSpacing: dateDayLetterSpacing,
+                              sizeKind: 'display',
+                            })}
+                            style={getTextStyle({
+                              color: dateColor || '#e879f9',
+                              fontFamily: dateDayFontFamily,
+                              fontStyle: dateDayFontStyle,
+                              verticalScale: dateDayVerticalScale,
+                            })}
+                          >
+                            {day}
+                          </div>
+                          <div
+                            className={getTextClassName({
+                              base: 'mt-0',
+                              fontSize: dateMonthFontSize,
+                              fontWeight: dateMonthFontWeight,
+                              letterSpacing: dateMonthLetterSpacing,
+                            })}
+                            style={getTextStyle({
+                              color: eventTextColor || '#f4f4f5',
+                              fontFamily: dateMonthFontFamily,
+                              fontStyle: dateMonthFontStyle,
+                              verticalScale: dateMonthVerticalScale,
+                            })}
+                          >
+                            {month}
+                          </div>
+                        </div>
+
+                        <div className="grid gap-2">
+                          <div>
+                            <h3
+                              className={getTextClassName({
+                                base: 'uppercase',
+                                fontSize: eventTitleFontSize,
+                                fontWeight: eventTitleFontWeight,
+                                letterSpacing: eventTitleLetterSpacing,
+                              })}
+                              style={{
+                                ...getTextStyle({
+                                  color: eventTitleColor || '#fef3c7',
+                                  fontFamily: eventTitleFontFamily,
+                                  fontStyle: eventTitleFontStyle,
+                                  verticalScale: eventTitleVerticalScale,
+                                }),
+                                display: 'block',
+                              }}
+                            >
+                              {event.title}
+                            </h3>
+                            <p
+                              className={getTextClassName({
+                                base: 'mt-1 max-w-[15rem] xl:max-w-[17rem]',
+                                fontSize: eventTextFontSize,
+                                fontWeight: eventTextFontWeight,
+                                letterSpacing: eventTextLetterSpacing,
+                              })}
+                              style={{
+                                ...getTextStyle({
+                                  color: eventTextColor || '#d7d0d3',
+                                  fontFamily: eventTextFontFamily,
+                                  fontStyle: eventTextFontStyle,
+                                  verticalScale: eventTextVerticalScale,
+                                }),
+                                display: 'block',
+                              }}
+                            >
+                              {event.description}
+                            </p>
+                          </div>
+
+                          <CMSLink
+                            {...event.link}
+                            className={cn(
+                              getTextClassName({
+                                base: 'justify-self-start whitespace-nowrap uppercase',
+                                fontSize: eventLinkFontSize,
+                                fontWeight: eventLinkFontWeight,
+                                letterSpacing: eventLinkLetterSpacing,
+                              }),
+                              'text-[0.58rem] md:text-[0.62rem]',
+                            )}
+                            label={event.link?.label || eventLinkLabel || 'Scopri di piu'}
+                            style={getTextStyle({
+                              color: eventLinkColor || '#a3e635',
+                              fontFamily: eventLinkFontFamily,
+                              fontStyle: eventLinkFontStyle,
+                              verticalScale: eventLinkVerticalScale,
+                            })}
+                          />
+                        </div>
+                      </article>
+                    )
+                  })
+                ) : (
+                  <div className="py-8">
+                    <h3
+                      className={getTextClassName({
+                        base: 'uppercase',
+                        fontSize: eventTitleFontSize,
+                        fontWeight: eventTitleFontWeight,
+                        letterSpacing: eventTitleLetterSpacing,
+                      })}
+                      style={{
+                        ...getTextStyle({
+                          color: eventTitleColor || '#fef3c7',
+                          fontFamily: eventTitleFontFamily,
+                          fontStyle: eventTitleFontStyle,
+                          verticalScale: eventTitleVerticalScale,
+                        }),
+                        display: 'block',
+                      }}
+                    >
+                      {emptyEventsTitle}
+                    </h3>
+                    {emptyEventsText ? (
+                      <p
+                        className={getTextClassName({
+                          base: 'mt-2 max-w-md',
+                          fontSize: eventTextFontSize,
+                          fontWeight: eventTextFontWeight,
+                          letterSpacing: eventTextLetterSpacing,
+                        })}
+                        style={{
+                          ...getTextStyle({
+                            color: eventTextColor || '#f4f4f5',
+                            fontFamily: eventTextFontFamily,
+                            fontStyle: eventTextFontStyle,
+                            verticalScale: eventTextVerticalScale,
+                          }),
+                          display: 'block',
+                        }}
+                      >
+                        {emptyEventsText}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="relative min-h-56 overflow-hidden md:min-h-full">
+              {featureImage && typeof featureImage === 'object' ? (
+                <Media
+                  fill
+                  imgClassName="object-cover object-center saturate-[0.95] contrast-[1.04]"
+                  pictureClassName="absolute inset-0"
+                  resource={featureImage}
+                  size="(max-width: 767px) 100vw, (max-width: 1279px) 42vw, 46vw"
+                />
+              ) : null}
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       <aside

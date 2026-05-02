@@ -35,8 +35,18 @@ type BackgroundContainerProps = BackgroundContainerBlockProps & {
   isFirstPageBlock?: boolean
 }
 
+type BackgroundImageResource =
+  | BackgroundContainerBlockProps['backgroundImage']
+  | BackgroundContainerBlockProps['bgMob']
+  | BackgroundContainerBlockProps['bgTab']
+
+const getImageResource = (image?: BackgroundImageResource | null) =>
+  image && typeof image === 'object' ? image : null
+
 export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
   backgroundImage,
+  bgMob,
+  bgTab,
   blocks,
   imagePositionDesktop = 'center',
   imagePositionMobile = 'center',
@@ -45,19 +55,22 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
   isFirstPageBlock = false,
   overlay = 'medium',
   padding = 'medium',
-  width = 'full',
 }) => {
+  const desktopImage = getImageResource(backgroundImage)
+  const tabletImage = getImageResource(bgTab) || desktopImage
+  const mobileImage = getImageResource(bgMob) || tabletImage || desktopImage
+
   return (
-    <section className={cn(width === 'contained' && 'container')}>
+    <section className="w-full">
       <div
         className={cn(
-          'background-container relative isolate overflow-hidden text-white',
+          'background-container relative isolate min-h-[100svh] overflow-hidden text-white',
           isFirstPageBlock && 'background-container--under-header',
-          width === 'contained' && 'rounded border border-border',
           paddingClasses[padding || 'medium'],
         )}
         style={
           {
+            backgroundColor: 'var(--theme-background-container-overflow, #050505)',
             '--background-container-image-position-desktop':
               objectPositionValues[
                 (imagePositionDesktop || 'center') as keyof typeof objectPositionValues
@@ -73,26 +86,46 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
           } as React.CSSProperties
         }
       >
-        {backgroundImage && typeof backgroundImage === 'object' ? (
+        {mobileImage ? (
           <Media
             fill
-            imgClassName="background-container__image object-cover"
-            pictureClassName="absolute inset-0 -z-20"
+            imgClassName="background-container__image background-container__image--mobile object-cover"
+            pictureClassName="absolute left-1/2 top-0 -z-20 block h-[100svh] w-screen -translate-x-1/2 md:hidden"
             priority={isFirstPageBlock}
             quality={imageQuality || 95}
-            resource={backgroundImage}
-            size={
-              width === 'contained'
-                ? '(max-width: 767px) 100vw, (max-width: 1439px) 100vw, 1280px'
-                : '100vw'
-            }
+            resource={mobileImage}
+            size="100vw"
+          />
+        ) : null}
+
+        {tabletImage ? (
+          <Media
+            fill
+            imgClassName="background-container__image background-container__image--tablet object-cover"
+            pictureClassName="absolute left-1/2 top-0 -z-20 hidden h-[100svh] w-screen -translate-x-1/2 md:block lg:hidden"
+            priority={isFirstPageBlock}
+            quality={imageQuality || 95}
+            resource={tabletImage}
+            size="100vw"
+          />
+        ) : null}
+
+        {desktopImage ? (
+          <Media
+            fill
+            imgClassName="background-container__image background-container__image--desktop object-cover"
+            pictureClassName="absolute left-1/2 top-0 -z-20 hidden h-[100svh] w-screen -translate-x-1/2 lg:block"
+            priority={isFirstPageBlock}
+            quality={imageQuality || 95}
+            resource={desktopImage}
+            size="100vw"
           />
         ) : null}
 
         <div
           aria-hidden
           className={cn(
-            'pointer-events-none absolute inset-0 -z-10',
+            'pointer-events-none absolute left-1/2 top-0 -z-10 h-[100svh] w-screen -translate-x-1/2',
             overlayClasses[overlay || 'medium'],
           )}
         />

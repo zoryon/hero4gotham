@@ -260,7 +260,7 @@ export const EventFilters: Block = {
             {
               name: 'typeLabel',
               type: 'text',
-              defaultValue: 'Tipologia',
+              defaultValue: 'Tipo',
               label: 'Type label',
               required: true,
             },

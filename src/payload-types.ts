@@ -2007,6 +2007,14 @@ export interface QuoteBannerBlock {
 export interface BackgroundContainerBlock {
   backgroundImage: number | Media;
   /**
+   * Optional. Falls back to the desktop image if empty.
+   */
+  bgTab?: (number | null) | Media;
+  /**
+   * Optional. Falls back to the tablet or desktop image if empty.
+   */
+  bgMob?: (number | null) | Media;
+  /**
    * Higher values reduce compression artifacts. Use 95-100 for full-screen textured backgrounds.
    */
   imageQuality?: number | null;
@@ -3650,6 +3658,8 @@ export interface QuoteBannerBlockSelect<T extends boolean = true> {
  */
 export interface BackgroundContainerBlockSelect<T extends boolean = true> {
   backgroundImage?: T;
+  bgTab?: T;
+  bgMob?: T;
   imageQuality?: T;
   imagePositionMobile?: T;
   imagePositionTablet?: T;
@@ -4464,6 +4474,12 @@ export interface ThemeColor {
      */
     green?: string | null;
   };
+  background?: {
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    backgroundContainerOverflow?: string | null;
+  };
   /**
    * Image used by the optional Scribble border / cornice vintage style.
    */
@@ -4603,6 +4619,11 @@ export interface ThemeColorsSelect<T extends boolean = true> {
         muted?: T;
         accent?: T;
         green?: T;
+      };
+  background?:
+    | T
+    | {
+        backgroundContainerOverflow?: T;
       };
   vintageBorderImage?: T;
   updatedAt?: T;

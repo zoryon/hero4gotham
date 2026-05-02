@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { CalendarDays, Search, Sparkles } from 'lucide-react'
+import { CalendarDays, Check, ChevronDown, Search, Sparkles } from 'lucide-react'
 
 import type { EventFiltersBlock as EventFiltersBlockProps } from '@/payload-types'
 
@@ -109,8 +109,10 @@ export const EventFiltersClient: React.FC<Props> = ({
   searchBorder = false,
   searchPlaceholder = 'Cerca un evento...',
   textColor = '#f3eee5',
-  typeLabel = 'Tipologia',
+  typeLabel = 'Tipo',
 }) => {
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = React.useState(false)
+  const typeDropdownRef = React.useRef<HTMLDivElement>(null)
   const { activityId, date, query, setActivityId, setDate, setQuery } = useEventFilters()
   const resolvedAccentColor = accentColor || '#93b51f'
   const resolvedMutedColor = mutedColor || 'rgba(243,238,229,0.68)'
@@ -121,6 +123,17 @@ export const EventFiltersClient: React.FC<Props> = ({
     activityId === 'all'
       ? null
       : visibleActivities.find((activity) => activity.id === activityId) || null
+  const resolvedTypeLabel = typeLabel?.toLowerCase() === 'tipologia' ? 'Tipo' : typeLabel || 'Tipo'
+  const selectedTypeLabel = selectedActivity?.label || allEventsLabel
+  const dropdownOptions = [
+    {
+      iconAlt: allEventsLabel,
+      iconUrl: null,
+      id: 'all' as const,
+      label: allEventsLabel,
+    },
+    ...visibleActivities,
+  ]
 
   const activityTextFallback = {
     color: resolvedTextColor,
@@ -154,6 +167,28 @@ export const EventFiltersClient: React.FC<Props> = ({
     verticalScale: 'normal',
   } as const
 
+  React.useEffect(() => {
+    if (!isTypeDropdownOpen) return
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!typeDropdownRef.current?.contains(event.target as Node)) {
+        setIsTypeDropdownOpen(false)
+      }
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsTypeDropdownOpen(false)
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isTypeDropdownOpen])
+
   return (
     <section
       className="event-filters w-full"
@@ -165,61 +200,135 @@ export const EventFiltersClient: React.FC<Props> = ({
         } as React.CSSProperties
       }
     >
-      <label
-        className={cn(
-          'relative flex min-h-12 items-center gap-3 px-4 lg:hidden',
-          activityItemBorder && specialBorderClass,
-        )}
-      >
-        {selectedActivity?.iconUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            alt={selectedActivity.iconAlt}
-            className="h-7 w-7 shrink-0 object-contain"
-            src={selectedActivity.iconUrl}
-          />
-        ) : (
-          <Sparkles aria-hidden className="h-7 w-7 shrink-0" style={{ color: resolvedAccentColor }} />
-        )}
-        <span
-          className={getTextClassName(
-            filterLabelTextStyle,
-            'text-[length:var(--event-filters-filter-label-font-size-mobile)] md:text-[length:var(--event-filters-filter-label-font-size-desktop)]',
-          )}
-          style={getTextStyle(filterLabelTextStyle, filterLabelTextFallback, 'event-filters-filter-label')}
-        >
-          {typeLabel}
-        </span>
-        <select
-          aria-label={typeLabel}
+      <div className="relative z-30" ref={typeDropdownRef}>
+        <button
+          aria-expanded={isTypeDropdownOpen}
+          aria-haspopup="listbox"
           className={cn(
-            controlBase,
-            getTextClassName(
-              activityId === 'all' ? activeActivityTextStyle : activityTextStyle,
-              'min-w-0 flex-1 px-0 text-[length:var(--event-filters-activity-font-size-mobile)] md:text-[length:var(--event-filters-activity-font-size-desktop)]',
-            ),
+            'relative flex min-h-12 w-full items-center gap-3 border-0 px-4 py-2 text-left outline-none transition focus:outline-none focus-visible:outline-none focus-visible:ring-0 lg:min-h-11 lg:max-w-[20rem] lg:px-3',
+            activityItemBorder && specialBorderClass,
           )}
-          onChange={(event) => {
-            const value = event.target.value
-            setActivityId(value === 'all' ? 'all' : Number(value))
-          }}
-          style={getTextStyle(
-            activityId === 'all' ? activeActivityTextStyle : activityTextStyle,
-            activityId === 'all' ? activeActivityTextFallback : activityTextFallback,
-            'event-filters-activity',
-          )}
-          value={activityId}
+          onClick={() => setIsTypeDropdownOpen((current) => !current)}
+          type="button"
         >
-          <option value="all">{allEventsLabel}</option>
-          {visibleActivities.map((activity) => (
-            <option key={activity.id} value={activity.id}>
-              {activity.label}
-            </option>
-          ))}
-        </select>
-      </label>
+          {selectedActivity?.iconUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              alt={selectedActivity.iconAlt}
+              className="h-7 w-7 shrink-0 object-contain lg:h-6 lg:w-6"
+              src={selectedActivity.iconUrl}
+            />
+          ) : (
+            <Sparkles
+              aria-hidden
+              className="h-7 w-7 shrink-0 lg:h-6 lg:w-6"
+              style={{ color: resolvedAccentColor }}
+            />
+          )}
+          <span className="grid min-w-0 flex-1 gap-1">
+            <span
+              className={getTextClassName(
+                filterLabelTextStyle,
+                'inline-flex items-center gap-1 text-[length:var(--event-filters-filter-label-font-size-mobile)] md:text-[length:var(--event-filters-filter-label-font-size-desktop)]',
+              )}
+              style={getTextStyle(
+                filterLabelTextStyle,
+                filterLabelTextFallback,
+                'event-filters-filter-label',
+              )}
+            >
+              {resolvedTypeLabel}
+              <ChevronDown
+                aria-hidden
+                className={cn(
+                  'h-3.5 w-3.5 transition-transform',
+                  isTypeDropdownOpen && 'rotate-180',
+                )}
+              />
+            </span>
+            <span
+              className={getTextClassName(
+                activityId === 'all' ? activeActivityTextStyle : activityTextStyle,
+                'truncate text-[length:var(--event-filters-activity-font-size-mobile)] md:text-[length:var(--event-filters-activity-font-size-desktop)]',
+              )}
+              style={getTextStyle(
+                activityId === 'all' ? activeActivityTextStyle : activityTextStyle,
+                activityId === 'all' ? activeActivityTextFallback : activityTextFallback,
+                'event-filters-activity',
+              )}
+            >
+              {selectedTypeLabel}
+            </span>
+          </span>
+        </button>
 
-      <div className="event-filters__activity-grid hidden grid-cols-1 gap-0 overflow-visible pb-0 lg:grid lg:grid-flow-col lg:grid-cols-3 lg:grid-rows-3">
+        {isTypeDropdownOpen ? (
+          <div
+            className={cn(
+              'event-filter-type-menu absolute left-0 right-0 top-[calc(100%+0.55rem)] z-50 overflow-hidden px-2 py-2 lg:right-auto lg:w-[20rem] lg:px-1.5 lg:py-1.5',
+              activityItemBorder && specialBorderClass,
+            )}
+            role="listbox"
+          >
+            <div className="grid h-[12rem] gap-1 overflow-y-auto overscroll-contain pr-1 [-webkit-overflow-scrolling:touch] lg:h-[10.5rem]">
+              {dropdownOptions.map((option) => {
+                const isSelected = activityId === option.id
+
+                return (
+                  <button
+                    aria-selected={isSelected}
+                    className="flex min-h-11 w-full items-center gap-3 border-0 px-3 py-2 text-left outline-none transition hover:bg-white/10 focus:outline-none focus-visible:outline-none focus-visible:ring-0 lg:min-h-10"
+                    key={option.id}
+                    onClick={() => {
+                      setActivityId(option.id)
+                      setIsTypeDropdownOpen(false)
+                    }}
+                    role="option"
+                    type="button"
+                  >
+                    {option.iconUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        alt={option.iconAlt}
+                        className="h-7 w-7 shrink-0 object-contain lg:h-6 lg:w-6"
+                        src={option.iconUrl}
+                      />
+                    ) : (
+                      <Sparkles
+                        aria-hidden
+                        className="h-6 w-6 shrink-0 lg:h-5 lg:w-5"
+                        style={{ color: isSelected ? resolvedAccentColor : resolvedMutedColor }}
+                      />
+                    )}
+                    <span
+                      className={getTextClassName(
+                        isSelected ? activeActivityTextStyle : activityTextStyle,
+                        'min-w-0 flex-1 truncate text-[length:var(--event-filters-activity-font-size-mobile)] md:text-[length:var(--event-filters-activity-font-size-desktop)]',
+                      )}
+                      style={getTextStyle(
+                        isSelected ? activeActivityTextStyle : activityTextStyle,
+                        isSelected ? activeActivityTextFallback : activityTextFallback,
+                        'event-filters-activity',
+                      )}
+                    >
+                      {option.label}
+                    </span>
+                    {isSelected ? (
+                      <Check
+                        aria-hidden
+                        className="h-4 w-4 shrink-0"
+                        style={{ color: resolvedAccentColor }}
+                      />
+                    ) : null}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      <div className="event-filters__activity-grid hidden grid-cols-1 gap-0 overflow-visible pb-0">
         <button
           className={cn(
             'group relative flex min-h-14 w-full min-w-0 items-center gap-3 border-0 px-4 py-2 text-left outline-none transition focus:outline-none focus-visible:outline-none focus-visible:ring-0',

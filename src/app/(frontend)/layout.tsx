@@ -29,6 +29,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
   const themeColors = await getCachedGlobal('themeColors', 1)().catch(() => null)
   const textColors = themeColors?.text
+  const backgroundColors = themeColors?.background
   const vintageBorderImage =
     themeColors?.vintageBorderImage && typeof themeColors.vintageBorderImage === 'object'
       ? getMediaUrl(themeColors.vintageBorderImage.url, themeColors.vintageBorderImage.updatedAt)
@@ -39,6 +40,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     '--theme-text-muted': textColors?.muted || 'rgb(253 230 138 / 0.85)',
     '--theme-text-accent': textColors?.accent || '#a3e635',
     '--theme-text-green': textColors?.green || '#90a434',
+    '--theme-background-container-overflow':
+      backgroundColors?.backgroundContainerOverflow || '#050505',
     ...(vintageBorderImage
       ? {
           '--vintage-border-image': `url("${vintageBorderImage.replace(/"/g, '\\"')}")`,

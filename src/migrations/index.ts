@@ -12,6 +12,8 @@ import * as migration_20260501_155900_activities_detail_grid from './20260501_15
 import * as migration_20260501_165200_activities_collection_and_auto_grid from './20260501_165200_activities_collection_and_auto_grid';
 import * as migration_20260502_090000_event_filters from './20260502_090000_event_filters';
 import * as migration_20260502_100000_background_container_image_rendering from './20260502_100000_background_container_image_rendering';
+import * as migration_20260502_101500_theme_background_container_overflow from './20260502_101500_theme_background_container_overflow';
+import * as migration_20260502_102000_background_container_responsive_images from './20260502_102000_background_container_responsive_images';
 
 export const migrations = [
   {
@@ -83,5 +85,15 @@ export const migrations = [
     up: migration_20260502_100000_background_container_image_rendering.up,
     down: migration_20260502_100000_background_container_image_rendering.down,
     name: '20260502_100000_background_container_image_rendering',
+  },
+  {
+    up: migration_20260502_101500_theme_background_container_overflow.up,
+    down: migration_20260502_101500_theme_background_container_overflow.down,
+    name: '20260502_101500_theme_background_container_overflow',
+  },
+  {
+    up: migration_20260502_102000_background_container_responsive_images.up,
+    down: migration_20260502_102000_background_container_responsive_images.down,
+    name: '20260502_102000_background_container_responsive_images',
   },
 ];

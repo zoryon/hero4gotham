@@ -53,7 +53,7 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
       "filter_by_label" varchar DEFAULT 'Filtra per:',
       "search_placeholder" varchar DEFAULT 'Cerca un evento...',
       "date_label" varchar DEFAULT 'Data',
-      "type_label" varchar DEFAULT 'Tipologia',
+      "type_label" varchar DEFAULT 'Tipo',
       "text_color" varchar DEFAULT '#f3eee5',
       "accent_color" varchar DEFAULT '#93b51f',
       "muted_color" varchar DEFAULT 'rgba(243,238,229,0.68)',
