@@ -523,7 +523,7 @@ export const UpcomingEventsBlock = async ({
           backgroundSize: 'cover',
         }}
       >
-        <div className="relative z-10 flex w-full max-w-[30rem] flex-col justify-center md:max-w-[32rem]">
+        <div className="upcoming-events-cta-copy-backdrop relative z-10 flex w-full max-w-[30rem] flex-col justify-center md:max-w-[32rem]">
           <h2
             className={getTextClassName({
               base: 'uppercase',
