@@ -515,7 +515,7 @@ export const UpcomingEventsBlock = async ({
       </div>
 
       <aside
-        className="relative isolate flex min-h-72 overflow-hidden px-7 py-7 lg:min-h-full lg:px-7 lg:py-6 xl:px-9 xl:py-7"
+        className="relative isolate grid min-h-64 overflow-hidden px-7 py-7 md:min-h-56 md:grid-cols-[minmax(0,1fr)_minmax(7rem,24%)] md:items-center md:py-6 md:pl-[65px] md:pr-8 xl:min-h-full xl:grid-cols-[minmax(0,1fr)_minmax(8rem,30%)] xl:py-7 xl:pl-14 xl:pr-9"
         style={{
           backgroundImage: resolveBackgroundImage(rightBackground),
           backgroundPosition: 'center',
@@ -523,7 +523,7 @@ export const UpcomingEventsBlock = async ({
           backgroundSize: 'cover',
         }}
       >
-        <div className="relative z-10 flex w-full max-w-[72%] flex-col justify-center xl:max-w-[76%]">
+        <div className="relative z-10 flex w-full max-w-[30rem] flex-col justify-center md:max-w-[32rem]">
           <h2
             className={getTextClassName({
               base: 'uppercase',
@@ -543,7 +543,7 @@ export const UpcomingEventsBlock = async ({
           {ctaText ? (
             <p
               className={getTextClassName({
-                base: 'mt-4 max-w-[75%]',
+                base: 'mt-4 max-w-[min(100%,30rem)] md:max-w-[min(100%,34rem)] xl:max-w-[24rem]',
                 fontSize: ctaTextFontSize,
                 fontWeight: ctaTextFontWeight,
                 letterSpacing: ctaTextLetterSpacing,
@@ -561,7 +561,7 @@ export const UpcomingEventsBlock = async ({
           <CMSLink
             {...ctaLink}
             className={getTextClassName({
-              base: 'mt-7 inline-flex w-fit px-8 py-4 uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)]',
+              base: 'mt-6 inline-flex w-fit px-7 py-3 uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)] md:mt-5 md:px-7 md:py-3 xl:mt-7 xl:px-8 xl:py-4',
               fontSize: ctaButtonFontSize,
               fontWeight: ctaButtonFontWeight,
               letterSpacing: ctaButtonLetterSpacing,
@@ -590,7 +590,7 @@ export const UpcomingEventsBlock = async ({
         </div>
 
         {ctaGlyph && typeof ctaGlyph === 'object' ? (
-          <div className="pointer-events-none absolute bottom-3 right-2 h-48 w-48 opacity-95 md:h-56 md:w-56 xl:h-72 xl:w-72">
+          <div className="pointer-events-none absolute bottom-2 right-2 h-36 w-36 opacity-95 md:static md:justify-self-end md:self-center md:h-[clamp(7rem,18vw,10.5rem)] md:w-[clamp(7rem,18vw,10.5rem)] xl:h-64 xl:w-64">
             <Media
               fill
               imgClassName="object-contain"
