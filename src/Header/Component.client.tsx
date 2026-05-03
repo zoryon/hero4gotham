@@ -129,8 +129,16 @@ const getSocialHref = (item: HeaderSocialItem) => {
   return item.url || '#'
 }
 
+const decodePath = (path: string) => {
+  try {
+    return decodeURI(path)
+  } catch {
+    return path
+  }
+}
+
 const normalizePath = (path: string) => {
-  const pathname = path.split(/[?#]/)[0] || '/'
+  const pathname = decodePath(path.split(/[?#]/)[0] || '/').normalize('NFC')
   return pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
 }
 
