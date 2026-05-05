@@ -34,18 +34,13 @@ const eventDateFormatter = new Intl.DateTimeFormat('it-IT', {
 })
 
 const eventSelect = {
-  dateDayLabel: true,
-  dateMonthLabel: true,
   description: true,
   link: true,
   startsAt: true,
   title: true,
 } as const
 
-type UpcomingEventData = Pick<
-  EventDocument,
-  'dateDayLabel' | 'dateMonthLabel' | 'description' | 'id' | 'link' | 'startsAt' | 'title'
->
+type UpcomingEventData = Pick<EventDocument, 'description' | 'id' | 'link' | 'startsAt' | 'title'>
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
   if (!image || typeof image !== 'object') return undefined
@@ -343,8 +338,6 @@ export const UpcomingEventsBlock = async ({
                 {eventItems.length ? (
                   eventItems.map((event) => {
                     const formattedDate = formatEventDate(event.startsAt)
-                    const day = event.dateDayLabel || formattedDate.day
-                    const month = event.dateMonthLabel || formattedDate.month
 
                     return (
                       <article
@@ -367,7 +360,7 @@ export const UpcomingEventsBlock = async ({
                               verticalScale: dateDayVerticalScale,
                             })}
                           >
-                            {day}
+                            {formattedDate.day}
                           </div>
                           <div
                             className={getTextClassName({
@@ -383,7 +376,7 @@ export const UpcomingEventsBlock = async ({
                               verticalScale: dateMonthVerticalScale,
                             })}
                           >
-                            {month}
+                            {formattedDate.month}
                           </div>
                         </div>
 

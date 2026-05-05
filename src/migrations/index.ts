@@ -14,6 +14,10 @@ import * as migration_20260502_090000_event_filters from './20260502_090000_even
 import * as migration_20260502_100000_background_container_image_rendering from './20260502_100000_background_container_image_rendering';
 import * as migration_20260502_101500_theme_background_container_overflow from './20260502_101500_theme_background_container_overflow';
 import * as migration_20260502_102000_background_container_responsive_images from './20260502_102000_background_container_responsive_images';
+import * as migration_20260505_120000_event_filters_ui_labels from './20260505_120000_event_filters_ui_labels';
+import * as migration_20260505_121000_events_require_venue from './20260505_121000_events_require_venue';
+import * as migration_20260505_122000_remove_event_date_display_overrides from './20260505_122000_remove_event_date_display_overrides';
+import * as migration_20260505_123000_add_sentence_case_text_transform from './20260505_123000_add_sentence_case_text_transform';
 
 export const migrations = [
   {
@@ -95,5 +99,25 @@ export const migrations = [
     up: migration_20260502_102000_background_container_responsive_images.up,
     down: migration_20260502_102000_background_container_responsive_images.down,
     name: '20260502_102000_background_container_responsive_images',
+  },
+  {
+    up: migration_20260505_120000_event_filters_ui_labels.up,
+    down: migration_20260505_120000_event_filters_ui_labels.down,
+    name: '20260505_120000_event_filters_ui_labels',
+  },
+  {
+    up: migration_20260505_121000_events_require_venue.up,
+    down: migration_20260505_121000_events_require_venue.down,
+    name: '20260505_121000_events_require_venue',
+  },
+  {
+    up: migration_20260505_122000_remove_event_date_display_overrides.up,
+    down: migration_20260505_122000_remove_event_date_display_overrides.down,
+    name: '20260505_122000_remove_event_date_display_overrides',
+  },
+  {
+    up: migration_20260505_123000_add_sentence_case_text_transform.up,
+    down: migration_20260505_123000_add_sentence_case_text_transform.down,
+    name: '20260505_123000_add_sentence_case_text_transform',
   },
 ];

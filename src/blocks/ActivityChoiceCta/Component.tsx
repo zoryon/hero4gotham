@@ -13,6 +13,7 @@ import {
   typographyLetterSpacingClasses,
   typographyVerticalScaleValues,
 } from '@/fields/typography'
+import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 type TextStyle = NonNullable<ActivityChoiceCtaBlockProps['topTextStyle']>
@@ -65,9 +66,6 @@ const getTextStyle = (
     })`,
     transformOrigin: 'center',
   }) as React.CSSProperties
-
-const textTransformClass = (value: string | null | undefined) =>
-  value === 'uppercase' ? 'uppercase' : undefined
 
 const SideImage: React.FC<{
   className?: string
@@ -159,7 +157,7 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
               'activity-choice-top',
             )}
           >
-            {topText}
+            {formatTextTransform(topText, topTextStyle?.textTransform)}
           </p>
 
           <p className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
@@ -184,7 +182,7 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
                 'activity-choice-bottom',
               )}
             >
-              {bottomText}
+              {formatTextTransform(bottomText, bottomTextStyle?.textTransform)}
             </span>
             <span
               className={cn(
@@ -207,7 +205,7 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
                 'activity-choice-accent',
               )}
             >
-              {accentText}
+              {formatTextTransform(accentText, accentTextStyle?.textTransform)}
             </span>
           </p>
         </div>
@@ -249,7 +247,7 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
                 'activity-choice-cta',
               )}
             >
-              {primaryLink.label}
+              {formatTextTransform(primaryLink.label, ctaTextStyle?.textTransform)}
             </span>
           </CMSLink>
         ) : null}

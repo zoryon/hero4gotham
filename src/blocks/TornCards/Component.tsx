@@ -10,6 +10,7 @@ import {
   typographyLetterSpacingClasses,
   typographyVerticalScaleValues,
 } from '@/fields/typography'
+import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 type TornCardItem = NonNullable<TornCardsBlockProps['items']>[number]
@@ -109,9 +110,6 @@ const getSpacingValue = (value: keyof typeof spacingValues | null | undefined) =
 const getMedia = (media: MediaDocument | number | null | undefined) =>
   media && typeof media === 'object' ? media : null
 
-const textTransformClass = (value: string | null | undefined) =>
-  value === 'uppercase' ? 'uppercase' : undefined
-
 const getResponsiveFontSize = (mobile: number, desktop: number) => {
   if (mobile === desktop) return `${mobile}px`
 
@@ -176,36 +174,43 @@ const StyledText: React.FC<{
   }
   style?: React.CSSProperties
   styleConfig: TextStyle | null | undefined
-}> = ({ as: Tag = 'span', children, className, fallback, style, styleConfig }) => (
-  <Tag
-    className={cn(
-      textTransformClass(styleConfig?.textTransform || fallback.textTransform),
-      typographyFontWeightClasses[
-        (styleConfig?.fontWeight || fallback.fontWeight) as keyof typeof typographyFontWeightClasses
-      ],
-      typographyLetterSpacingClasses[
-        (styleConfig?.letterSpacing ||
-          fallback.letterSpacing) as keyof typeof typographyLetterSpacingClasses
-      ],
-      className,
-    )}
-    style={{
-      ...getTextStyle(styleConfig, {
-        color: fallback.color,
-        fontFamily: fallback.fontFamily,
-        fontSizeDesktop: fallback.fontSizeDesktop,
-        fontSizeMobile: fallback.fontSizeMobile,
-        fontStyle: fallback.fontStyle,
-        lineHeight: fallback.lineHeight,
-        maxWidth: fallback.maxWidth,
-        verticalScale: fallback.verticalScale,
-      }),
-      ...style,
-    }}
-  >
-    {children}
-  </Tag>
-)
+}> = ({ as: Tag = 'span', children, className, fallback, style, styleConfig }) => {
+  const textTransform = styleConfig?.textTransform || fallback.textTransform
+  const formattedChildren =
+    typeof children === 'string' ? formatTextTransform(children, textTransform) : children
+
+  return (
+    <Tag
+      className={cn(
+        textTransformClass(textTransform),
+        typographyFontWeightClasses[
+          (styleConfig?.fontWeight ||
+            fallback.fontWeight) as keyof typeof typographyFontWeightClasses
+        ],
+        typographyLetterSpacingClasses[
+          (styleConfig?.letterSpacing ||
+            fallback.letterSpacing) as keyof typeof typographyLetterSpacingClasses
+        ],
+        className,
+      )}
+      style={{
+        ...getTextStyle(styleConfig, {
+          color: fallback.color,
+          fontFamily: fallback.fontFamily,
+          fontSizeDesktop: fallback.fontSizeDesktop,
+          fontSizeMobile: fallback.fontSizeMobile,
+          fontStyle: fallback.fontStyle,
+          lineHeight: fallback.lineHeight,
+          maxWidth: fallback.maxWidth,
+          verticalScale: fallback.verticalScale,
+        }),
+        ...style,
+      }}
+    >
+      {formattedChildren}
+    </Tag>
+  )
+}
 
 const themeTextColorValues = {
   accent: 'var(--theme-text-accent)',

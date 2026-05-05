@@ -381,6 +381,15 @@
     transform-origin: center;
   }
 
+  .text-sentence-case {
+    text-transform: lowercase;
+  }
+
+  .text-sentence-case::first-letter,
+  .text-sentence-case > :first-child::first-letter {
+    text-transform: uppercase;
+  }
+
   .scribble-border,
   .cornice-vintage {
     --vintage-border-outset: 0;
@@ -445,19 +454,6 @@
   .event-filter-control-border::after {
     border-image-source: var(--vintage-border-image, url('../../../.design/border/border.png'));
     inset: calc(var(--vintage-border-width, 11px) * -0.55);
-  }
-
-  .event-filter-type-menu {
-    background:
-      linear-gradient(135deg, rgb(8 5 12 / 0.96), rgb(18 9 23 / 0.94)),
-      radial-gradient(circle at 18% 0%, rgb(163 230 53 / 0.16), transparent 42%),
-      radial-gradient(circle at 100% 15%, rgb(232 121 249 / 0.12), transparent 44%);
-    backdrop-filter: blur(14px) saturate(1.2);
-    box-shadow:
-      0 22px 48px rgb(0 0 0 / 0.62),
-      inset 0 0 0 1px rgb(255 255 255 / 0.13),
-      inset 0 0 34px rgb(0 0 0 / 0.34);
-    clip-path: polygon(0.6% 2%, 99.4% 0, 98.8% 98%, 1.2% 100%);
   }
 
   .torn-grid {

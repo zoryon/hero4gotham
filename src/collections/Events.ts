@@ -18,8 +18,6 @@ export const Events: CollectionConfig<'events'> = {
   },
   defaultPopulate: {
     activity: true,
-    dateDayLabel: true,
-    dateMonthLabel: true,
     description: true,
     link: true,
     startsAt: true,
@@ -54,29 +52,6 @@ export const Events: CollectionConfig<'events'> = {
       required: true,
     },
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'dateDayLabel',
-          type: 'text',
-          admin: {
-            description: 'Optional override for the displayed day.',
-            width: '50%',
-          },
-          label: 'Displayed day',
-        },
-        {
-          name: 'dateMonthLabel',
-          type: 'text',
-          admin: {
-            description: 'Optional override for the displayed month.',
-            width: '50%',
-          },
-          label: 'Displayed month',
-        },
-      ],
-    },
-    {
       name: 'description',
       type: 'textarea',
       required: true,
@@ -89,6 +64,8 @@ export const Events: CollectionConfig<'events'> = {
       },
       index: true,
       label: 'Venue',
+      validate: (value: unknown) =>
+        typeof value === 'string' && value.trim().length > 0 ? true : 'Venue is required.',
     },
     link({
       appearances: false,

@@ -13,6 +13,7 @@ import {
   typographyLetterSpacingClasses,
   typographyVerticalScaleValues,
 } from '@/fields/typography'
+import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
@@ -74,9 +75,6 @@ const getSetting = (
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback
 }
 
-const textTransformClass = (value: string | null | undefined) =>
-  value === 'uppercase' ? 'uppercase' : undefined
-
 const getResponsiveFontSize = (mobile: number, desktop: number) => {
   if (mobile === desktop) return `${mobile}px`
 
@@ -115,7 +113,8 @@ const getTextStyle = (
     maxWidth: style?.maxWidth ?? fallback.maxWidth,
     transform: `scaleY(${
       typographyVerticalScaleValues[
-        (style?.verticalScale || fallback.verticalScale) as keyof typeof typographyVerticalScaleValues
+        (style?.verticalScale ||
+          fallback.verticalScale) as keyof typeof typographyVerticalScaleValues
       ]
     })`,
     transformOrigin: 'left center',
@@ -195,40 +194,47 @@ const StyledText: React.FC<{
   prefix: string
   style?: React.CSSProperties
   styleConfig: TextStyle | null | undefined
-}> = ({ as: Tag = 'span', children, className, fallback, prefix, style, styleConfig }) => (
-  <Tag
-    className={cn(
-      textTransformClass(styleConfig?.textTransform || fallback.textTransform),
-      typographyFontWeightClasses[
-        (styleConfig?.fontWeight || fallback.fontWeight) as keyof typeof typographyFontWeightClasses
-      ],
-      typographyLetterSpacingClasses[
-        (styleConfig?.letterSpacing ||
-          fallback.letterSpacing) as keyof typeof typographyLetterSpacingClasses
-      ],
-      className,
-    )}
-    style={{
-      ...getTextStyle(
-        styleConfig,
-        {
-          color: fallback.color,
-          fontFamily: fallback.fontFamily,
-          fontSizeDesktop: fallback.fontSizeDesktop,
-          fontSizeMobile: fallback.fontSizeMobile,
-          fontStyle: fallback.fontStyle,
-          lineHeight: fallback.lineHeight,
-          maxWidth: fallback.maxWidth,
-          verticalScale: fallback.verticalScale,
-        },
-        prefix,
-      ),
-      ...style,
-    }}
-  >
-    {children}
-  </Tag>
-)
+}> = ({ as: Tag = 'span', children, className, fallback, prefix, style, styleConfig }) => {
+  const textTransform = styleConfig?.textTransform || fallback.textTransform
+  const formattedChildren =
+    typeof children === 'string' ? formatTextTransform(children, textTransform) : children
+
+  return (
+    <Tag
+      className={cn(
+        textTransformClass(textTransform),
+        typographyFontWeightClasses[
+          (styleConfig?.fontWeight ||
+            fallback.fontWeight) as keyof typeof typographyFontWeightClasses
+        ],
+        typographyLetterSpacingClasses[
+          (styleConfig?.letterSpacing ||
+            fallback.letterSpacing) as keyof typeof typographyLetterSpacingClasses
+        ],
+        className,
+      )}
+      style={{
+        ...getTextStyle(
+          styleConfig,
+          {
+            color: fallback.color,
+            fontFamily: fallback.fontFamily,
+            fontSizeDesktop: fallback.fontSizeDesktop,
+            fontSizeMobile: fallback.fontSizeMobile,
+            fontStyle: fallback.fontStyle,
+            lineHeight: fallback.lineHeight,
+            maxWidth: fallback.maxWidth,
+            verticalScale: fallback.verticalScale,
+          },
+          prefix,
+        ),
+        ...style,
+      }}
+    >
+      {formattedChildren}
+    </Tag>
+  )
+}
 
 const ActivityCard: React.FC<{
   activity: ActivityCardData
@@ -529,8 +535,7 @@ export const ActivitiesDetailGridBlock = async ({
   )
   const fetchLimit = Math.min(Math.max(automaticLimit ?? 8, 1), 8, responsiveCapacity)
   const resolvedCellMinHeight = !cellMinHeight || cellMinHeight === 190 ? 240 : cellMinHeight
-  const automaticActivities =
-    source === 'automatic' ? await getAutomaticActivities(fetchLimit) : []
+  const automaticActivities = source === 'automatic' ? await getAutomaticActivities(fetchLimit) : []
   const cards: ActivityCardData[] =
     source === 'automatic'
       ? automaticActivities.map((activity, index) => ({
@@ -577,10 +582,12 @@ export const ActivitiesDetailGridBlock = async ({
             }}
             prefix="activity-detail-heading"
             styleConfig={headingStyle}
-            style={{
-              paddingBlock: headingPaddingY,
-              paddingInline: headingPaddingX,
-            } as React.CSSProperties}
+            style={
+              {
+                paddingBlock: headingPaddingY,
+                paddingInline: headingPaddingX,
+              } as React.CSSProperties
+            }
           >
             {heading}
           </StyledText>

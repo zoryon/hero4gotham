@@ -12,6 +12,7 @@ import {
   typographyLetterSpacingClasses,
   typographyVerticalScaleValues,
 } from '@/fields/typography'
+import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 type TextStyle = NonNullable<QuoteBannerBlockProps['textStyle']>
@@ -55,9 +56,6 @@ const getTextStyle = (
     })`,
     transformOrigin: 'center',
   }) as React.CSSProperties
-
-const textTransformClass = (value: string | null | undefined) =>
-  value === 'uppercase' ? 'uppercase' : undefined
 
 const normalizeLegacyDefault = (
   value: number | null | undefined,
@@ -159,7 +157,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
               translate: `0 ${resolvedQuoteOffsetY}px`,
             }}
           >
-            {leftQuote}
+            {formatTextTransform(leftQuote, resolvedQuoteMarkStyle?.textTransform)}
           </span>
         ) : null}
 
@@ -185,7 +183,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
             'quote-text',
           )}
         >
-          {quote}
+          {formatTextTransform(quote, resolvedTextStyle?.textTransform)}
         </p>
 
         {showQuotes ? (
@@ -214,7 +212,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
               translate: `0 ${resolvedQuoteOffsetY}px`,
             }}
           >
-            {rightQuote}
+            {formatTextTransform(rightQuote, resolvedQuoteMarkStyle?.textTransform)}
           </span>
         ) : null}
       </div>

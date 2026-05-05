@@ -171,10 +171,45 @@ export const textTransformOptions = [
     value: 'normal',
   },
   {
+    label: 'First letter uppercase',
+    value: 'sentenceCase',
+  },
+  {
     label: 'Uppercase',
     value: 'uppercase',
   },
 ] as const
+
+export type TextTransform = (typeof textTransformOptions)[number]['value']
+
+export const textTransformClass = (value: string | null | undefined) => {
+  if (value === 'uppercase') return 'uppercase'
+
+  return undefined
+}
+
+export const richTextTransformClass = (value: string | null | undefined) => {
+  if (value === 'sentenceCase') return 'text-sentence-case'
+
+  return textTransformClass(value)
+}
+
+export const textTransformCssValue = (value: string | null | undefined) => {
+  if (value === 'uppercase') return 'uppercase'
+
+  return 'none'
+}
+
+export const formatTextTransform = (
+  text: string | null | undefined,
+  value: string | null | undefined,
+) => {
+  if (!text || value !== 'sentenceCase') return text || ''
+
+  const lowerText = text.toLocaleLowerCase('it-IT')
+
+  return lowerText.replace(/(\p{L})/u, (letter) => letter.toLocaleUpperCase('it-IT'))
+}
 
 export const textAlignOptions = [
   {

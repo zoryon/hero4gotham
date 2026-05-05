@@ -11,6 +11,7 @@ import { Logo } from '@/components/Logo/Logo'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
+import { formatTextTransform, textTransformClass, textTransformCssValue } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 interface HeaderClientProps {
@@ -96,7 +97,9 @@ const typographyVars = (
     [`--${prefix}-weight`]: fontWeightValues[fontWeight as keyof typeof fontWeightValues],
     [`--${prefix}-letter-spacing`]: em(typography?.letterSpacing, defaults.letterSpacing),
     [`--${prefix}-line-height`]: typography?.lineHeight ?? defaults.lineHeight,
-    [`--${prefix}-text-transform`]: typography?.textTransform || defaults.textTransform,
+    [`--${prefix}-text-transform`]: textTransformCssValue(
+      typography?.textTransform || defaults.textTransform,
+    ),
     [`--${prefix}-vertical-scale`]:
       typographyVerticalScaleValues[verticalScale as keyof typeof typographyVerticalScaleValues],
   }
@@ -197,6 +200,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const navItems = data?.navItems || []
   const socialItems = data?.socialItems || []
   const hasLogo = Boolean(data?.logo && typeof data.logo === 'object')
+  const eyebrowTextTransform = data?.eyebrowTypography?.textTransform
+  const brandTextTransform = data?.brandTypography?.textTransform
+  const taglineTextTransform = data?.taglineTypography?.textTransform
+  const navTextTransform = data?.navTypography?.textTransform
+  const socialTextTransform = data?.socialTypography?.textTransform
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -260,9 +268,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             )}
           </span>
           <span className="site-header__brand-copy">
-            {data?.eyebrow ? <span className="site-header__eyebrow">{data.eyebrow}</span> : null}
-            {data?.brandName ? <span className="site-header__name">{data.brandName}</span> : null}
-            {data?.tagline ? <span className="site-header__tagline">{data.tagline}</span> : null}
+            {data?.eyebrow ? (
+              <span
+                className={cn('site-header__eyebrow', textTransformClass(eyebrowTextTransform))}
+              >
+                {formatTextTransform(data.eyebrow, eyebrowTextTransform)}
+              </span>
+            ) : null}
+            {data?.brandName ? (
+              <span className={cn('site-header__name', textTransformClass(brandTextTransform))}>
+                {formatTextTransform(data.brandName, brandTextTransform)}
+              </span>
+            ) : null}
+            {data?.tagline ? (
+              <span
+                className={cn('site-header__tagline', textTransformClass(taglineTextTransform))}
+              >
+                {formatTextTransform(data.tagline, taglineTextTransform)}
+              </span>
+            ) : null}
           </span>
         </Link>
 
@@ -276,7 +300,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 key={i}
                 {...link}
                 appearance="inline"
-                className={cn('site-header__nav-link', isActive && 'site-header__nav-link--active')}
+                className={cn(
+                  'site-header__nav-link',
+                  textTransformClass(navTextTransform),
+                  isActive && 'site-header__nav-link--active',
+                )}
+                label={formatTextTransform(link.label, navTextTransform)}
               />
             )
           })}
@@ -287,7 +316,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             {socialItems.map((item, index) => (
               <a
                 aria-label={item.label || item.platform || 'Social'}
-                className="site-header__social-link"
+                className={cn('site-header__social-link', textTransformClass(socialTextTransform))}
                 href={getSocialHref(item)}
                 key={`${item.platform}-${index}`}
                 rel="noopener noreferrer"

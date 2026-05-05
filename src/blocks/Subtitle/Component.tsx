@@ -17,6 +17,7 @@ import {
   typographySubtitleFontSizeClasses,
   typographyVerticalScaleValues,
 } from '@/fields/typography'
+import { formatTextTransform, textTransformClass, type TextTransform } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 export type SubtitleProps = {
@@ -28,7 +29,7 @@ export type SubtitleProps = {
   fontFamily?: TypographyFontFamily | null
   verticalScale?: TypographyVerticalScale | null
   distress?: TypographyDistress | null
-  textTransform?: 'normal' | 'uppercase' | null
+  textTransform?: TextTransform | null
   textColorMode?: 'theme' | 'custom' | null
   themeTextColor?: 'primary' | 'secondary' | 'accent' | 'muted' | 'green' | null
   textColor?: string | null
@@ -130,7 +131,7 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
       <p
         className={cn(
           'leading-snug origin-center',
-          (textTransform ?? 'uppercase') === 'uppercase' ? 'uppercase' : undefined,
+          textTransformClass(textTransform ?? 'uppercase'),
           typographySubtitleFontSizeClasses[fontSize ?? 'base'],
           typographyFontWeightClasses[fontWeight ?? 'regular'],
           typographyLetterSpacingClasses[letterSpacing ?? 'wide'],
@@ -143,7 +144,7 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
           ...typographyDistressStyles[resolvedDistress],
         }}
       >
-        {renderSubtitle(text, lineBreaks)}
+        {renderSubtitle(formatTextTransform(text, textTransform), lineBreaks)}
       </p>
     </section>
   )

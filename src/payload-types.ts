@@ -484,7 +484,7 @@ export interface ActivitiesDetailGridBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
      */
@@ -521,7 +521,7 @@ export interface ActivitiesDetailGridBlock {
           fontSizeDesktop?: number | null;
           lineHeight?: number | null;
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-          textTransform?: ('normal' | 'uppercase') | null;
+          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
            * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
            */
@@ -537,7 +537,7 @@ export interface ActivitiesDetailGridBlock {
           fontSizeDesktop?: number | null;
           lineHeight?: number | null;
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-          textTransform?: ('normal' | 'uppercase') | null;
+          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
            * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
            */
@@ -553,7 +553,7 @@ export interface ActivitiesDetailGridBlock {
           fontSizeDesktop?: number | null;
           lineHeight?: number | null;
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-          textTransform?: ('normal' | 'uppercase') | null;
+          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
            * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
            */
@@ -569,7 +569,7 @@ export interface ActivitiesDetailGridBlock {
           fontSizeDesktop?: number | null;
           lineHeight?: number | null;
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-          textTransform?: ('normal' | 'uppercase') | null;
+          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
            * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
            */
@@ -621,7 +621,7 @@ export interface ActivitiesDetailGridBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
      */
@@ -637,7 +637,7 @@ export interface ActivitiesDetailGridBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
      */
@@ -653,7 +653,7 @@ export interface ActivitiesDetailGridBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
      */
@@ -669,7 +669,7 @@ export interface ActivitiesDetailGridBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
      */
@@ -724,7 +724,7 @@ export interface ActivityChoiceCtaBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
      */
@@ -739,7 +739,7 @@ export interface ActivityChoiceCtaBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
      */
@@ -754,7 +754,7 @@ export interface ActivityChoiceCtaBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
      */
@@ -770,7 +770,7 @@ export interface ActivityChoiceCtaBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
      */
@@ -937,7 +937,7 @@ export interface CallToActionBlock {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     buttonVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
   links?:
     | {
@@ -1057,46 +1057,15 @@ export interface EventFiltersBlock {
   searchPlaceholder: string;
   dateLabel: string;
   typeLabel: string;
+  venueLabel: string;
+  allVenuesLabel: string;
   textColor?: string | null;
   accentColor?: string | null;
   mutedColor?: string | null;
-  activityItemBorder?: boolean | null;
   searchBorder?: boolean | null;
   dateBorder?: boolean | null;
-  activityTextStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    fontStyle?: ('normal' | 'italic') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    fontSizeMobile?: number | null;
-    fontSizeDesktop?: number | null;
-    lineHeight?: number | null;
-    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
-    colorMode?: ('global' | 'custom') | null;
-    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
-    /**
-     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
-     */
-    colorCustom?: string | null;
-  };
-  activeActivityTextStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    fontStyle?: ('normal' | 'italic') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    fontSizeMobile?: number | null;
-    fontSizeDesktop?: number | null;
-    lineHeight?: number | null;
-    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
-    colorMode?: ('global' | 'custom') | null;
-    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
-    /**
-     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
-     */
-    colorCustom?: string | null;
-  };
+  typeBorder?: boolean | null;
+  venueBorder?: boolean | null;
   controlTextStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
@@ -1106,7 +1075,7 @@ export interface EventFiltersBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorMode?: ('global' | 'custom') | null;
     colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
     /**
@@ -1123,7 +1092,7 @@ export interface EventFiltersBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorMode?: ('global' | 'custom') | null;
     colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
     /**
@@ -1243,7 +1212,7 @@ export interface SubtitleBlock {
    */
   textColor?: string | null;
   distress?: ('none' | 'light' | 'worn' | 'destroyed') | null;
-  textTransform?: ('normal' | 'uppercase') | null;
+  textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   align?: ('center' | 'left') | null;
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
@@ -1525,14 +1494,6 @@ export interface Event {
    */
   activity?: (number | null) | Activity;
   startsAt: string;
-  /**
-   * Optional override for the displayed day.
-   */
-  dateDayLabel?: string | null;
-  /**
-   * Optional override for the displayed month.
-   */
-  dateMonthLabel?: string | null;
   description: string;
   /**
    * Place used by the event filters.
@@ -1886,7 +1847,7 @@ export interface ThreePanelShowcaseBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
      */
@@ -1902,7 +1863,7 @@ export interface ThreePanelShowcaseBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
      */
@@ -1951,7 +1912,7 @@ export interface QuoteBannerBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #2f1631, white, or rgba(0,0,0,0.8).
      */
@@ -1967,7 +1928,7 @@ export interface QuoteBannerBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, for example #2f1631, white, or rgba(0,0,0,0.8).
      */
@@ -2087,7 +2048,7 @@ export interface TornCardsBlock {
     fontSizeDesktop?: number | null;
     lineHeight?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
      * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
      */
@@ -3034,44 +2995,15 @@ export interface EventFiltersBlockSelect<T extends boolean = true> {
   searchPlaceholder?: T;
   dateLabel?: T;
   typeLabel?: T;
+  venueLabel?: T;
+  allVenuesLabel?: T;
   textColor?: T;
   accentColor?: T;
   mutedColor?: T;
-  activityItemBorder?: T;
   searchBorder?: T;
   dateBorder?: T;
-  activityTextStyle?:
-    | T
-    | {
-        fontFamily?: T;
-        fontWeight?: T;
-        fontStyle?: T;
-        verticalScale?: T;
-        fontSizeMobile?: T;
-        fontSizeDesktop?: T;
-        lineHeight?: T;
-        letterSpacing?: T;
-        textTransform?: T;
-        colorMode?: T;
-        colorGlobal?: T;
-        colorCustom?: T;
-      };
-  activeActivityTextStyle?:
-    | T
-    | {
-        fontFamily?: T;
-        fontWeight?: T;
-        fontStyle?: T;
-        verticalScale?: T;
-        fontSizeMobile?: T;
-        fontSizeDesktop?: T;
-        lineHeight?: T;
-        letterSpacing?: T;
-        textTransform?: T;
-        colorMode?: T;
-        colorGlobal?: T;
-        colorCustom?: T;
-      };
+  typeBorder?: T;
+  venueBorder?: T;
   controlTextStyle?:
     | T
     | {
@@ -3896,8 +3828,6 @@ export interface EventsSelect<T extends boolean = true> {
   title?: T;
   activity?: T;
   startsAt?: T;
-  dateDayLabel?: T;
-  dateMonthLabel?: T;
   description?: T;
   venue?: T;
   link?:
@@ -4376,7 +4306,7 @@ export interface Header {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: number | null;
     lineHeight?: number | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
   brandTypography?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -4385,7 +4315,7 @@ export interface Header {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: number | null;
     lineHeight?: number | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
   taglineTypography?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -4394,7 +4324,7 @@ export interface Header {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: number | null;
     lineHeight?: number | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
   navTypography?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -4403,7 +4333,7 @@ export interface Header {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: number | null;
     lineHeight?: number | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
   socialTypography?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -4412,7 +4342,7 @@ export interface Header {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: number | null;
     lineHeight?: number | null;
-    textTransform?: ('normal' | 'uppercase') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;

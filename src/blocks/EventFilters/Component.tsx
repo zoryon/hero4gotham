@@ -51,8 +51,36 @@ const getActivitiesForFilters = unstable_cache(
   },
 )
 
-export const EventFiltersBlock = async (props: EventFiltersBlockProps) => {
-  const activities = await getActivitiesForFilters()
+const getVenuesForFilters = unstable_cache(
+  async (): Promise<string[]> => {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'events',
+      limit: 200,
+      pagination: false,
+      select: {
+        venue: true,
+      },
+      sort: 'venue',
+    })
 
-  return <EventFiltersClient {...props} activities={activities} />
+    return Array.from(
+      new Set(
+        result.docs
+          .map((event) => event.venue?.trim())
+          .filter((venue): venue is string => Boolean(venue)),
+      ),
+    )
+  },
+  ['event-filters-venues'],
+  {
+    revalidate: 300,
+    tags: ['events'],
+  },
+)
+
+export const EventFiltersBlock = async (props: EventFiltersBlockProps) => {
+  const [activities, venues] = await Promise.all([getActivitiesForFilters(), getVenuesForFilters()])
+
+  return <EventFiltersClient {...props} activities={activities} venues={venues} />
 }

@@ -6,6 +6,7 @@ import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
+import { formatTextTransform, richTextTransformClass, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 export const CallToActionBlock: React.FC<CTABlockProps> = ({
@@ -125,11 +126,6 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
     wider: '[&_*]:tracking-[0.32em]',
   }
 
-  const textTransformClasses = {
-    normal: 'normal-case',
-    uppercase: 'uppercase',
-  }
-
   const selectedFontFamily = typographyFontFamilyStyles[typography?.fontFamily || 'geistSans']
 
   const colorValues = {
@@ -206,7 +202,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
                   textSizeClasses[typography?.fontSize || 'base'],
                   textWeightClasses[typography?.fontWeight || 'regular'],
                   letterSpacingClasses[typography?.letterSpacing || 'normal'],
-                  textTransformClasses[typography?.textTransform || 'normal'],
+                  richTextTransformClass(typography?.textTransform),
                 )}
                 data={richText}
                 enableGutter={false}
@@ -232,7 +228,16 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
                 }
               >
                 <CMSLink className="cta-action-link" label={undefined} size="lg" {...linkProps}>
-                  {label ? <span className="cta-action-label">{label}</span> : null}
+                  {label ? (
+                    <span
+                      className={cn(
+                        'cta-action-label',
+                        textTransformClass(typography?.textTransform),
+                      )}
+                    >
+                      {formatTextTransform(label, typography?.textTransform)}
+                    </span>
+                  ) : null}
                 </CMSLink>
               </span>
             )

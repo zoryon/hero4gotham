@@ -260,9 +260,34 @@ export const EventFilters: Block = {
             {
               name: 'typeLabel',
               type: 'text',
-              defaultValue: 'Tipo',
+              defaultValue: 'Tipologia',
               label: 'Type label',
               required: true,
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'venueLabel',
+                  type: 'text',
+                  defaultValue: 'Luogo',
+                  label: 'Venue label',
+                  required: true,
+                  admin: {
+                    width: '50%',
+                  },
+                },
+                {
+                  name: 'allVenuesLabel',
+                  type: 'text',
+                  defaultValue: 'Tutti i luoghi',
+                  label: 'All venues label',
+                  required: true,
+                  admin: {
+                    width: '50%',
+                  },
+                },
+              ],
             },
           ],
         },
@@ -305,15 +330,6 @@ export const EventFilters: Block = {
               type: 'row',
               fields: [
                 {
-                  name: 'activityItemBorder',
-                  type: 'checkbox',
-                  defaultValue: false,
-                  label: 'Activity item border',
-                  admin: {
-                    width: '25%',
-                  },
-                },
-                {
                   name: 'searchBorder',
                   type: 'checkbox',
                   defaultValue: false,
@@ -331,37 +347,27 @@ export const EventFilters: Block = {
                     width: '25%',
                   },
                 },
+                {
+                  name: 'typeBorder',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Type border',
+                  admin: {
+                    width: '25%',
+                  },
+                },
+                {
+                  name: 'venueBorder',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Venue border',
+                  admin: {
+                    width: '25%',
+                  },
+                },
               ],
             },
-            textStyleFields('activityTextStyle', 'Activity filter text', {
-              colorCustom: '#f3eee5',
-              colorGlobal: 'primary',
-              colorMode: 'custom',
-              fontFamily: 'geistSans',
-              fontSizeDesktop: 12,
-              fontSizeMobile: 12,
-              fontStyle: 'normal',
-              fontWeight: 'black',
-              letterSpacing: 'tight',
-              lineHeight: 1,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }),
-            textStyleFields('activeActivityTextStyle', 'Active activity filter text', {
-              colorCustom: '#93b51f',
-              colorGlobal: 'accent',
-              colorMode: 'custom',
-              fontFamily: 'geistSans',
-              fontSizeDesktop: 12,
-              fontSizeMobile: 12,
-              fontStyle: 'normal',
-              fontWeight: 'black',
-              letterSpacing: 'tight',
-              lineHeight: 1,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }),
-            textStyleFields('controlTextStyle', 'Search and date text', {
+            textStyleFields('controlTextStyle', 'Control text', {
               colorCustom: '#f3eee5',
               colorGlobal: 'primary',
               colorMode: 'custom',

@@ -12,6 +12,7 @@ import {
   typographyLetterSpacingClasses,
   typographyVerticalScaleValues,
 } from '@/fields/typography'
+import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 type TextStyle = NonNullable<ThreePanelShowcaseBlockProps['titleStyle']>
@@ -58,9 +59,6 @@ const getTextStyle = (
     })`,
     transformOrigin: 'left center',
   }) as React.CSSProperties
-
-const textTransformClass = (value: string | null | undefined) =>
-  value === 'uppercase' ? 'uppercase' : undefined
 
 const PanelImage: React.FC<{
   bordered?: boolean | null
@@ -177,7 +175,7 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
                 'three-panel-title',
               )}
             >
-              {title}
+              {formatTextTransform(title, titleStyle?.textTransform)}
             </h2>
 
             <p
@@ -202,7 +200,7 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
                 'three-panel-body',
               )}
             >
-              {body}
+              {formatTextTransform(body, bodyStyle?.textTransform)}
             </p>
           </div>
         </div>
