@@ -16,6 +16,7 @@ export type FlexboxProps = {
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | null
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline' | null
   gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | null
+  itemSizing?: 'auto' | 'eventBoardColumns' | null
   minHeight?: 'none' | 'small' | 'medium' | 'large' | 'screen' | null
 }
 
@@ -64,11 +65,18 @@ const minHeightClasses = {
   small: 'min-h-[30vh]',
 }
 
+const itemSizingClasses = {
+  auto: '',
+  eventBoardColumns:
+    '[&>*:first-child]:w-full [&>*:first-child]:min-w-0 md:[&>*:first-child]:flex-[1_1_38rem] md:[&>*:first-child]:max-w-[calc(68%-1rem)] [&>*:nth-child(2)]:w-full [&>*:nth-child(2)]:min-w-0 md:[&>*:nth-child(2)]:flex-[0_1_22rem] md:[&>*:nth-child(2)]:max-w-[calc(32%-1rem)]',
+}
+
 export const FlexboxBlock: React.FC<FlexboxProps> = ({
   align = 'center',
   blocks,
   direction = 'row',
   gap = 'md',
+  itemSizing = 'auto',
   justify = 'center',
   minHeight = 'none',
   wrap = 'wrap',
@@ -84,6 +92,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
         justifyClasses[justify ?? 'center'],
         alignClasses[align ?? 'center'],
         gapClasses[gap ?? 'md'],
+        itemSizingClasses[itemSizing ?? 'auto'],
         minHeightClasses[minHeight ?? 'none'],
       )}
     >

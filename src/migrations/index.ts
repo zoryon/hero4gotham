@@ -1,23 +1,24 @@
-import * as migration_20260430_211638_three_panel_showcase from './20260430_211638_three_panel_showcase';
-import * as migration_20260501_091300_theme_color_green from './20260501_091300_theme_color_green';
-import * as migration_20260501_112830_block_layout_scribble_border from './20260501_112830_block_layout_scribble_border';
-import * as migration_20260501_115530_remove_torn_cards_backgrounds from './20260501_115530_remove_torn_cards_backgrounds';
-import * as migration_20260501_120700_torn_card_item_scribble_border from './20260501_120700_torn_card_item_scribble_border';
-import * as migration_20260501_121530_torn_cards_laptop_responsive from './20260501_121530_torn_cards_laptop_responsive';
-import * as migration_20260501_122500_theme_vintage_border_image from './20260501_122500_theme_vintage_border_image';
-import * as migration_20260501_123530_remove_upcoming_events_left_background from './20260501_123530_remove_upcoming_events_left_background';
-import * as migration_20260501_123900_upcoming_events_left_panel_scribble_border from './20260501_123900_upcoming_events_left_panel_scribble_border';
-import * as migration_20260501_125420_add_xxs_spacing_option from './20260501_125420_add_xxs_spacing_option';
-import * as migration_20260501_155900_activities_detail_grid from './20260501_155900_activities_detail_grid';
-import * as migration_20260501_165200_activities_collection_and_auto_grid from './20260501_165200_activities_collection_and_auto_grid';
-import * as migration_20260502_090000_event_filters from './20260502_090000_event_filters';
-import * as migration_20260502_100000_background_container_image_rendering from './20260502_100000_background_container_image_rendering';
-import * as migration_20260502_101500_theme_background_container_overflow from './20260502_101500_theme_background_container_overflow';
-import * as migration_20260502_102000_background_container_responsive_images from './20260502_102000_background_container_responsive_images';
-import * as migration_20260505_120000_event_filters_ui_labels from './20260505_120000_event_filters_ui_labels';
-import * as migration_20260505_121000_events_require_venue from './20260505_121000_events_require_venue';
-import * as migration_20260505_122000_remove_event_date_display_overrides from './20260505_122000_remove_event_date_display_overrides';
-import * as migration_20260505_123000_add_sentence_case_text_transform from './20260505_123000_add_sentence_case_text_transform';
+import * as migration_20260430_211638_three_panel_showcase from './20260430_211638_three_panel_showcase'
+import * as migration_20260501_091300_theme_color_green from './20260501_091300_theme_color_green'
+import * as migration_20260501_112830_block_layout_scribble_border from './20260501_112830_block_layout_scribble_border'
+import * as migration_20260501_115530_remove_torn_cards_backgrounds from './20260501_115530_remove_torn_cards_backgrounds'
+import * as migration_20260501_120700_torn_card_item_scribble_border from './20260501_120700_torn_card_item_scribble_border'
+import * as migration_20260501_121530_torn_cards_laptop_responsive from './20260501_121530_torn_cards_laptop_responsive'
+import * as migration_20260501_122500_theme_vintage_border_image from './20260501_122500_theme_vintage_border_image'
+import * as migration_20260501_123530_remove_upcoming_events_left_background from './20260501_123530_remove_upcoming_events_left_background'
+import * as migration_20260501_123900_upcoming_events_left_panel_scribble_border from './20260501_123900_upcoming_events_left_panel_scribble_border'
+import * as migration_20260501_125420_add_xxs_spacing_option from './20260501_125420_add_xxs_spacing_option'
+import * as migration_20260501_155900_activities_detail_grid from './20260501_155900_activities_detail_grid'
+import * as migration_20260501_165200_activities_collection_and_auto_grid from './20260501_165200_activities_collection_and_auto_grid'
+import * as migration_20260502_090000_event_filters from './20260502_090000_event_filters'
+import * as migration_20260502_100000_background_container_image_rendering from './20260502_100000_background_container_image_rendering'
+import * as migration_20260502_101500_theme_background_container_overflow from './20260502_101500_theme_background_container_overflow'
+import * as migration_20260502_102000_background_container_responsive_images from './20260502_102000_background_container_responsive_images'
+import * as migration_20260505_120000_event_filters_ui_labels from './20260505_120000_event_filters_ui_labels'
+import * as migration_20260505_121000_events_require_venue from './20260505_121000_events_require_venue'
+import * as migration_20260505_122000_remove_event_date_display_overrides from './20260505_122000_remove_event_date_display_overrides'
+import * as migration_20260505_123000_add_sentence_case_text_transform from './20260505_123000_add_sentence_case_text_transform'
+import * as migration_20260506_164553_event_suite_blocks from './20260506_164553_event_suite_blocks'
 
 export const migrations = [
   {
@@ -120,4 +121,9 @@ export const migrations = [
     down: migration_20260505_123000_add_sentence_case_text_transform.down,
     name: '20260505_123000_add_sentence_case_text_transform',
   },
-];
+  {
+    up: migration_20260506_164553_event_suite_blocks.up,
+    down: migration_20260506_164553_event_suite_blocks.down,
+    name: '20260506_164553_event_suite_blocks',
+  },
+]

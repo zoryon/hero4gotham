@@ -14,7 +14,10 @@ import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
+import { EventCalendar } from '@/blocks/EventSuite/EventCalendar/config'
 import { EventFilters } from '@/blocks/EventFilters/config'
+import { EventList } from '@/blocks/EventSuite/EventList/config'
+import { FeaturedEvent } from '@/blocks/EventSuite/FeaturedEvent/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
@@ -29,7 +32,10 @@ const flexChildBlocks = withBlockLayoutFields([
   Arrow,
   CallToAction,
   Content,
+  EventCalendar,
   EventFilters,
+  EventList,
+  FeaturedEvent,
   Title,
   Subtitle,
   FeatureGrid,
@@ -84,6 +90,26 @@ export const Flexbox: Block = {
       defaultValue: 'none',
       label: 'Minimum height',
       options: [...minHeightOptions],
+    },
+    {
+      name: 'itemSizing',
+      type: 'select',
+      defaultValue: 'auto',
+      label: 'Item sizing',
+      options: [
+        {
+          label: 'Auto',
+          value: 'auto',
+        },
+        {
+          label: 'Event board columns',
+          value: 'eventBoardColumns',
+        },
+      ],
+      admin: {
+        description:
+          'Use for the event board: first child wide on the left, second child narrow on the right.',
+      },
     },
     {
       name: 'blocks',

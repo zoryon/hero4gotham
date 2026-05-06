@@ -34,6 +34,7 @@ export const ThemeColors: GlobalConfig = {
         colorField('muted', 'Text muted', 'rgb(253 230 138 / 0.85)'),
         colorField('accent', 'Text accent', '#a3e635'),
         colorField('green', 'Text green', '#90a434'),
+        colorField('purple', 'Text purple', '#9b5098'),
       ],
     },
     {

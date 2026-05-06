@@ -213,7 +213,10 @@ export interface Page {
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
+    | EventCalendarBlock
     | EventFiltersBlock
+    | EventListBlock
+    | FeaturedEventBlock
     | TitleBlock
     | SubtitleBlock
     | TextBackdropBlock
@@ -1049,6 +1052,86 @@ export interface ContentBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCalendarBlock".
+ */
+export interface EventCalendarBlock {
+  heading: string;
+  headingBackgroundImage?: (number | null) | Media;
+  /**
+   * 0 is current month, 1 is next month, and so on.
+   */
+  monthOffset?: number | null;
+  /**
+   * Optional CSS color for days that contain events.
+   */
+  markerColor?: string | null;
+  specialBorder?: boolean | null;
+  hdgStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  monStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  dayStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventCalendar';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "EventFiltersBlock".
  */
 export interface EventFiltersBlock {
@@ -1118,6 +1201,326 @@ export interface EventFiltersBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'eventFilters';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventListBlock".
+ */
+export interface EventListBlock {
+  heading: string;
+  headingBackgroundImage?: (number | null) | Media;
+  loadMoreLabel: string;
+  loadMoreBackgroundImage?: (number | null) | Media;
+  eventLinkFallbackLabel: string;
+  maxEvents?: number | null;
+  rowHeight?: number | null;
+  featuredBadgeLabel?: string | null;
+  /**
+   * Optional CSS color. Leave empty for no visible divider.
+   */
+  dividerColor?: string | null;
+  hdgStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  ddyStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  dmtStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  ttlStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  descStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  lnkStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  btnStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventList';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedEventBlock".
+ */
+export interface FeaturedEventBlock {
+  heading: string;
+  headingBackgroundImage?: (number | null) | Media;
+  eventSource?: ('automatic' | 'manual') | null;
+  manualEvent?: (number | null) | Event;
+  fallbackImage?: (number | null) | Media;
+  linkFallbackLabel: string;
+  linkBackgroundImage?: (number | null) | Media;
+  specialBorder?: boolean | null;
+  hdgStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  ttlStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  dtStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  descStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  lnkStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredEvent';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  /**
+   * Activity used by the event filters.
+   */
+  activity?: (number | null) | Activity;
+  startsAt: string;
+  /**
+   * Optional display time. If empty, the frontend formats the time from Event date.
+   */
+  timeLabel?: string | null;
+  image?: (number | null) | Media;
+  description: string;
+  /**
+   * Place used by the event filters.
+   */
+  venue?: string | null;
+  /**
+   * Link used by the "Scopri di piu" event action.
+   */
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: number;
+  title: string;
+  /**
+   * Short label used by event filter buttons.
+   */
+  shortName: string;
+  description?: string | null;
+  image?: (number | null) | Media;
+  cta?: string | null;
+  ctaImage?: (number | null) | Media;
+  details?:
+    | {
+        icon?: (number | null) | Media;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Lower numbers appear first in automatic activity blocks.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1297,13 +1700,20 @@ export interface FlexboxBlock {
   align?: ('start' | 'center' | 'end' | 'stretch' | 'baseline') | null;
   gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
   minHeight?: ('none' | 'small' | 'medium' | 'large' | 'screen') | null;
+  /**
+   * Use for the event board: first child wide on the left, second child narrow on the right.
+   */
+  itemSizing?: ('auto' | 'eventBoardColumns') | null;
   blocks: (
     | ActivitiesDetailGridBlock
     | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
     | ContentBlock
+    | EventCalendarBlock
     | EventFiltersBlock
+    | EventListBlock
+    | FeaturedEventBlock
     | TitleBlock
     | SubtitleBlock
     | FeatureGridBlock
@@ -1481,73 +1891,6 @@ export interface UpcomingEventsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'upcomingEvents';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: number;
-  title: string;
-  /**
-   * Activity used by the event filters.
-   */
-  activity?: (number | null) | Activity;
-  startsAt: string;
-  description: string;
-  /**
-   * Place used by the event filters.
-   */
-  venue?: string | null;
-  /**
-   * Link used by the "Scopri di piu" event action.
-   */
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
-    url?: string | null;
-    label: string;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "activities".
- */
-export interface Activity {
-  id: number;
-  title: string;
-  /**
-   * Short label used by event filter buttons.
-   */
-  shortName: string;
-  description?: string | null;
-  image?: (number | null) | Media;
-  cta?: string | null;
-  ctaImage?: (number | null) | Media;
-  details?:
-    | {
-        icon?: (number | null) | Media;
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Lower numbers appear first in automatic activity blocks.
-   */
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2470,7 +2813,10 @@ export interface PagesSelect<T extends boolean = true> {
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        eventCalendar?: T | EventCalendarBlockSelect<T>;
         eventFilters?: T | EventFiltersBlockSelect<T>;
+        eventList?: T | EventListBlockSelect<T>;
+        featuredEvent?: T | FeaturedEventBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         textBackdrop?: T | TextBackdropBlockSelect<T>;
@@ -2987,6 +3333,75 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventCalendarBlock_select".
+ */
+export interface EventCalendarBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBackgroundImage?: T;
+  monthOffset?: T;
+  markerColor?: T;
+  specialBorder?: T;
+  hdgStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  monStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  dayStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "EventFiltersBlock_select".
  */
 export interface EventFiltersBlockSelect<T extends boolean = true> {
@@ -3034,6 +3449,235 @@ export interface EventFiltersBlockSelect<T extends boolean = true> {
         textTransform?: T;
         colorMode?: T;
         colorGlobal?: T;
+        colorCustom?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventListBlock_select".
+ */
+export interface EventListBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBackgroundImage?: T;
+  loadMoreLabel?: T;
+  loadMoreBackgroundImage?: T;
+  eventLinkFallbackLabel?: T;
+  maxEvents?: T;
+  rowHeight?: T;
+  featuredBadgeLabel?: T;
+  dividerColor?: T;
+  hdgStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  ddyStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  dmtStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  ttlStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  descStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  lnkStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  btnStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedEventBlock_select".
+ */
+export interface FeaturedEventBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBackgroundImage?: T;
+  eventSource?: T;
+  manualEvent?: T;
+  fallbackImage?: T;
+  linkFallbackLabel?: T;
+  linkBackgroundImage?: T;
+  specialBorder?: T;
+  hdgStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  ttlStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  dtStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  descStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  lnkStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
         colorCustom?: T;
       };
   layout?:
@@ -3204,6 +3848,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
   align?: T;
   gap?: T;
   minHeight?: T;
+  itemSizing?: T;
   blocks?:
     | T
     | {
@@ -3212,7 +3857,10 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        eventCalendar?: T | EventCalendarBlockSelect<T>;
         eventFilters?: T | EventFiltersBlockSelect<T>;
+        eventList?: T | EventListBlockSelect<T>;
+        featuredEvent?: T | FeaturedEventBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
@@ -3828,6 +4476,8 @@ export interface EventsSelect<T extends boolean = true> {
   title?: T;
   activity?: T;
   startsAt?: T;
+  timeLabel?: T;
+  image?: T;
   description?: T;
   venue?: T;
   link?:
@@ -4403,6 +5053,10 @@ export interface ThemeColor {
      * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
      */
     green?: string | null;
+    /**
+     * Usa un valore CSS valido, ad esempio #f5f5f4, rgb(245 245 244) o oklch(...).
+     */
+    purple?: string | null;
   };
   background?: {
     /**
@@ -4549,6 +5203,7 @@ export interface ThemeColorsSelect<T extends boolean = true> {
         muted?: T;
         accent?: T;
         green?: T;
+        purple?: T;
       };
   background?:
     | T

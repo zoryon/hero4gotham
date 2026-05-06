@@ -12,15 +12,24 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'activity', 'startsAt', 'venue', 'updatedAt'],
+    defaultColumns: [
+      'title',
+      'activity',
+      'startsAt',
+      'timeLabel',
+      'venue',
+      'updatedAt',
+    ],
     group: 'Content',
     useAsTitle: 'title',
   },
   defaultPopulate: {
     activity: true,
     description: true,
+    image: true,
     link: true,
     startsAt: true,
+    timeLabel: true,
     title: true,
     venue: true,
   },
@@ -50,6 +59,21 @@ export const Events: CollectionConfig<'events'> = {
       },
       label: 'Event date',
       required: true,
+    },
+    {
+      name: 'timeLabel',
+      type: 'text',
+      admin: {
+        description:
+          'Optional display time. If empty, the frontend formats the time from Event date.',
+      },
+      label: 'Display time',
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      label: 'Event image',
+      relationTo: 'media',
     },
     {
       name: 'description',

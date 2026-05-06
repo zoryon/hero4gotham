@@ -9,7 +9,10 @@ import { Arrow } from '../../blocks/Arrow/config'
 import { BackgroundContainer } from '../../blocks/BackgroundContainer/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
+import { EventCalendar } from '../../blocks/EventSuite/EventCalendar/config'
 import { EventFilters } from '../../blocks/EventFilters/config'
+import { EventList } from '../../blocks/EventSuite/EventList/config'
+import { FeaturedEvent } from '../../blocks/EventSuite/FeaturedEvent/config'
 import { FeatureGrid } from '../../blocks/FeatureGrid/config'
 import { Flexbox } from '../../blocks/Flexbox/config'
 import { FormBlock } from '../../blocks/Form/config'
@@ -94,7 +97,10 @@ export const Pages: CollectionConfig<'pages'> = {
                 Arrow,
                 CallToAction,
                 Content,
+                EventCalendar,
                 EventFilters,
+                EventList,
+                FeaturedEvent,
                 Title,
                 Subtitle,
                 TextBackdrop,

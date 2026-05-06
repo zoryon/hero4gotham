@@ -10,7 +10,10 @@ import { ArrowBlock } from '@/blocks/Arrow/Component'
 import { BackgroundContainerBlock } from '@/blocks/BackgroundContainer/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
+import { EventCalendarBlock } from '@/blocks/EventSuite/EventCalendar/Component'
 import { EventFiltersBlock } from '@/blocks/EventFilters/Component'
+import { EventListBlock } from '@/blocks/EventSuite/EventList/Component'
+import { FeaturedEventBlock } from '@/blocks/EventSuite/FeaturedEvent/Component'
 import { FeatureGridBlock } from '@/blocks/FeatureGrid/Component'
 import { FlexboxBlock } from '@/blocks/Flexbox/Component'
 import { FormBlock } from '@/blocks/Form/Component'
@@ -33,7 +36,10 @@ const blockComponents = {
   backgroundContainer: BackgroundContainerBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
+  eventCalendar: EventCalendarBlock,
   eventFilters: EventFiltersBlock,
+  eventList: EventListBlock,
+  featuredEvent: FeaturedEventBlock,
   featureGrid: FeatureGridBlock,
   flexbox: FlexboxBlock,
   formBlock: FormBlock,
