@@ -26,6 +26,7 @@ import * as migration_20260507_214500_event_list_typologies_style from './202605
 import * as migration_20260507_230500_compact_event_list_typography from './20260507_230500_compact_event_list_typography'
 import * as migration_20260507_231500_event_list_date_part_styles from './20260507_231500_event_list_date_part_styles'
 import * as migration_20260507_232000_compact_event_list_type_style from './20260507_232000_compact_event_list_type_style'
+import * as migration_20260507_233000_remove_event_list_featured_badge from './20260507_233000_remove_event_list_featured_badge'
 
 export const migrations = [
   {
@@ -167,5 +168,10 @@ export const migrations = [
     up: migration_20260507_232000_compact_event_list_type_style.up,
     down: migration_20260507_232000_compact_event_list_type_style.down,
     name: '20260507_232000_compact_event_list_type_style',
+  },
+  {
+    up: migration_20260507_233000_remove_event_list_featured_badge.up,
+    down: migration_20260507_233000_remove_event_list_featured_badge.down,
+    name: '20260507_233000_remove_event_list_featured_badge',
   },
 ]

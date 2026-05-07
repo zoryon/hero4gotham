@@ -24,7 +24,6 @@ type Props = {
   dividerColor?: null | string
   eventLinkFallbackLabel?: null | string
   events: EventSuiteItem[]
-  featuredBadgeLabel?: null | string
   heading?: null | string
   headingBackgroundImage?: EventSuiteMedia | number | null
   hdgStyle?: EventSuiteTextStyle | null
@@ -48,7 +47,6 @@ export const EventListClient: React.FC<Props> = ({
   dividerColor,
   eventLinkFallbackLabel = 'Scopri di piu',
   events,
-  featuredBadgeLabel = 'In evidenza',
   heading,
   headingBackgroundImage,
   hdgStyle,
@@ -252,28 +250,11 @@ export const EventListClient: React.FC<Props> = ({
                         resource={event.image}
                       />
                     ) : null}
-                    {index === 0 && featuredBadgeLabel ? (
-                      <div
-                        className={cn(
-                          getEventSuiteTextClassName(timeStyle, 'black'),
-                          'absolute right-4 top-2 z-10',
-                        )}
-                        style={getEventSuiteTextStyle(timeStyle, {
-                          fontFamily: 'cinzel',
-                          fontSizeDesktop: 12,
-                          fontSizeMobile: 10,
-                          fontWeight: 'black',
-                          lineHeight: 1,
-                        })}
-                      >
-                        {featuredBadgeLabel}
-                      </div>
-                    ) : null}
                     <CMSLink
                       {...event.link}
                       className={cn(
                         getEventSuiteTextClassName(lnkStyle, 'black'),
-                        'scribble-border absolute bottom-5 right-5 z-10 inline-flex w-fit items-center justify-center px-5 py-2',
+                        'scribble-border absolute bottom-5 right-5 z-10 inline-flex w-fit items-center justify-center px-6 py-5',
                       )}
                       label={
                         (event.link?.label as string) || eventLinkFallbackLabel || 'Scopri di piu'

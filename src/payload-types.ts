@@ -1224,7 +1224,6 @@ export interface EventListBlock {
   eventLinkFallbackLabel: string;
   maxEvents?: number | null;
   rowHeight?: number | null;
-  featuredBadgeLabel?: string | null;
   /**
    * Optional CSS color. Leave empty for no visible divider.
    */
@@ -3518,7 +3517,6 @@ export interface EventListBlockSelect<T extends boolean = true> {
   eventLinkFallbackLabel?: T;
   maxEvents?: T;
   rowHeight?: T;
-  featuredBadgeLabel?: T;
   dividerColor?: T;
   hdgStyle?:
     | T

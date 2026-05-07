@@ -158,12 +158,6 @@ export const EventList: Block = {
       min: 1,
     },
     {
-      name: 'featuredBadgeLabel',
-      type: 'text',
-      defaultValue: 'In evidenza',
-      label: 'First event badge label',
-    },
-    {
       name: 'dividerColor',
       type: 'text',
       label: 'Divider color',
