@@ -13,6 +13,7 @@ export type FlexboxProps = {
   blocks?: FlexboxItem[] | null
   direction?: 'row' | 'column' | 'responsiveRow' | null
   wrap?: 'wrap' | 'nowrap' | null
+  reverseOnNonDesktop?: boolean | null
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | null
   align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline' | null
   gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | null
@@ -82,6 +83,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
   itemSizing = 'auto',
   justify = 'center',
   minHeight = 'none',
+  reverseOnNonDesktop = false,
   wrap = 'wrap',
 }) => {
   if (!blocks?.length) return null
@@ -100,7 +102,13 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
 
   if (isEventBoard) {
     return (
-      <div className="grid w-full min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]">
+      <div
+        className={cn(
+          'grid w-full min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
+          reverseOnNonDesktop &&
+            '[&>*:first-child]:order-2 [&>*:nth-child(2)]:order-1 xl:[&>*]:order-none',
+        )}
+      >
         <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
       </div>
     )
@@ -118,7 +126,9 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
     <div
       className={cn(
         'flex w-full',
-        directionClasses[direction ?? 'row'],
+        reverseOnNonDesktop && direction === 'responsiveRow'
+          ? 'flex-col-reverse md:flex-row'
+          : directionClasses[direction ?? 'row'],
         wrapClasses[wrap ?? 'wrap'],
         justifyClasses[justify ?? 'center'],
         alignClasses[align ?? 'center'],

@@ -1732,6 +1732,10 @@ export interface TextBackdropBlock {
 export interface FlexboxBlock {
   direction?: ('row' | 'column' | 'responsiveRow') | null;
   wrap?: ('wrap' | 'nowrap') | null;
+  /**
+   * When the layout stacks on smaller screens, show the first flex item after the following items.
+   */
+  reverseOnNonDesktop?: boolean | null;
   justify?: ('start' | 'center' | 'end' | 'between' | 'around' | 'evenly') | null;
   align?: ('start' | 'center' | 'end' | 'stretch' | 'baseline') | null;
   gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -3912,6 +3916,7 @@ export interface TextBackdropBlockSelect<T extends boolean = true> {
 export interface FlexboxBlockSelect<T extends boolean = true> {
   direction?: T;
   wrap?: T;
+  reverseOnNonDesktop?: T;
   justify?: T;
   align?: T;
   gap?: T;

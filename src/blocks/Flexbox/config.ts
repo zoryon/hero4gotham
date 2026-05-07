@@ -61,6 +61,16 @@ const createFlexboxFields = (blocks: Block[]): Field[] => [
     options: [...flexWrapOptions],
   },
   {
+    name: 'reverseOnNonDesktop',
+    type: 'checkbox',
+    defaultValue: false,
+    label: 'Reverse order below desktop',
+    admin: {
+      description:
+        'When the layout stacks on smaller screens, show the first flex item after the following items.',
+    },
+  },
+  {
     name: 'justify',
     type: 'select',
     defaultValue: 'center',
