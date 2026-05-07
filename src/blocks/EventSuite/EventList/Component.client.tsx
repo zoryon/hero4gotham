@@ -200,7 +200,7 @@ export const EventListClient: React.FC<Props> = ({
                       <p
                         className={cn(
                           getEventSuiteTextClassName(descStyle, 'regular'),
-                          'mt-2 line-clamp-2 block max-w-[28rem]',
+                          'mt-6 line-clamp-2 block max-w-[28rem]',
                         )}
                         style={getEventSuiteTextStyle(descStyle, {
                           fontFamily: 'geistSans',
@@ -213,27 +213,31 @@ export const EventListClient: React.FC<Props> = ({
                         {event.description}
                       </p>
                     ) : null}
-                    <div className="mt-3 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
+                    <div className="mt-4 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
                       {event.venue ? (
                         <div
-                          className={cn(
-                            getEventSuiteTextClassName(descStyle, 'bold'),
-                            'inline-flex min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap',
-                          )}
-                          style={getEventSuiteTextStyle(descStyle, {
-                            fontFamily: 'geistSans',
-                            fontSizeDesktop: 11,
-                            fontSizeMobile: 10,
-                            fontWeight: 'bold',
-                            lineHeight: 1,
-                          })}
+                          className="inline-flex min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap"
                         >
                           <MapPin
                             aria-hidden
                             className="h-4 w-4 shrink-0 text-[var(--theme-text-green)]"
                             strokeWidth={2.5}
                           />
-                          <span className="min-w-0 truncate">{event.venue}</span>
+                          <span
+                            className={cn(
+                              getEventSuiteTextClassName(descStyle, 'bold'),
+                              'min-w-0 truncate',
+                            )}
+                            style={getEventSuiteTextStyle(descStyle, {
+                              fontFamily: 'geistSans',
+                              fontSizeDesktop: 11,
+                              fontSizeMobile: 10,
+                              fontWeight: 'bold',
+                              lineHeight: 1,
+                            })}
+                          >
+                            {event.venue}
+                          </span>
                         </div>
                       ) : null}
                     </div>
