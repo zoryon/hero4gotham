@@ -24,6 +24,8 @@ import * as migration_20260507_211500_featured_event_background_image from './20
 import * as migration_20260507_213500_featured_event_typologies_style from './20260507_213500_featured_event_typologies_style'
 import * as migration_20260507_214500_event_list_typologies_style from './20260507_214500_event_list_typologies_style'
 import * as migration_20260507_230500_compact_event_list_typography from './20260507_230500_compact_event_list_typography'
+import * as migration_20260507_231500_event_list_date_part_styles from './20260507_231500_event_list_date_part_styles'
+import * as migration_20260507_232000_compact_event_list_type_style from './20260507_232000_compact_event_list_type_style'
 
 export const migrations = [
   {
@@ -155,5 +157,15 @@ export const migrations = [
     up: migration_20260507_230500_compact_event_list_typography.up,
     down: migration_20260507_230500_compact_event_list_typography.down,
     name: '20260507_230500_compact_event_list_typography',
+  },
+  {
+    up: migration_20260507_231500_event_list_date_part_styles.up,
+    down: migration_20260507_231500_event_list_date_part_styles.down,
+    name: '20260507_231500_event_list_date_part_styles',
+  },
+  {
+    up: migration_20260507_232000_compact_event_list_type_style.up,
+    down: migration_20260507_232000_compact_event_list_type_style.down,
+    name: '20260507_232000_compact_event_list_type_style',
   },
 ]

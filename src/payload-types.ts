@@ -1259,20 +1259,23 @@ export interface EventListBlock {
      */
     colorCustom?: string | null;
   };
-  dmtStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    fontStyle?: ('normal' | 'italic') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  monthStyle?: {
     fontSizeMobile?: number | null;
     fontSizeDesktop?: number | null;
-    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
-    /**
-     * Optional. If set, this custom CSS color overrides the theme color.
-     */
-    colorCustom?: string | null;
+  };
+  weekdayStyle?: {
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+  };
+  timeStyle?: {
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
   };
   ttlStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -1290,10 +1293,8 @@ export interface EventListBlock {
     colorCustom?: string | null;
   };
   typStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontSizeMobile?: number | null;
     fontSizeDesktop?: number | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
   };
   descStyle?: {
@@ -3547,19 +3548,29 @@ export interface EventListBlockSelect<T extends boolean = true> {
         colorTheme?: T;
         colorCustom?: T;
       };
-  dmtStyle?:
+  monthStyle?:
     | T
     | {
-        fontFamily?: T;
-        fontWeight?: T;
-        fontStyle?: T;
-        verticalScale?: T;
         fontSizeMobile?: T;
         fontSizeDesktop?: T;
-        letterSpacing?: T;
-        textTransform?: T;
+        verticalScale?: T;
         colorTheme?: T;
-        colorCustom?: T;
+      };
+  weekdayStyle?:
+    | T
+    | {
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        verticalScale?: T;
+        colorTheme?: T;
+      };
+  timeStyle?:
+    | T
+    | {
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        verticalScale?: T;
+        colorTheme?: T;
       };
   ttlStyle?:
     | T
@@ -3578,10 +3589,8 @@ export interface EventListBlockSelect<T extends boolean = true> {
   typStyle?:
     | T
     | {
-        fontFamily?: T;
         fontSizeMobile?: T;
         fontSizeDesktop?: T;
-        textTransform?: T;
         colorTheme?: T;
       };
   descStyle?:

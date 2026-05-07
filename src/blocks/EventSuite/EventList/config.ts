@@ -1,32 +1,28 @@
 import type { Block, Field } from 'payload'
 
 import { labelImageField, textStyleField, themeColorOptions } from '@/blocks/EventSuite/shared'
-import { typographyFontFamilyOptions } from '@/fields/typography'
-import { textTransformOptions } from '@/fields/uiOptions'
+import { typographyVerticalScaleOptions } from '@/fields/typography'
 
-const eventTypeTextStyleField = (): Field => ({
-  name: 'typStyle',
+const datePartTextStyleField = (
+  name: string,
+  label: string,
+  defaults: {
+    colorTheme: string
+    fontSizeDesktop: number
+    fontSizeMobile: number
+  },
+): Field => ({
+  name,
   type: 'group',
-  label: 'Event type typography',
+  label,
   fields: [
     {
       type: 'row',
       fields: [
         {
-          name: 'fontFamily',
-          type: 'select',
-          dbName: 'ff',
-          defaultValue: 'cinzel',
-          label: 'Font family',
-          options: [...typographyFontFamilyOptions],
-          admin: {
-            width: '50%',
-          },
-        },
-        {
           name: 'fontSizeMobile',
           type: 'number',
-          defaultValue: 10,
+          defaultValue: defaults.fontSizeMobile,
           label: 'Mobile size (px)',
           min: 8,
           max: 160,
@@ -38,7 +34,7 @@ const eventTypeTextStyleField = (): Field => ({
         {
           name: 'fontSizeDesktop',
           type: 'number',
-          defaultValue: 11,
+          defaultValue: defaults.fontSizeDesktop,
           label: 'Desktop size (px)',
           min: 8,
           max: 180,
@@ -47,20 +43,63 @@ const eventTypeTextStyleField = (): Field => ({
             width: '25%',
           },
         },
+        {
+          name: 'verticalScale',
+          type: 'select',
+          dbName: 'vs',
+          defaultValue: 'normal',
+          label: 'Height stretch',
+          options: [...typographyVerticalScaleOptions],
+          admin: {
+            width: '25%',
+          },
+        },
+        {
+          name: 'colorTheme',
+          type: 'select',
+          dbName: 'ct',
+          defaultValue: defaults.colorTheme,
+          label: 'Theme color',
+          options: [...themeColorOptions],
+          admin: {
+            width: '25%',
+          },
+        },
       ],
     },
+  ],
+})
+
+const eventTypeTextStyleField = (): Field => ({
+  name: 'typStyle',
+  type: 'group',
+  label: 'Event type typography',
+  fields: [
     {
       type: 'row',
       fields: [
         {
-          name: 'textTransform',
-          type: 'select',
-          dbName: 'tt',
-          defaultValue: 'uppercase',
-          label: 'Text transform',
-          options: [...textTransformOptions],
+          name: 'fontSizeMobile',
+          type: 'number',
+          defaultValue: 10,
+          label: 'Mobile size (px)',
+          min: 8,
+          max: 160,
           admin: {
-            width: '50%',
+            step: 1,
+            width: '33.333%',
+          },
+        },
+        {
+          name: 'fontSizeDesktop',
+          type: 'number',
+          defaultValue: 11,
+          label: 'Desktop size (px)',
+          min: 8,
+          max: 180,
+          admin: {
+            step: 1,
+            width: '33.333%',
           },
         },
         {
@@ -71,7 +110,7 @@ const eventTypeTextStyleField = (): Field => ({
           label: 'Theme color',
           options: [...themeColorOptions],
           admin: {
-            width: '50%',
+            width: '33.333%',
           },
         },
       ],
@@ -148,13 +187,20 @@ export const EventList: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
-    textStyleField('dmtStyle', 'Date meta typography', {
+    datePartTextStyleField('monthStyle', 'Date month typography', {
       colorTheme: 'primary',
-      fontFamily: 'cinzel',
       fontSizeDesktop: 13,
       fontSizeMobile: 10,
-      fontWeight: 'black',
-      textTransform: 'uppercase',
+    }),
+    datePartTextStyleField('weekdayStyle', 'Date weekday typography', {
+      colorTheme: 'primary',
+      fontSizeDesktop: 13,
+      fontSizeMobile: 10,
+    }),
+    datePartTextStyleField('timeStyle', 'Date time typography', {
+      colorTheme: 'primary',
+      fontSizeDesktop: 13,
+      fontSizeMobile: 10,
     }),
     textStyleField('ttlStyle', 'Event title typography', {
       colorTheme: 'secondary',

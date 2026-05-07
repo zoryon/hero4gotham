@@ -22,7 +22,6 @@ type Props = {
   ddyStyle?: EventSuiteTextStyle | null
   descStyle?: EventSuiteTextStyle | null
   dividerColor?: null | string
-  dmtStyle?: EventSuiteTextStyle | null
   eventLinkFallbackLabel?: null | string
   events: EventSuiteItem[]
   featuredBadgeLabel?: null | string
@@ -32,9 +31,12 @@ type Props = {
   lnkStyle?: EventSuiteTextStyle | null
   loadMoreBackgroundImage?: EventSuiteMedia | number | null
   loadMoreLabel?: null | string
+  monthStyle?: EventSuiteTextStyle | null
   rowHeight?: null | number
+  timeStyle?: EventSuiteTextStyle | null
   ttlStyle?: EventSuiteTextStyle | null
   typStyle?: EventSuiteTextStyle | null
+  weekdayStyle?: EventSuiteTextStyle | null
 }
 
 const visibleStep = 5
@@ -44,7 +46,6 @@ export const EventListClient: React.FC<Props> = ({
   ddyStyle,
   descStyle,
   dividerColor,
-  dmtStyle,
   eventLinkFallbackLabel = 'Scopri di piu',
   events,
   featuredBadgeLabel = 'In evidenza',
@@ -54,9 +55,12 @@ export const EventListClient: React.FC<Props> = ({
   lnkStyle,
   loadMoreBackgroundImage,
   loadMoreLabel = 'Carica altri eventi',
+  monthStyle,
   rowHeight = 112,
+  timeStyle,
   ttlStyle,
   typStyle,
+  weekdayStyle,
 }) => {
   const [visibleCount, setVisibleCount] = useState(visibleStep)
   const visibleEvents = useMemo(() => events.slice(0, visibleCount), [events, visibleCount])
@@ -121,21 +125,43 @@ export const EventListClient: React.FC<Props> = ({
                   >
                     {dateParts.day}
                   </div>
-                  <div
-                    className={getEventSuiteTextClassName(dmtStyle, 'black')}
-                    style={getEventSuiteTextStyle(dmtStyle, {
-                      fontFamily: 'cinzel',
-                      fontSizeDesktop: 10,
-                      fontSizeMobile: 10,
-                      fontWeight: 'black',
-                      lineHeight: 1.05,
-                    })}
-                  >
-                    {dateParts.month}
-                    <br />
-                    {dateParts.weekday}
-                    <br />
-                    {displayTime}
+                  <div className="grid justify-items-center leading-none">
+                    <span
+                      className={getEventSuiteTextClassName(monthStyle, 'black')}
+                      style={getEventSuiteTextStyle(monthStyle, {
+                        fontFamily: 'cinzel',
+                        fontSizeDesktop: 13,
+                        fontSizeMobile: 10,
+                        fontWeight: 'black',
+                        lineHeight: 1.05,
+                      })}
+                    >
+                      {dateParts.month}
+                    </span>
+                    <span
+                      className={cn(getEventSuiteTextClassName(weekdayStyle, 'black'), 'mt-3')}
+                      style={getEventSuiteTextStyle(weekdayStyle, {
+                        fontFamily: 'cinzel',
+                        fontSizeDesktop: 13,
+                        fontSizeMobile: 10,
+                        fontWeight: 'black',
+                        lineHeight: 1.05,
+                      })}
+                    >
+                      {dateParts.weekday}
+                    </span>
+                    <span
+                      className={cn(getEventSuiteTextClassName(timeStyle, 'black'), 'mt-2')}
+                      style={getEventSuiteTextStyle(timeStyle, {
+                        fontFamily: 'cinzel',
+                        fontSizeDesktop: 15,
+                        fontSizeMobile: 13,
+                        fontWeight: 'black',
+                        lineHeight: 1.05,
+                      })}
+                    >
+                      {displayTime}
+                    </span>
                   </div>
                 </div>
 
@@ -192,7 +218,7 @@ export const EventListClient: React.FC<Props> = ({
                         <div
                           className={cn(
                             getEventSuiteTextClassName(descStyle, 'bold'),
-                            'flex min-w-0 items-center gap-2',
+                            'inline-flex min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap',
                           )}
                           style={getEventSuiteTextStyle(descStyle, {
                             fontFamily: 'geistSans',
@@ -202,7 +228,11 @@ export const EventListClient: React.FC<Props> = ({
                             lineHeight: 1,
                           })}
                         >
-                          <MapPin aria-hidden className="h-4 w-4 shrink-0" strokeWidth={2.5} />
+                          <MapPin
+                            aria-hidden
+                            className="h-4 w-4 shrink-0 text-[var(--theme-text-green)]"
+                            strokeWidth={2.5}
+                          />
                           <span className="min-w-0 truncate">{event.venue}</span>
                         </div>
                       ) : null}
@@ -221,10 +251,10 @@ export const EventListClient: React.FC<Props> = ({
                     {index === 0 && featuredBadgeLabel ? (
                       <div
                         className={cn(
-                          getEventSuiteTextClassName(dmtStyle, 'black'),
+                          getEventSuiteTextClassName(timeStyle, 'black'),
                           'absolute right-4 top-2 z-10',
                         )}
-                        style={getEventSuiteTextStyle(dmtStyle, {
+                        style={getEventSuiteTextStyle(timeStyle, {
                           fontFamily: 'cinzel',
                           fontSizeDesktop: 12,
                           fontSizeMobile: 10,
