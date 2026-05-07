@@ -96,6 +96,10 @@ const themeColorOptions = [
     value: 'green',
   },
   {
+    label: 'Purple text',
+    value: 'purple',
+  },
+  {
     label: 'White',
     value: 'white',
   },

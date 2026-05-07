@@ -20,6 +20,9 @@ export type FlexboxProps = {
   minHeight?: 'none' | 'small' | 'medium' | 'large' | 'screen' | null
 }
 
+const getBlockType = (block: FlexboxItem | null | undefined) =>
+  block && typeof block === 'object' && 'blockType' in block ? block.blockType : null
+
 const directionClasses = {
   column: 'flex-col',
   responsiveRow: 'flex-col md:flex-row',
@@ -68,7 +71,7 @@ const minHeightClasses = {
 const itemSizingClasses = {
   auto: '',
   eventBoardColumns:
-    '[&>*:first-child]:w-full [&>*:first-child]:min-w-0 md:[&>*:first-child]:flex-[1_1_38rem] md:[&>*:first-child]:max-w-[calc(68%-1rem)] [&>*:nth-child(2)]:w-full [&>*:nth-child(2)]:min-w-0 md:[&>*:nth-child(2)]:flex-[0_1_22rem] md:[&>*:nth-child(2)]:max-w-[calc(32%-1rem)]',
+    '[&>*:first-child]:w-full [&>*:first-child]:min-w-0 md:[&>*:first-child]:flex-[1_1_38rem] md:[&>*:first-child]:max-w-[calc(68%_-_1rem)] [&>*:nth-child(2)]:w-full [&>*:nth-child(2)]:min-w-0 md:[&>*:nth-child(2)]:flex-[0_1_22rem] md:[&>*:nth-child(2)]:max-w-[calc(32%_-_1rem)]',
 }
 
 export const FlexboxBlock: React.FC<FlexboxProps> = ({
@@ -82,6 +85,34 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
   wrap = 'wrap',
 }) => {
   if (!blocks?.length) return null
+
+  const blockTypes = blocks.map(getBlockType)
+  const isEventBoard =
+    itemSizing === 'eventBoardColumns' ||
+    (blockTypes[0] === 'eventList' &&
+      (blockTypes[1] === 'flexbox' ||
+        blockTypes[1] === 'featuredEvent' ||
+        blockTypes[1] === 'eventCalendar'))
+  const isEventSidebar =
+    blockTypes.length <= 2 &&
+    blockTypes.includes('featuredEvent') &&
+    blockTypes.includes('eventCalendar')
+
+  if (isEventBoard) {
+    return (
+      <div className="grid w-full min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]">
+        <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
+      </div>
+    )
+  }
+
+  if (isEventSidebar) {
+    return (
+      <div className="flex w-full min-w-0 flex-col items-stretch gap-5">
+        <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
+      </div>
+    )
+  }
 
   return (
     <div

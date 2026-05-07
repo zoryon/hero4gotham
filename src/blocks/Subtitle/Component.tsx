@@ -31,7 +31,7 @@ export type SubtitleProps = {
   distress?: TypographyDistress | null
   textTransform?: TextTransform | null
   textColorMode?: 'theme' | 'custom' | null
-  themeTextColor?: 'primary' | 'secondary' | 'accent' | 'muted' | 'green' | null
+  themeTextColor?: 'primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple' | null
   textColor?: string | null
   letterSpacing?: TypographyLetterSpacing | null
   lineBreaks?:
@@ -119,6 +119,7 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
     green: 'var(--theme-text-green)',
     muted: 'var(--theme-text-muted)',
     primary: 'var(--theme-text-primary)',
+    purple: 'var(--theme-text-purple)',
     secondary: 'var(--theme-text-secondary)',
   }
   const resolvedTextColor =

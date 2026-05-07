@@ -26,7 +26,7 @@ const fontStyleOptions = [
   },
 ] as const
 
-const themeColorOptions = [
+export const themeColorOptions = [
   {
     label: 'Text primary',
     value: 'primary',
@@ -47,13 +47,17 @@ const themeColorOptions = [
     label: 'Text green',
     value: 'green',
   },
+  {
+    label: 'Text purple',
+    value: 'purple',
+  },
 ] as const
 
 export type EventSuiteMedia = MediaDocument
 
 export type EventSuiteTextStyle = {
   colorCustom?: null | string
-  colorTheme?: 'accent' | 'green' | 'muted' | 'primary' | 'secondary' | null
+  colorTheme?: 'accent' | 'green' | 'muted' | 'primary' | 'purple' | 'secondary' | null
   fontFamily?: keyof typeof typographyFontFamilyStyles | null
   fontSizeDesktop?: null | number
   fontSizeMobile?: null | number
@@ -98,6 +102,12 @@ export const eventSuiteSelect = {
   venue: true,
 } as const
 
+export const getEventTypeLabel = (activity: EventSuiteItem['activity']) => {
+  if (!activity || typeof activity !== 'object') return null
+
+  return activity.shortName || activity.title || null
+}
+
 export const resolveMediaBackground = (image: EventSuiteMedia | number | null | undefined) => {
   if (!image || typeof image !== 'object') return undefined
 
@@ -110,6 +120,7 @@ const themeColorValues = {
   green: 'var(--theme-text-green)',
   muted: 'var(--theme-text-muted)',
   primary: 'var(--theme-text-primary)',
+  purple: 'var(--theme-text-purple)',
   secondary: 'var(--theme-text-secondary)',
 }
 

@@ -6,7 +6,7 @@ import {
   paddingOptions,
   minHeightOptions,
 } from '@/fields/uiOptions'
-import type { Block } from 'payload'
+import type { Block, Field } from 'payload'
 
 import { ActivitiesDetailGrid } from '@/blocks/ActivitiesDetailGrid/config'
 import { ActivityChoiceCta } from '@/blocks/ActivityChoiceCta/config'
@@ -26,7 +26,7 @@ import { Title } from '@/blocks/Title/config'
 import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 
-const flexChildBlocks = withBlockLayoutFields([
+const baseFlexChildBlocks = [
   ActivitiesDetailGrid,
   ActivityChoiceCta,
   Arrow,
@@ -43,88 +43,102 @@ const flexChildBlocks = withBlockLayoutFields([
   MediaBlock,
   Archive,
   FormBlock,
-])
+] satisfies Block[]
+
+const createFlexboxFields = (blocks: Block[]): Field[] => [
+  {
+    name: 'direction',
+    type: 'select',
+    defaultValue: 'row',
+    label: 'Direction',
+    options: [...flexDirectionOptions],
+  },
+  {
+    name: 'wrap',
+    type: 'select',
+    defaultValue: 'wrap',
+    label: 'Wrap',
+    options: [...flexWrapOptions],
+  },
+  {
+    name: 'justify',
+    type: 'select',
+    defaultValue: 'center',
+    label: 'Justify content',
+    options: [...justifyOptions],
+  },
+  {
+    name: 'align',
+    type: 'select',
+    defaultValue: 'center',
+    label: 'Align items',
+    options: [...alignOptions],
+  },
+  {
+    name: 'gap',
+    type: 'select',
+    defaultValue: 'md',
+    label: 'Gap',
+    options: [...paddingOptions],
+  },
+  {
+    name: 'minHeight',
+    type: 'select',
+    defaultValue: 'none',
+    label: 'Minimum height',
+    options: [...minHeightOptions],
+  },
+  {
+    name: 'itemSizing',
+    type: 'select',
+    defaultValue: 'auto',
+    label: 'Item sizing',
+    options: [
+      {
+        label: 'Auto',
+        value: 'auto',
+      },
+      {
+        label: 'Event board columns',
+        value: 'eventBoardColumns',
+      },
+    ],
+    admin: {
+      description:
+        'Use for the event board: first child wide on the left, second child narrow on the right.',
+    },
+  },
+  {
+    name: 'blocks',
+    type: 'blocks',
+    blocks,
+    required: true,
+    admin: {
+      initCollapsed: true,
+    },
+    labels: {
+      plural: 'Flex items',
+      singular: 'Flex item',
+    },
+  },
+]
+
+const NestedFlexbox: Block = {
+  slug: 'flexbox',
+  interfaceName: 'FlexboxBlock',
+  fields: createFlexboxFields(withBlockLayoutFields(baseFlexChildBlocks)),
+  labels: {
+    singular: 'Flexbox',
+    plural: 'Flexboxes',
+  },
+}
+
+const flexChildBlocks = withBlockLayoutFields([...baseFlexChildBlocks, NestedFlexbox])
 
 export const Flexbox: Block = {
   slug: 'flexbox',
   interfaceName: 'FlexboxBlock',
-  fields: [
-    {
-      name: 'direction',
-      type: 'select',
-      defaultValue: 'row',
-      label: 'Direction',
-      options: [...flexDirectionOptions],
-    },
-    {
-      name: 'wrap',
-      type: 'select',
-      defaultValue: 'wrap',
-      label: 'Wrap',
-      options: [...flexWrapOptions],
-    },
-    {
-      name: 'justify',
-      type: 'select',
-      defaultValue: 'center',
-      label: 'Justify content',
-      options: [...justifyOptions],
-    },
-    {
-      name: 'align',
-      type: 'select',
-      defaultValue: 'center',
-      label: 'Align items',
-      options: [...alignOptions],
-    },
-    {
-      name: 'gap',
-      type: 'select',
-      defaultValue: 'md',
-      label: 'Gap',
-      options: [...paddingOptions],
-    },
-    {
-      name: 'minHeight',
-      type: 'select',
-      defaultValue: 'none',
-      label: 'Minimum height',
-      options: [...minHeightOptions],
-    },
-    {
-      name: 'itemSizing',
-      type: 'select',
-      defaultValue: 'auto',
-      label: 'Item sizing',
-      options: [
-        {
-          label: 'Auto',
-          value: 'auto',
-        },
-        {
-          label: 'Event board columns',
-          value: 'eventBoardColumns',
-        },
-      ],
-      admin: {
-        description:
-          'Use for the event board: first child wide on the left, second child narrow on the right.',
-      },
-    },
-    {
-      name: 'blocks',
-      type: 'blocks',
-      blocks: flexChildBlocks,
-      required: true,
-      admin: {
-        initCollapsed: true,
-      },
-      labels: {
-        plural: 'Flex items',
-        singular: 'Flex item',
-      },
-    },
-  ],
+  fields: createFlexboxFields(flexChildBlocks),
   labels: {
     singular: 'Flexbox',
     plural: 'Flexboxes',

@@ -7,6 +7,7 @@ import { Media } from '@/components/Media'
 import { MapPin } from 'lucide-react'
 import {
   formatEventDateParts,
+  getEventTypeLabel,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
   resolveMediaBackground,
@@ -33,6 +34,7 @@ type Props = {
   loadMoreLabel?: null | string
   rowHeight?: null | number
   ttlStyle?: EventSuiteTextStyle | null
+  typStyle?: EventSuiteTextStyle | null
 }
 
 const visibleStep = 5
@@ -52,23 +54,24 @@ export const EventListClient: React.FC<Props> = ({
   lnkStyle,
   loadMoreBackgroundImage,
   loadMoreLabel = 'Carica altri eventi',
-  rowHeight = 128,
+  rowHeight = 112,
   ttlStyle,
+  typStyle,
 }) => {
   const [visibleCount, setVisibleCount] = useState(visibleStep)
   const visibleEvents = useMemo(() => events.slice(0, visibleCount), [events, visibleCount])
   const canLoadMore = visibleCount < events.length
-  const safeRowHeight = Math.min(Math.max(rowHeight || 128, 120), 220)
+  const safeRowHeight = Math.max(rowHeight || 112, 1)
 
   return (
     <section className="relative isolate w-full">
-      <div className="relative grid min-w-0 gap-2 overflow-hidden p-2">
+      <div className="relative min-w-0 overflow-visible p-2">
         <div
-          className={cn(
-            'inline-flex w-fit items-center justify-center bg-contain bg-center bg-no-repeat px-5 py-2',
-            headingBackgroundImage && 'min-w-36',
-          )}
-          style={{ backgroundImage: resolveMediaBackground(headingBackgroundImage) }}
+          className="absolute left-5 top-2 z-30 inline-flex min-h-10 w-fit min-w-44 -translate-y-1/2 items-center justify-center bg-center bg-no-repeat px-7 py-3 md:min-h-11 md:px-8"
+          style={{
+            backgroundImage: resolveMediaBackground(headingBackgroundImage),
+            backgroundSize: headingBackgroundImage ? '100% 100%' : undefined,
+          }}
         >
           <h2
             className={getEventSuiteTextClassName(hdgStyle, 'black')}
@@ -85,23 +88,16 @@ export const EventListClient: React.FC<Props> = ({
         </div>
 
         <div
-          className="min-w-0 overflow-y-auto pr-1"
-          style={{
-            maxHeight: safeRowHeight * visibleStep,
-          }}
+          className={cn(
+            'min-w-0',
+            canLoadMore ? 'overflow-x-hidden overflow-y-auto' : 'overflow-visible',
+          )}
+          style={canLoadMore ? { maxHeight: safeRowHeight * visibleStep } : undefined}
         >
           {visibleEvents.map((event, index) => {
             const dateParts = formatEventDateParts(event.startsAt)
             const displayTime = event.timeLabel || dateParts.time
-            const activityTags =
-              event.activity && typeof event.activity === 'object'
-                ? event.activity.details
-                    ?.map((detail) => detail.text)
-                    .filter(Boolean)
-                    .join(' • ') ||
-                  event.activity.shortName ||
-                  event.activity.title
-                : null
+            const eventTypeLabel = getEventTypeLabel(event.activity)
 
             return (
               <article
@@ -112,7 +108,7 @@ export const EventListClient: React.FC<Props> = ({
                   minHeight: safeRowHeight,
                 }}
               >
-                <div className="scribble-border grid content-center justify-items-center px-2 py-4 text-center">
+                <div className="scribble-border event-list-cell-border grid content-center justify-items-center px-2 py-3 text-center">
                   <div
                     className={getEventSuiteTextClassName(ddyStyle, 'black')}
                     style={getEventSuiteTextStyle(ddyStyle, {
@@ -143,8 +139,8 @@ export const EventListClient: React.FC<Props> = ({
                   </div>
                 </div>
 
-                <div className="scribble-border grid min-w-0 grid-cols-[minmax(16rem,0.96fr)_minmax(13rem,0.8fr)] gap-4 overflow-hidden px-5 py-4">
-                  <div className="grid min-w-0 content-center">
+                <div className="scribble-border event-list-cell-border grid min-w-0 grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)] gap-0 overflow-visible p-0">
+                  <div className="grid min-w-0 content-center px-4 py-3">
                     <h3
                       className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
                       style={getEventSuiteTextStyle(ttlStyle, {
@@ -157,13 +153,13 @@ export const EventListClient: React.FC<Props> = ({
                     >
                       {event.title}
                     </h3>
-                    {activityTags ? (
+                    {eventTypeLabel ? (
                       <div
                         className={cn(
-                          getEventSuiteTextClassName(lnkStyle, 'black'),
-                          'mt-1 block w-fit',
+                          getEventSuiteTextClassName(typStyle, 'black'),
+                          'mt-4 block w-fit',
                         )}
-                        style={getEventSuiteTextStyle(lnkStyle, {
+                        style={getEventSuiteTextStyle(typStyle, {
                           fontFamily: 'cinzel',
                           fontSizeDesktop: 11,
                           fontSizeMobile: 10,
@@ -171,14 +167,14 @@ export const EventListClient: React.FC<Props> = ({
                           lineHeight: 1,
                         })}
                       >
-                        {activityTags}
+                        {eventTypeLabel}
                       </div>
                     ) : null}
                     {event.description ? (
                       <p
                         className={cn(
                           getEventSuiteTextClassName(descStyle, 'regular'),
-                          'mt-3 line-clamp-2 block max-w-[28rem]',
+                          'mt-2 line-clamp-2 block max-w-[28rem]',
                         )}
                         style={getEventSuiteTextStyle(descStyle, {
                           fontFamily: 'geistSans',
@@ -191,7 +187,7 @@ export const EventListClient: React.FC<Props> = ({
                         {event.description}
                       </p>
                     ) : null}
-                    <div className="mt-4 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
+                    <div className="mt-3 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
                       {event.venue ? (
                         <div
                           className={cn(
@@ -213,7 +209,7 @@ export const EventListClient: React.FC<Props> = ({
                     </div>
                   </div>
 
-                  <div className="relative -my-4 -mr-5 min-h-full overflow-hidden">
+                  <div className="relative min-h-full overflow-hidden">
                     {event.image && typeof event.image === 'object' ? (
                       <Media
                         fill

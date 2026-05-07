@@ -1,6 +1,83 @@
-import type { Block } from 'payload'
+import type { Block, Field } from 'payload'
 
-import { labelImageField, textStyleField } from '@/blocks/EventSuite/shared'
+import { labelImageField, textStyleField, themeColorOptions } from '@/blocks/EventSuite/shared'
+import { typographyFontFamilyOptions } from '@/fields/typography'
+import { textTransformOptions } from '@/fields/uiOptions'
+
+const eventTypeTextStyleField = (): Field => ({
+  name: 'typStyle',
+  type: 'group',
+  label: 'Event type typography',
+  fields: [
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'fontFamily',
+          type: 'select',
+          dbName: 'ff',
+          defaultValue: 'cinzel',
+          label: 'Font family',
+          options: [...typographyFontFamilyOptions],
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'fontSizeMobile',
+          type: 'number',
+          defaultValue: 10,
+          label: 'Mobile size (px)',
+          min: 8,
+          max: 160,
+          admin: {
+            step: 1,
+            width: '25%',
+          },
+        },
+        {
+          name: 'fontSizeDesktop',
+          type: 'number',
+          defaultValue: 11,
+          label: 'Desktop size (px)',
+          min: 8,
+          max: 180,
+          admin: {
+            step: 1,
+            width: '25%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'textTransform',
+          type: 'select',
+          dbName: 'tt',
+          defaultValue: 'uppercase',
+          label: 'Text transform',
+          options: [...textTransformOptions],
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'colorTheme',
+          type: 'select',
+          dbName: 'ct',
+          defaultValue: 'green',
+          label: 'Theme color',
+          options: [...themeColorOptions],
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
+  ],
+})
 
 export const EventList: Block = {
   slug: 'eventList',
@@ -37,10 +114,9 @@ export const EventList: Block = {
     {
       name: 'rowHeight',
       type: 'number',
-      defaultValue: 128,
+      defaultValue: 112,
       label: 'Event row height (px)',
-      min: 112,
-      max: 220,
+      min: 1,
     },
     {
       name: 'featuredBadgeLabel',
@@ -88,6 +164,7 @@ export const EventList: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
+    eventTypeTextStyleField(),
     textStyleField('descStyle', 'Event description typography', {
       colorTheme: 'primary',
       fontFamily: 'geistSans',

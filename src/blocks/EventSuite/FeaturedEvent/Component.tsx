@@ -5,6 +5,7 @@ import { Media } from '@/components/Media'
 import {
   eventSuiteSelect,
   formatEventDateParts,
+  getEventTypeLabel,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
   resolveMediaBackground,
@@ -18,6 +19,7 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
 type Props = {
+  backgroundImage?: EventSuiteMedia | number | null
   descStyle?: EventSuiteTextStyle | null
   dtStyle?: EventSuiteTextStyle | null
   eventSource?: 'automatic' | 'manual' | null
@@ -31,6 +33,7 @@ type Props = {
   manualEvent?: EventSuiteItem | number | null
   specialBorder?: boolean | null
   ttlStyle?: EventSuiteTextStyle | null
+  typStyle?: EventSuiteTextStyle | null
 }
 
 const getNextFeaturedEvent = unstable_cache(
@@ -80,6 +83,7 @@ const getManualFeaturedEvent = async (
 }
 
 export const FeaturedEventBlock = async ({
+  backgroundImage,
   descStyle,
   dtStyle,
   eventSource = 'automatic',
@@ -93,6 +97,7 @@ export const FeaturedEventBlock = async ({
   manualEvent,
   specialBorder,
   ttlStyle,
+  typStyle,
 }: Props) => {
   const event =
     eventSource === 'manual'
@@ -102,101 +107,124 @@ export const FeaturedEventBlock = async ({
   if (!event) return null
 
   const dateParts = formatEventDateParts(event.startsAt)
-  const displayImage = event.image || fallbackImage
+  const displayImage = backgroundImage || event.image || fallbackImage
+  const eventTypeLabel = getEventTypeLabel(event.activity)
 
   return (
     <aside
-      className={cn('relative isolate grid w-full gap-3 p-2', specialBorder && 'scribble-border')}
+      className={cn(
+        'relative isolate min-h-[31rem] w-full min-w-0 overflow-visible md:min-h-[34rem] xl:min-h-[38rem]',
+        specialBorder && 'scribble-border featured-event-card-border',
+      )}
     >
-      <div
-        className={cn(
-          'inline-flex w-fit items-center justify-center bg-contain bg-center bg-no-repeat px-5 py-2',
-          headingBackgroundImage && 'min-w-36',
-        )}
-        style={{ backgroundImage: resolveMediaBackground(headingBackgroundImage) }}
-      >
-        <h2
-          className={getEventSuiteTextClassName(hdgStyle, 'black')}
-          style={getEventSuiteTextStyle(hdgStyle, {
-            fontFamily: 'cinzel',
-            fontSizeDesktop: 13,
-            fontSizeMobile: 12,
-            fontWeight: 'black',
-            lineHeight: 1,
-          })}
-        >
-          {heading}
-        </h2>
-      </div>
-
-      <div className="relative min-h-48 overflow-hidden">
+      <div className="absolute inset-[var(--event-suite-panel-inset,12px)] z-0 overflow-hidden">
         {displayImage && typeof displayImage === 'object' ? (
           <Media
             fill
-            imgClassName="object-cover"
+            imgClassName="object-cover object-center"
             pictureClassName="absolute inset-0"
             resource={displayImage}
           />
         ) : null}
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10" />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-black/45 via-transparent to-black/15" />
       </div>
 
-      <div className="grid gap-2">
-        <h3
-          className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
-          style={getEventSuiteTextStyle(ttlStyle, {
-            fontFamily: 'cinzel',
-            fontSizeDesktop: 24,
-            fontSizeMobile: 22,
-            fontWeight: 'black',
-            lineHeight: 0.95,
-          })}
-        >
-          {event.title}
-        </h3>
+      <div className="relative z-10 flex min-h-[inherit] flex-col justify-between p-4">
         <div
-          className={getEventSuiteTextClassName(dtStyle, 'black')}
-          style={getEventSuiteTextStyle(dtStyle, {
-            fontFamily: 'cinzel',
-            fontSizeDesktop: 12,
-            fontSizeMobile: 12,
-            fontWeight: 'black',
-            lineHeight: 1,
-          })}
-        >
-          {dateParts.day} {dateParts.month} {event.timeLabel || dateParts.time}
-        </div>
-        {event.description ? (
-          <p
-            className={cn(getEventSuiteTextClassName(descStyle, 'regular'), 'block')}
-            style={getEventSuiteTextStyle(descStyle, {
-              fontFamily: 'geistSans',
-              fontSizeDesktop: 11,
-              fontSizeMobile: 11,
-              fontWeight: 'regular',
-              lineHeight: 1.35,
-            })}
-          >
-            {event.description}
-          </p>
-        ) : null}
-        <CMSLink
-          {...event.link}
-          className={cn(
-            getEventSuiteTextClassName(lnkStyle, 'black'),
-            'mt-1 inline-flex w-fit bg-contain bg-center bg-no-repeat px-5 py-2',
-          )}
-          label={(event.link?.label as string) || linkFallbackLabel || 'Scopri di piu'}
+          className="inline-flex min-h-10 w-fit min-w-44 items-center justify-center bg-center bg-no-repeat px-7 py-3 md:min-h-11 md:px-8"
           style={{
-            ...getEventSuiteTextStyle(lnkStyle, {
+            backgroundImage: resolveMediaBackground(headingBackgroundImage),
+            backgroundSize: headingBackgroundImage ? '100% 100%' : undefined,
+          }}
+        >
+          <h2
+            className={getEventSuiteTextClassName(hdgStyle, 'black')}
+            style={getEventSuiteTextStyle(hdgStyle, {
               fontFamily: 'cinzel',
-              fontSizeDesktop: 10,
-              fontSizeMobile: 10,
+              fontSizeDesktop: 13,
+              fontSizeMobile: 12,
               fontWeight: 'black',
               lineHeight: 1,
-            }),
-            backgroundImage: resolveMediaBackground(linkBackgroundImage),
-          }}
-        />
+            })}
+          >
+            {heading}
+          </h2>
+        </div>
+
+        <div className="grid min-w-0 max-w-[19rem] gap-2 ml-3 mr-3 mb-4 md:ml-6 md:mr-6 md:mb-8">
+          <h3
+            className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block break-words')}
+            style={getEventSuiteTextStyle(ttlStyle, {
+              fontFamily: 'cinzel',
+              fontSizeDesktop: 28,
+              fontSizeMobile: 22,
+              fontWeight: 'black',
+              lineHeight: 0.95,
+            })}
+          >
+            {event.title}
+          </h3>
+          <div
+            className={getEventSuiteTextClassName(dtStyle, 'black')}
+            style={getEventSuiteTextStyle(dtStyle, {
+              fontFamily: 'cinzel',
+              fontSizeDesktop: 12,
+              fontSizeMobile: 12,
+              fontWeight: 'black',
+              lineHeight: 1,
+            })}
+          >
+            {dateParts.day} {dateParts.month} {event.timeLabel || dateParts.time}
+          </div>
+          {eventTypeLabel ? (
+            <div
+              className={cn(getEventSuiteTextClassName(typStyle, 'black'), 'block')}
+              style={getEventSuiteTextStyle(typStyle, {
+                fontFamily: 'cinzel',
+                fontSizeDesktop: 9,
+                fontSizeMobile: 9,
+                fontWeight: 'black',
+                lineHeight: 1,
+              })}
+            >
+              {eventTypeLabel}
+            </div>
+          ) : null}
+          {event.description ? (
+            <p
+              className={cn(getEventSuiteTextClassName(descStyle, 'regular'), 'line-clamp-3 block')}
+              style={getEventSuiteTextStyle(descStyle, {
+                fontFamily: 'geistSans',
+                fontSizeDesktop: 11,
+                fontSizeMobile: 11,
+                fontWeight: 'regular',
+                lineHeight: 1.35,
+              })}
+            >
+              {event.description}
+            </p>
+          ) : null}
+          <CMSLink
+            {...event.link}
+            className={cn(
+              getEventSuiteTextClassName(lnkStyle, 'black'),
+              'mt-1 inline-flex min-h-9 w-fit min-w-36 items-center justify-center bg-center bg-no-repeat px-7 py-2.5',
+            )}
+            label={(event.link?.label as string) || linkFallbackLabel || 'Scopri di piu'}
+            style={{
+              ...getEventSuiteTextStyle(lnkStyle, {
+                fontFamily: 'cinzel',
+                fontSizeDesktop: 10,
+                fontSizeMobile: 10,
+                fontWeight: 'black',
+                lineHeight: 1,
+              }),
+              backgroundImage: resolveMediaBackground(linkBackgroundImage),
+              backgroundSize: linkBackgroundImage ? '100% 100%' : undefined,
+            }}
+          />
+        </div>
       </div>
     </aside>
   )

@@ -41,6 +41,10 @@ const themeColorOptions = [
     label: 'Green text',
     value: 'green',
   },
+  {
+    label: 'Purple text',
+    value: 'purple',
+  },
 ] as const
 
 const textStyleFields = (

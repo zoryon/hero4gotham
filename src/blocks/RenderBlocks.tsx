@@ -60,6 +60,11 @@ const flushBlockTypes = new Set<keyof typeof blockComponents>([
   'tornCards',
 ])
 
+const eventSidebarBlockTypes = new Set<keyof typeof blockComponents>([
+  'eventCalendar',
+  'featuredEvent',
+])
+
 type RenderableBlockProps = Page['layout'][0] & {
   disableInnerContainer?: boolean
   isFirstPageBlock?: boolean
@@ -79,10 +84,14 @@ export const RenderBlocks: React.FC<{
       : -1
 
   if (hasBlocks) {
+    const groupedEventSidebarIndices = new Set<number>()
+
     return (
       <EventFiltersProvider>
         {blocks.map((block, index) => {
           const { blockType } = block
+
+          if (groupedEventSidebarIndices.has(index)) return null
 
           if (blockType && blockType in blockComponents) {
             const Block = blockComponents[blockType]
@@ -92,6 +101,60 @@ export const RenderBlocks: React.FC<{
               const blockWrapperClassName = flushBlockTypes.has(blockType)
                 ? undefined
                 : wrapperClassName
+
+              if (blockType === 'eventList') {
+                const sidebarBlocks: typeof blocks = []
+
+                for (let nextIndex = index + 1; nextIndex < blocks.length; nextIndex += 1) {
+                  const nextBlock = blocks[nextIndex]
+                  const nextBlockType = nextBlock?.blockType
+
+                  if (!nextBlockType || !eventSidebarBlockTypes.has(nextBlockType)) break
+
+                  sidebarBlocks.push(nextBlock)
+                  groupedEventSidebarIndices.add(nextIndex)
+
+                  if (sidebarBlocks.length === 2) break
+                }
+
+                if (sidebarBlocks.length) {
+                  return (
+                    <div
+                      className={cn(
+                        getBlockLayoutClasses(block.layout, blockWrapperClassName),
+                        'grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
+                        index === firstRenderableIndex && 'mt-0',
+                      )}
+                      key={index}
+                    >
+                      <div className="min-w-0">
+                        <BlockToRender
+                          {...block}
+                          disableInnerContainer
+                          isFirstPageBlock={index === firstRenderableIndex}
+                        />
+                      </div>
+                      <div className="flex min-w-0 flex-col items-stretch gap-5">
+                        {sidebarBlocks.map((sidebarBlock, sidebarIndex) => {
+                          const SidebarBlock = blockComponents[
+                            sidebarBlock.blockType as keyof typeof blockComponents
+                          ] as React.ComponentType<RenderableBlockProps>
+
+                          return (
+                            <div className="m-0 min-w-0" key={`${index}-sidebar-${sidebarIndex}`}>
+                              <SidebarBlock
+                                {...sidebarBlock}
+                                disableInnerContainer
+                                isFirstPageBlock={false}
+                              />
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                }
+              }
 
               return (
                 <div

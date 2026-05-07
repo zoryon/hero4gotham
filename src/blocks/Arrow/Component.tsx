@@ -22,6 +22,7 @@ type ArrowProps = {
     | 'accent'
     | 'muted'
     | 'green'
+    | 'purple'
     | 'white'
     | 'black'
     | 'success'
@@ -91,6 +92,7 @@ const themeColors = {
   green: 'var(--theme-text-green)',
   muted: 'var(--theme-text-muted)',
   primary: 'var(--theme-text-primary)',
+  purple: 'var(--theme-text-purple)',
   secondary: 'var(--theme-text-secondary)',
   success: '#7dff2a',
   white: '#ffffff',

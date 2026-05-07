@@ -839,7 +839,9 @@ export interface ArrowBlock {
   customWidth?: number | null;
   customHeight?: number | null;
   colorMode: 'theme' | 'custom';
-  themeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'white' | 'black' | 'success') | null;
+  themeColor?:
+    | ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple' | 'white' | 'black' | 'success')
+    | null;
   /**
    * Any valid CSS color, e.g. #7dff2a or rgb(125 255 42).
    */
@@ -918,8 +920,12 @@ export interface CallToActionBlock {
   backgroundImage?: (number | null) | Media;
   borderStyle?: ('default' | 'none') | null;
   colors?: {
-    textColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
-    buttonTextColor?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    textColor?:
+      | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
+      | null;
+    buttonTextColor?:
+      | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
+      | null;
   };
   spacing?: {
     gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -1075,7 +1081,7 @@ export interface EventCalendarBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1090,7 +1096,7 @@ export interface EventCalendarBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1105,7 +1111,7 @@ export interface EventCalendarBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1160,7 +1166,9 @@ export interface EventFiltersBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorMode?: ('global' | 'custom') | null;
-    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    colorGlobal?:
+      | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
+      | null;
     /**
      * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
      */
@@ -1177,7 +1185,9 @@ export interface EventFiltersBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorMode?: ('global' | 'custom') | null;
-    colorGlobal?: ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'white' | 'black') | null;
+    colorGlobal?:
+      | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
+      | null;
     /**
      * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
      */
@@ -1228,7 +1238,7 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1243,7 +1253,7 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1258,7 +1268,7 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1273,11 +1283,18 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
     colorCustom?: string | null;
+  };
+  typStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
   };
   descStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -1288,7 +1305,7 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1303,7 +1320,7 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1318,7 +1335,7 @@ export interface EventListBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1352,6 +1369,10 @@ export interface FeaturedEventBlock {
   headingBackgroundImage?: (number | null) | Media;
   eventSource?: ('automatic' | 'manual') | null;
   manualEvent?: (number | null) | Event;
+  /**
+   * Optional override for this card. If empty, the selected event image is used, then the fallback image.
+   */
+  backgroundImage?: (number | null) | Media;
   fallbackImage?: (number | null) | Media;
   linkFallbackLabel: string;
   linkBackgroundImage?: (number | null) | Media;
@@ -1365,7 +1386,7 @@ export interface FeaturedEventBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1380,7 +1401,7 @@ export interface FeaturedEventBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1395,7 +1416,22 @@ export interface FeaturedEventBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  typStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1410,7 +1446,7 @@ export interface FeaturedEventBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1425,7 +1461,7 @@ export interface FeaturedEventBlock {
     fontSizeDesktop?: number | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
      * Optional. If set, this custom CSS color overrides the theme color.
      */
@@ -1609,7 +1645,7 @@ export interface SubtitleBlock {
   verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
   letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
   textColorMode?: ('custom' | 'theme') | null;
-  themeTextColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green') | null;
+  themeTextColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple') | null;
   /**
    * Optional CSS color, for example #f4f0dc or rgba(255,255,255,0.85).
    */
@@ -1721,6 +1757,7 @@ export interface FlexboxBlock {
     | MediaBlock
     | ArchiveBlock
     | FormBlock
+    | FlexboxBlock
   )[];
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
@@ -2467,13 +2504,13 @@ export interface TornCardsBlock {
     };
   };
   titleColorMode?: ('custom' | 'theme') | null;
-  titleThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green') | null;
+  titleThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple') | null;
   /**
    * Custom CSS color, for example #e8d5a0.
    */
   titleColor?: string | null;
   textColorMode?: ('custom' | 'theme') | null;
-  textThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green') | null;
+  textThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple') | null;
   /**
    * Custom CSS color, for example #d9d0c2.
    */
@@ -3538,6 +3575,15 @@ export interface EventListBlockSelect<T extends boolean = true> {
         colorTheme?: T;
         colorCustom?: T;
       };
+  typStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        textTransform?: T;
+        colorTheme?: T;
+      };
   descStyle?:
     | T
     | {
@@ -3606,6 +3652,7 @@ export interface FeaturedEventBlockSelect<T extends boolean = true> {
   headingBackgroundImage?: T;
   eventSource?: T;
   manualEvent?: T;
+  backgroundImage?: T;
   fallbackImage?: T;
   linkFallbackLabel?: T;
   linkBackgroundImage?: T;
@@ -3639,6 +3686,20 @@ export interface FeaturedEventBlockSelect<T extends boolean = true> {
         colorCustom?: T;
       };
   dtStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  typStyle?:
     | T
     | {
         fontFamily?: T;
@@ -3868,6 +3929,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        flexbox?: T | FlexboxBlockSelect<T>;
       };
   layout?:
     | T

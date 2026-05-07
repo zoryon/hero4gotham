@@ -135,6 +135,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
     green: 'var(--theme-text-green)',
     muted: 'var(--theme-text-muted)',
     primary: 'var(--theme-text-primary)',
+    purple: 'var(--theme-text-purple)',
     secondary: 'var(--theme-text-secondary)',
     white: '#fff',
   }

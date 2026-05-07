@@ -423,6 +423,15 @@
     --vintage-border-width: 12px;
   }
 
+  .event-list-cell-border::after {
+    inset: calc(var(--vintage-border-width, 15px) * -0.7);
+  }
+
+  .featured-event-card-border::after,
+  .event-calendar-card-border::after {
+    inset: calc(var(--vintage-border-width, 15px) * -1);
+  }
+
   .upcoming-events-cta-copy-backdrop::before {
     background: radial-gradient(
       ellipse at 38% 52%,

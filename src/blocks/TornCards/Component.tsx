@@ -217,6 +217,7 @@ const themeTextColorValues = {
   green: 'var(--theme-text-green)',
   muted: 'var(--theme-text-muted)',
   primary: 'var(--theme-text-primary)',
+  purple: 'var(--theme-text-purple)',
   secondary: 'var(--theme-text-secondary)',
 } as const
 

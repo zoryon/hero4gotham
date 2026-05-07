@@ -40,6 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     '--theme-text-muted': textColors?.muted || 'rgb(253 230 138 / 0.85)',
     '--theme-text-accent': textColors?.accent || '#a3e635',
     '--theme-text-green': textColors?.green || '#90a434',
+    '--theme-text-purple': textColors?.purple || '#9b5098',
     '--theme-background-container-overflow':
       backgroundColors?.backgroundContainerOverflow || '#050505',
     ...(vintageBorderImage
@@ -57,11 +58,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       style={themeColorStyle}
     >
       <head>
-        <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
+        <InitTheme />
         <Providers>
           <AdminBar
             adminBarProps={{

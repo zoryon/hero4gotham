@@ -57,6 +57,10 @@ export const colorOptions = [
     value: 'green',
   },
   {
+    label: 'Text purple',
+    value: 'purple',
+  },
+  {
     label: 'White',
     value: 'white',
   },

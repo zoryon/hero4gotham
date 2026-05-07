@@ -93,70 +93,55 @@ export const EventCalendarBlock = async ({
   }).format(monthDate)
 
   return (
-    <aside className={cn('grid w-full gap-3 p-2', specialBorder && 'scribble-border')}>
-      <div
-        className={cn(
-          'inline-flex w-fit items-center justify-center bg-contain bg-center bg-no-repeat px-5 py-2',
-          headingBackgroundImage && 'min-w-36',
-        )}
-        style={{ backgroundImage: resolveMediaBackground(headingBackgroundImage) }}
-      >
-        <h2
-          className={getEventSuiteTextClassName(hdgStyle, 'black')}
-          style={getEventSuiteTextStyle(hdgStyle, {
+    <aside
+      className={cn(
+        'relative w-full min-w-0 overflow-visible',
+        specialBorder && 'scribble-border event-calendar-card-border',
+      )}
+    >
+      <div className="relative z-10 grid min-w-0 gap-3 p-3">
+        <div
+          className={cn(
+            'inline-flex w-fit items-center justify-center bg-contain bg-center bg-no-repeat px-5 py-2',
+            headingBackgroundImage && 'min-w-36',
+          )}
+          style={{ backgroundImage: resolveMediaBackground(headingBackgroundImage) }}
+        >
+          <h2
+            className={getEventSuiteTextClassName(hdgStyle, 'black')}
+            style={getEventSuiteTextStyle(hdgStyle, {
+              fontFamily: 'cinzel',
+              fontSizeDesktop: 13,
+              fontSizeMobile: 12,
+              fontWeight: 'black',
+              lineHeight: 1,
+            })}
+          >
+            {heading}
+          </h2>
+        </div>
+
+        <div
+          className={getEventSuiteTextClassName(monStyle, 'black')}
+          style={getEventSuiteTextStyle(monStyle, {
             fontFamily: 'cinzel',
-            fontSizeDesktop: 13,
+            fontSizeDesktop: 12,
             fontSizeMobile: 12,
             fontWeight: 'black',
             lineHeight: 1,
           })}
         >
-          {heading}
-        </h2>
-      </div>
+          {monthLabel}
+        </div>
 
-      <div
-        className={getEventSuiteTextClassName(monStyle, 'black')}
-        style={getEventSuiteTextStyle(monStyle, {
-          fontFamily: 'cinzel',
-          fontSizeDesktop: 12,
-          fontSizeMobile: 12,
-          fontWeight: 'black',
-          lineHeight: 1,
-        })}
-      >
-        {monthLabel}
-      </div>
-
-      <div className="grid grid-cols-7 gap-1">
-        {weekdays.map((weekday, index) => (
-          <div
-            className={cn(
-              getEventSuiteTextClassName(dayStyle, 'regular'),
-              'grid aspect-square place-items-center',
-            )}
-            key={`${weekday}-${index}`}
-            style={getEventSuiteTextStyle(dayStyle, {
-              fontFamily: 'geistMono',
-              fontSizeDesktop: 10,
-              fontSizeMobile: 10,
-              fontWeight: 'regular',
-              lineHeight: 1,
-            })}
-          >
-            {weekday}
-          </div>
-        ))}
-        {days.map((day, index) => {
-          const hasEvent = Boolean(day && eventDays.has(day))
-
-          return (
+        <div className="grid min-w-0 grid-cols-7 gap-1">
+          {weekdays.map((weekday, index) => (
             <div
               className={cn(
                 getEventSuiteTextClassName(dayStyle, 'regular'),
-                'relative grid aspect-square place-items-center',
+                'grid aspect-square place-items-center',
               )}
-              key={`${day || 'blank'}-${index}`}
+              key={`${weekday}-${index}`}
               style={getEventSuiteTextStyle(dayStyle, {
                 fontFamily: 'geistMono',
                 fontSizeDesktop: 10,
@@ -165,19 +150,41 @@ export const EventCalendarBlock = async ({
                 lineHeight: 1,
               })}
             >
-              {day}
-              {hasEvent && markerColor ? (
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-1"
-                  style={{
-                    border: `1px solid ${markerColor}`,
-                  }}
-                />
-              ) : null}
+              {weekday}
             </div>
-          )
-        })}
+          ))}
+          {days.map((day, index) => {
+            const hasEvent = Boolean(day && eventDays.has(day))
+
+            return (
+              <div
+                className={cn(
+                  getEventSuiteTextClassName(dayStyle, 'regular'),
+                  'relative grid aspect-square place-items-center',
+                )}
+                key={`${day || 'blank'}-${index}`}
+                style={getEventSuiteTextStyle(dayStyle, {
+                  fontFamily: 'geistMono',
+                  fontSizeDesktop: 10,
+                  fontSizeMobile: 10,
+                  fontWeight: 'regular',
+                  lineHeight: 1,
+                })}
+              >
+                {day}
+                {hasEvent && markerColor ? (
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-1"
+                    style={{
+                      border: `1px solid ${markerColor}`,
+                    }}
+                  />
+                ) : null}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </aside>
   )

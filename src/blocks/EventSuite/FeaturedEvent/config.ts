@@ -42,6 +42,16 @@ export const FeaturedEvent: Block = {
       },
     },
     {
+      name: 'backgroundImage',
+      type: 'upload',
+      label: 'Card background image',
+      relationTo: 'media',
+      admin: {
+        description:
+          'Optional override for this card. If empty, the selected event image is used, then the fallback image.',
+      },
+    },
+    {
       name: 'fallbackImage',
       type: 'upload',
       label: 'Fallback image',
@@ -76,6 +86,14 @@ export const FeaturedEvent: Block = {
       fontFamily: 'cinzel',
       fontSizeDesktop: 12,
       fontSizeMobile: 12,
+      fontWeight: 'black',
+      textTransform: 'uppercase',
+    }),
+    textStyleField('typStyle', 'Event typologies typography', {
+      colorTheme: 'purple',
+      fontFamily: 'cinzel',
+      fontSizeDesktop: 9,
+      fontSizeMobile: 9,
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),

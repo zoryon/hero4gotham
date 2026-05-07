@@ -19,6 +19,11 @@ import * as migration_20260505_121000_events_require_venue from './20260505_1210
 import * as migration_20260505_122000_remove_event_date_display_overrides from './20260505_122000_remove_event_date_display_overrides'
 import * as migration_20260505_123000_add_sentence_case_text_transform from './20260505_123000_add_sentence_case_text_transform'
 import * as migration_20260506_164553_event_suite_blocks from './20260506_164553_event_suite_blocks'
+import * as migration_20260507_204500_theme_color_purple from './20260507_204500_theme_color_purple'
+import * as migration_20260507_211500_featured_event_background_image from './20260507_211500_featured_event_background_image'
+import * as migration_20260507_213500_featured_event_typologies_style from './20260507_213500_featured_event_typologies_style'
+import * as migration_20260507_214500_event_list_typologies_style from './20260507_214500_event_list_typologies_style'
+import * as migration_20260507_230500_compact_event_list_typography from './20260507_230500_compact_event_list_typography'
 
 export const migrations = [
   {
@@ -125,5 +130,30 @@ export const migrations = [
     up: migration_20260506_164553_event_suite_blocks.up,
     down: migration_20260506_164553_event_suite_blocks.down,
     name: '20260506_164553_event_suite_blocks',
+  },
+  {
+    up: migration_20260507_204500_theme_color_purple.up,
+    down: migration_20260507_204500_theme_color_purple.down,
+    name: '20260507_204500_theme_color_purple',
+  },
+  {
+    up: migration_20260507_211500_featured_event_background_image.up,
+    down: migration_20260507_211500_featured_event_background_image.down,
+    name: '20260507_211500_featured_event_background_image',
+  },
+  {
+    up: migration_20260507_213500_featured_event_typologies_style.up,
+    down: migration_20260507_213500_featured_event_typologies_style.down,
+    name: '20260507_213500_featured_event_typologies_style',
+  },
+  {
+    up: migration_20260507_214500_event_list_typologies_style.up,
+    down: migration_20260507_214500_event_list_typologies_style.down,
+    name: '20260507_214500_event_list_typologies_style',
+  },
+  {
+    up: migration_20260507_230500_compact_event_list_typography.up,
+    down: migration_20260507_230500_compact_event_list_typography.down,
+    name: '20260507_230500_compact_event_list_typography',
   },
 ]
