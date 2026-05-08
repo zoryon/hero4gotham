@@ -212,6 +212,7 @@ export interface Page {
     | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
+    | ContactMessageBlock
     | ContentBlock
     | EventCalendarBlock
     | EventFiltersBlock
@@ -991,6 +992,135 @@ export interface CallToActionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactMessageBlock".
+ */
+export interface ContactMessageBlock {
+  heading: string;
+  headingBackgroundImage?: (number | null) | Media;
+  introText?: string | null;
+  namePlaceholder: string;
+  emailPlaceholder: string;
+  subjectPlaceholder: string;
+  messagePlaceholder: string;
+  privacyLabel: string;
+  submitLabel: string;
+  submitBackgroundImage?: (number | null) | Media;
+  successMessage: string;
+  errorMessage: string;
+  backgroundImage?: (number | null) | Media;
+  decorativeImage?: (number | null) | Media;
+  emailSubjectPrefix: string;
+  headingStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  introStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  fieldStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  privacyStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  submitStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  statusStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactMessage';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1875,6 +2005,7 @@ export interface FlexboxBlock {
     | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
+    | ContactMessageBlock
     | ContentBlock
     | EventCalendarBlock
     | EventFiltersBlock
@@ -2507,6 +2638,7 @@ export interface BackgroundContainerBlock {
     | ActivityChoiceCtaBlock
     | ArrowBlock
     | CallToActionBlock
+    | ContactMessageBlock
     | ContentBlock
     | EventFiltersBlock
     | EventGalleryBlock
@@ -2981,6 +3113,7 @@ export interface PagesSelect<T extends boolean = true> {
         activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
+        contactMessage?: T | ContactMessageBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         eventCalendar?: T | EventCalendarBlockSelect<T>;
         eventFilters?: T | EventFiltersBlockSelect<T>;
@@ -3443,6 +3576,127 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
               appearance?: T;
             };
         id?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactMessageBlock_select".
+ */
+export interface ContactMessageBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBackgroundImage?: T;
+  introText?: T;
+  namePlaceholder?: T;
+  emailPlaceholder?: T;
+  subjectPlaceholder?: T;
+  messagePlaceholder?: T;
+  privacyLabel?: T;
+  submitLabel?: T;
+  submitBackgroundImage?: T;
+  successMessage?: T;
+  errorMessage?: T;
+  backgroundImage?: T;
+  decorativeImage?: T;
+  emailSubjectPrefix?: T;
+  headingStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  introStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  fieldStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  privacyStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  submitStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  statusStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
       };
   layout?:
     | T
@@ -4163,6 +4417,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
+        contactMessage?: T | ContactMessageBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         eventCalendar?: T | EventCalendarBlockSelect<T>;
         eventFilters?: T | EventFiltersBlockSelect<T>;
@@ -4563,6 +4818,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
         activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
         arrow?: T | ArrowBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
+        contactMessage?: T | ContactMessageBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         eventFilters?: T | EventFiltersBlockSelect<T>;
         eventGallery?: T | EventGalleryBlockSelect<T>;

@@ -5,6 +5,7 @@ import { ActivityChoiceCta } from '@/blocks/ActivityChoiceCta/config'
 import { Archive } from '@/blocks/ArchiveBlock/config'
 import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
+import { ContactMessage } from '@/blocks/ContactMessage/config'
 import { Content } from '@/blocks/Content/config'
 import { EventFilters } from '@/blocks/EventFilters/config'
 import { EventGallery } from '@/blocks/EventGallery/config'
@@ -215,6 +216,7 @@ export const BackgroundContainer: Block = {
         ActivityChoiceCta,
         Arrow,
         CallToAction,
+        ContactMessage,
         Content,
         EventFilters,
         EventGallery,

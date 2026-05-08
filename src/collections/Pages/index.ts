@@ -8,6 +8,7 @@ import { Archive } from '../../blocks/ArchiveBlock/config'
 import { Arrow } from '../../blocks/Arrow/config'
 import { BackgroundContainer } from '../../blocks/BackgroundContainer/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
+import { ContactMessage } from '@/blocks/ContactMessage/config'
 import { Content } from '../../blocks/Content/config'
 import { EventCalendar } from '../../blocks/EventSuite/EventCalendar/config'
 import { EventFilters } from '../../blocks/EventFilters/config'
@@ -97,6 +98,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ActivityChoiceCta,
                 Arrow,
                 CallToAction,
+                ContactMessage,
                 Content,
                 EventCalendar,
                 EventFilters,

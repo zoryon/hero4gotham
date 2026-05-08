@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -21,6 +22,7 @@ import { getServerSideURL } from './utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const smtpPort = Number(process.env.SMTP_PORT || 587)
 
 export default buildConfig({
   admin: {
@@ -61,6 +63,26 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
+    },
+  }),
+  email: nodemailerAdapter({
+    defaultFromAddress:
+      process.env.SMTP_FROM_ADDRESS || process.env.SMTP_USER || 'no-reply@localhost',
+    defaultFromName: process.env.SMTP_FROM_NAME || 'Hero 4 Gotham',
+    skipVerify:
+      process.env.SMTP_SKIP_VERIFY === 'true' || !process.env.SMTP_USER || !process.env.SMTP_PASS,
+    transportOptions: {
+      auth:
+        process.env.SMTP_USER && process.env.SMTP_PASS
+          ? {
+              pass: process.env.SMTP_PASS,
+              user: process.env.SMTP_USER,
+            }
+          : undefined,
+      host: process.env.SMTP_HOST || 'smtp.ionos.it',
+      port: Number.isFinite(smtpPort) ? smtpPort : 587,
+      requireTLS: process.env.SMTP_REQUIRE_TLS !== 'false',
+      secure: process.env.SMTP_SECURE === 'true',
     },
   }),
   collections: [Pages, Posts, Activities, Events, Media, Categories, Users],
