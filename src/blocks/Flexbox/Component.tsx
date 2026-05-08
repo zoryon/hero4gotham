@@ -120,6 +120,11 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
     blockTypes.length <= 2 &&
     blockTypes.includes('featuredEvent') &&
     blockTypes.includes('eventCalendar')
+  const isContactFaqPair =
+    !usesCustomResponsiveDirection &&
+    blockTypes.length <= 2 &&
+    blockTypes.includes('contactMessage') &&
+    blockTypes.includes('faqAccordion')
 
   if (isEventBoard) {
     return (
@@ -138,6 +143,22 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
   if (isEventSidebar) {
     return (
       <div className="flex w-full min-w-0 flex-col items-stretch gap-5">
+        <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
+      </div>
+    )
+  }
+
+  if (isContactFaqPair) {
+    return (
+      <div
+        className={cn(
+          'grid w-full min-w-0 grid-cols-1 items-start',
+          'xl:grid-cols-[minmax(0,1.55fr)_minmax(20rem,0.9fr)]',
+          gapClasses[gap ?? 'md'],
+          reverseOnNonDesktop &&
+            'max-xl:[&>*:first-child]:order-2 max-xl:[&>*:nth-child(2)]:order-1',
+        )}
+      >
         <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
       </div>
     )

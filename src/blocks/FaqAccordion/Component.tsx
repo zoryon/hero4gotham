@@ -27,7 +27,7 @@ export const FaqAccordionBlock: React.FC<FaqAccordionBlockProps> = ({
   return (
     <section className="w-full">
       <div
-        className="faq-accordion-panel scribble-border relative isolate mx-auto w-full max-w-3xl overflow-visible px-6 py-6 md:px-8 md:py-7"
+        className="faq-accordion-panel scribble-border relative isolate mx-auto w-full max-w-3xl overflow-visible px-6 py-9 md:px-8 md:py-20"
         style={
           {
             '--faq-chevron-color': chevronColor || '#84cc16',
@@ -63,12 +63,12 @@ export const FaqAccordionBlock: React.FC<FaqAccordionBlockProps> = ({
           </h2>
         </div>
 
-        <div className="relative z-10 mt-5">
+        <div className="relative z-10 mt-5 min-w-0">
           {faqs.map((item, index) => (
-            <details className="faq-accordion-item group" key={item.id || index}>
-              <summary className="faq-accordion-summary flex cursor-pointer list-none items-center justify-between gap-4 py-4">
+            <details className="faq-accordion-item group min-w-0" key={item.id || index}>
+              <summary className="faq-accordion-summary grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_1rem] items-center gap-4 py-4">
                 <span
-                  className={getEventSuiteTextClassName(questionStyle, 'black')}
+                  className={`${getEventSuiteTextClassName(questionStyle, 'black')} min-w-0`}
                   style={getEventSuiteTextStyle(questionStyle, {
                     fontFamily: 'geistSans',
                     fontSizeDesktop: 13,
@@ -84,16 +84,21 @@ export const FaqAccordionBlock: React.FC<FaqAccordionBlockProps> = ({
                   className="faq-accordion-chevron size-4 shrink-0 transition-transform duration-200 group-open:rotate-180"
                 />
               </summary>
-              <div className="pb-4 pr-8">
+              <div className="min-w-0 pb-4 pr-8">
                 <p
-                  className={getEventSuiteTextClassName(answerStyle, 'regular')}
-                  style={getEventSuiteTextStyle(answerStyle, {
-                    fontFamily: 'geistSans',
-                    fontSizeDesktop: 13,
-                    fontSizeMobile: 12,
-                    fontWeight: 'regular',
-                    lineHeight: 1.35,
-                  })}
+                  className={`${getEventSuiteTextClassName(answerStyle, 'regular')} max-w-full`}
+                  style={
+                    {
+                      ...getEventSuiteTextStyle(answerStyle, {
+                        fontFamily: 'geistSans',
+                        fontSizeDesktop: 13,
+                        fontSizeMobile: 12,
+                        fontWeight: 'regular',
+                        lineHeight: 1.35,
+                      }),
+                      display: 'block',
+                    } as React.CSSProperties
+                  }
                 >
                   {item.answer}
                 </p>
