@@ -19,6 +19,7 @@ import { EventCalendar } from '@/blocks/EventSuite/EventCalendar/config'
 import { EventFilters } from '@/blocks/EventFilters/config'
 import { EventGallery } from '@/blocks/EventGallery/config'
 import { EventList } from '@/blocks/EventSuite/EventList/config'
+import { FaqAccordion } from '@/blocks/FaqAccordion/config'
 import { FeaturedEvent } from '@/blocks/EventSuite/FeaturedEvent/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { FormBlock } from '@/blocks/Form/config'
@@ -39,6 +40,7 @@ const baseFlexChildBlocks = [
   EventFilters,
   EventGallery,
   EventList,
+  FaqAccordion,
   FeaturedEvent,
   Title,
   Subtitle,

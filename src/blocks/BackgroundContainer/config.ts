@@ -9,6 +9,7 @@ import { ContactMessage } from '@/blocks/ContactMessage/config'
 import { Content } from '@/blocks/Content/config'
 import { EventFilters } from '@/blocks/EventFilters/config'
 import { EventGallery } from '@/blocks/EventGallery/config'
+import { FaqAccordion } from '@/blocks/FaqAccordion/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { Flexbox } from '@/blocks/Flexbox/config'
 import { FormBlock } from '@/blocks/Form/config'
@@ -220,6 +221,7 @@ export const BackgroundContainer: Block = {
         Content,
         EventFilters,
         EventGallery,
+        FaqAccordion,
         Title,
         Subtitle,
         TextBackdrop,

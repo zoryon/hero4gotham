@@ -583,6 +583,45 @@
     border: 0;
   }
 
+  .faq-accordion-panel {
+    background-color: transparent;
+  }
+
+  .faq-accordion-panel::after {
+    inset: calc(var(--vintage-border-width, 15px) * -0.45);
+  }
+
+  .faq-accordion-icon {
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .faq-accordion-item {
+    border-bottom: 1px solid var(--faq-divider-color, rgb(126 88 53 / 0.45));
+  }
+
+  .faq-accordion-item:first-child {
+    border-top: 1px solid var(--faq-divider-color, rgb(126 88 53 / 0.45));
+  }
+
+  .faq-accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-accordion-summary:focus,
+  .faq-accordion-summary:focus-visible,
+  .faq-accordion-summary:active {
+    box-shadow: none;
+    outline: 0;
+  }
+
+  .faq-accordion-chevron {
+    color: var(--faq-chevron-color, #84cc16);
+    stroke-width: 3;
+  }
+
   .upcoming-events-cta-copy-backdrop::before {
     background: radial-gradient(
       ellipse at 38% 52%,

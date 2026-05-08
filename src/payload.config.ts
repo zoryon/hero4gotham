@@ -70,7 +70,10 @@ export default buildConfig({
       process.env.SMTP_FROM_ADDRESS || process.env.SMTP_USER || 'no-reply@localhost',
     defaultFromName: process.env.SMTP_FROM_NAME || 'Hero 4 Gotham',
     skipVerify:
-      process.env.SMTP_SKIP_VERIFY === 'true' || !process.env.SMTP_USER || !process.env.SMTP_PASS,
+      process.env.PAYLOAD_MIGRATING === 'true' ||
+      process.env.SMTP_SKIP_VERIFY === 'true' ||
+      !process.env.SMTP_USER ||
+      !process.env.SMTP_PASS,
     transportOptions: {
       auth:
         process.env.SMTP_USER && process.env.SMTP_PASS

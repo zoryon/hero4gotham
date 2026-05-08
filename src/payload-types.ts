@@ -218,6 +218,7 @@ export interface Page {
     | EventFiltersBlock
     | EventGalleryBlock
     | EventListBlock
+    | FaqAccordionBlock
     | FeaturedEventBlock
     | TitleBlock
     | SubtitleBlock
@@ -1605,6 +1606,89 @@ export interface EventListBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqAccordionBlock".
+ */
+export interface FaqAccordionBlock {
+  heading: string;
+  iconLabel: string;
+  items?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundImage?: (number | null) | Media;
+  iconBackgroundColor?: string | null;
+  iconTextColor?: string | null;
+  dividerColor?: string | null;
+  chevronColor?: string | null;
+  headingStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  questionStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  answerStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqAccordion';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FeaturedEventBlock".
  */
 export interface FeaturedEventBlock {
@@ -2011,6 +2095,7 @@ export interface FlexboxBlock {
     | EventFiltersBlock
     | EventGalleryBlock
     | EventListBlock
+    | FaqAccordionBlock
     | FeaturedEventBlock
     | TitleBlock
     | SubtitleBlock
@@ -2642,6 +2727,7 @@ export interface BackgroundContainerBlock {
     | ContentBlock
     | EventFiltersBlock
     | EventGalleryBlock
+    | FaqAccordionBlock
     | TitleBlock
     | SubtitleBlock
     | TextBackdropBlock
@@ -3119,6 +3205,7 @@ export interface PagesSelect<T extends boolean = true> {
         eventFilters?: T | EventFiltersBlockSelect<T>;
         eventGallery?: T | EventGalleryBlockSelect<T>;
         eventList?: T | EventListBlockSelect<T>;
+        faqAccordion?: T | FaqAccordionBlockSelect<T>;
         featuredEvent?: T | FeaturedEventBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
@@ -4144,6 +4231,84 @@ export interface EventListBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqAccordionBlock_select".
+ */
+export interface FaqAccordionBlockSelect<T extends boolean = true> {
+  heading?: T;
+  iconLabel?: T;
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  backgroundImage?: T;
+  iconBackgroundColor?: T;
+  iconTextColor?: T;
+  dividerColor?: T;
+  chevronColor?: T;
+  headingStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  questionStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  answerStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FeaturedEventBlock_select".
  */
 export interface FeaturedEventBlockSelect<T extends boolean = true> {
@@ -4423,6 +4588,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         eventFilters?: T | EventFiltersBlockSelect<T>;
         eventGallery?: T | EventGalleryBlockSelect<T>;
         eventList?: T | EventListBlockSelect<T>;
+        faqAccordion?: T | FaqAccordionBlockSelect<T>;
         featuredEvent?: T | FeaturedEventBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
@@ -4822,6 +4988,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
         content?: T | ContentBlockSelect<T>;
         eventFilters?: T | EventFiltersBlockSelect<T>;
         eventGallery?: T | EventGalleryBlockSelect<T>;
+        faqAccordion?: T | FaqAccordionBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
         subtitle?: T | SubtitleBlockSelect<T>;
         textBackdrop?: T | TextBackdropBlockSelect<T>;
