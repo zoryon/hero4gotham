@@ -1474,6 +1474,17 @@ export interface EventListBlock {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
   };
+  yearTypography?:
+    | {
+        style?: {
+          fontSizeMobile?: number | null;
+          fontSizeDesktop?: number | null;
+          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+          colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   weekdayStyle?: {
     fontSizeMobile?: number | null;
     fontSizeDesktop?: number | null;
@@ -4197,6 +4208,19 @@ export interface EventListBlockSelect<T extends boolean = true> {
         fontSizeDesktop?: T;
         verticalScale?: T;
         colorTheme?: T;
+      };
+  yearTypography?:
+    | T
+    | {
+        style?:
+          | T
+          | {
+              fontSizeMobile?: T;
+              fontSizeDesktop?: T;
+              verticalScale?: T;
+              colorTheme?: T;
+            };
+        id?: T;
       };
   weekdayStyle?:
     | T

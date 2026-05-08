@@ -35,6 +35,7 @@ import * as migration_20260508_100000_event_gallery_and_filters from './20260508
 import * as migration_20260508_101000_event_list_empty_state from './20260508_101000_event_list_empty_state'
 import * as migration_20260508_102000_event_gallery_block from './20260508_102000_event_gallery_block'
 import * as migration_20260508_232500_membership_application_block from './20260508_232500_membership_application_block'
+import * as migration_20260508_234000_event_list_year_style from './20260508_234000_event_list_year_style'
 
 export const migrations = [
   {
@@ -221,5 +222,10 @@ export const migrations = [
     up: migration_20260508_232500_membership_application_block.up,
     down: migration_20260508_232500_membership_application_block.down,
     name: '20260508_232500_membership_application_block',
+  },
+  {
+    up: migration_20260508_234000_event_list_year_style.up,
+    down: migration_20260508_234000_event_list_year_style.down,
+    name: '20260508_234000_event_list_year_style',
   },
 ]

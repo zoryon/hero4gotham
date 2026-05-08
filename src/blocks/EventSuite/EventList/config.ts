@@ -151,6 +151,34 @@ const emptyStateTypographyField = (): Field => ({
   ],
 })
 
+const yearTypographyField = (): Field => ({
+  name: 'yearTypography',
+  type: 'array',
+  defaultValue: [
+    {
+      style: {
+        colorTheme: 'primary',
+        fontSizeDesktop: 11,
+        fontSizeMobile: 9,
+        verticalScale: 'normal',
+      },
+    },
+  ],
+  label: 'Date year typography',
+  labels: {
+    plural: 'Typography settings',
+    singular: 'Typography setting',
+  },
+  maxRows: 1,
+  fields: [
+    datePartTextStyleField('style', 'Typography', {
+      colorTheme: 'primary',
+      fontSizeDesktop: 11,
+      fontSizeMobile: 9,
+    }),
+  ],
+})
+
 export const EventList: Block = {
   slug: 'eventList',
   interfaceName: 'EventListBlock',
@@ -226,6 +254,7 @@ export const EventList: Block = {
       fontSizeDesktop: 13,
       fontSizeMobile: 10,
     }),
+    yearTypographyField(),
     datePartTextStyleField('weekdayStyle', 'Date weekday typography', {
       colorTheme: 'primary',
       fontSizeDesktop: 13,

@@ -365,5 +365,6 @@ export const formatEventDateParts = (value: string) => {
     })
       .format(date)
       .toUpperCase(),
+    year: String(date.getFullYear()),
   }
 }

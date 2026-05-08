@@ -52,6 +52,11 @@ type Props = {
   ttlStyle?: EventSuiteTextStyle | null
   typStyle?: EventSuiteTextStyle | null
   weekdayStyle?: EventSuiteTextStyle | null
+  yearTypography?:
+    | {
+        style?: EventSuiteTextStyle | null
+      }[]
+    | null
 }
 
 type EventListPageResponse = {
@@ -87,6 +92,7 @@ export const EventListClient: React.FC<Props> = ({
   ttlStyle,
   typStyle,
   weekdayStyle,
+  yearTypography,
 }) => {
   const [eventItems, setEventItems] = useState(events)
   const [hasNextPage, setHasNextPage] = useState(initialHasNextPage)
@@ -101,6 +107,7 @@ export const EventListClient: React.FC<Props> = ({
   const penultimateEventRef = useRef<HTMLElement | null>(null)
   const safeRowHeight = Math.max(rowHeight || 112, 1)
   const emptyStateStyle = emptyStateTypography?.[0]?.style
+  const yearStyle = yearTypography?.[0]?.style
   const shouldScroll = eventItems.length >= batchSize || hasNextPage
   const penultimateEventIndex = eventItems.length > 1 ? eventItems.length - 2 : -1
   const activeFilters = React.useMemo<EventFilterParams>(
@@ -319,6 +326,18 @@ export const EventListClient: React.FC<Props> = ({
                       })}
                     >
                       {dateParts.month}
+                    </span>
+                    <span
+                      className={cn(getEventSuiteTextClassName(yearStyle, 'black'), 'mt-1')}
+                      style={getEventSuiteTextStyle(yearStyle, {
+                        fontFamily: 'cinzel',
+                        fontSizeDesktop: 11,
+                        fontSizeMobile: 9,
+                        fontWeight: 'black',
+                        lineHeight: 1.05,
+                      })}
+                    >
+                      {dateParts.year}
                     </span>
                     <span
                       className={cn(getEventSuiteTextClassName(weekdayStyle, 'black'), 'mt-3')}
