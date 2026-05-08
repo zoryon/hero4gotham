@@ -1,6 +1,7 @@
 'use client'
 
 import { useHeaderTheme } from '@/providers/HeaderTheme'
+import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -195,6 +196,7 @@ const SocialIcon: React.FC<{
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
   const navItems = data?.navItems || []
@@ -208,8 +210,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   useEffect(() => {
     setHeaderTheme(null)
+    setIsMenuOpen(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMenuOpen(false)
+    }
+
+    window.addEventListener('keydown', closeOnEscape)
+
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [isMenuOpen])
 
   useEffect(() => {
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
@@ -290,45 +305,77 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </span>
         </Link>
 
-        <nav aria-label="Primary navigation" className="site-header__nav">
-          {navItems.map(({ link }, i) => {
-            const href = getNavHref(link)
-            const isActive = isNavItemActive(pathname, href)
+        <button
+          aria-controls="site-header-menu"
+          aria-expanded={isMenuOpen}
+          aria-label={isMenuOpen ? 'Chiudi navigazione' : 'Apri navigazione'}
+          className="site-header__menu-toggle"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          type="button"
+        >
+          {isMenuOpen ? (
+            <X aria-hidden className="size-5" />
+          ) : (
+            <Menu aria-hidden className="size-5" />
+          )}
+        </button>
 
-            return (
-              <CMSLink
-                key={i}
-                {...link}
-                appearance="inline"
-                className={cn(
-                  'site-header__nav-link',
-                  textTransformClass(navTextTransform),
-                  isActive && 'site-header__nav-link--active',
-                )}
-                label={formatTextTransform(link.label, navTextTransform)}
-              />
-            )
-          })}
-        </nav>
+        <div
+          className={cn('site-header__menu', isMenuOpen && 'site-header__menu--open')}
+          id="site-header-menu"
+        >
+          <nav
+            aria-label="Primary navigation"
+            className="site-header__nav"
+            onClickCapture={(event) => {
+              if (event.target instanceof Element && event.target.closest('a')) {
+                setIsMenuOpen(false)
+              }
+            }}
+          >
+            {navItems.map(({ link }, i) => {
+              const href = getNavHref(link)
+              const isActive = isNavItemActive(pathname, href)
 
-        {socialItems.length ? (
-          <nav aria-label="Social links" className="site-header__social">
-            {socialItems.map((item, index) => (
-              <a
-                aria-label={item.label || item.platform || 'Social'}
-                className={cn('site-header__social-link', textTransformClass(socialTextTransform))}
-                href={getSocialHref(item)}
-                key={`${item.platform}-${index}`}
-                rel="noopener noreferrer"
-                target={item.platform === 'email' ? undefined : '_blank'}
-              >
-                <span className="site-header__social-glyph">
-                  <SocialIcon label={item.label} platform={item.platform} />
-                </span>
-              </a>
-            ))}
+              return (
+                <CMSLink
+                  key={i}
+                  {...link}
+                  appearance="inline"
+                  className={cn(
+                    'site-header__nav-link',
+                    textTransformClass(navTextTransform),
+                    isActive && 'site-header__nav-link--active',
+                  )}
+                  label={formatTextTransform(link.label, navTextTransform)}
+                />
+              )
+            })}
           </nav>
-        ) : null}
+
+          {socialItems.length ? (
+            <nav aria-label="Social links" className="site-header__social">
+              {socialItems.map((item, index) => (
+                <a
+                  aria-label={item.label || item.platform || 'Social'}
+                  className={cn(
+                    'site-header__social-link',
+                    textTransformClass(socialTextTransform),
+                  )}
+                  href={getSocialHref(item)}
+                  key={`${item.platform}-${index}`}
+                  onClick={() => setIsMenuOpen(false)}
+                  rel="noopener noreferrer"
+                  target={item.platform === 'email' ? undefined : '_blank'}
+                >
+                  <span className="site-header__social-glyph">
+                    <SocialIcon label={item.label} platform={item.platform} />
+                  </span>
+                </a>
+              ))}
+            </nav>
+          ) : null}
+        </div>
       </div>
     </header>
   )
