@@ -5,6 +5,7 @@ import { Media } from '@/components/Media'
 import {
   eventSuiteSelect,
   formatEventDateParts,
+  getEventDisplayImage,
   getEventTypeLabel,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
@@ -107,7 +108,7 @@ export const FeaturedEventBlock = async ({
   if (!event) return null
 
   const dateParts = formatEventDateParts(event.startsAt)
-  const displayImage = backgroundImage || event.image || fallbackImage
+  const displayImage = backgroundImage || getEventDisplayImage(event) || fallbackImage
   const eventTypeLabel = getEventTypeLabel(event.activity)
 
   return (

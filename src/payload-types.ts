@@ -1501,7 +1501,20 @@ export interface Event {
    * Optional display time. If empty, the frontend formats the time from Event date.
    */
   timeLabel?: string | null;
+  /**
+   * Legacy fallback image. The frontend prefers the first gallery image.
+   */
   image?: (number | null) | Media;
+  /**
+   * Event photos. The first image is used anywhere the event card needs a single image.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   description: string;
   /**
    * Place used by the event filters.
@@ -4550,6 +4563,13 @@ export interface EventsSelect<T extends boolean = true> {
   startsAt?: T;
   timeLabel?: T;
   image?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
   description?: T;
   venue?: T;
   link?:

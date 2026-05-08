@@ -7,6 +7,7 @@ import { Media } from '@/components/Media'
 import { MapPin } from 'lucide-react'
 import {
   formatEventDateParts,
+  getEventDisplayImage,
   getEventTypeLabel,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
@@ -15,6 +16,13 @@ import {
   type EventSuiteMedia,
   type EventSuiteTextStyle,
 } from '@/blocks/EventSuite/shared'
+import {
+  appendEventFilterSearchParams,
+  normalizeEventFilterParams,
+  type EventFilterParams,
+} from '@/blocks/EventSuite/filters'
+import { useEventFilters } from '@/providers/EventFilters'
+import { useDebounce } from '@/utilities/useDebounce'
 import { cn } from '@/utilities/ui'
 
 type Props = {
@@ -77,12 +85,25 @@ export const EventListClient: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [nextPage, setNextPage] = useState(initialNextPage)
   const [hasScrolled, setHasScrolled] = useState(false)
+  const { activityId, date, query, venue } = useEventFilters()
+  const debouncedQuery = useDebounce(query, 250)
   const loadingPageRef = useRef(false)
+  const hasMountedRef = useRef(false)
   const scrollerRef = useRef<HTMLDivElement>(null)
   const penultimateEventRef = useRef<HTMLElement | null>(null)
   const safeRowHeight = Math.max(rowHeight || 112, 1)
   const shouldScroll = eventItems.length >= batchSize || hasNextPage
   const penultimateEventIndex = eventItems.length > 1 ? eventItems.length - 2 : -1
+  const activeFilters = React.useMemo<EventFilterParams>(
+    () =>
+      normalizeEventFilterParams({
+        activityId,
+        date,
+        query: debouncedQuery,
+        venue,
+      }),
+    [activityId, date, debouncedQuery, venue],
+  )
 
   useEffect(() => {
     setEventItems(events)
@@ -103,6 +124,7 @@ export const EventListClient: React.FC<Props> = ({
         maxEvents: String(maxEvents || 30),
         page: String(nextPage),
       })
+      appendEventFilterSearchParams(params, activeFilters)
       const response = await fetch(`/api/event-list?${params.toString()}`, {
         headers: {
           Accept: 'application/json',
@@ -132,7 +154,54 @@ export const EventListClient: React.FC<Props> = ({
       loadingPageRef.current = false
       setIsLoading(false)
     }
-  }, [hasNextPage, isLoading, maxEvents, nextPage])
+  }, [activeFilters, hasNextPage, isLoading, maxEvents, nextPage])
+
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true
+      return
+    }
+
+    const controller = new AbortController()
+    const params = new URLSearchParams({
+      maxEvents: String(maxEvents || 30),
+      page: '1',
+    })
+    appendEventFilterSearchParams(params, activeFilters)
+
+    loadingPageRef.current = true
+    setIsLoading(true)
+    setHasScrolled(false)
+    scrollerRef.current?.scrollTo({ top: 0 })
+
+    fetch(`/api/event-list?${params.toString()}`, {
+      headers: {
+        Accept: 'application/json',
+      },
+      signal: controller.signal,
+    })
+      .then((response) => (response.ok ? response.json() : Promise.reject()))
+      .then((data: EventListPageResponse) => {
+        setEventItems(data.events || [])
+        setHasNextPage(Boolean(data.hasNextPage))
+        setNextPage(data.nextPage || null)
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) {
+          setEventItems([])
+          setHasNextPage(false)
+          setNextPage(null)
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          loadingPageRef.current = false
+          setIsLoading(false)
+        }
+      })
+
+    return () => controller.abort()
+  }, [activeFilters, maxEvents])
 
   useEffect(() => {
     const root = scrollerRef.current
@@ -203,6 +272,7 @@ export const EventListClient: React.FC<Props> = ({
           {eventItems.map((event, index) => {
             const dateParts = formatEventDateParts(event.startsAt)
             const displayTime = event.timeLabel || dateParts.time
+            const displayImage = getEventDisplayImage(event)
             const eventTypeLabel = getEventTypeLabel(event.activity)
 
             return (
@@ -345,12 +415,12 @@ export const EventListClient: React.FC<Props> = ({
                   </div>
 
                   <div className="relative min-h-full overflow-hidden">
-                    {event.image && typeof event.image === 'object' ? (
+                    {displayImage && typeof displayImage === 'object' ? (
                       <Media
                         fill
                         imgClassName="object-cover object-center"
                         pictureClassName="absolute inset-0"
-                        resource={event.image}
+                        resource={displayImage}
                       />
                     ) : null}
                     <CMSLink

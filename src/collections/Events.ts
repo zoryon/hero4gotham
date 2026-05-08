@@ -12,20 +12,14 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: [
-      'title',
-      'activity',
-      'startsAt',
-      'timeLabel',
-      'venue',
-      'updatedAt',
-    ],
+    defaultColumns: ['title', 'activity', 'startsAt', 'timeLabel', 'venue', 'updatedAt'],
     group: 'Content',
     useAsTitle: 'title',
   },
   defaultPopulate: {
     activity: true,
     description: true,
+    gallery: true,
     image: true,
     link: true,
     startsAt: true,
@@ -72,8 +66,37 @@ export const Events: CollectionConfig<'events'> = {
     {
       name: 'image',
       type: 'upload',
-      label: 'Event image',
+      admin: {
+        description: 'Legacy fallback image. The frontend prefers the first gallery image.',
+      },
+      label: 'Fallback event image',
       relationTo: 'media',
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      admin: {
+        description:
+          'Event photos. The first image is used anywhere the event card needs a single image.',
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'image',
+          type: 'upload',
+          label: 'Photo',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'caption',
+          type: 'text',
+        },
+      ],
+      labels: {
+        plural: 'Photos',
+        singular: 'Photo',
+      },
     },
     {
       name: 'description',

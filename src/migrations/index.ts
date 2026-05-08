@@ -31,6 +31,7 @@ import * as migration_20260507_234000_flexbox_reverse_non_desktop from './202605
 import * as migration_20260508_090000_flexbox_desktop_column_tablet_row from './20260508_090000_flexbox_desktop_column_tablet_row'
 import * as migration_20260508_093000_event_list_scroll_hint_label from './20260508_093000_event_list_scroll_hint_label'
 import * as migration_20260508_094000_event_list_scroll_hint_typography from './20260508_094000_event_list_scroll_hint_typography'
+import * as migration_20260508_100000_event_gallery_and_filters from './20260508_100000_event_gallery_and_filters'
 
 export const migrations = [
   {
@@ -197,5 +198,10 @@ export const migrations = [
     up: migration_20260508_094000_event_list_scroll_hint_typography.up,
     down: migration_20260508_094000_event_list_scroll_hint_typography.down,
     name: '20260508_094000_event_list_scroll_hint_typography',
+  },
+  {
+    up: migration_20260508_100000_event_gallery_and_filters.up,
+    down: migration_20260508_100000_event_gallery_and_filters.down,
+    name: '20260508_100000_event_gallery_and_filters',
   },
 ]

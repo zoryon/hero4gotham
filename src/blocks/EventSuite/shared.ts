@@ -82,6 +82,13 @@ export type EventSuiteItem = {
     | number
     | null
   description?: null | string
+  gallery?:
+    | {
+        caption?: null | string
+        id?: null | string
+        image?: EventSuiteMedia | number | null
+      }[]
+    | null
   id: number | string
   image?: EventSuiteMedia | number | null
   link?: Record<string, unknown> | null
@@ -94,6 +101,10 @@ export type EventSuiteItem = {
 export const eventSuiteSelect = {
   activity: true,
   description: true,
+  gallery: {
+    caption: true,
+    image: true,
+  },
   image: true,
   link: true,
   startsAt: true,
@@ -106,6 +117,12 @@ export const getEventTypeLabel = (activity: EventSuiteItem['activity']) => {
   if (!activity || typeof activity !== 'object') return null
 
   return activity.shortName || activity.title || null
+}
+
+export const getEventDisplayImage = (event: EventSuiteItem) => {
+  const galleryImage = event.gallery?.find((item) => item.image)?.image
+
+  return galleryImage || event.image || null
 }
 
 export const resolveMediaBackground = (image: EventSuiteMedia | number | null | undefined) => {

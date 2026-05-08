@@ -1,4 +1,6 @@
 import { eventSuiteSelect, type EventSuiteItem } from '@/blocks/EventSuite/shared'
+import { buildEventWhere } from '@/blocks/EventSuite/eventWhere'
+import type { EventFilterParams } from '@/blocks/EventSuite/filters'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
@@ -11,9 +13,11 @@ export type EventListPage = {
 }
 
 export const getUpcomingEventListPage = async ({
+  filters,
   maxEvents,
   page,
 }: {
+  filters?: EventFilterParams
   maxEvents: number
   page: number
 }): Promise<EventListPage> => {
@@ -30,8 +34,6 @@ export const getUpcomingEventListPage = async ({
   }
 
   const payload = await getPayload({ config: configPromise })
-  const now = new Date()
-  now.setHours(0, 0, 0, 0)
 
   const result = await payload.find({
     collection: 'events',
@@ -40,11 +42,7 @@ export const getUpcomingEventListPage = async ({
     page: safePage,
     select: eventSuiteSelect,
     sort: 'startsAt',
-    where: {
-      startsAt: {
-        greater_than_equal: now.toISOString(),
-      },
-    },
+    where: buildEventWhere(filters),
   })
   const remainingEvents = safeMaxEvents - alreadyRequested
   const events = (result.docs as EventSuiteItem[]).slice(0, remainingEvents)
