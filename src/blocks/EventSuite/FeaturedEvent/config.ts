@@ -47,15 +47,8 @@ export const FeaturedEvent: Block = {
       label: 'Card background image',
       relationTo: 'media',
       admin: {
-        description:
-          'Optional override for this card. If empty, the selected event image is used, then the fallback image.',
+        description: 'Optional override for this card. If empty, the selected event gallery image is used.',
       },
-    },
-    {
-      name: 'fallbackImage',
-      type: 'upload',
-      label: 'Fallback image',
-      relationTo: 'media',
     },
     {
       name: 'linkFallbackLabel',

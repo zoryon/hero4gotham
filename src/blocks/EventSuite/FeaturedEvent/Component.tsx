@@ -24,7 +24,6 @@ type Props = {
   descStyle?: EventSuiteTextStyle | null
   dtStyle?: EventSuiteTextStyle | null
   eventSource?: 'automatic' | 'manual' | null
-  fallbackImage?: EventSuiteMedia | number | null
   heading?: null | string
   headingBackgroundImage?: EventSuiteMedia | number | null
   hdgStyle?: EventSuiteTextStyle | null
@@ -88,7 +87,6 @@ export const FeaturedEventBlock = async ({
   descStyle,
   dtStyle,
   eventSource = 'automatic',
-  fallbackImage,
   heading,
   headingBackgroundImage,
   hdgStyle,
@@ -108,7 +106,7 @@ export const FeaturedEventBlock = async ({
   if (!event) return null
 
   const dateParts = formatEventDateParts(event.startsAt)
-  const displayImage = backgroundImage || getEventDisplayImage(event) || fallbackImage
+  const displayImage = backgroundImage || getEventDisplayImage(event)
   const eventTypeLabel = getEventTypeLabel(event.activity)
 
   return (

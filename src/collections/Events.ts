@@ -20,7 +20,6 @@ export const Events: CollectionConfig<'events'> = {
     activity: true,
     description: true,
     gallery: true,
-    image: true,
     link: true,
     startsAt: true,
     timeLabel: true,
@@ -64,20 +63,13 @@ export const Events: CollectionConfig<'events'> = {
       label: 'Display time',
     },
     {
-      name: 'image',
-      type: 'upload',
-      admin: {
-        description: 'Legacy fallback image. The frontend prefers the first gallery image.',
-      },
-      label: 'Fallback event image',
-      relationTo: 'media',
-    },
-    {
       name: 'gallery',
       type: 'array',
+      minRows: 1,
+      required: true,
       admin: {
         description:
-          'Event photos. The first image is used anywhere the event card needs a single image.',
+          'Event photos. Add at least one photo. The first image is used anywhere the event card needs a single image.',
         initCollapsed: true,
       },
       fields: [

@@ -1694,10 +1694,9 @@ export interface FeaturedEventBlock {
   eventSource?: ('automatic' | 'manual') | null;
   manualEvent?: (number | null) | Event;
   /**
-   * Optional override for this card. If empty, the selected event image is used, then the fallback image.
+   * Optional override for this card. If empty, the selected event gallery image is used.
    */
   backgroundImage?: (number | null) | Media;
-  fallbackImage?: (number | null) | Media;
   linkFallbackLabel: string;
   linkBackgroundImage?: (number | null) | Media;
   specialBorder?: boolean | null;
@@ -1827,19 +1826,13 @@ export interface Event {
    */
   timeLabel?: string | null;
   /**
-   * Legacy fallback image. The frontend prefers the first gallery image.
+   * Event photos. Add at least one photo. The first image is used anywhere the event card needs a single image.
    */
-  image?: (number | null) | Media;
-  /**
-   * Event photos. The first image is used anywhere the event card needs a single image.
-   */
-  gallery?:
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  gallery: {
+    image: number | Media;
+    caption?: string | null;
+    id?: string | null;
+  }[];
   description: string;
   /**
    * Place used by the event filters.
@@ -4425,7 +4418,6 @@ export interface FeaturedEventBlockSelect<T extends boolean = true> {
   eventSource?: T;
   manualEvent?: T;
   backgroundImage?: T;
-  fallbackImage?: T;
   linkFallbackLabel?: T;
   linkBackgroundImage?: T;
   specialBorder?: T;
@@ -5420,7 +5412,6 @@ export interface EventsSelect<T extends boolean = true> {
   activity?: T;
   startsAt?: T;
   timeLabel?: T;
-  image?: T;
   gallery?:
     | T
     | {
