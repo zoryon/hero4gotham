@@ -1,5 +1,4 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import Link from 'next/link'
 import React from 'react'
 
 import { CMSLink } from '@/components/Link'
@@ -31,10 +30,6 @@ export async function Footer() {
   return (
     <footer className="site-footer mt-auto">
       <div className="site-footer__inner">
-        <Link className="site-footer__wordmark" href="/" aria-label="Home">
-          {footerData?.brandName || 'IL SORRISO STORTO'}
-        </Link>
-
         <div className="site-footer__bottom">
           <div className="site-footer__left">
             <p className="site-footer__legal-note">
