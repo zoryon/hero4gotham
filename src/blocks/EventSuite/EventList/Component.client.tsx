@@ -455,7 +455,7 @@ export const EventListClient: React.FC<Props> = ({
             )
           })}
           {!eventItems.length ? (
-            <div className="grid min-h-32 place-items-center px-6 py-10 text-center">
+            <div className="scribble-border mx-1 grid min-h-32 place-items-center px-6 py-10 text-center">
               <span
                 className={getEventSuiteTextClassName(emptyStateStyle, 'black')}
                 style={getEventSuiteTextStyle(emptyStateStyle, {
