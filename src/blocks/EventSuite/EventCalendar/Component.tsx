@@ -25,7 +25,9 @@ export const EventCalendarBlock = async ({
   monStyle,
   specialBorder,
 }: Props) => {
-  const offset = Math.min(Math.max(monthOffset || 0, 0), 12)
+  const safeMonthOffset =
+    typeof monthOffset === 'number' && Number.isFinite(monthOffset) ? monthOffset : 0
+  const offset = Math.min(Math.max(safeMonthOffset, 0), 12)
   const now = new Date()
   const monthDate = new Date(now.getFullYear(), now.getMonth() + offset, 1)
   const initialYear = monthDate.getFullYear()

@@ -167,7 +167,7 @@ export const EventCalendarClient: React.FC<Props> = ({
         <div className="grid min-w-0 grid-cols-[1.75rem_1.75rem_minmax(0,1fr)_1.75rem_1.75rem] items-center gap-1">
           <button
             aria-label="Anno precedente"
-            className="grid aspect-square place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
             onClick={() => moveCalendar(-12)}
             type="button"
           >
@@ -175,7 +175,7 @@ export const EventCalendarClient: React.FC<Props> = ({
           </button>
           <button
             aria-label="Mese precedente"
-            className="grid aspect-square place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
             onClick={() => moveCalendar(-1)}
             type="button"
           >
@@ -200,7 +200,7 @@ export const EventCalendarClient: React.FC<Props> = ({
           </div>
           <button
             aria-label="Mese successivo"
-            className="grid aspect-square place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
             onClick={() => moveCalendar(1)}
             type="button"
           >
@@ -208,7 +208,7 @@ export const EventCalendarClient: React.FC<Props> = ({
           </button>
           <button
             aria-label="Anno successivo"
-            className="grid aspect-square place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
             onClick={() => moveCalendar(12)}
             type="button"
           >
@@ -244,7 +244,7 @@ export const EventCalendarClient: React.FC<Props> = ({
                 {hasEvent && markerColor ? (
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-0.5 sm:inset-1"
+                    className="pointer-events-none absolute inset-0.5 rounded-full sm:inset-1"
                     style={{
                       border: `1px solid ${markerColor}`,
                     }}
