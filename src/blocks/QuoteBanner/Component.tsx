@@ -105,7 +105,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
 
   return (
     <section
-      className="relative isolate hidden h-[var(--quote-banner-mobile-height)] items-center overflow-hidden min-[820px]:flex md:h-[var(--quote-banner-desktop-height)]"
+      className="relative isolate hidden h-[var(--quote-banner-mobile-height)] items-center overflow-hidden min-[820px]:flex min-[960px]:h-[var(--quote-banner-desktop-height)]"
       style={
         {
           '--quote-banner-desktop-height': `${resolvedHeightDesktop}px`,
@@ -125,7 +125,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
       ) : null}
 
       <div
-        className="relative mx-auto grid w-full grid-cols-1 items-center md:grid-cols-[minmax(1.8rem,4rem)_minmax(0,1fr)_minmax(1.8rem,4rem)]"
+        className="relative mx-auto grid w-full grid-cols-1 items-center min-[960px]:grid-cols-[minmax(1.8rem,4rem)_minmax(0,1fr)_minmax(1.8rem,4rem)]"
         style={{
           columnGap: quoteGap ?? 18,
           maxWidth: contentMaxWidth ?? 980,
@@ -135,7 +135,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
           <span
             aria-hidden
             className={cn(
-              'absolute left-0 top-1/2 justify-self-center text-[length:var(--quote-mark-font-size-mobile)] leading-none -translate-y-1/2 md:static md:translate-y-0 md:text-[length:var(--quote-mark-font-size-desktop)]',
+              'absolute left-0 top-1/2 justify-self-center text-[length:var(--quote-mark-font-size-mobile)] leading-none -translate-y-1/2 min-[960px]:static min-[960px]:translate-y-0 min-[960px]:text-[length:var(--quote-mark-font-size-desktop)]',
               textTransformClass(resolvedQuoteMarkStyle?.textTransform),
               typographyFontWeightClasses[resolvedQuoteMarkStyle?.fontWeight || 'black'],
               typographyLetterSpacingClasses[resolvedQuoteMarkStyle?.letterSpacing || 'tight'],
@@ -163,7 +163,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
 
         <p
           className={cn(
-            'px-7 whitespace-pre-line text-[length:var(--quote-text-font-size-mobile)] md:px-0 md:text-[length:var(--quote-text-font-size-desktop)]',
+            'px-7 whitespace-pre-line text-[length:var(--quote-text-font-size-mobile)] min-[960px]:px-0 min-[960px]:text-[length:var(--quote-text-font-size-desktop)]',
             alignClasses[resolvedTextStyle?.align || 'center'],
             textTransformClass(resolvedTextStyle?.textTransform),
             typographyFontWeightClasses[resolvedTextStyle?.fontWeight || 'black'],
@@ -190,7 +190,7 @@ export const QuoteBannerBlock: React.FC<QuoteBannerBlockProps> = ({
           <span
             aria-hidden
             className={cn(
-              'absolute right-0 top-1/2 justify-self-center text-[length:var(--quote-mark-font-size-mobile)] leading-none -translate-y-1/2 md:static md:translate-y-0 md:text-[length:var(--quote-mark-font-size-desktop)]',
+              'absolute right-0 top-1/2 justify-self-center text-[length:var(--quote-mark-font-size-mobile)] leading-none -translate-y-1/2 min-[960px]:static min-[960px]:translate-y-0 min-[960px]:text-[length:var(--quote-mark-font-size-desktop)]',
               textTransformClass(resolvedQuoteMarkStyle?.textTransform),
               typographyFontWeightClasses[resolvedQuoteMarkStyle?.fontWeight || 'black'],
               typographyLetterSpacingClasses[resolvedQuoteMarkStyle?.letterSpacing || 'tight'],
