@@ -118,6 +118,39 @@ const eventTypeTextStyleField = (): Field => ({
   ],
 })
 
+const emptyStateTypographyField = (): Field => ({
+  name: 'emptyStateTypography',
+  type: 'array',
+  defaultValue: [
+    {
+      style: {
+        colorTheme: 'primary',
+        fontFamily: 'cinzel',
+        fontSizeDesktop: 16,
+        fontSizeMobile: 14,
+        fontWeight: 'black',
+        textTransform: 'uppercase',
+      },
+    },
+  ],
+  label: 'Empty state typography',
+  labels: {
+    plural: 'Typography settings',
+    singular: 'Typography setting',
+  },
+  maxRows: 1,
+  fields: [
+    textStyleField('style', 'Typography', {
+      colorTheme: 'primary',
+      fontFamily: 'cinzel',
+      fontSizeDesktop: 16,
+      fontSizeMobile: 14,
+      fontWeight: 'black',
+      textTransform: 'uppercase',
+    }),
+  ],
+})
+
 export const EventList: Block = {
   slug: 'eventList',
   interfaceName: 'EventListBlock',
@@ -140,6 +173,13 @@ export const EventList: Block = {
       type: 'text',
       defaultValue: 'Scorri per scoprire gli altri eventi in programma',
       label: 'Scroll hint label',
+      required: true,
+    },
+    {
+      name: 'emptyStateLabel',
+      type: 'text',
+      defaultValue: 'Non sono presenti eventi',
+      label: 'Empty state label',
       required: true,
     },
     {
@@ -228,6 +268,7 @@ export const EventList: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
+    emptyStateTypographyField(),
   ],
   labels: {
     plural: 'Event Lists',

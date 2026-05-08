@@ -1221,6 +1221,7 @@ export interface EventListBlock {
   headingBackgroundImage?: (number | null) | Media;
   eventLinkFallbackLabel: string;
   scrollHintLabel: string;
+  emptyStateLabel: string;
   maxEvents?: number | null;
   rowHeight?: number | null;
   /**
@@ -1340,6 +1341,26 @@ export interface EventListBlock {
      */
     colorCustom?: string | null;
   };
+  emptyStateTypography?:
+    | {
+        style?: {
+          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+          fontStyle?: ('normal' | 'italic') | null;
+          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+          fontSizeMobile?: number | null;
+          fontSizeDesktop?: number | null;
+          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+          colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+          /**
+           * Optional. If set, this custom CSS color overrides the theme color.
+           */
+          colorCustom?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -3530,6 +3551,7 @@ export interface EventListBlockSelect<T extends boolean = true> {
   headingBackgroundImage?: T;
   eventLinkFallbackLabel?: T;
   scrollHintLabel?: T;
+  emptyStateLabel?: T;
   maxEvents?: T;
   rowHeight?: T;
   dividerColor?: T;
@@ -3647,6 +3669,25 @@ export interface EventListBlockSelect<T extends boolean = true> {
         textTransform?: T;
         colorTheme?: T;
         colorCustom?: T;
+      };
+  emptyStateTypography?:
+    | T
+    | {
+        style?:
+          | T
+          | {
+              fontFamily?: T;
+              fontWeight?: T;
+              fontStyle?: T;
+              verticalScale?: T;
+              fontSizeMobile?: T;
+              fontSizeDesktop?: T;
+              letterSpacing?: T;
+              textTransform?: T;
+              colorTheme?: T;
+              colorCustom?: T;
+            };
+        id?: T;
       };
   layout?:
     | T

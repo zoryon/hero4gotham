@@ -29,6 +29,12 @@ type Props = {
   ddyStyle?: EventSuiteTextStyle | null
   descStyle?: EventSuiteTextStyle | null
   dividerColor?: null | string
+  emptyStateLabel?: null | string
+  emptyStateTypography?:
+    | {
+        style?: EventSuiteTextStyle | null
+      }[]
+    | null
   eventLinkFallbackLabel?: null | string
   events: EventSuiteItem[]
   heading?: null | string
@@ -62,6 +68,8 @@ export const EventListClient: React.FC<Props> = ({
   ddyStyle,
   descStyle,
   dividerColor,
+  emptyStateLabel = 'Non sono presenti eventi',
+  emptyStateTypography,
   eventLinkFallbackLabel = 'Scopri di piu',
   events,
   heading,
@@ -92,6 +100,7 @@ export const EventListClient: React.FC<Props> = ({
   const scrollerRef = useRef<HTMLDivElement>(null)
   const penultimateEventRef = useRef<HTMLElement | null>(null)
   const safeRowHeight = Math.max(rowHeight || 112, 1)
+  const emptyStateStyle = emptyStateTypography?.[0]?.style
   const shouldScroll = eventItems.length >= batchSize || hasNextPage
   const penultimateEventIndex = eventItems.length > 1 ? eventItems.length - 2 : -1
   const activeFilters = React.useMemo<EventFilterParams>(
@@ -445,6 +454,22 @@ export const EventListClient: React.FC<Props> = ({
               </article>
             )
           })}
+          {!eventItems.length ? (
+            <div className="grid min-h-32 place-items-center px-6 py-10 text-center">
+              <span
+                className={getEventSuiteTextClassName(emptyStateStyle, 'black')}
+                style={getEventSuiteTextStyle(emptyStateStyle, {
+                  fontFamily: 'cinzel',
+                  fontSizeDesktop: 16,
+                  fontSizeMobile: 14,
+                  fontWeight: 'black',
+                  lineHeight: 1.15,
+                })}
+              >
+                {emptyStateLabel || 'Non sono presenti eventi'}
+              </span>
+            </div>
+          ) : null}
         </div>
 
         {shouldScroll && scrollHintLabel ? (
