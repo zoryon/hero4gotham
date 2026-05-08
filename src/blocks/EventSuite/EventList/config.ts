@@ -130,16 +130,16 @@ export const EventList: Block = {
     },
     labelImageField('headingBackgroundImage', 'Heading background image'),
     {
-      name: 'loadMoreLabel',
-      type: 'text',
-      defaultValue: 'Carica altri eventi',
-      required: true,
-    },
-    labelImageField('loadMoreBackgroundImage', 'Load more background image'),
-    {
       name: 'eventLinkFallbackLabel',
       type: 'text',
       defaultValue: 'Scopri di piu',
+      required: true,
+    },
+    {
+      name: 'scrollHintLabel',
+      type: 'text',
+      defaultValue: 'Scorri per scoprire gli altri eventi in programma',
+      label: 'Scroll hint label',
       required: true,
     },
     {
@@ -220,10 +220,10 @@ export const EventList: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
-    textStyleField('btnStyle', 'Load more typography', {
+    textStyleField('scrollHintStyle', 'Scroll hint typography', {
       colorTheme: 'green',
       fontFamily: 'cinzel',
-      fontSizeDesktop: 10,
+      fontSizeDesktop: 11,
       fontSizeMobile: 10,
       fontWeight: 'black',
       textTransform: 'uppercase',

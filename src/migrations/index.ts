@@ -29,6 +29,8 @@ import * as migration_20260507_232000_compact_event_list_type_style from './2026
 import * as migration_20260507_233000_remove_event_list_featured_badge from './20260507_233000_remove_event_list_featured_badge'
 import * as migration_20260507_234000_flexbox_reverse_non_desktop from './20260507_234000_flexbox_reverse_non_desktop'
 import * as migration_20260508_090000_flexbox_desktop_column_tablet_row from './20260508_090000_flexbox_desktop_column_tablet_row'
+import * as migration_20260508_093000_event_list_scroll_hint_label from './20260508_093000_event_list_scroll_hint_label'
+import * as migration_20260508_094000_event_list_scroll_hint_typography from './20260508_094000_event_list_scroll_hint_typography'
 
 export const migrations = [
   {
@@ -185,5 +187,15 @@ export const migrations = [
     up: migration_20260508_090000_flexbox_desktop_column_tablet_row.up,
     down: migration_20260508_090000_flexbox_desktop_column_tablet_row.down,
     name: '20260508_090000_flexbox_desktop_column_tablet_row',
+  },
+  {
+    up: migration_20260508_093000_event_list_scroll_hint_label.up,
+    down: migration_20260508_093000_event_list_scroll_hint_label.down,
+    name: '20260508_093000_event_list_scroll_hint_label',
+  },
+  {
+    up: migration_20260508_094000_event_list_scroll_hint_typography.up,
+    down: migration_20260508_094000_event_list_scroll_hint_typography.down,
+    name: '20260508_094000_event_list_scroll_hint_typography',
   },
 ]

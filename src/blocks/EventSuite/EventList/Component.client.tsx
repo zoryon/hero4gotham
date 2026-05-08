@@ -32,6 +32,8 @@ type Props = {
   maxEvents?: null | number
   monthStyle?: EventSuiteTextStyle | null
   rowHeight?: null | number
+  scrollHintLabel?: null | string
+  scrollHintStyle?: EventSuiteTextStyle | null
   timeStyle?: EventSuiteTextStyle | null
   ttlStyle?: EventSuiteTextStyle | null
   typStyle?: EventSuiteTextStyle | null
@@ -63,6 +65,8 @@ export const EventListClient: React.FC<Props> = ({
   maxEvents = 30,
   monthStyle,
   rowHeight = 112,
+  scrollHintLabel = 'Scorri per scoprire gli altri eventi in programma',
+  scrollHintStyle,
   timeStyle,
   ttlStyle,
   typStyle,
@@ -180,7 +184,7 @@ export const EventListClient: React.FC<Props> = ({
         <div
           ref={scrollerRef}
           className={cn(
-            'min-w-0',
+            'event-list-scroll min-w-0',
             shouldScroll ? 'overflow-x-hidden overflow-y-auto' : 'overflow-visible',
           )}
           onScroll={() => {
@@ -373,10 +377,21 @@ export const EventListClient: React.FC<Props> = ({
           })}
         </div>
 
-        {shouldScroll ? (
-          <p className="mt-3 text-center text-xs font-semibold uppercase tracking-[0.08em] text-[var(--theme-text-green)]">
-            Scorri la lista per vedere altri eventi
-          </p>
+        {shouldScroll && scrollHintLabel ? (
+          <div className="mt-3 text-center">
+            <span
+              className={getEventSuiteTextClassName(scrollHintStyle, 'black')}
+              style={getEventSuiteTextStyle(scrollHintStyle, {
+                fontFamily: 'cinzel',
+                fontSizeDesktop: 11,
+                fontSizeMobile: 10,
+                fontWeight: 'black',
+                lineHeight: 1.1,
+              })}
+            >
+              {scrollHintLabel}
+            </span>
+          </div>
         ) : null}
       </div>
     </section>

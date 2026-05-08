@@ -427,6 +427,50 @@
     inset: calc(var(--vintage-border-width, 15px) * -0.7);
   }
 
+  .event-list-scroll {
+    scrollbar-color: rgb(190 190 190 / 0.38) transparent;
+    scrollbar-width: thin;
+  }
+
+  .event-list-scroll::-webkit-scrollbar {
+    background: transparent;
+    width: 0.55rem;
+  }
+
+  .event-list-scroll::-webkit-scrollbar:hover {
+    background: transparent;
+  }
+
+  .event-list-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .event-list-scroll::-webkit-scrollbar-track:hover,
+  .event-list-scroll::-webkit-scrollbar-track:active {
+    background: transparent;
+  }
+
+  .event-list-scroll::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    background-color: rgb(190 190 190 / 0.38);
+    border: 2px solid transparent;
+    border-radius: 999px;
+  }
+
+  .event-list-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(205 205 205 / 0.52);
+  }
+
+  .event-list-scroll::-webkit-scrollbar-thumb:active {
+    background-color: rgb(215 215 215 / 0.6);
+  }
+
+  .event-list-scroll::-webkit-scrollbar-button,
+  .event-list-scroll::-webkit-scrollbar-corner {
+    background: transparent;
+    display: none;
+  }
+
   .featured-event-card-border::after,
   .event-calendar-card-border::after {
     inset: calc(var(--vintage-border-width, 15px) * -1);

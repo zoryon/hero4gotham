@@ -1219,9 +1219,8 @@ export interface EventFiltersBlock {
 export interface EventListBlock {
   heading: string;
   headingBackgroundImage?: (number | null) | Media;
-  loadMoreLabel: string;
-  loadMoreBackgroundImage?: (number | null) | Media;
   eventLinkFallbackLabel: string;
+  scrollHintLabel: string;
   maxEvents?: number | null;
   rowHeight?: number | null;
   /**
@@ -1326,7 +1325,7 @@ export interface EventListBlock {
      */
     colorCustom?: string | null;
   };
-  btnStyle?: {
+  scrollHintStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
     fontStyle?: ('normal' | 'italic') | null;
@@ -3516,9 +3515,8 @@ export interface EventFiltersBlockSelect<T extends boolean = true> {
 export interface EventListBlockSelect<T extends boolean = true> {
   heading?: T;
   headingBackgroundImage?: T;
-  loadMoreLabel?: T;
-  loadMoreBackgroundImage?: T;
   eventLinkFallbackLabel?: T;
+  scrollHintLabel?: T;
   maxEvents?: T;
   rowHeight?: T;
   dividerColor?: T;
@@ -3623,7 +3621,7 @@ export interface EventListBlockSelect<T extends boolean = true> {
         colorTheme?: T;
         colorCustom?: T;
       };
-  btnStyle?:
+  scrollHintStyle?:
     | T
     | {
         fontFamily?: T;
