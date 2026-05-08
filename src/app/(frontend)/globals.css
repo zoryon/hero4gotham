@@ -483,7 +483,9 @@
   }
 
   .event-gallery-card-border::after {
-    inset: calc(var(--vintage-border-width, 15px) * -1);
+    inset: calc(var(--vintage-border-width, 15px) * -0.86)
+      calc(var(--vintage-border-width, 15px) * -0.86) calc(var(--vintage-border-width, 15px) * -1)
+      calc(var(--vintage-border-width, 15px) * -0.86);
     z-index: 30;
   }
 
