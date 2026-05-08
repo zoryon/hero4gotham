@@ -165,6 +165,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
             imgClassName="object-cover"
             pictureClassName="absolute inset-0 -z-20"
             resource={backgroundImage}
+            size="(max-width: 767px) 100vw, 64rem"
           />
         ) : null}
 

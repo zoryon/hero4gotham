@@ -151,6 +151,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
               imgClassName="object-contain"
               pictureClassName="absolute inset-0"
               resource={decorativeImage}
+              size="(max-width: 767px) 6rem, 8rem"
             />
           </div>
         ) : null}

@@ -589,6 +589,7 @@ export const UpcomingEventsBlock = async ({
               imgClassName="object-contain"
               pictureClassName="absolute inset-0"
               resource={ctaGlyph}
+              size="(max-width: 767px) 9rem, (max-width: 1279px) 10.5rem, 16rem"
             />
           </div>
         ) : null}

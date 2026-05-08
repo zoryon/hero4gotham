@@ -380,6 +380,7 @@ const ActivityCard: React.FC<{
                       imgClassName="object-contain"
                       pictureClassName="absolute inset-0"
                       resource={icon}
+                      size="16px"
                     />
                   </span>
                 ) : null}
@@ -416,6 +417,7 @@ const ActivityCard: React.FC<{
               imgClassName="object-cover object-center"
               pictureClassName="absolute inset-0 -z-10"
               resource={ctaBannerImage}
+              size="12rem"
             />
           ) : null}
           <StyledText
@@ -562,6 +564,7 @@ export const ActivitiesDetailGridBlock = async ({
               imgClassName="object-cover object-center"
               pictureClassName="absolute inset-0 -z-10"
               resource={headingImage}
+              size="(max-width: 767px) 80vw, 32rem"
             />
           ) : null}
           <StyledText

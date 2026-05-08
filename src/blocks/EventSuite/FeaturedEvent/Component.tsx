@@ -125,6 +125,7 @@ export const FeaturedEventBlock = async ({
             imgClassName="object-cover object-center"
             pictureClassName="absolute inset-0"
             resource={displayImage}
+            size="(max-width: 1279px) 100vw, 38rem"
           />
         ) : null}
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10" />

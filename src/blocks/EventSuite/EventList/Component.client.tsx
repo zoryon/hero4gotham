@@ -449,6 +449,7 @@ export const EventListClient: React.FC<Props> = ({
                         imgClassName="object-cover object-center"
                         pictureClassName="absolute inset-0"
                         resource={displayImage}
+                        size="(max-width: 1279px) 32vw, 24vw"
                       />
                     ) : null}
                     <CMSLink

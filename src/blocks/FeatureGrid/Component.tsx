@@ -48,6 +48,7 @@ export const FeatureGridBlock: React.FC<FeatureGridBlockProps> = ({
                       imgClassName="object-contain"
                       pictureClassName="absolute inset-0"
                       resource={item.icon}
+                      size="44px"
                     />
                   </div>
                 ) : null}
