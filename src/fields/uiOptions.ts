@@ -156,6 +156,10 @@ export const flexDirectionOptions = [
     label: 'Row on desktop, column on mobile',
     value: 'responsiveRow',
   },
+  {
+    label: 'Column desktop, row tablet, column mobile',
+    value: 'desktopColumnTabletRowMobileColumn',
+  },
 ] as const
 
 export const flexWrapOptions = [

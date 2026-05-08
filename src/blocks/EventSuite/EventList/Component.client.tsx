@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
@@ -18,7 +18,6 @@ import {
 import { cn } from '@/utilities/ui'
 
 type Props = {
-  btnStyle?: EventSuiteTextStyle | null
   ddyStyle?: EventSuiteTextStyle | null
   descStyle?: EventSuiteTextStyle | null
   dividerColor?: null | string
@@ -27,9 +26,10 @@ type Props = {
   heading?: null | string
   headingBackgroundImage?: EventSuiteMedia | number | null
   hdgStyle?: EventSuiteTextStyle | null
+  initialHasNextPage?: boolean
+  initialNextPage?: null | number
   lnkStyle?: EventSuiteTextStyle | null
-  loadMoreBackgroundImage?: EventSuiteMedia | number | null
-  loadMoreLabel?: null | string
+  maxEvents?: null | number
   monthStyle?: EventSuiteTextStyle | null
   rowHeight?: null | number
   timeStyle?: EventSuiteTextStyle | null
@@ -38,10 +38,17 @@ type Props = {
   weekdayStyle?: EventSuiteTextStyle | null
 }
 
-const visibleStep = 5
+type EventListPageResponse = {
+  events?: EventSuiteItem[]
+  hasNextPage?: boolean
+  nextPage?: null | number
+}
+
+const batchSize = 6
+const visibleRows = 5
+const borderBleed = 11
 
 export const EventListClient: React.FC<Props> = ({
-  btnStyle,
   ddyStyle,
   descStyle,
   dividerColor,
@@ -50,9 +57,10 @@ export const EventListClient: React.FC<Props> = ({
   heading,
   headingBackgroundImage,
   hdgStyle,
+  initialHasNextPage = false,
+  initialNextPage = null,
   lnkStyle,
-  loadMoreBackgroundImage,
-  loadMoreLabel = 'Carica altri eventi',
+  maxEvents = 30,
   monthStyle,
   rowHeight = 112,
   timeStyle,
@@ -60,10 +68,90 @@ export const EventListClient: React.FC<Props> = ({
   typStyle,
   weekdayStyle,
 }) => {
-  const [visibleCount, setVisibleCount] = useState(visibleStep)
-  const visibleEvents = useMemo(() => events.slice(0, visibleCount), [events, visibleCount])
-  const canLoadMore = visibleCount < events.length
+  const [eventItems, setEventItems] = useState(events)
+  const [hasNextPage, setHasNextPage] = useState(initialHasNextPage)
+  const [isLoading, setIsLoading] = useState(false)
+  const [nextPage, setNextPage] = useState(initialNextPage)
+  const [hasScrolled, setHasScrolled] = useState(false)
+  const loadingPageRef = useRef(false)
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const penultimateEventRef = useRef<HTMLElement | null>(null)
   const safeRowHeight = Math.max(rowHeight || 112, 1)
+  const shouldScroll = eventItems.length >= batchSize || hasNextPage
+  const penultimateEventIndex = eventItems.length > 1 ? eventItems.length - 2 : -1
+
+  useEffect(() => {
+    setEventItems(events)
+    setHasNextPage(initialHasNextPage)
+    setNextPage(initialNextPage)
+    setHasScrolled(false)
+    loadingPageRef.current = false
+  }, [events, initialHasNextPage, initialNextPage])
+
+  const loadNextPage = useCallback(async () => {
+    if (!hasNextPage || isLoading || loadingPageRef.current || !nextPage) return
+
+    loadingPageRef.current = true
+    setIsLoading(true)
+
+    try {
+      const params = new URLSearchParams({
+        maxEvents: String(maxEvents || 30),
+        page: String(nextPage),
+      })
+      const response = await fetch(`/api/event-list?${params.toString()}`, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Unable to load event page ${nextPage}`)
+      }
+
+      const data = (await response.json()) as EventListPageResponse
+
+      setEventItems((currentEvents) => {
+        const knownEventIds = new Set(currentEvents.map((event) => String(event.id)))
+        const nextEvents = (data.events || []).filter(
+          (event) => !knownEventIds.has(String(event.id)),
+        )
+
+        return [...currentEvents, ...nextEvents]
+      })
+      setHasNextPage(Boolean(data.hasNextPage))
+      setNextPage(data.nextPage || null)
+    } catch {
+      setHasNextPage(false)
+      setNextPage(null)
+    } finally {
+      loadingPageRef.current = false
+      setIsLoading(false)
+    }
+  }, [hasNextPage, isLoading, maxEvents, nextPage])
+
+  useEffect(() => {
+    const root = scrollerRef.current
+    const target = penultimateEventRef.current
+
+    if (!root || !target || !hasNextPage || isLoading || !hasScrolled) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          void loadNextPage()
+        }
+      },
+      {
+        root,
+        threshold: 0.6,
+      },
+    )
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [eventItems.length, hasNextPage, hasScrolled, isLoading, loadNextPage])
 
   return (
     <section className="relative isolate w-full">
@@ -90,13 +178,25 @@ export const EventListClient: React.FC<Props> = ({
         </div>
 
         <div
+          ref={scrollerRef}
           className={cn(
             'min-w-0',
-            canLoadMore ? 'overflow-x-hidden overflow-y-auto' : 'overflow-visible',
+            shouldScroll ? 'overflow-x-hidden overflow-y-auto' : 'overflow-visible',
           )}
-          style={canLoadMore ? { maxHeight: safeRowHeight * visibleStep } : undefined}
+          onScroll={() => {
+            if (!hasScrolled) setHasScrolled(true)
+          }}
+          style={
+            shouldScroll
+              ? {
+                  margin: -borderBleed,
+                  maxHeight: safeRowHeight * visibleRows + borderBleed * 2,
+                  padding: borderBleed,
+                }
+              : undefined
+          }
         >
-          {visibleEvents.map((event, index) => {
+          {eventItems.map((event, index) => {
             const dateParts = formatEventDateParts(event.startsAt)
             const displayTime = event.timeLabel || dateParts.time
             const eventTypeLabel = getEventTypeLabel(event.activity)
@@ -105,6 +205,7 @@ export const EventListClient: React.FC<Props> = ({
               <article
                 className="grid min-w-0 grid-cols-[5.1rem_minmax(0,1fr)] gap-0 py-0"
                 key={event.id}
+                ref={index === penultimateEventIndex ? penultimateEventRef : undefined}
                 style={{
                   borderBottom: dividerColor ? `1px solid ${dividerColor}` : undefined,
                   minHeight: safeRowHeight,
@@ -213,9 +314,7 @@ export const EventListClient: React.FC<Props> = ({
                     ) : null}
                     <div className="mt-4 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
                       {event.venue ? (
-                        <div
-                          className="inline-flex min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap"
-                        >
+                        <div className="inline-flex min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap">
                           <MapPin
                             aria-hidden
                             className="h-4 w-4 shrink-0 text-[var(--theme-text-green)]"
@@ -274,28 +373,10 @@ export const EventListClient: React.FC<Props> = ({
           })}
         </div>
 
-        {canLoadMore ? (
-          <button
-            className={cn(
-              getEventSuiteTextClassName(btnStyle, 'black'),
-              'mx-auto inline-flex border-0 bg-transparent bg-contain bg-center bg-no-repeat px-6 py-2',
-            )}
-            onClick={() => setVisibleCount((count) => Math.min(count + visibleStep, events.length))}
-            style={{
-              ...getEventSuiteTextStyle(btnStyle, {
-                fontFamily: 'cinzel',
-                fontSizeDesktop: 10,
-                fontSizeMobile: 10,
-                fontWeight: 'black',
-                lineHeight: 1,
-              }),
-              backgroundImage: resolveMediaBackground(loadMoreBackgroundImage),
-              cursor: 'pointer',
-            }}
-            type="button"
-          >
-            {loadMoreLabel}
-          </button>
+        {shouldScroll ? (
+          <p className="mt-3 text-center text-xs font-semibold uppercase tracking-[0.08em] text-[var(--theme-text-green)]">
+            Scorri la lista per vedere altri eventi
+          </p>
         ) : null}
       </div>
     </section>

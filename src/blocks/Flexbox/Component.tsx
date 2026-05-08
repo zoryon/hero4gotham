@@ -11,7 +11,7 @@ type FlexboxItemWithLayout = FlexboxItem & { layout?: BlockLayoutSettings | null
 
 export type FlexboxProps = {
   blocks?: FlexboxItem[] | null
-  direction?: 'row' | 'column' | 'responsiveRow' | null
+  direction?: 'row' | 'column' | 'responsiveRow' | 'desktopColumnTabletRowMobileColumn' | null
   wrap?: 'wrap' | 'nowrap' | null
   reverseOnNonDesktop?: boolean | null
   justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' | null
@@ -26,6 +26,7 @@ const getBlockType = (block: FlexboxItem | null | undefined) =>
 
 const directionClasses = {
   column: 'flex-col',
+  desktopColumnTabletRowMobileColumn: 'flex-col md:flex-row xl:flex-col',
   responsiveRow: 'flex-col md:flex-row',
   row: 'flex-row',
 }
@@ -89,13 +90,16 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
   if (!blocks?.length) return null
 
   const blockTypes = blocks.map(getBlockType)
+  const usesCustomResponsiveDirection = direction === 'desktopColumnTabletRowMobileColumn'
   const isEventBoard =
-    itemSizing === 'eventBoardColumns' ||
-    (blockTypes[0] === 'eventList' &&
-      (blockTypes[1] === 'flexbox' ||
-        blockTypes[1] === 'featuredEvent' ||
-        blockTypes[1] === 'eventCalendar'))
+    !usesCustomResponsiveDirection &&
+    (itemSizing === 'eventBoardColumns' ||
+      (blockTypes[0] === 'eventList' &&
+        (blockTypes[1] === 'flexbox' ||
+          blockTypes[1] === 'featuredEvent' ||
+          blockTypes[1] === 'eventCalendar')))
   const isEventSidebar =
+    !usesCustomResponsiveDirection &&
     blockTypes.length <= 2 &&
     blockTypes.includes('featuredEvent') &&
     blockTypes.includes('eventCalendar')
@@ -106,7 +110,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
         className={cn(
           'grid w-full min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
           reverseOnNonDesktop &&
-            '[&>*:first-child]:order-2 [&>*:nth-child(2)]:order-1 xl:[&>*]:order-none',
+            'max-xl:[&>*:first-child]:order-2 max-xl:[&>*:nth-child(2)]:order-1',
         )}
       >
         <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
@@ -128,12 +132,14 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
         'flex w-full',
         reverseOnNonDesktop && direction === 'responsiveRow'
           ? 'flex-col-reverse md:flex-row'
-          : directionClasses[direction ?? 'row'],
+          : reverseOnNonDesktop && direction === 'desktopColumnTabletRowMobileColumn'
+            ? 'flex-col-reverse md:flex-row xl:flex-col'
+            : directionClasses[direction ?? 'row'],
         wrapClasses[wrap ?? 'wrap'],
         justifyClasses[justify ?? 'center'],
         alignClasses[align ?? 'center'],
         gapClasses[gap ?? 'md'],
-        itemSizingClasses[itemSizing ?? 'auto'],
+        itemSizingClasses[usesCustomResponsiveDirection ? 'auto' : (itemSizing ?? 'auto')],
         minHeightClasses[minHeight ?? 'none'],
       )}
     >

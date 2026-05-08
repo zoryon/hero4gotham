@@ -1730,7 +1730,7 @@ export interface TextBackdropBlock {
  * via the `definition` "FlexboxBlock".
  */
 export interface FlexboxBlock {
-  direction?: ('row' | 'column' | 'responsiveRow') | null;
+  direction?: ('row' | 'column' | 'responsiveRow' | 'desktopColumnTabletRowMobileColumn') | null;
   wrap?: ('wrap' | 'nowrap') | null;
   /**
    * When the layout stacks on smaller screens, show the first flex item after the following items.

@@ -28,6 +28,7 @@ import * as migration_20260507_231500_event_list_date_part_styles from './202605
 import * as migration_20260507_232000_compact_event_list_type_style from './20260507_232000_compact_event_list_type_style'
 import * as migration_20260507_233000_remove_event_list_featured_badge from './20260507_233000_remove_event_list_featured_badge'
 import * as migration_20260507_234000_flexbox_reverse_non_desktop from './20260507_234000_flexbox_reverse_non_desktop'
+import * as migration_20260508_090000_flexbox_desktop_column_tablet_row from './20260508_090000_flexbox_desktop_column_tablet_row'
 
 export const migrations = [
   {
@@ -179,5 +180,10 @@ export const migrations = [
     up: migration_20260507_234000_flexbox_reverse_non_desktop.up,
     down: migration_20260507_234000_flexbox_reverse_non_desktop.down,
     name: '20260507_234000_flexbox_reverse_non_desktop',
+  },
+  {
+    up: migration_20260508_090000_flexbox_desktop_column_tablet_row.up,
+    down: migration_20260508_090000_flexbox_desktop_column_tablet_row.down,
+    name: '20260508_090000_flexbox_desktop_column_tablet_row',
   },
 ]
