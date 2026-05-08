@@ -15,20 +15,89 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
-      name: 'navItems',
-      type: 'array',
-      fields: [
-        link({
-          appearances: false,
-        }),
-      ],
-      maxRows: 6,
-      admin: {
-        initCollapsed: true,
-        components: {
-          RowLabel: '@/Footer/RowLabel#RowLabel',
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Content',
+          fields: [
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'eyebrow',
+                  type: 'text',
+                  defaultValue: 'ASSOCIAZIONE CULTURALE',
+                  admin: {
+                    width: '50%',
+                  },
+                },
+                {
+                  name: 'brandName',
+                  type: 'text',
+                  defaultValue: 'IL SORRISO STORTO',
+                  required: true,
+                  admin: {
+                    width: '50%',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              defaultValue:
+                'Un luogo storto al punto giusto per arte, incontri, giochi e idee fuori asse.',
+            },
+            {
+              name: 'legalNote',
+              type: 'text',
+              defaultValue: 'Associazione culturale. Tutti i diritti riservati.',
+            },
+          ],
         },
-      },
+        {
+          label: 'Links',
+          fields: [
+            {
+              name: 'navItems',
+              type: 'array',
+              fields: [
+                link({
+                  appearances: false,
+                }),
+              ],
+              label: 'Right / social links',
+              maxRows: 6,
+              admin: {
+                description: 'Small links shown on the bottom-right side of the footer.',
+                initCollapsed: true,
+                components: {
+                  RowLabel: '@/Footer/RowLabel#RowLabel',
+                },
+              },
+            },
+            {
+              name: 'legalLinks',
+              type: 'array',
+              fields: [
+                link({
+                  appearances: false,
+                }),
+              ],
+              label: 'Legal links',
+              maxRows: 4,
+              admin: {
+                description:
+                  'Use custom URLs now, then switch to internal pages after creating the legal pages.',
+                initCollapsed: true,
+                components: {
+                  RowLabel: '@/Footer/RowLabel#RowLabel',
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
   ],
   hooks: {

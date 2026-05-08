@@ -271,28 +271,49 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
+        brandName: 'IL SORRISO STORTO',
+        description: 'Un luogo storto al punto giusto per arte, incontri, giochi e idee fuori asse.',
+        eyebrow: 'ASSOCIAZIONE CULTURALE',
+        legalLinks: [
+          {
+            link: {
+              type: 'custom',
+              label: 'Privacy Policy',
+              url: '/privacy-policy',
+            },
+          },
+          {
+            link: {
+              type: 'custom',
+              label: 'Le tue preferenze relative alla privacy',
+              url: '/preferenze-privacy',
+            },
+          },
+        ],
+        legalNote: 'Associazione culturale. Tutti i diritti riservati.',
         navItems: [
           {
             link: {
               type: 'custom',
-              label: 'Admin',
-              url: '/admin',
+              label: 'Instagram',
+              newTab: true,
+              url: 'https://instagram.com',
             },
           },
           {
             link: {
               type: 'custom',
-              label: 'Source Code',
+              label: 'LinkedIn',
               newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/3.x/templates/website',
+              url: 'https://linkedin.com',
             },
           },
           {
             link: {
               type: 'custom',
-              label: 'Payload',
+              label: 'X(Twitter)',
               newTab: true,
-              url: 'https://payloadcms.com/',
+              url: 'https://x.com',
             },
           },
         ],

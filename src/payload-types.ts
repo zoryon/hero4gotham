@@ -5944,7 +5944,37 @@ export interface Header {
  */
 export interface Footer {
   id: number;
+  eyebrow?: string | null;
+  brandName: string;
+  description?: string | null;
+  legalNote?: string | null;
+  /**
+   * Small links shown on the bottom-right side of the footer.
+   */
   navItems?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: number | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: number | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Use custom URLs now, then switch to internal pages after creating the legal pages.
+   */
+  legalLinks?:
     | {
         link: {
           type?: ('reference' | 'custom') | null;
@@ -6113,7 +6143,25 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  eyebrow?: T;
+  brandName?: T;
+  description?: T;
+  legalNote?: T;
   navItems?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  legalLinks?:
     | T
     | {
         link?:

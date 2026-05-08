@@ -2,29 +2,59 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
-import { Logo } from '@/components/Logo/Logo'
+
+const fallbackLegalLinks = [
+  {
+    link: {
+      label: 'Privacy Policy',
+      type: 'custom' as const,
+      url: '/privacy-policy',
+    },
+  },
+  {
+    link: {
+      label: 'Le tue preferenze relative alla privacy',
+      type: 'custom' as const,
+      url: '/preferenze-privacy',
+    },
+  },
+]
 
 export async function Footer() {
   const footerData = await getCachedGlobal('footer', 1)()
 
   const navItems = footerData?.navItems || []
+  const legalLinks = footerData?.legalLinks?.length ? footerData.legalLinks : fallbackLegalLinks
+  const year = new Date().getFullYear()
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
+    <footer className="site-footer mt-auto">
+      <div className="site-footer__inner">
+        <Link className="site-footer__wordmark" href="/" aria-label="Home">
+          {footerData?.brandName || 'IL SORRISO STORTO'}
         </Link>
 
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
+        <div className="site-footer__bottom">
+          <div className="site-footer__left">
+            <p className="site-footer__legal-note">
+              &copy; {year}{' '}
+              {footerData?.legalNote || 'Associazione culturale. Tutti i diritti riservati.'}
+            </p>
+            <nav aria-label="Legal" className="site-footer__legal-links">
+              {legalLinks.map(({ link }, i) => (
+                <CMSLink className="site-footer__micro-link" key={i} {...link} />
+              ))}
+            </nav>
+          </div>
+
+          {navItems.length ? (
+            <nav aria-label="Social" className="site-footer__right">
+              {navItems.map(({ link }, i) => {
+                return <CMSLink className="site-footer__micro-link" key={i} {...link} />
+              })}
+            </nav>
+          ) : null}
         </div>
       </div>
     </footer>
