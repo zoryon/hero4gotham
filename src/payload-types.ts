@@ -1218,7 +1218,6 @@ export interface EventFiltersBlock {
  * via the `definition` "EventGalleryBlock".
  */
 export interface EventGalleryBlock {
-  maxPhotos?: number | null;
   photosPerPage?: number | null;
   mobileColumns?: number | null;
   tabletColumns?: number | null;
@@ -3644,7 +3643,6 @@ export interface EventFiltersBlockSelect<T extends boolean = true> {
  * via the `definition` "EventGalleryBlock_select".
  */
 export interface EventGalleryBlockSelect<T extends boolean = true> {
-  maxPhotos?: T;
   photosPerPage?: T;
   mobileColumns?: T;
   tabletColumns?: T;

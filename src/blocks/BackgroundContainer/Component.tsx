@@ -31,6 +31,14 @@ const objectPositionValues = {
   topRight: 'right top',
 } as const
 
+const allowedImageQualities = [75, 82, 90, 95, 100] as const
+
+const backgroundImageSizes = {
+  desktop: '(min-width: 1024px) 100vw, 1px',
+  mobile: '(max-width: 767px) 100vw, 1px',
+  tablet: '(min-width: 768px) and (max-width: 1023px) 100vw, 1px',
+} as const
+
 type BackgroundContainerProps = BackgroundContainerBlockProps & {
   isFirstPageBlock?: boolean
 }
@@ -42,6 +50,16 @@ type BackgroundImageResource =
 
 const getImageResource = (image?: BackgroundImageResource | null) =>
   image && typeof image === 'object' ? image : null
+
+const getAllowedImageQuality = (quality?: number | null) => {
+  const requestedQuality = quality || 95
+
+  return allowedImageQualities.reduce<(typeof allowedImageQualities)[number]>((nearest, option) => {
+    return Math.abs(option - requestedQuality) < Math.abs(nearest - requestedQuality)
+      ? option
+      : nearest
+  }, 95)
+}
 
 export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
   backgroundImage,
@@ -59,6 +77,7 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
   const desktopImage = getImageResource(backgroundImage)
   const tabletImage = getImageResource(bgTab) || desktopImage
   const mobileImage = getImageResource(bgMob) || tabletImage || desktopImage
+  const allowedImageQuality = getAllowedImageQuality(imageQuality)
 
   return (
     <section className="w-full">
@@ -92,9 +111,9 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
             imgClassName="background-container__image background-container__image--mobile object-cover"
             pictureClassName="absolute left-1/2 top-0 -z-20 block h-[100svh] w-screen -translate-x-1/2 md:hidden"
             priority={isFirstPageBlock}
-            quality={imageQuality || 95}
+            quality={allowedImageQuality}
             resource={mobileImage}
-            size="100vw"
+            size={backgroundImageSizes.mobile}
           />
         ) : null}
 
@@ -104,9 +123,9 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
             imgClassName="background-container__image background-container__image--tablet object-cover"
             pictureClassName="absolute left-1/2 top-0 -z-20 hidden h-[100svh] w-screen -translate-x-1/2 md:block lg:hidden"
             priority={isFirstPageBlock}
-            quality={imageQuality || 95}
+            quality={allowedImageQuality}
             resource={tabletImage}
-            size="100vw"
+            size={backgroundImageSizes.tablet}
           />
         ) : null}
 
@@ -116,9 +135,9 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
             imgClassName="background-container__image background-container__image--desktop object-cover"
             pictureClassName="absolute left-1/2 top-0 -z-20 hidden h-[100svh] w-screen -translate-x-1/2 lg:block"
             priority={isFirstPageBlock}
-            quality={imageQuality || 95}
+            quality={allowedImageQuality}
             resource={desktopImage}
-            size="100vw"
+            size={backgroundImageSizes.desktop}
           />
         ) : null}
 

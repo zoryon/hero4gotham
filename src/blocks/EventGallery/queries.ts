@@ -61,52 +61,61 @@ const flattenEventGalleryPhotos = (events: EventSuiteItem[]): EventGalleryPhoto[
     }),
   )
 
+const findEventsGalleryPage = async ({
+  filters,
+  requiredPhotoCount,
+}: {
+  filters?: EventFilterParams
+  requiredPhotoCount: number
+}) => {
+  const payload = await getPayload({ config: configPromise })
+  const eventPageSize = 100
+  const photos: EventGalleryPhoto[] = []
+  let page = 1
+  let totalPages = 1
+
+  do {
+    const result = await payload.find({
+      collection: 'events',
+      depth: 1,
+      limit: eventPageSize,
+      page,
+      select: {
+        gallery: {
+          image: true,
+        },
+        startsAt: true,
+        timeLabel: true,
+        title: true,
+      },
+      sort: 'startsAt',
+      where: buildEventWhere(filters),
+    })
+
+    photos.push(...flattenEventGalleryPhotos(result.docs as EventSuiteItem[]))
+    totalPages = result.totalPages || page
+    page += 1
+  } while (page <= totalPages && photos.length < requiredPhotoCount)
+
+  return photos
+}
+
 export const getEventGalleryPage = async ({
   filters,
-  maxPhotos,
   page,
   photosPerPage,
 }: {
   filters?: EventFilterParams
-  maxPhotos: number
   page: number
   photosPerPage: number
 }): Promise<EventGalleryPage> => {
-  const safeMaxPhotos = Math.max(Math.min(maxPhotos || 60, 200), 1)
   const safePage = Math.max(page || 1, 1)
   const safePhotosPerPage = Math.max(Math.min(photosPerPage || eventGalleryDefaultPageSize, 24), 1)
   const start = (safePage - 1) * safePhotosPerPage
+  const end = start + safePhotosPerPage
+  const requiredPhotoCount = end + 1
 
-  if (start >= safeMaxPhotos) {
-    return {
-      hasNextPage: false,
-      nextPage: null,
-      photos: [],
-    }
-  }
-
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'events',
-    depth: 1,
-    limit: 200,
-    pagination: false,
-    select: {
-      gallery: {
-        image: true,
-      },
-      startsAt: true,
-      timeLabel: true,
-      title: true,
-    },
-    sort: 'startsAt',
-    where: buildEventWhere(filters),
-  })
-  const allPhotos = flattenEventGalleryPhotos(result.docs as EventSuiteItem[]).slice(
-    0,
-    safeMaxPhotos,
-  )
-  const end = Math.min(start + safePhotosPerPage, safeMaxPhotos)
+  const allPhotos = await findEventsGalleryPage({ filters, requiredPhotoCount })
   const photos = allPhotos.slice(start, end)
   const hasNextPage = end < allPhotos.length
 

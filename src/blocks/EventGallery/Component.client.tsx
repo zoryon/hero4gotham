@@ -32,7 +32,6 @@ type Props = {
   initialNextPage?: null | number
   loadMoreBackgroundImage?: EventSuiteMedia | number | null
   loadMoreLabel?: null | string
-  maxPhotos?: null | number
   mobileColumns?: null | number
   photos: EventGalleryPhoto[]
   photosPerPage?: null | number
@@ -82,7 +81,6 @@ export const EventGalleryClient: React.FC<Props> = ({
   initialNextPage = null,
   loadMoreBackgroundImage,
   loadMoreLabel = 'Carica altre foto',
-  maxPhotos = 60,
   mobileColumns,
   photos,
   photosPerPage = 9,
@@ -94,7 +92,6 @@ export const EventGalleryClient: React.FC<Props> = ({
   const safeDesktopColumns = clampNumber(desktopColumns, 4, 1, 6)
   const safeGap = clampNumber(gap, 18, 0, 80)
   const safePhotosPerPage = clampNumber(photosPerPage, 9, 1, 24)
-  const safeMaxPhotos = clampNumber(maxPhotos, 60, 1, 200)
   const [photoItems, setPhotoItems] = useState(photos)
   const [hasNextPage, setHasNextPage] = useState(initialHasNextPage)
   const [nextPage, setNextPage] = useState(initialNextPage)
@@ -166,7 +163,6 @@ export const EventGalleryClient: React.FC<Props> = ({
   const fetchPhotoPage = useCallback(
     async (page: number, signal?: AbortSignal) => {
       const params = new URLSearchParams({
-        maxPhotos: String(safeMaxPhotos),
         page: String(page),
         photosPerPage: String(safePhotosPerPage),
       })
@@ -185,7 +181,7 @@ export const EventGalleryClient: React.FC<Props> = ({
 
       return (await response.json()) as EventGalleryPage
     },
-    [activeFilters, safeMaxPhotos, safePhotosPerPage],
+    [activeFilters, safePhotosPerPage],
   )
 
   useEffect(() => {
@@ -254,8 +250,7 @@ export const EventGalleryClient: React.FC<Props> = ({
     const columnWidth = galleryWidth
       ? (galleryWidth - safeGap * (columns - 1)) / columns
       : fallbackColumnWidth
-    const frameInset = 22
-    const targetHeight = columnWidth / ratio + frameInset
+    const targetHeight = columnWidth / ratio
 
     return Math.max(8, Math.ceil((targetHeight + safeGap) / (rowHeight + safeGap)))
   }

@@ -35,7 +35,6 @@ const styleColumns = (
   "${prefix}_color_custom" varchar`
 
 const galleryColumns = `
-  "max_photos" numeric DEFAULT 60,
   "photos_per_page" numeric DEFAULT 9,
   "mobile_columns" numeric DEFAULT 1,
   "tablet_columns" numeric DEFAULT 2,

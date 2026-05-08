@@ -8,14 +8,6 @@ export const EventGallery: Block = {
   interfaceName: 'EventGalleryBlock',
   fields: [
     {
-      name: 'maxPhotos',
-      type: 'number',
-      defaultValue: 60,
-      label: 'Maximum photos to load',
-      min: 1,
-      max: 200,
-    },
-    {
       name: 'photosPerPage',
       type: 'number',
       defaultValue: 9,

@@ -477,16 +477,14 @@
   }
 
   .event-gallery-card {
-    --event-gallery-card-inset: clamp(0.45rem, 0.8vw, 0.7rem);
-    --vintage-border-width: 12px;
+    --vintage-border-width: 15px;
 
     display: block;
-    padding: var(--event-gallery-card-inset);
-    vertical-align: top;
   }
 
   .event-gallery-card-border::after {
-    inset: calc(var(--vintage-border-width, 12px) * -0.75);
+    inset: calc(var(--vintage-border-width, 15px) * -1);
+    z-index: 30;
   }
 
   .event-gallery-card__media picture,

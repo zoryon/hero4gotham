@@ -7,8 +7,7 @@ import { unstable_cache } from 'next/cache'
 type Props = React.ComponentProps<typeof EventGalleryClient>
 
 const getInitialGalleryPage = unstable_cache(
-  async (maxPhotos: number, photosPerPage: number) =>
-    getEventGalleryPage({ maxPhotos, page: 1, photosPerPage }),
+  async (photosPerPage: number) => getEventGalleryPage({ page: 1, photosPerPage }),
   ['event-gallery-initial'],
   {
     revalidate: 300,
@@ -16,17 +15,15 @@ const getInitialGalleryPage = unstable_cache(
   },
 )
 
-export const EventGalleryBlock = async ({ maxPhotos = 60, photosPerPage = 9, ...props }: Props) => {
-  const safeMaxPhotos = Math.max(Math.min(maxPhotos || 60, 200), 1)
+export const EventGalleryBlock = async ({ photosPerPage = 9, ...props }: Props) => {
   const safePhotosPerPage = Math.max(Math.min(photosPerPage || 9, 24), 1)
-  const initialPage = await getInitialGalleryPage(safeMaxPhotos, safePhotosPerPage)
+  const initialPage = await getInitialGalleryPage(safePhotosPerPage)
 
   return (
     <EventGalleryClient
       {...props}
       initialHasNextPage={initialPage.hasNextPage}
       initialNextPage={initialPage.nextPage}
-      maxPhotos={safeMaxPhotos}
       photos={initialPage.photos}
       photosPerPage={safePhotosPerPage}
     />
