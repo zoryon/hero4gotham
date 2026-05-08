@@ -26,7 +26,7 @@ const getBlockType = (block: FlexboxItem | null | undefined) =>
 
 const directionClasses = {
   column: 'flex-col',
-  desktopColumnTabletRowMobileColumn: 'flex-col md:flex-row xl:flex-col',
+  desktopColumnTabletRowMobileColumn: 'flex-col min-[680px]:flex-row xl:flex-col',
   responsiveRow: 'flex-col md:flex-row',
   row: 'flex-row',
 }
@@ -38,7 +38,7 @@ const wrapClasses = {
 
 const customResponsiveWrapClasses = {
   nowrap: 'flex-nowrap',
-  wrap: 'flex-wrap md:flex-nowrap xl:flex-wrap',
+  wrap: 'flex-wrap min-[680px]:flex-nowrap xl:flex-wrap',
 }
 
 const justifyClasses = {
@@ -67,6 +67,15 @@ const gapClasses = {
   xs: 'gap-3',
 }
 
+const customResponsiveCompactGapClasses = {
+  lg: 'min-[680px]:max-md:gap-5',
+  md: 'min-[680px]:max-md:gap-4',
+  none: 'min-[680px]:max-md:gap-0',
+  sm: 'min-[680px]:max-md:gap-3',
+  xl: 'min-[680px]:max-md:gap-6',
+  xs: 'min-[680px]:max-md:gap-2',
+}
+
 const minHeightClasses = {
   large: 'min-h-[70vh]',
   medium: 'min-h-[50vh]',
@@ -82,7 +91,7 @@ const itemSizingClasses = {
 }
 
 const customResponsiveItemClasses =
-  '[&>*]:min-w-0 [&>*]:w-full md:[&>*]:w-auto md:[&>*]:flex-[1_1_0] xl:[&>*]:w-full xl:[&>*]:flex-none'
+  '[&>*]:min-w-0 [&>*]:w-full min-[680px]:[&>*]:w-auto min-[680px]:[&>*]:flex-[1_1_0] min-[680px]:max-md:[&>*>:first-child]:mx-0 xl:[&>*]:w-full xl:[&>*]:flex-none'
 
 export const FlexboxBlock: React.FC<FlexboxProps> = ({
   align = 'center',
@@ -141,7 +150,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
         reverseOnNonDesktop && direction === 'responsiveRow'
           ? 'flex-col-reverse md:flex-row'
           : reverseOnNonDesktop && direction === 'desktopColumnTabletRowMobileColumn'
-            ? 'flex-col-reverse md:flex-row xl:flex-col'
+            ? 'flex-col-reverse min-[680px]:flex-row xl:flex-col'
             : directionClasses[direction ?? 'row'],
         usesCustomResponsiveDirection
           ? customResponsiveWrapClasses[wrap ?? 'wrap']
@@ -149,6 +158,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
         justifyClasses[justify ?? 'center'],
         alignClasses[align ?? 'center'],
         gapClasses[gap ?? 'md'],
+        usesCustomResponsiveDirection && customResponsiveCompactGapClasses[gap ?? 'md'],
         usesCustomResponsiveDirection && customResponsiveItemClasses,
         itemSizingClasses[usesCustomResponsiveDirection ? 'auto' : (itemSizing ?? 'auto')],
         minHeightClasses[minHeight ?? 'none'],
