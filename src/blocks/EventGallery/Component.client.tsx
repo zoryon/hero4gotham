@@ -343,7 +343,7 @@ export const EventGalleryClient: React.FC<Props> = ({
           <button
             className={cn(
               getEventSuiteTextClassName(btnStyle, 'black'),
-              'scribble-border inline-flex min-h-12 min-w-48 items-center justify-center bg-center bg-no-repeat px-8 py-4 disabled:cursor-wait disabled:opacity-60',
+              'inline-flex min-h-12 min-w-48 cursor-pointer items-center justify-center bg-center bg-no-repeat px-8 py-4 disabled:cursor-wait disabled:opacity-60',
             )}
             disabled={isLoading}
             onClick={loadNextPage}
