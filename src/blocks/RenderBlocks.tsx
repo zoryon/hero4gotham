@@ -12,6 +12,7 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { EventCalendarBlock } from '@/blocks/EventSuite/EventCalendar/Component'
 import { EventFiltersBlock } from '@/blocks/EventFilters/Component'
+import { EventGalleryBlock } from '@/blocks/EventGallery/Component'
 import { EventListBlock } from '@/blocks/EventSuite/EventList/Component'
 import { FeaturedEventBlock } from '@/blocks/EventSuite/FeaturedEvent/Component'
 import { FeatureGridBlock } from '@/blocks/FeatureGrid/Component'
@@ -38,6 +39,7 @@ const blockComponents = {
   cta: CallToActionBlock,
   eventCalendar: EventCalendarBlock,
   eventFilters: EventFiltersBlock,
+  eventGallery: EventGalleryBlock,
   eventList: EventListBlock,
   featuredEvent: FeaturedEventBlock,
   featureGrid: FeatureGridBlock,

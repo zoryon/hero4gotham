@@ -476,6 +476,30 @@
     inset: calc(var(--vintage-border-width, 15px) * -1);
   }
 
+  .event-gallery-card {
+    --event-gallery-card-inset: clamp(0.45rem, 0.8vw, 0.7rem);
+    --vintage-border-width: 12px;
+
+    display: block;
+    padding: var(--event-gallery-card-inset);
+    vertical-align: top;
+  }
+
+  .event-gallery-card-border::after {
+    inset: calc(var(--vintage-border-width, 12px) * -0.75);
+  }
+
+  .event-gallery-card__media picture,
+  .event-gallery-card__media img {
+    display: block;
+    height: 100% !important;
+    inset: 0;
+    margin: 0 !important;
+    max-width: none;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
   .upcoming-events-cta-copy-backdrop::before {
     background: radial-gradient(
       ellipse at 38% 52%,

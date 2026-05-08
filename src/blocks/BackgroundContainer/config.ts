@@ -7,6 +7,7 @@ import { Arrow } from '@/blocks/Arrow/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { EventFilters } from '@/blocks/EventFilters/config'
+import { EventGallery } from '@/blocks/EventGallery/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { Flexbox } from '@/blocks/Flexbox/config'
 import { FormBlock } from '@/blocks/Form/config'
@@ -216,6 +217,7 @@ export const BackgroundContainer: Block = {
         CallToAction,
         Content,
         EventFilters,
+        EventGallery,
         Title,
         Subtitle,
         TextBackdrop,

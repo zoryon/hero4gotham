@@ -33,6 +33,7 @@ import * as migration_20260508_093000_event_list_scroll_hint_label from './20260
 import * as migration_20260508_094000_event_list_scroll_hint_typography from './20260508_094000_event_list_scroll_hint_typography'
 import * as migration_20260508_100000_event_gallery_and_filters from './20260508_100000_event_gallery_and_filters'
 import * as migration_20260508_101000_event_list_empty_state from './20260508_101000_event_list_empty_state'
+import * as migration_20260508_102000_event_gallery_block from './20260508_102000_event_gallery_block'
 
 export const migrations = [
   {
@@ -209,5 +210,10 @@ export const migrations = [
     up: migration_20260508_101000_event_list_empty_state.up,
     down: migration_20260508_101000_event_list_empty_state.down,
     name: '20260508_101000_event_list_empty_state',
+  },
+  {
+    up: migration_20260508_102000_event_gallery_block.up,
+    down: migration_20260508_102000_event_gallery_block.down,
+    name: '20260508_102000_event_gallery_block',
   },
 ]

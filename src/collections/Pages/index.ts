@@ -11,6 +11,7 @@ import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { EventCalendar } from '../../blocks/EventSuite/EventCalendar/config'
 import { EventFilters } from '../../blocks/EventFilters/config'
+import { EventGallery } from '../../blocks/EventGallery/config'
 import { EventList } from '../../blocks/EventSuite/EventList/config'
 import { FeaturedEvent } from '../../blocks/EventSuite/FeaturedEvent/config'
 import { FeatureGrid } from '../../blocks/FeatureGrid/config'
@@ -99,6 +100,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 Content,
                 EventCalendar,
                 EventFilters,
+                EventGallery,
                 EventList,
                 FeaturedEvent,
                 Title,
