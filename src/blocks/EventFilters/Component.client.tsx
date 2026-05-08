@@ -451,7 +451,7 @@ export const EventFiltersClient: React.FC<Props> = ({
 
               {activeDropdown === 'date' ? (
                 <div
-                  className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(24rem,calc(100vw-2rem))] overflow-hidden border"
+                  className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] overflow-hidden border sm:w-[min(22rem,calc(100vw-2rem))]"
                   style={menuPanelStyles}
                 >
                   <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-center border-b border-white/10 bg-[#242424]">
