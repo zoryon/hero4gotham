@@ -231,6 +231,7 @@ export interface Page {
     | TornCardsBlock
     | UpcomingEventsBlock
     | MediaBlock
+    | MembershipApplicationBlock
     | ArchiveBlock
     | FormBlock
   )[];
@@ -2087,6 +2088,7 @@ export interface FlexboxBlock {
     | FeatureGridBlock
     | UpcomingEventsBlock
     | MediaBlock
+    | MembershipApplicationBlock
     | ArchiveBlock
     | FormBlock
     | FlexboxBlock
@@ -2270,6 +2272,111 @@ export interface MediaBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MembershipApplicationBlock".
+ */
+export interface MembershipApplicationBlock {
+  heading: string;
+  headingBackgroundImage?: (number | null) | Media;
+  introText?: string | null;
+  personalDataTitle: string;
+  applicationTitle: string;
+  declarationsTitle: string;
+  optionalConsentsTitle: string;
+  firstNameLabel: string;
+  lastNameLabel: string;
+  birthDateLabel: string;
+  birthPlaceLabel: string;
+  fiscalCodeLabel: string;
+  residenceAddressLabel: string;
+  emailLabel: string;
+  phoneLabel: string;
+  requestTypeLabel: string;
+  motivationLabel: string;
+  interestAreasLabel: string;
+  requestTypes?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  statuteDeclarationLabel: string;
+  purposeDeclarationLabel: string;
+  truthDeclarationLabel: string;
+  privacyDeclarationLabel: string;
+  mediaConsentLabel: string;
+  submitLabel: string;
+  submitBackgroundImage?: (number | null) | Media;
+  successMessage: string;
+  errorMessage: string;
+  backgroundImage?: (number | null) | Media;
+  decorativeImage?: (number | null) | Media;
+  emailSubjectPrefix: string;
+  headingStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  fieldStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  submitStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
+    /**
+     * Optional. If set, this custom CSS color overrides the theme color.
+     */
+    colorCustom?: string | null;
+  };
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'membershipApplication';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2723,6 +2830,7 @@ export interface BackgroundContainerBlock {
     | TornCardsBlock
     | UpcomingEventsBlock
     | MediaBlock
+    | MembershipApplicationBlock
     | ArchiveBlock
     | FormBlock
   )[];
@@ -3203,6 +3311,7 @@ export interface PagesSelect<T extends boolean = true> {
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
+        membershipApplication?: T | MembershipApplicationBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };
@@ -4570,6 +4679,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         featureGrid?: T | FeatureGridBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
+        membershipApplication?: T | MembershipApplicationBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         flexbox?: T | FlexboxBlockSelect<T>;
@@ -4737,6 +4847,106 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MembershipApplicationBlock_select".
+ */
+export interface MembershipApplicationBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingBackgroundImage?: T;
+  introText?: T;
+  personalDataTitle?: T;
+  applicationTitle?: T;
+  declarationsTitle?: T;
+  optionalConsentsTitle?: T;
+  firstNameLabel?: T;
+  lastNameLabel?: T;
+  birthDateLabel?: T;
+  birthPlaceLabel?: T;
+  fiscalCodeLabel?: T;
+  residenceAddressLabel?: T;
+  emailLabel?: T;
+  phoneLabel?: T;
+  requestTypeLabel?: T;
+  motivationLabel?: T;
+  interestAreasLabel?: T;
+  requestTypes?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  statuteDeclarationLabel?: T;
+  purposeDeclarationLabel?: T;
+  truthDeclarationLabel?: T;
+  privacyDeclarationLabel?: T;
+  mediaConsentLabel?: T;
+  submitLabel?: T;
+  submitBackgroundImage?: T;
+  successMessage?: T;
+  errorMessage?: T;
+  backgroundImage?: T;
+  decorativeImage?: T;
+  emailSubjectPrefix?: T;
+  headingStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  fieldStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
+  submitStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        colorTheme?: T;
+        colorCustom?: T;
+      };
   layout?:
     | T
     | {
@@ -4974,6 +5184,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
+        membershipApplication?: T | MembershipApplicationBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };

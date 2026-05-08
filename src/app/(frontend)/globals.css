@@ -823,6 +823,24 @@
     border: 0;
   }
 
+  .membership-application-section-title {
+    margin-bottom: 0.15rem;
+  }
+
+  .membership-application-panel .contact-message-input[type='date'] {
+    color-scheme: dark;
+  }
+
+  .membership-application-panel select.contact-message-input {
+    appearance: none;
+    background-color: transparent;
+  }
+
+  .membership-application-panel select.contact-message-input option {
+    background: #0d0d0f;
+    color: var(--theme-text-secondary);
+  }
+
   .faq-accordion-panel {
     background-color: transparent;
     min-width: 0;

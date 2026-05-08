@@ -24,6 +24,7 @@ import { FeaturedEvent } from '@/blocks/EventSuite/FeaturedEvent/config'
 import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { MembershipApplication } from '@/blocks/MembershipApplication/config'
 import { Subtitle } from '@/blocks/Subtitle/config'
 import { Title } from '@/blocks/Title/config'
 import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
@@ -47,6 +48,7 @@ const baseFlexChildBlocks = [
   FeatureGrid,
   UpcomingEvents,
   MediaBlock,
+  MembershipApplication,
   Archive,
   FormBlock,
 ] satisfies Block[]

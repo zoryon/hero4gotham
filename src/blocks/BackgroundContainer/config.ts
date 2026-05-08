@@ -14,6 +14,7 @@ import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { Flexbox } from '@/blocks/Flexbox/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { MembershipApplication } from '@/blocks/MembershipApplication/config'
 import { QuoteBanner } from '@/blocks/QuoteBanner/config'
 import { Subtitle } from '@/blocks/Subtitle/config'
 import { TextBackdrop } from '@/blocks/TextBackdrop/config'
@@ -232,6 +233,7 @@ export const BackgroundContainer: Block = {
         TornCards,
         UpcomingEvents,
         MediaBlock,
+        MembershipApplication,
         Archive,
         FormBlock,
       ]),

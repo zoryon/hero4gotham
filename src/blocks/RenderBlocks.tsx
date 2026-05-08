@@ -21,6 +21,7 @@ import { FeatureGridBlock } from '@/blocks/FeatureGrid/Component'
 import { FlexboxBlock } from '@/blocks/Flexbox/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { MembershipApplicationBlock } from '@/blocks/MembershipApplication/Component'
 import { QuoteBannerBlock } from '@/blocks/QuoteBanner/Component'
 import { SubtitleBlock } from '@/blocks/Subtitle/Component'
 import { TextBackdropBlock } from '@/blocks/TextBackdrop/Component'
@@ -50,6 +51,7 @@ const blockComponents = {
   flexbox: FlexboxBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  membershipApplication: MembershipApplicationBlock,
   quoteBanner: QuoteBannerBlock,
   subtitle: SubtitleBlock,
   textBackdrop: TextBackdropBlock,
