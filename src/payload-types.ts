@@ -926,13 +926,9 @@ export interface CallToActionBlock {
     textColor?:
       | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
       | null;
-    buttonTextColor?:
-      | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
-      | null;
   };
   spacing?: {
     gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    actionsGap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -948,33 +944,22 @@ export interface CallToActionBlock {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    buttonVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
   };
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Choose how the link should be rendered.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  blockLink?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+  };
   layout?: {
     size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
     marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -3622,13 +3607,11 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
     | T
     | {
         textColor?: T;
-        buttonTextColor?: T;
       };
   spacing?:
     | T
     | {
         gap?: T;
-        actionsGap?: T;
         paddingTop?: T;
         paddingRight?: T;
         paddingBottom?: T;
@@ -3646,23 +3629,15 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
         fontFamily?: T;
         verticalScale?: T;
         letterSpacing?: T;
-        buttonVerticalScale?: T;
         textTransform?: T;
       };
-  links?:
+  blockLink?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
-        id?: T;
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
       };
   layout?:
     | T

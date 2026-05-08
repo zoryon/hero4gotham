@@ -6,14 +6,14 @@ import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
-import { formatTextTransform, richTextTransformClass, textTransformClass } from '@/fields/uiOptions'
+import { richTextTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
 export const CallToActionBlock: React.FC<CTABlockProps> = ({
   backgroundImage,
+  blockLink,
   borderStyle = 'default',
   colors,
-  links,
   richText,
   spacing,
   typography,
@@ -140,12 +140,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
     white: '#fff',
   }
   const selectedTextColor = colorValues[colors?.textColor || 'default']
-  const selectedButtonTextColor =
-    colors?.buttonTextColor === 'default'
-      ? undefined
-      : colorValues[colors?.buttonTextColor || 'default']
   const resolvedVerticalScale = typography?.verticalScale || 'normal'
-  const resolvedButtonVerticalScale = typography?.buttonVerticalScale || 'normal'
 
   const hasBorder = (borderStyle ?? 'default') !== 'none'
 
@@ -161,6 +156,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
           paddingBottomClasses[spacing?.paddingBottom || 'sm'],
           paddingLeftClasses[spacing?.paddingLeft || 'sm'],
           hasBackgroundImage ? 'text-white' : undefined,
+          blockLink && 'cursor-pointer',
         )}
       >
         {hasBackgroundImage ? (
@@ -211,39 +207,16 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
             </div>
           )}
         </div>
-        <div className={cn('cta-actions flex flex-col', gapClasses[spacing?.actionsGap || 'md'])}>
-          {(links || []).map(({ link }, i) => {
-            const { label, ...linkProps } = link
-
-            return (
-              <span
-                className="cta-action-shell inline-flex"
-                key={i}
-                style={
-                  {
-                    '--cta-button-text-color': selectedButtonTextColor,
-                    color: selectedButtonTextColor,
-                    '--cta-button-text-scale':
-                      typographyVerticalScaleValues[resolvedButtonVerticalScale],
-                  } as React.CSSProperties
-                }
-              >
-                <CMSLink className="cta-action-link" label={undefined} size="lg" {...linkProps}>
-                  {label ? (
-                    <span
-                      className={cn(
-                        'cta-action-label',
-                        textTransformClass(typography?.textTransform),
-                      )}
-                    >
-                      {formatTextTransform(label, typography?.textTransform)}
-                    </span>
-                  ) : null}
-                </CMSLink>
-              </span>
-            )
-          })}
-        </div>
+        {blockLink ? (
+          <CMSLink
+            {...blockLink}
+            className="absolute inset-0 z-30"
+            label={undefined}
+            newTab={blockLink.newTab}
+          >
+            <span className="sr-only">Apri call to action</span>
+          </CMSLink>
+        ) : null}
       </div>
     </div>
   )

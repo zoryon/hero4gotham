@@ -13,7 +13,7 @@ import {
   typographyLetterSpacingOptions,
   typographyVerticalScaleOptions,
 } from '@/fields/typography'
-import { linkGroup } from '../../fields/linkGroup'
+import { link } from '@/fields/link'
 import { colorOptions, paddingOptions, textTransformOptions } from '@/fields/uiOptions'
 
 export const CallToAction: Block = {
@@ -79,17 +79,7 @@ export const CallToAction: Block = {
                   label: 'Text color',
                   options: [...colorOptions],
                   admin: {
-                    width: '50%',
-                  },
-                },
-                {
-                  name: 'buttonTextColor',
-                  type: 'select',
-                  defaultValue: 'default',
-                  label: 'Button text color',
-                  options: [...colorOptions],
-                  admin: {
-                    width: '50%',
+                    width: '100%',
                   },
                 },
               ],
@@ -118,21 +108,10 @@ export const CallToAction: Block = {
                   type: 'select',
                   dbName: 'gap',
                   defaultValue: 'md',
-                  label: 'Content/actions gap',
+                  label: 'Content gap',
                   options: [...paddingOptions],
                   admin: {
-                    width: '50%',
-                  },
-                },
-                {
-                  name: 'actionsGap',
-                  type: 'select',
-                  dbName: 'agap',
-                  defaultValue: 'md',
-                  label: 'Button gap',
-                  options: [...paddingOptions],
-                  admin: {
-                    width: '50%',
+                    width: '100%',
                   },
                 },
               ],
@@ -328,17 +307,7 @@ export const CallToAction: Block = {
                   label: 'Letter spacing',
                   options: [...typographyLetterSpacingOptions],
                   admin: {
-                    width: '50%',
-                  },
-                },
-                {
-                  name: 'buttonVerticalScale',
-                  type: 'select',
-                  defaultValue: 'normal',
-                  label: 'Button text height stretch',
-                  options: [...typographyVerticalScaleOptions],
-                  admin: {
-                    width: '50%',
+                    width: '100%',
                   },
                 },
               ],
@@ -354,10 +323,12 @@ export const CallToAction: Block = {
         },
       ],
     },
-    linkGroup({
-      appearances: ['default', 'outline'],
+    link({
+      appearances: false,
+      disableLabel: true,
       overrides: {
-        maxRows: 2,
+        name: 'blockLink',
+        label: 'Block link',
       },
     }),
   ],
