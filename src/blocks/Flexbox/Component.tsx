@@ -36,6 +36,11 @@ const wrapClasses = {
   wrap: 'flex-wrap',
 }
 
+const customResponsiveWrapClasses = {
+  nowrap: 'flex-nowrap',
+  wrap: 'flex-wrap md:flex-nowrap xl:flex-wrap',
+}
+
 const justifyClasses = {
   around: 'justify-around',
   between: 'justify-between',
@@ -75,6 +80,9 @@ const itemSizingClasses = {
   eventBoardColumns:
     '[&>*:first-child]:w-full [&>*:first-child]:min-w-0 md:[&>*:first-child]:flex-[1_1_38rem] md:[&>*:first-child]:max-w-[calc(68%_-_1rem)] [&>*:nth-child(2)]:w-full [&>*:nth-child(2)]:min-w-0 md:[&>*:nth-child(2)]:flex-[0_1_22rem] md:[&>*:nth-child(2)]:max-w-[calc(32%_-_1rem)]',
 }
+
+const customResponsiveItemClasses =
+  '[&>*]:min-w-0 [&>*]:w-full md:[&>*]:w-auto md:[&>*]:flex-[1_1_0] xl:[&>*]:w-full xl:[&>*]:flex-none'
 
 export const FlexboxBlock: React.FC<FlexboxProps> = ({
   align = 'center',
@@ -135,15 +143,21 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
           : reverseOnNonDesktop && direction === 'desktopColumnTabletRowMobileColumn'
             ? 'flex-col-reverse md:flex-row xl:flex-col'
             : directionClasses[direction ?? 'row'],
-        wrapClasses[wrap ?? 'wrap'],
+        usesCustomResponsiveDirection
+          ? customResponsiveWrapClasses[wrap ?? 'wrap']
+          : wrapClasses[wrap ?? 'wrap'],
         justifyClasses[justify ?? 'center'],
         alignClasses[align ?? 'center'],
         gapClasses[gap ?? 'md'],
+        usesCustomResponsiveDirection && customResponsiveItemClasses,
         itemSizingClasses[usesCustomResponsiveDirection ? 'auto' : (itemSizing ?? 'auto')],
         minHeightClasses[minHeight ?? 'none'],
       )}
     >
-      <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0" />
+      <RenderBlocks
+        blocks={blocks as FlexboxItemWithLayout[]}
+        wrapperClassName={usesCustomResponsiveDirection ? 'm-0 min-w-0' : 'm-0'}
+      />
     </div>
   )
 }

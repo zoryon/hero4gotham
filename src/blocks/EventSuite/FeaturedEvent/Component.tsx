@@ -113,7 +113,7 @@ export const FeaturedEventBlock = async ({
   return (
     <aside
       className={cn(
-        'relative isolate min-h-[31rem] w-full min-w-0 overflow-visible md:min-h-[34rem] xl:min-h-[38rem]',
+        'relative isolate min-h-[31rem] w-full min-w-0 overflow-visible md:min-h-[28rem] xl:min-h-[38rem]',
         specialBorder && 'scribble-border featured-event-card-border',
       )}
     >
