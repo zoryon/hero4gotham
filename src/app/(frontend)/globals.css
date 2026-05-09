@@ -1224,6 +1224,10 @@
     z-index: 1;
   }
 
+  .activity-detail-card__media[class*='activity-detail-card__media--'] {
+    border: 0 !important;
+  }
+
   .activity-detail-card__media--left {
     border-right: 1px solid var(--activity-detail-divider-color, transparent);
   }
@@ -1256,6 +1260,7 @@
   }
 
   .activity-detail-card__content.vintage-surface {
+    background: transparent;
     overflow: visible;
     z-index: 2;
   }
@@ -1270,70 +1275,87 @@
       243px 243px,
       100% 100%,
       100% 100%;
+    filter: blur(0.35px);
     mix-blend-mode: normal;
     opacity: 1;
   }
 
   .activity-detail-card__surface--left::before {
-    left: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    left: calc(var(--activity-detail-surface-fade-size, 44px) * -1.35);
     -webkit-mask-image: linear-gradient(
       to right,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
     mask-image: linear-gradient(
       to right,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
   }
 
   .activity-detail-card__surface--right::before {
-    right: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    right: calc(var(--activity-detail-surface-fade-size, 44px) * -1.35);
     -webkit-mask-image: linear-gradient(
       to left,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
     mask-image: linear-gradient(
       to left,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
   }
 
   .activity-detail-card__surface--top::before {
-    top: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    top: calc(var(--activity-detail-surface-fade-size, 44px) * -1.35);
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
     mask-image: linear-gradient(
       to bottom,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
   }
 
   .activity-detail-card__surface--bottom::before {
-    bottom: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    bottom: calc(var(--activity-detail-surface-fade-size, 44px) * -1.35);
     -webkit-mask-image: linear-gradient(
       to top,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
     mask-image: linear-gradient(
       to top,
       transparent 0,
-      #000 var(--activity-detail-surface-fade-size, 44px),
+      rgb(0 0 0 / 0.24) 22px,
+      rgb(0 0 0 / 0.72) calc(var(--activity-detail-surface-fade-size, 44px) * 0.88),
+      #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.35),
       #000 100%
     );
   }
@@ -1365,6 +1387,58 @@
     pointer-events: none;
     position: absolute;
     z-index: -1;
+  }
+
+  @media (width < 36rem) {
+    .activity-detail-card-frame {
+      height: auto !important;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .activity-detail-card {
+      bottom: auto;
+      grid-template-columns: 1fr !important;
+      grid-template-rows: auto auto !important;
+      left: auto;
+      margin: var(--activity-detail-frame-inset);
+      position: relative;
+      right: auto;
+      top: auto;
+    }
+
+    .activity-detail-card__media {
+      aspect-ratio: 16 / 10;
+      min-height: clamp(12rem, 58vw, 18rem);
+      order: 1 !important;
+    }
+
+    .activity-detail-card__content {
+      order: 2 !important;
+    }
+
+    .activity-detail-card__content.vintage-surface::before {
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: calc(var(--activity-detail-surface-fade-size, 44px) * -1.15) !important;
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0,
+        rgb(0 0 0 / 0.28) 20px,
+        rgb(0 0 0 / 0.76) calc(var(--activity-detail-surface-fade-size, 44px) * 0.78),
+        #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.15),
+        #000 100%
+      ) !important;
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0,
+        rgb(0 0 0 / 0.28) 20px,
+        rgb(0 0 0 / 0.76) calc(var(--activity-detail-surface-fade-size, 44px) * 0.78),
+        #000 calc(var(--activity-detail-surface-fade-size, 44px) * 1.15),
+        #000 100%
+      ) !important;
+    }
   }
 
   @media (width >= 36rem) {

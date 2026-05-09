@@ -286,7 +286,7 @@ const ActivityCard: React.FC<{
                 : dividerColor
                   ? '1px 0 0 0'
                   : undefined,
-      }}
+      } as React.CSSProperties}
     >
       {image ? (
         <Media
@@ -413,7 +413,7 @@ const ActivityCard: React.FC<{
       ) : null}
 
       {activity.cta ? (
-        <div className="relative mt-5 inline-flex w-fit overflow-hidden px-5 py-2">
+        <div className="relative mt-3 lg:mt-12 inline-flex w-fit overflow-hidden px-6 py-3">
           {ctaBannerImage ? (
             <Media
               fill
