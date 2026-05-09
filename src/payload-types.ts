@@ -2158,6 +2158,10 @@ export interface UpcomingEventsBlock {
   emptyEventsTitle: string;
   emptyEventsText?: string | null;
   eventLinkLabel: string;
+  /**
+   * Maximum visible description characters. The text continues to the next space before adding "...". Set 0 to disable truncation.
+   */
+  eventDescriptionMaxCharacters?: number | null;
   eventSource: 'automatic' | 'manual';
   /**
    * Choose the events to show. The block will render the first two selected.
@@ -4759,6 +4763,7 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   emptyEventsTitle?: T;
   emptyEventsText?: T;
   eventLinkLabel?: T;
+  eventDescriptionMaxCharacters?: T;
   eventSource?: T;
   manualEvents?: T;
   leftPanelScribbleBorder?: T;

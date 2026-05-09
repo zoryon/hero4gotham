@@ -125,6 +125,19 @@ const formatEventDate = (value: string) => {
   }
 }
 
+const truncateAtNextWord = (value: null | string | undefined, maxCharacters?: null | number) => {
+  const text = value?.trim().replace(/\s+/g, ' ') || ''
+  const limit = Math.floor(maxCharacters || 0)
+
+  if (!text || limit <= 0 || text.length <= limit) return text
+
+  const nextSpaceIndex = text.slice(limit).search(/\s/)
+
+  if (nextSpaceIndex === -1) return `${text}...`
+
+  return `${text.slice(0, limit + nextSpaceIndex).trimEnd()}...`
+}
+
 const isEventDocument = (
   event: EventDocument | number | null | undefined,
 ): event is EventDocument => Boolean(event && typeof event === 'object')
@@ -252,6 +265,7 @@ export const UpcomingEventsBlock = async ({
   eventLinkVerticalScale,
   eventLinkColor = '#a3e635',
   eventLinkLabel = 'Scopri di piu',
+  eventDescriptionMaxCharacters = 140,
   eventSource = 'automatic',
   eventTextFontFamily,
   eventTextFontSize = 'xs',
@@ -302,7 +316,7 @@ export const UpcomingEventsBlock = async ({
             <div className="grid content-start">
               <div
                 className={cn(
-                  'mb-4 inline-flex -rotate-2 items-center justify-center justify-self-start text-center',
+                  'mb-0 inline-flex -rotate-2 items-center justify-center justify-self-start text-center',
                   headingBackgroundImage && 'min-w-56 px-8 py-3 md:min-w-64 md:px-10 md:py-4',
                 )}
                 style={
@@ -418,7 +432,7 @@ export const UpcomingEventsBlock = async ({
                                 display: 'block',
                               }}
                             >
-                              {event.description}
+                              {truncateAtNextWord(event.description, eventDescriptionMaxCharacters)}
                             </p>
                           </div>
 

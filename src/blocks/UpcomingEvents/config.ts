@@ -172,6 +172,18 @@ export const UpcomingEvents: Block = {
       required: true,
     },
     {
+      name: 'eventDescriptionMaxCharacters',
+      type: 'number',
+      admin: {
+        description:
+          'Maximum visible description characters. The text continues to the next space before adding "...". Set 0 to disable truncation.',
+        step: 1,
+      },
+      defaultValue: 140,
+      label: 'Event description max characters',
+      min: 0,
+    },
+    {
       name: 'eventSource',
       type: 'radio',
       admin: {
