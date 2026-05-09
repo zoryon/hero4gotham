@@ -300,7 +300,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
         <div className="relative z-20 max-w-[calc(100%-5.5rem)] md:max-w-[calc(100%-8rem)]">
           <div
             className={cn(
-              'inline-flex bg-transparent bg-center bg-no-repeat px-7 py-4 md:px-9 md:py-5',
+              'inline-flex bg-transparent bg-center bg-no-repeat px-7 py-5.5 md:px-9 md:py-5',
               !headingBackgroundImage && 'px-0 py-0',
             )}
             style={{
