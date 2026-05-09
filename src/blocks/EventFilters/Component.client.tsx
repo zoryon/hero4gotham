@@ -317,7 +317,7 @@ export const EventFiltersClient: React.FC<Props> = ({
   return (
     <section
       ref={filtersRef}
-      className="event-filters w-full px-3 py-3 md:px-5 md:py-4"
+      className="event-filters vintage-surface relative isolate px-3 py-3 md:px-5 md:py-4"
       style={
         {
           '--event-filters-accent': resolvedAccentColor,

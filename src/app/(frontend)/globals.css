@@ -1138,6 +1138,19 @@
     inset: calc(var(--vintage-border-width, 11px) * -0.55);
   }
 
+  .event-filters.vintage-surface {
+    overflow: visible;
+  }
+
+  .scribble-border:has(> .event-filters.vintage-surface) {
+    display: flow-root;
+  }
+
+  .scribble-border:has(> .event-filters.vintage-surface) > .event-filters.vintage-surface {
+    margin: calc(var(--vintage-border-width, 15px) * 0.72);
+    width: auto;
+  }
+
   .torn-grid {
     align-items: stretch;
     aspect-ratio: auto;
@@ -1522,6 +1535,10 @@
       padding: clamp(1.75rem, 2.2vw, 2.75rem) clamp(0.75rem, 1.2vw, 1.5rem);
     }
   }
+}
+
+.scribble-border.max-w-\[88rem\]:has(> .event-filters.vintage-surface) {
+  max-width: 84rem;
 }
 
 :root {
