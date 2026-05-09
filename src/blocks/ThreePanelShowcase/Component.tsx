@@ -136,6 +136,7 @@ export const ThreePanelShowcaseBlock: React.FC<ThreePanelShowcaseBlockProps> = (
         <div
           className={cn(
             'relative isolate flex min-h-[var(--three-panel-mobile-height)] items-center overflow-hidden px-7 py-8 md:order-2 md:min-h-0 md:justify-start md:text-left xl:order-none xl:min-h-[var(--three-panel-height)]',
+            !centerImageDoc && 'vintage-surface',
             centerBorder && 'scribble-border three-panel-panel-border',
           )}
           style={{
