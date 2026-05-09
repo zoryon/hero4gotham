@@ -1107,13 +1107,22 @@
     color: var(--theme-text-secondary);
   }
 
+  .faq-accordion-panel-frame {
+    background-color: transparent;
+  }
+
+  .faq-accordion-panel-frame::after {
+    inset: calc(var(--vintage-border-width, 15px) * -0.86);
+  }
+
   .faq-accordion-panel {
     background-color: transparent;
     min-width: 0;
   }
 
-  .faq-accordion-panel::after {
-    inset: calc(var(--vintage-border-width, 15px) * -0.45);
+  .faq-accordion-panel.vintage-surface::before {
+    filter: blur(0.35px);
+    inset: 0;
   }
 
   .faq-accordion-icon {
