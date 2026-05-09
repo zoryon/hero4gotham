@@ -317,7 +317,10 @@ export const EventFiltersClient: React.FC<Props> = ({
   return (
     <section
       ref={filtersRef}
-      className="event-filters vintage-surface relative isolate px-3 py-3 md:px-5 md:py-4"
+      className={cn(
+        'event-filters vintage-surface relative px-3 py-3 md:px-5 md:py-4',
+        activeDropdown && 'event-filters--open',
+      )}
       style={
         {
           '--event-filters-accent': resolvedAccentColor,
