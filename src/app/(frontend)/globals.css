@@ -98,13 +98,7 @@
   }
 
   .site-footer {
-    background:
-      linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--theme-background-container-overflow, #18181a) 44%, transparent) 0%,
-        var(--theme-background-container-overflow, #18181a) 46%
-      ),
-      var(--theme-background-container-overflow, #18181a);
+    background: var(--theme-background-container-overflow, #18181a);
     border-top: 0;
     color: var(--theme-text-primary, #f4f4f5);
     overflow: hidden;
