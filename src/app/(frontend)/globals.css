@@ -997,12 +997,21 @@
     width: 100% !important;
   }
 
+  .contact-message-panel-frame {
+    background-color: transparent;
+  }
+
+  .contact-message-panel-frame::after {
+    inset: calc(var(--vintage-border-width, 15px) * -0.86);
+  }
+
   .contact-message-panel {
     background-color: transparent;
   }
 
-  .contact-message-panel::after {
-    inset: calc(var(--vintage-border-width, 15px) * -0.45);
+  .contact-message-panel.vintage-surface::before {
+    filter: blur(0.35px);
+    inset: 0;
   }
 
   .contact-message-field {
