@@ -256,7 +256,7 @@ export const EventGalleryClient: React.FC<Props> = ({
   }
 
   return (
-    <section className="w-full">
+    <section className="w-full px-3 sm:px-0">
       {photoItems.length ? (
         <div
           className="grid min-w-0 items-start"
