@@ -256,7 +256,7 @@ const TornCard: React.FC<{
   return (
     <article
       className={cn(
-        'torn-card relative isolate flex flex-col items-center justify-center text-center',
+        'torn-card vintage-surface relative isolate flex flex-col items-center justify-center text-center',
         item.scribbleBorder && 'scribble-border',
       )}
       style={getCardSpacingStyle(item)}
