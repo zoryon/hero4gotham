@@ -889,7 +889,7 @@
   }
 
   .event-list-info-surface {
-    --event-list-surface-fade-size: 58px;
+    --event-list-image-fade-size: 62px;
   }
 
   .event-list-image-surface-fade {
@@ -899,42 +899,23 @@
   .event-list-image-surface-fade picture,
   .event-list-image-surface-fade img {
     z-index: 0;
-  }
-
-  .event-list-image-surface-fade::before {
-    background:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%), #202028;
-    background-blend-mode: overlay, normal, normal;
-    background-size:
-      243px 243px,
-      100% 100%,
-      100% 100%;
-    bottom: 0;
-    content: '';
-    filter: blur(0.35px);
-    left: calc(var(--event-list-surface-fade-size, 58px) * -0.18);
-    opacity: 1;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    width: min(78%, calc(var(--event-list-surface-fade-size, 58px) * 3.2));
-    z-index: 1;
     -webkit-mask-image: linear-gradient(
       to right,
-      #000 0,
-      #000 calc(var(--event-list-surface-fade-size, 58px) * 0.44),
-      rgb(0 0 0 / 0.72) calc(var(--event-list-surface-fade-size, 58px) * 1.06),
-      rgb(0 0 0 / 0.24) calc(var(--event-list-surface-fade-size, 58px) * 1.52),
-      transparent 100%
+      transparent 0,
+      rgb(0 0 0 / 0.08) 8px,
+      rgb(0 0 0 / 0.36) calc(var(--event-list-image-fade-size, 62px) * 0.42),
+      rgb(0 0 0 / 0.78) calc(var(--event-list-image-fade-size, 62px) * 0.78),
+      #000 var(--event-list-image-fade-size, 62px),
+      #000 100%
     );
     mask-image: linear-gradient(
       to right,
-      #000 0,
-      #000 calc(var(--event-list-surface-fade-size, 58px) * 0.44),
-      rgb(0 0 0 / 0.72) calc(var(--event-list-surface-fade-size, 58px) * 1.06),
-      rgb(0 0 0 / 0.24) calc(var(--event-list-surface-fade-size, 58px) * 1.52),
-      transparent 100%
+      transparent 0,
+      rgb(0 0 0 / 0.08) 8px,
+      rgb(0 0 0 / 0.36) calc(var(--event-list-image-fade-size, 62px) * 0.42),
+      rgb(0 0 0 / 0.78) calc(var(--event-list-image-fade-size, 62px) * 0.78),
+      #000 var(--event-list-image-fade-size, 62px),
+      #000 100%
     );
   }
 

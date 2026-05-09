@@ -366,7 +366,7 @@ export const EventListClient: React.FC<Props> = ({
                   </div>
                 </div>
 
-                <div className="scribble-border event-list-cell-border vintage-surface event-list-info-surface grid min-w-0 grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)] gap-0 overflow-visible p-0">
+                <div className="scribble-border event-list-cell-border vintage-surface event-list-info-surface grid min-w-0 grid-cols-1 gap-0 overflow-visible p-0 md:grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)]">
                   <div className="grid min-w-0 content-center px-4 py-3">
                     <h3
                       className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
@@ -442,7 +442,7 @@ export const EventListClient: React.FC<Props> = ({
                     </div>
                   </div>
 
-                  <div className="event-list-image-surface-fade relative min-h-full overflow-hidden">
+                  <div className="event-list-image-surface-fade relative hidden min-h-full overflow-hidden md:block">
                     {displayImage && typeof displayImage === 'object' ? (
                       <Media
                         fill

@@ -73,6 +73,41 @@ const eventSidebarBlockTypes = new Set<keyof typeof blockComponents>([
   'featuredEvent',
 ])
 
+const getEventBoardParts = (
+  flexboxBlock: (Page['layout'][0] & { layout?: BlockLayoutSettings | null }) | null | undefined,
+) => {
+  if (flexboxBlock?.blockType !== 'flexbox' || !Array.isArray(flexboxBlock.blocks)) return null
+
+  const [eventListBlock, sidebarBlock, maybeSecondSidebarBlock] = flexboxBlock.blocks
+
+  if (eventListBlock?.blockType !== 'eventList' || !sidebarBlock) return null
+
+  if (
+    sidebarBlock.blockType !== 'flexbox' &&
+    sidebarBlock.blockType !== 'featuredEvent' &&
+    sidebarBlock.blockType !== 'eventCalendar'
+  ) {
+    return null
+  }
+
+  const sidebarBlocks =
+    sidebarBlock.blockType === 'flexbox'
+      ? [sidebarBlock]
+      : [
+          sidebarBlock,
+          ...(maybeSecondSidebarBlock &&
+          (maybeSecondSidebarBlock.blockType === 'featuredEvent' ||
+            maybeSecondSidebarBlock.blockType === 'eventCalendar')
+            ? [maybeSecondSidebarBlock]
+            : []),
+        ]
+
+  return {
+    eventListBlock,
+    sidebarBlocks,
+  }
+}
+
 type RenderableBlockProps = Page['layout'][0] & {
   disableInnerContainer?: boolean
   isFirstPageBlock?: boolean
@@ -98,12 +133,14 @@ export const RenderBlocks: React.FC<{
 
   if (hasBlocks) {
     const groupedEventSidebarIndices = new Set<number>()
+    const groupedEventBoardIndices = new Set<number>()
 
     return (
       <EventFiltersProvider>
         {blocks.map((block, index) => {
           const { blockType } = block
 
+          if (groupedEventBoardIndices.has(index)) return null
           if (groupedEventSidebarIndices.has(index)) return null
 
           if (blockType && blockType in blockComponents) {
@@ -114,6 +151,70 @@ export const RenderBlocks: React.FC<{
               const blockWrapperClassName = flushBlockTypes.has(blockType)
                 ? undefined
                 : wrapperClassName
+
+              if (blockType === 'eventFilters') {
+                const nextBlock = blocks[index + 1]
+                const eventBoardParts = getEventBoardParts(nextBlock)
+
+                if (eventBoardParts) {
+                  groupedEventBoardIndices.add(index + 1)
+
+                  const EventListBlockToRender =
+                    blockComponents.eventList as unknown as React.ComponentType<RenderableBlockProps>
+
+                  return (
+                    <div
+                      className={cn(
+                        getBlockLayoutClasses(nextBlock.layout, blockWrapperClassName),
+                        'grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
+                        index === firstRenderableIndex && 'mt-0',
+                      )}
+                      key={index}
+                    >
+                      <div
+                        className={cn(
+                          getBlockLayoutClasses(block.layout, 'm-0 min-w-0'),
+                          'order-2 xl:order-1 xl:col-span-2',
+                          index === firstRenderableIndex && 'mt-0',
+                        )}
+                      >
+                        <BlockToRender
+                          {...block}
+                          disableInnerContainer
+                          isFirstPageBlock={index === firstRenderableIndex}
+                        />
+                      </div>
+                      <div className="order-3 min-w-0 xl:order-2">
+                        <EventListBlockToRender
+                          {...eventBoardParts.eventListBlock}
+                          disableInnerContainer
+                          isFirstPageBlock={false}
+                        />
+                      </div>
+                      <div className="order-1 flex min-w-0 flex-col items-stretch gap-5 xl:order-3">
+                        {eventBoardParts.sidebarBlocks.map((sidebarBlock, sidebarIndex) => {
+                          const SidebarBlock = blockComponents[
+                            sidebarBlock.blockType as keyof typeof blockComponents
+                          ] as unknown as React.ComponentType<RenderableBlockProps>
+
+                          return (
+                            <div
+                              className="m-0 min-w-0"
+                              key={`${index}-board-sidebar-${sidebarIndex}`}
+                            >
+                              <SidebarBlock
+                                {...sidebarBlock}
+                                disableInnerContainer
+                                isFirstPageBlock={false}
+                              />
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                }
+              }
 
               if (blockType === 'eventList') {
                 const sidebarBlocks: typeof blocks = []
