@@ -86,6 +86,11 @@ export const RenderBlocks: React.FC<{
   const { blocks, markFirstBlock = false, wrapperClassName = 'my-16' } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
+  const lastRenderableIndex = hasBlocks
+    ? blocks.reduce((lastIndex, { blockType }, index) => {
+        return blockType && blockType in blockComponents ? index : lastIndex
+      }, -1)
+    : -1
   const firstRenderableIndex =
     hasBlocks && markFirstBlock
       ? blocks.findIndex(({ blockType }) => Boolean(blockType && blockType in blockComponents))
@@ -132,6 +137,7 @@ export const RenderBlocks: React.FC<{
                         getBlockLayoutClasses(block.layout, blockWrapperClassName),
                         'grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
                         index === firstRenderableIndex && 'mt-0',
+                        index === lastRenderableIndex && 'mb-0',
                       )}
                       key={index}
                     >
@@ -169,6 +175,7 @@ export const RenderBlocks: React.FC<{
                   className={cn(
                     getBlockLayoutClasses(block.layout, blockWrapperClassName),
                     index === firstRenderableIndex && 'mt-0',
+                    index === lastRenderableIndex && 'mb-0',
                   )}
                   key={index}
                 >

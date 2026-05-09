@@ -30,26 +30,45 @@ export async function Footer() {
   return (
     <footer className="site-footer mt-auto">
       <div className="site-footer__inner">
+        <div className="site-footer__main">
+          <div className="site-footer__brand">
+            {footerData?.eyebrow ? (
+              <p className="site-footer__eyebrow">{footerData.eyebrow}</p>
+            ) : null}
+            <p className="site-footer__brand-name">
+              {footerData?.brandName || 'Il Sorriso Storto'}
+            </p>
+            {footerData?.description ? (
+              <p className="site-footer__description">{footerData.description}</p>
+            ) : null}
+          </div>
+
+          <div className="site-footer__columns">
+            {navItems.length ? (
+              <nav aria-label="Social" className="site-footer__link-group">
+                <p className="site-footer__group-title">Seguici</p>
+                {navItems.map(({ link }, i) => {
+                  return <CMSLink className="site-footer__link" key={i} {...link} />
+                })}
+              </nav>
+            ) : null}
+
+            <nav aria-label="Legal" className="site-footer__link-group">
+              <p className="site-footer__group-title">Informazioni</p>
+              {legalLinks.map(({ link }, i) => (
+                <CMSLink className="site-footer__link" key={i} {...link} />
+              ))}
+            </nav>
+          </div>
+        </div>
+
         <div className="site-footer__bottom">
-          <div className="site-footer__left">
+          <div className="site-footer__legal">
             <p className="site-footer__legal-note">
               &copy; {year}{' '}
               {footerData?.legalNote || 'Associazione culturale. Tutti i diritti riservati.'}
             </p>
-            <nav aria-label="Legal" className="site-footer__legal-links">
-              {legalLinks.map(({ link }, i) => (
-                <CMSLink className="site-footer__micro-link" key={i} {...link} />
-              ))}
-            </nav>
           </div>
-
-          {navItems.length ? (
-            <nav aria-label="Social" className="site-footer__right">
-              {navItems.map(({ link }, i) => {
-                return <CMSLink className="site-footer__micro-link" key={i} {...link} />
-              })}
-            </nav>
-          ) : null}
         </div>
       </div>
     </footer>

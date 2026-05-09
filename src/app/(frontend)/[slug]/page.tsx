@@ -79,9 +79,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const startsUnderHeader = hasHighImpactHero || startsWithBackgroundContainer
 
   return (
-    <article
-      className={cn('pb-24', !startsUnderHeader && 'pt-[calc(var(--header-height,92px)+2rem)]')}
-    >
+    <article className={cn(!startsUnderHeader && 'pt-[calc(var(--header-height,92px)+2rem)]')}>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
