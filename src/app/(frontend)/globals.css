@@ -101,7 +101,21 @@
     background: var(--theme-background-container-overflow, #18181a);
     border-top: 0;
     color: var(--theme-text-primary, #f4f4f5);
+    isolation: isolate;
     overflow: hidden;
+    position: relative;
+  }
+
+  .site-footer::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E");
+    background-size: 243px 243px;
+    content: '';
+    inset: 0;
+    mix-blend-mode: overlay;
+    opacity: 0.2;
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
   }
 
   .site-footer__inner {
@@ -110,7 +124,9 @@
     margin-inline: auto;
     max-width: 92rem;
     padding: clamp(10rem, 18vw, 16rem) 1rem 1.45rem;
+    position: relative;
     width: 100%;
+    z-index: 1;
   }
 
   .site-footer__main {
@@ -272,6 +288,24 @@
   .background-container__image {
     image-rendering: auto;
     object-position: var(--background-container-image-position-mobile, center center);
+  }
+
+  .background-container::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E");
+    background-size: 243px 243px;
+    bottom: 0;
+    content: '';
+    left: 50%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.18) 2rem, #000 8rem);
+    mask-image: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.18) 2rem, #000 8rem);
+    mix-blend-mode: overlay;
+    opacity: 0.2;
+    pointer-events: none;
+    position: absolute;
+    top: 100svh;
+    transform: translateX(-50%);
+    width: 100vw;
+    z-index: -15;
   }
 
   .background-container::after {
