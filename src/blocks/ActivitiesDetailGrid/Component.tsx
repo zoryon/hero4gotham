@@ -264,6 +264,7 @@ const ActivityCard: React.FC<{
   const imageFirst = imagePosition === 'left' || imagePosition === 'top'
   const ctaBannerImage = getMedia(activity.ctaImage)
   const textPadding = `${contentPadding}px`
+  const surfaceFadeSize = Math.max(24, Math.min(fadeSize || 44, 72))
 
   const imageNode = (
     <div
@@ -312,13 +313,15 @@ const ActivityCard: React.FC<{
   const contentNode = (
     <div
       className={cn(
-        'activity-detail-card__content relative isolate flex min-h-0 flex-col justify-center',
+        'activity-detail-card__content vintage-surface relative isolate flex min-h-0 flex-col justify-center',
+        `activity-detail-card__surface--${imagePosition}`,
         !imageFirst && 'order-1',
       )}
       style={{
+        '--activity-detail-surface-fade-size': `${surfaceFadeSize}px`,
         backgroundColor: panelBackgroundColor || 'transparent',
         padding: textPadding,
-      }}
+      } as React.CSSProperties}
     >
       <StyledText
         as="h3"

@@ -1221,6 +1221,7 @@
 
   .activity-detail-card__media {
     margin: 0;
+    z-index: 1;
   }
 
   .activity-detail-card__media--left {
@@ -1252,6 +1253,89 @@
 
   .activity-detail-card__content {
     overflow: hidden;
+  }
+
+  .activity-detail-card__content.vintage-surface {
+    overflow: visible;
+    z-index: 2;
+  }
+
+  .activity-detail-card__content.vintage-surface::before {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%),
+      #202028;
+    background-blend-mode: overlay, normal, normal;
+    background-size:
+      243px 243px,
+      100% 100%,
+      100% 100%;
+    mix-blend-mode: normal;
+    opacity: 1;
+  }
+
+  .activity-detail-card__surface--left::before {
+    left: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+  }
+
+  .activity-detail-card__surface--right::before {
+    right: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    -webkit-mask-image: linear-gradient(
+      to left,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to left,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+  }
+
+  .activity-detail-card__surface--top::before {
+    top: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+  }
+
+  .activity-detail-card__surface--bottom::before {
+    bottom: calc(var(--activity-detail-surface-fade-size, 44px) * -1);
+    -webkit-mask-image: linear-gradient(
+      to top,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
+    mask-image: linear-gradient(
+      to top,
+      transparent 0,
+      #000 var(--activity-detail-surface-fade-size, 44px),
+      #000 100%
+    );
   }
 
   .torn-grid--generated {
