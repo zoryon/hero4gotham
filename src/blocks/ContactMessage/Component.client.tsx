@@ -134,7 +134,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
   }
 
   return (
-    <section className="w-full">
+    <section className="w-full px-4 md:px-0">
       <div className="contact-message-panel-frame scribble-border relative isolate mx-auto w-full max-w-3xl overflow-visible">
         <div
           className="contact-message-panel vintage-surface relative isolate overflow-hidden px-5 py-5 md:px-9 md:py-7"
