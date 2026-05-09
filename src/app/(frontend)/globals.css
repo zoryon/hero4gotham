@@ -968,6 +968,11 @@
     inset: calc(var(--vintage-border-width, 15px) * -1);
   }
 
+  .event-calendar-card-border.vintage-surface::before {
+    filter: blur(0.35px);
+    inset: 0;
+  }
+
   .event-gallery-card {
     --vintage-border-width: 15px;
 
