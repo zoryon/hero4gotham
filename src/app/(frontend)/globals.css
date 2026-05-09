@@ -1159,6 +1159,11 @@
     grid-auto-flow: column;
   }
 
+  .torn-cards-block--container-border .torn-grid {
+    box-sizing: border-box;
+    padding: calc(var(--vintage-border-width, 15px) * 0.72);
+  }
+
   .three-panel-panel-border {
     overflow: hidden !important;
   }

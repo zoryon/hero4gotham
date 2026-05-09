@@ -377,7 +377,13 @@ export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
     : containerWidthClasses[containerWidth || 'wide']
 
   return (
-    <div className={cn('relative', containerClassName)}>
+    <div
+      className={cn(
+        'torn-cards-block relative',
+        layout?.scribbleBorder && 'torn-cards-block--container-border',
+        containerClassName,
+      )}
+    >
       {heading ? (
         <div className="absolute left-1/2 top-0 z-30 flex w-fit -translate-x-1/2 -translate-y-1/2 justify-center overflow-hidden">
           {headingImage ? (
