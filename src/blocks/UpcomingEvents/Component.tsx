@@ -288,7 +288,7 @@ export const UpcomingEventsBlock = async ({
     <section className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)] xl:items-stretch">
       <div
         className={cn(
-          'relative isolate min-h-72',
+          'vintage-surface relative isolate min-h-72',
           leftPanelScribbleBorder && 'scribble-border upcoming-events-left-border',
         )}
       >
