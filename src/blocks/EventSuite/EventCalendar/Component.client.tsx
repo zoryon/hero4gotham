@@ -135,11 +135,11 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'vintage-surface relative mx-auto w-full min-w-0 max-w-[clamp(16rem,72vw,20rem)] overflow-visible',
+        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[clamp(16rem,72vw,20rem)]',
         specialBorder && 'scribble-border event-calendar-card-border',
       )}
     >
-      <div className="relative z-10 grid min-w-0 gap-2.5 p-2.5 sm:gap-3 sm:p-3">
+      <div className="relative z-10 grid min-w-0 gap-2 p-2 sm:gap-3 sm:p-3">
         <div
           className={cn(
             'inline-flex max-w-full items-center justify-center bg-contain bg-center bg-no-repeat px-4 py-2 text-center sm:w-fit sm:px-5',
@@ -219,7 +219,7 @@ export const EventCalendarClient: React.FC<Props> = ({
         <div className="grid min-w-0 grid-cols-7 gap-0.5 sm:gap-1">
           {weekdays.map((weekday, index) => (
             <div
-              className="grid aspect-square min-w-0 place-items-center text-center"
+              className="grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
               key={`${weekday}-${index}`}
             >
               <span className={dayTextClassName} style={dayTextStyle}>
@@ -233,7 +233,7 @@ export const EventCalendarClient: React.FC<Props> = ({
             return (
               <div
                 aria-hidden={!cell.day}
-                className="relative grid aspect-square min-w-0 place-items-center text-center"
+                className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
                 key={cell.key}
               >
                 {cell.day ? (
