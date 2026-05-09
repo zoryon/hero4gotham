@@ -1390,10 +1390,17 @@
   }
 
   @media (width < 36rem) {
+    .activity-detail-grid {
+      align-items: start;
+      grid-auto-rows: max-content;
+      grid-template-rows: none;
+    }
+
     .activity-detail-card-frame {
       height: auto !important;
       min-height: 0;
       overflow: hidden;
+      place-self: start stretch;
     }
 
     .activity-detail-card {
