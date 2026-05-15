@@ -126,6 +126,7 @@ export const FeaturedEventBlock = async ({
             size="(max-width: 1279px) 100vw, 38rem"
           />
         ) : null}
+        <div className="pointer-events-none absolute inset-0 bg-black/25" />
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10" />
         <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-black/45 via-transparent to-black/15" />
       </div>
@@ -166,7 +167,7 @@ export const FeaturedEventBlock = async ({
             {event.title}
           </h3>
           <div
-            className={getEventSuiteTextClassName(dtStyle, 'black')}
+            className={cn(getEventSuiteTextClassName(dtStyle, 'black'), 'mt-1')}
             style={getEventSuiteTextStyle(dtStyle, {
               fontFamily: 'cinzel',
               fontSizeDesktop: 12,

@@ -950,8 +950,11 @@
   }
 
   .event-list-scroll {
+    overscroll-behavior: contain;
     scrollbar-color: rgb(190 190 190 / 0.38) transparent;
     scrollbar-width: thin;
+    transform: translateZ(0);
+    will-change: scroll-position;
   }
 
   .event-list-scroll::-webkit-scrollbar {

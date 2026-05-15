@@ -76,6 +76,28 @@ has intentional internal padding, but the decorative border is drawn outward fro
 cell edge, so it visually aligns with the image. Scrollbars only appear when the list is
 actually clipped to show a subset of events.
 
+## 2026-05-15 Follow-Up
+
+The event column lag was fixed without breaking the vintage borders by keeping scroll
+optimizations lightweight:
+
+- `overscroll-behavior: contain`
+- `transform: translateZ(0)`
+- `will-change: scroll-position`
+
+Do not use `content-visibility: auto` on event rows or `contain: content` on
+`.event-list-scroll` here. Those properties can interfere with the vintage border
+pseudo-elements and make the right-side border look clipped or barely visible,
+especially because the cards rely on `overflow-visible` and outward border insets.
+
+When marking past events, do not apply opacity to the whole `<article>`. That also
+dims the vintage border. Apply `opacity-70` only to inner content such as the date
+text, copy column, image, and CTA.
+
+The list should show all events, including past events, ordered by highest date first
+(`sort: '-startsAt'`). Avoid adding a default `startsAt >= today` filter in
+`buildEventWhere`; only date-filter when the user explicitly picks a date.
+
 ## Verification
 
 Run:

@@ -17,15 +17,6 @@ export const buildEventWhere = (filters?: EventFilterParams): Where => {
         less_than: selectedDateRange.end.toISOString(),
       },
     })
-  } else {
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
-
-    clauses.push({
-      startsAt: {
-        greater_than_equal: now.toISOString(),
-      },
-    })
   }
 
   if (normalizedFilters.activityId && normalizedFilters.activityId !== 'all') {
@@ -65,6 +56,8 @@ export const buildEventWhere = (filters?: EventFilterParams): Where => {
       ],
     })
   }
+
+  if (!clauses.length) return {}
 
   return clauses.length === 1
     ? clauses[0]

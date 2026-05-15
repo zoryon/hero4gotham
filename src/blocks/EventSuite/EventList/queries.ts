@@ -12,7 +12,7 @@ export type EventListPage = {
   nextPage: number | null
 }
 
-export const getUpcomingEventListPage = async ({
+export const getEventListPage = async ({
   filters,
   maxEvents,
   page,
@@ -41,7 +41,7 @@ export const getUpcomingEventListPage = async ({
     limit: safeMaxEvents < eventListPageSize ? safeMaxEvents : eventListPageSize,
     page: safePage,
     select: eventSuiteSelect,
-    sort: 'startsAt',
+    sort: '-startsAt',
     where: buildEventWhere(filters),
   })
   const remainingEvents = safeMaxEvents - alreadyRequested

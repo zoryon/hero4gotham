@@ -290,6 +290,8 @@ export const EventListClient: React.FC<Props> = ({
             const displayTime = event.timeLabel || dateParts.time
             const displayImage = getEventDisplayImage(event)
             const eventTypeLabel = getEventTypeLabel(event.activity)
+            const hasPassed = new Date(event.startsAt).getTime() < Date.now()
+            const passedContentClassName = hasPassed ? 'opacity-70' : undefined
 
             return (
               <article
@@ -303,7 +305,7 @@ export const EventListClient: React.FC<Props> = ({
               >
                 <div className="scribble-border event-list-cell-border vintage-surface grid content-center justify-items-center px-2 py-3 text-center">
                   <div
-                    className={getEventSuiteTextClassName(ddyStyle, 'black')}
+                    className={cn(getEventSuiteTextClassName(ddyStyle, 'black'), passedContentClassName)}
                     style={getEventSuiteTextStyle(ddyStyle, {
                       fontFamily: 'cinzel',
                       fontSizeDesktop: 44,
@@ -314,7 +316,7 @@ export const EventListClient: React.FC<Props> = ({
                   >
                     {dateParts.day}
                   </div>
-                  <div className="grid justify-items-center leading-none">
+                  <div className={cn('grid justify-items-center leading-none', passedContentClassName)}>
                     <span
                       className={getEventSuiteTextClassName(monthStyle, 'black')}
                       style={getEventSuiteTextStyle(monthStyle, {
@@ -367,7 +369,7 @@ export const EventListClient: React.FC<Props> = ({
                 </div>
 
                 <div className="scribble-border event-list-cell-border vintage-surface event-list-info-surface grid min-w-0 grid-cols-1 gap-0 overflow-visible p-0 md:grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)]">
-                  <div className="grid min-w-0 content-center px-4 py-3">
+                  <div className={cn('grid min-w-0 content-center px-4 py-3', passedContentClassName)}>
                     <h3
                       className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
                       style={getEventSuiteTextStyle(ttlStyle, {
@@ -446,7 +448,7 @@ export const EventListClient: React.FC<Props> = ({
                     {displayImage && typeof displayImage === 'object' ? (
                       <Media
                         fill
-                        imgClassName="object-cover object-center"
+                        imgClassName={cn('object-cover object-center', passedContentClassName)}
                         pictureClassName="absolute inset-0"
                         resource={displayImage}
                         size="(max-width: 1279px) 32vw, 24vw"
@@ -457,6 +459,7 @@ export const EventListClient: React.FC<Props> = ({
                       className={cn(
                         getEventSuiteTextClassName(lnkStyle, 'black'),
                         'scribble-border absolute bottom-5 right-5 z-10 inline-flex w-fit items-center justify-center px-6 py-5',
+                        passedContentClassName,
                       )}
                       label={
                         (event.link?.label as string) || eventLinkFallbackLabel || 'Scopri di piu'

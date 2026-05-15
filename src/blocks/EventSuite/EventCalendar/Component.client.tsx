@@ -135,7 +135,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[clamp(16rem,72vw,20rem)]',
+        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[clamp(16rem,72vw,20rem)] min-[680px]:max-xl:ml-auto min-[680px]:max-xl:mr-0',
         specialBorder && 'scribble-border event-calendar-card-border',
       )}
     >
