@@ -94,6 +94,9 @@ export const EventCalendarClient: React.FC<Props> = ({
   const cells = React.useMemo(() => getCalendarCells(year, monthIndex), [monthIndex, year])
   const dayTextClassName = getEventSuiteTextClassName(dayStyle, 'regular')
   const dayTextStyle = getCellTextStyle(dayStyle)
+  const today = React.useMemo(() => new Date(), [])
+  const isCurrentMonth =
+    today.getFullYear() === year && today.getMonth() === monthIndex
 
   React.useEffect(() => {
     const cachedEventDays = eventDaysCache.current.get(monthKey)
@@ -102,6 +105,8 @@ export const EventCalendarClient: React.FC<Props> = ({
       setEventDays(cachedEventDays)
       return
     }
+
+    setEventDays([])
 
     const controller = new AbortController()
 
@@ -135,11 +140,11 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[clamp(16rem,72vw,20rem)] min-[680px]:max-xl:ml-auto min-[680px]:max-xl:mr-0',
+        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[clamp(16rem,72vw,20rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-none min-[680px]:max-xl:ml-auto min-[680px]:max-xl:mr-0',
         specialBorder && 'scribble-border event-calendar-card-border',
       )}
     >
-      <div className="relative z-10 grid min-w-0 gap-2 p-2 sm:gap-3 sm:p-3">
+      <div className="relative z-10 grid min-w-0 gap-2 p-2 sm:gap-3 sm:p-3 min-[680px]:max-xl:h-full min-[680px]:max-xl:content-center">
         <div
           className={cn(
             'inline-flex max-w-full items-center justify-center bg-contain bg-center bg-no-repeat px-4 py-2 text-center sm:w-fit sm:px-5',
@@ -231,13 +236,22 @@ export const EventCalendarClient: React.FC<Props> = ({
             const hasEvent = Boolean(cell.day && eventDaySet.has(cell.day))
 
             return (
-              <div
-                aria-hidden={!cell.day}
-                className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
-                key={cell.key}
-              >
-                {cell.day ? (
-                  <span className={dayTextClassName} style={dayTextStyle}>
+          <div
+            aria-hidden={!cell.day}
+            className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
+            key={cell.key}
+          >
+            {cell.day ? (
+                  <span
+                    className={dayTextClassName}
+                    style={{
+                      ...dayTextStyle,
+                      color:
+                        isCurrentMonth && cell.day === today.getDate()
+                          ? 'var(--theme-text-green)'
+                          : dayTextStyle.color,
+                    }}
+                  >
                     {cell.day}
                   </span>
                 ) : null}

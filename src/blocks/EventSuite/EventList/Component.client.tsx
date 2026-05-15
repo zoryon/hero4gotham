@@ -389,7 +389,7 @@ export const EventListClient: React.FC<Props> = ({
                   </div>
                 </div>
 
-                <div className="scribble-border event-list-cell-border vintage-surface event-list-info-surface grid min-w-0 grid-cols-1 gap-0 overflow-visible p-0 md:grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)]">
+                <div className="scribble-border event-list-cell-border vintage-surface event-list-info-surface relative grid min-w-0 grid-cols-1 gap-0 overflow-visible p-0 md:grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)]">
                   <div className={cn('grid min-w-0 content-center px-4 py-3', passedContentClassName)}>
                     <h3
                       className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
@@ -439,7 +439,7 @@ export const EventListClient: React.FC<Props> = ({
                     ) : null}
                     <div className="mt-4 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
                       {event.venue ? (
-                        <div className="inline-flex min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap">
+                        <div className="hidden min-w-0 flex-nowrap items-center gap-2 whitespace-nowrap md:inline-flex">
                           <MapPin
                             aria-hidden
                             className="h-4 w-4 shrink-0 text-[var(--theme-text-green)]"
@@ -462,6 +462,24 @@ export const EventListClient: React.FC<Props> = ({
                           </span>
                         </div>
                       ) : null}
+                      <CMSLink
+                        {...event.link}
+                        className={cn(
+                          getEventSuiteTextClassName(lnkStyle, 'black'),
+                          'event-list-link-mobile scribble-border event-list-link-border event-list-link-surface relative w-fit items-center justify-center px-4 py-2.5',
+                          passedContentClassName,
+                        )}
+                        label={
+                          (event.link?.label as string) || eventLinkFallbackLabel || 'Scopri di piu'
+                        }
+                        style={getEventSuiteTextStyle(lnkStyle, {
+                          fontFamily: 'cinzel',
+                          fontSizeDesktop: 10,
+                          fontSizeMobile: 10,
+                          fontWeight: 'black',
+                          lineHeight: 1,
+                        })}
+                      />
                     </div>
                   </div>
 
@@ -479,7 +497,7 @@ export const EventListClient: React.FC<Props> = ({
                       {...event.link}
                       className={cn(
                         getEventSuiteTextClassName(lnkStyle, 'black'),
-                        'scribble-border absolute bottom-5 right-5 z-10 inline-flex w-fit items-center justify-center px-6 py-5',
+                        'event-list-link-image scribble-border event-list-link-border event-list-link-surface absolute bottom-5 right-5 z-10 w-fit items-center justify-center px-5 py-3',
                         passedContentClassName,
                       )}
                       label={

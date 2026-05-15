@@ -142,7 +142,7 @@ export const FlexboxBlock: React.FC<FlexboxProps> = ({
 
   if (isEventSidebar) {
     return (
-      <div className="flex w-full min-w-0 flex-col items-stretch gap-5">
+      <div className="grid w-full min-w-0 grid-cols-1 items-stretch gap-5 min-[680px]:grid-cols-2 xl:grid-cols-1">
         <RenderBlocks blocks={blocks as FlexboxItemWithLayout[]} wrapperClassName="m-0 min-w-0" />
       </div>
     )
