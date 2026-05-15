@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import { MapPin } from 'lucide-react'
+import { ChevronDown, MapPin } from 'lucide-react'
 import {
   formatEventDateParts,
   getEventDisplayImage,
@@ -266,25 +266,26 @@ export const EventListClient: React.FC<Props> = ({
           </h2>
         </div>
 
-        <div
-          ref={scrollerRef}
-          className={cn(
-            'event-list-scroll min-w-0',
-            shouldScroll ? 'overflow-x-hidden overflow-y-auto' : 'overflow-visible',
-          )}
-          onScroll={() => {
-            if (!hasScrolled) setHasScrolled(true)
-          }}
-          style={
-            shouldScroll
-              ? {
-                  margin: -borderBleed,
-                  maxHeight: safeRowHeight * visibleRows + borderBleed * 2,
-                  padding: borderBleed,
-                }
-              : undefined
-          }
-        >
+        <div className="relative min-w-0">
+          <div
+            ref={scrollerRef}
+            className={cn(
+              'event-list-scroll min-w-0',
+              shouldScroll ? 'overflow-x-hidden overflow-y-auto' : 'overflow-visible',
+            )}
+            onScroll={() => {
+              if (!hasScrolled) setHasScrolled(true)
+            }}
+            style={
+              shouldScroll
+                ? {
+                    margin: -borderBleed,
+                    maxHeight: safeRowHeight * visibleRows + borderBleed * 2,
+                    padding: borderBleed,
+                  }
+                : undefined
+            }
+          >
           {eventItems.map((event, index) => {
             const dateParts = formatEventDateParts(event.startsAt)
             const displayTime = event.timeLabel || dateParts.time
@@ -295,7 +296,7 @@ export const EventListClient: React.FC<Props> = ({
 
             return (
               <article
-                className="grid min-w-0 grid-cols-[5.1rem_minmax(0,1fr)] gap-0 py-0"
+                className="relative grid min-w-0 grid-cols-[5.1rem_minmax(0,1fr)] gap-0 py-0"
                 key={event.id}
                 ref={index === penultimateEventIndex ? penultimateEventRef : undefined}
                 style={{
@@ -303,6 +304,26 @@ export const EventListClient: React.FC<Props> = ({
                   minHeight: safeRowHeight,
                 }}
               >
+                {hasPassed ? (
+                  <span
+                    className={cn(
+                      getEventSuiteTextClassName(typStyle, 'black'),
+                      'pointer-events-none absolute right-4 top-3 z-30 inline-flex w-fit items-center justify-center bg-black/70 px-2 py-1 text-[0.58rem] uppercase text-[#ff2d2d] shadow-[0_2px_0_rgb(0_0_0_/_0.25)]',
+                    )}
+                    style={{
+                      ...getEventSuiteTextStyle(typStyle, {
+                        fontFamily: 'cinzel',
+                        fontSizeDesktop: 9,
+                        fontSizeMobile: 8,
+                        fontWeight: 'black',
+                        lineHeight: 1,
+                      }),
+                      color: '#ff2d2d',
+                    }}
+                  >
+                    PASSATO
+                  </span>
+                ) : null}
                 <div className="scribble-border event-list-cell-border vintage-surface grid content-center justify-items-center px-2 py-3 text-center">
                   <div
                     className={cn(getEventSuiteTextClassName(ddyStyle, 'black'), passedContentClassName)}
@@ -493,24 +514,20 @@ export const EventListClient: React.FC<Props> = ({
               </span>
             </div>
           ) : null}
-        </div>
-
-        {shouldScroll && scrollHintLabel ? (
-          <div className="mt-3 text-center">
-            <span
-              className={getEventSuiteTextClassName(scrollHintStyle, 'black')}
-              style={getEventSuiteTextStyle(scrollHintStyle, {
-                fontFamily: 'cinzel',
-                fontSizeDesktop: 11,
-                fontSizeMobile: 10,
-                fontWeight: 'black',
-                lineHeight: 1.1,
-              })}
-            >
-              {scrollHintLabel}
-            </span>
           </div>
-        ) : null}
+
+          {shouldScroll ? (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute bottom-2 left-1/2 z-40 hidden -translate-x-1/2 rounded-full bg-black/55 px-3 py-.5 shadow-[0_2px_0_rgb(0_0_0_/_0.24)] md:grid md:place-items-center xl:px-3.5"
+            >
+              <ChevronDown
+                className="event-list-scroll-chevron h-5 w-5 text-[var(--theme-text-green)] xl:h-6 xl:w-6"
+                strokeWidth={3}
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
     </section>
   )

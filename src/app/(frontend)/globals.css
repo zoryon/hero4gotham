@@ -996,6 +996,23 @@
     display: none;
   }
 
+  .event-list-scroll-chevron {
+    animation: event-list-chevron-pulse 1.9s ease-in-out infinite;
+  }
+
+  @keyframes event-list-chevron-pulse {
+    0%,
+    100% {
+      opacity: 0.48;
+      transform: translateY(-1px);
+    }
+
+    50% {
+      opacity: 1;
+      transform: translateY(2px);
+    }
+  }
+
   .featured-event-card-border::after,
   .event-calendar-card-border::after {
     inset: calc(var(--vintage-border-width, 15px) * -1);
