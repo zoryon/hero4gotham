@@ -1013,9 +1013,12 @@
     }
   }
 
-  .featured-event-card-border::after,
-  .event-calendar-card-border::after {
+  .featured-event-card-border::after {
     inset: calc(var(--vintage-border-width, 15px) * -1);
+  }
+
+  .event-calendar-card-border::after {
+    inset: calc(var(--vintage-border-width, 15px) * -0.86);
   }
 
   .event-calendar-card-border.vintage-surface::before {
