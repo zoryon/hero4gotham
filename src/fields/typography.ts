@@ -160,11 +160,11 @@ export type TypographyDistress = (typeof typographyDistressOptions)[number]['val
 export type TypographyLetterSpacing = (typeof typographyLetterSpacingOptions)[number]['value']
 
 export const typographyFontSizeClasses = {
-  compact: 'text-3xl md:text-5xl',
-  medium: 'text-4xl md:text-6xl',
-  large: 'text-5xl md:text-6xl',
-  hero: 'text-5xl md:text-7xl',
-  massive: 'text-6xl md:text-8xl',
+  compact: 'text-2xl md:text-5xl',
+  medium: 'text-3xl md:text-6xl',
+  large: 'text-3xl md:text-6xl',
+  hero: 'text-3xl md:text-7xl',
+  massive: 'text-4xl md:text-8xl',
 } satisfies Record<TypographyFontSize, string>
 
 export const typographySubtitleFontSizeClasses = {

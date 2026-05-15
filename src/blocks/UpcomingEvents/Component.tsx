@@ -65,6 +65,7 @@ const getFontSizeClass = (value: null | string | undefined, sizeKind: 'display' 
 
 const getReducedCtaTitleSize = (value: null | string | undefined) => {
   if (value && value in typographySubtitleFontSizeClasses) return value
+  if (value === 'compact') return 'large'
 
   return 'lead'
 }
@@ -299,55 +300,56 @@ export const UpcomingEventsBlock = async ({
     eventSource === 'manual' ? await getManualEvents(manualEvents) : await getAutomaticEvents()
 
   return (
-    <section className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)] xl:items-stretch">
+    <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)] xl:items-center">
       <div
         className={cn(
-          'vintage-surface relative isolate min-h-72',
+          'vintage-surface relative isolate',
           leftPanelScribbleBorder && 'scribble-border upcoming-events-left-border',
         )}
       >
         <div
-          className="relative isolate min-h-72 overflow-hidden px-7 pb-5 pt-4 lg:pb-5 lg:pl-5 lg:pr-5 lg:pt-4 xl:pb-6 xl:pl-6 xl:pr-6 xl:pt-5"
+          className={cn(
+            'absolute -left-2 -top-3 z-40 inline-flex -rotate-2 items-center justify-center text-center md:left-0 md:-top-4',
+            headingBackgroundImage && 'min-w-52 px-8 py-3 md:min-w-60 md:px-10 md:py-3.5',
+          )}
+          style={{
+            zIndex: 40,
+            ...(headingBackgroundImage
+              ? {
+                  backgroundImage: resolveBackgroundImage(headingBackgroundImage),
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundSize: '100% 100%',
+                }
+              : {}),
+          }}
+        >
+          <h2
+            className={getTextClassName({
+              base: 'uppercase opacity-95 drop-shadow-[0_1px_0_rgba(0,0,0,0.65)]',
+              fontSize: headingFontSize,
+              fontWeight: headingFontWeight,
+              letterSpacing: headingLetterSpacing,
+            })}
+            style={getTextStyle({
+              color: getReadableHeadingColor(headingColor),
+              fontFamily: headingFontFamily,
+              fontStyle: headingFontStyle,
+              verticalScale: headingVerticalScale,
+            })}
+          >
+            {heading}
+          </h2>
+        </div>
+
+        <div
+          className="relative isolate overflow-hidden px-7 pb-3 pt-2 lg:pb-3 lg:pl-5 lg:pr-5 lg:pt-2 xl:pb-6 xl:pl-6 xl:pr-6 xl:pt-3"
           style={{
             clipPath: 'polygon(1% 2.5%, 99% 0.5%, 98% 97.5%, 1.5% 99%)',
           }}
         >
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(14rem,42%)] md:items-stretch xl:grid-cols-[minmax(0,1fr)_minmax(16rem,46%)]">
+          <div className="grid gap-4 pt-6 md:grid-cols-[minmax(0,1fr)_minmax(12rem,34%)] md:items-center md:pt-5 xl:grid-cols-[minmax(0,1fr)_minmax(14rem,38%)]">
             <div className="grid content-start">
-              <div
-                className={cn(
-                  'mb-0 inline-flex -rotate-2 items-center justify-center justify-self-start text-center',
-                  headingBackgroundImage && 'min-w-56 px-8 py-3 md:min-w-64 md:px-10 md:py-4',
-                )}
-                style={
-                  headingBackgroundImage
-                    ? {
-                        backgroundImage: resolveBackgroundImage(headingBackgroundImage),
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: '100% 100%',
-                      }
-                    : undefined
-                }
-              >
-                <h2
-                  className={getTextClassName({
-                    base: 'uppercase opacity-95 drop-shadow-[0_1px_0_rgba(0,0,0,0.65)]',
-                    fontSize: headingFontSize,
-                    fontWeight: headingFontWeight,
-                    letterSpacing: headingLetterSpacing,
-                  })}
-                  style={getTextStyle({
-                    color: getReadableHeadingColor(headingColor),
-                    fontFamily: headingFontFamily,
-                    fontStyle: headingFontStyle,
-                    verticalScale: headingVerticalScale,
-                  })}
-                >
-                  {heading}
-                </h2>
-              </div>
-
               <div className="max-w-[31rem] divide-y divide-[#7b5a2f]/35 md:max-w-[28rem] xl:max-w-[31rem]">
                 {eventItems.length ? (
                   eventItems.map((event) => {
@@ -355,10 +357,10 @@ export const UpcomingEventsBlock = async ({
 
                     return (
                       <article
-                        className="grid grid-cols-[3.55rem_minmax(0,1fr)] gap-2 py-2.5 xl:grid-cols-[3.85rem_minmax(0,1fr)] xl:gap-2.5 xl:py-3"
+                        className="grid grid-cols-[3.55rem_minmax(0,1fr)] items-start gap-2 py-2 xl:grid-cols-[3.85rem_minmax(0,1fr)] xl:gap-2.5 xl:py-2.5"
                         key={event.id}
                       >
-                        <div className="text-center uppercase leading-none">
+                        <div className="justify-self-start text-left uppercase leading-none">
                           <div
                             className={getTextClassName({
                               base: '-mb-1',
@@ -394,8 +396,8 @@ export const UpcomingEventsBlock = async ({
                           </div>
                         </div>
 
-                        <div className="grid gap-2">
-                          <div>
+                        <div className="grid min-w-0 gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start xl:gap-3">
+                          <div className="min-w-0">
                             <h3
                               className={getTextClassName({
                                 base: 'uppercase',
@@ -436,25 +438,32 @@ export const UpcomingEventsBlock = async ({
                             </p>
                           </div>
 
-                          <CMSLink
-                            {...event.link}
-                            className={cn(
-                              getTextClassName({
-                                base: 'justify-self-start whitespace-nowrap uppercase',
-                                fontSize: eventLinkFontSize,
-                                fontWeight: eventLinkFontWeight,
-                                letterSpacing: eventLinkLetterSpacing,
-                              }),
-                              'text-[0.58rem] md:text-[0.62rem]',
-                            )}
-                            label={event.link?.label || eventLinkLabel || 'Scopri di piu'}
-                            style={getTextStyle({
-                              color: eventLinkColor || '#a3e635',
-                              fontFamily: eventLinkFontFamily,
-                              fontStyle: eventLinkFontStyle,
-                              verticalScale: eventLinkVerticalScale,
-                            })}
-                          />
+                          <span className="inline-flex w-fit flex-col items-start justify-self-start xl:items-end xl:self-end xl:justify-self-end">
+                            <CMSLink
+                              {...event.link}
+                              className={cn(
+                                getTextClassName({
+                                  base: 'whitespace-nowrap uppercase',
+                                  fontSize: eventLinkFontSize,
+                                  fontWeight: eventLinkFontWeight,
+                                  letterSpacing: eventLinkLetterSpacing,
+                                }),
+                                'text-[0.58rem] md:text-[0.62rem]',
+                              )}
+                              label={event.link?.label || eventLinkLabel || 'Scopri di piu'}
+                              style={getTextStyle({
+                                color: eventLinkColor || '#a3e635',
+                                fontFamily: eventLinkFontFamily,
+                                fontStyle: eventLinkFontStyle,
+                                verticalScale: eventLinkVerticalScale,
+                              })}
+                            />
+                            <span
+                              aria-hidden
+                              className="mt-1 h-0.5 w-10"
+                              style={{ backgroundColor: eventLinkColor || '#a3e635' }}
+                            />
+                          </span>
                         </div>
                       </article>
                     )
@@ -506,7 +515,7 @@ export const UpcomingEventsBlock = async ({
               </div>
             </div>
 
-            <div className="relative min-h-56 overflow-hidden md:min-h-full">
+            <div className="relative aspect-[16/9] min-h-44 overflow-hidden md:min-h-0 md:self-center">
               {featureImage && typeof featureImage === 'object' ? (
                 <Media
                   fill
@@ -522,18 +531,18 @@ export const UpcomingEventsBlock = async ({
       </div>
 
       <aside
-        className="relative isolate grid min-h-64 overflow-hidden px-7 py-7 md:min-h-56 md:grid-cols-[minmax(0,1fr)_minmax(7rem,24%)] md:items-center md:py-6 md:pl-[65px] md:pr-8 xl:min-h-full xl:grid-cols-[minmax(0,1fr)_minmax(8rem,30%)] xl:py-7 xl:pl-14 xl:pr-9"
+        className="relative isolate min-h-[13.5rem] w-full max-w-[42rem] justify-self-center overflow-visible md:h-[clamp(18rem,33vw,22rem)] md:min-h-0 md:max-w-[54rem] lg:h-[clamp(18.5rem,31vw,23rem)] lg:max-w-[58rem] xl:h-[clamp(14rem,17vw,17rem)] xl:max-w-[42rem]"
         style={{
           backgroundImage: resolveBackgroundImage(rightBackground),
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+          backgroundSize: '100% 100%',
         }}
       >
-        <div className="upcoming-events-cta-copy-backdrop relative z-10 flex w-full max-w-[30rem] flex-col justify-center md:max-w-[32rem]">
+        <div className="upcoming-events-cta-copy-backdrop absolute bottom-[18%] left-[9%] top-[21%] z-10 flex w-[min(58%,22rem)] min-w-0 flex-col justify-center md:bottom-[18%] md:left-[10%] md:top-[23%] md:w-[min(68%,34rem)] lg:w-[min(70%,37rem)] xl:left-[11%] xl:top-[24%] xl:w-[min(72%,27rem)] 2xl:w-[min(58%,28rem)]">
           <h2
             className={getTextClassName({
-              base: 'uppercase',
+              base: 'max-w-full uppercase [overflow-wrap:anywhere]',
               fontSize: getReducedCtaTitleSize(ctaTitleFontSize),
               fontWeight: ctaTitleFontWeight,
               letterSpacing: ctaTitleLetterSpacing,
@@ -550,7 +559,7 @@ export const UpcomingEventsBlock = async ({
           {ctaText ? (
             <p
               className={getTextClassName({
-                base: 'mt-4 max-w-[min(100%,30rem)] md:max-w-[min(100%,34rem)] xl:max-w-[24rem]',
+                base: 'mt-3 max-w-[21rem] [overflow-wrap:anywhere] md:mt-4 md:max-w-[32rem] lg:max-w-[35rem] xl:max-w-[24rem]',
                 fontSize: ctaTextFontSize,
                 fontWeight: ctaTextFontWeight,
                 letterSpacing: ctaTextLetterSpacing,
@@ -568,7 +577,7 @@ export const UpcomingEventsBlock = async ({
           <CMSLink
             {...ctaLink}
             className={getTextClassName({
-              base: 'mt-6 inline-flex w-fit px-7 py-3 uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)] md:mt-5 md:px-7 md:py-3 xl:mt-7 xl:px-8 xl:py-4',
+              base: 'mt-5 inline-flex w-fit max-w-full justify-center px-7 py-3 text-center uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)] [overflow-wrap:anywhere] md:mt-5 md:px-7 md:py-3 xl:mt-6 xl:px-8 xl:py-3.5',
               fontSize: ctaButtonFontSize,
               fontWeight: ctaButtonFontWeight,
               letterSpacing: ctaButtonLetterSpacing,
@@ -597,7 +606,7 @@ export const UpcomingEventsBlock = async ({
         </div>
 
         {ctaGlyph && typeof ctaGlyph === 'object' ? (
-          <div className="pointer-events-none absolute bottom-2 right-2 h-36 w-36 opacity-95 md:static md:justify-self-end md:self-center md:h-[clamp(7rem,18vw,10.5rem)] md:w-[clamp(7rem,18vw,10.5rem)] xl:h-64 xl:w-64">
+          <div className="pointer-events-none absolute right-[8%] top-[53%] hidden h-40 w-40 -translate-y-1/2 opacity-95 2xl:block">
             <Media
               fill
               imgClassName="object-contain"

@@ -11,6 +11,7 @@ import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
+import { ScrollToTopButton } from '@/components/ScrollToTopButton'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -73,6 +74,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Header />
           {children}
           <Footer />
+          <ScrollToTopButton />
         </Providers>
       </body>
     </html>

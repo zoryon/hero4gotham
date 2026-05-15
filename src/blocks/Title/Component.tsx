@@ -43,6 +43,8 @@ const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
+const isLetterOrNumber = (value: string | undefined) => Boolean(value?.match(/[\p{L}\p{N}]/u))
+
 const renderTitle = (title: string, lineBreaks?: TitleProps['lineBreaks']) => {
   const insertions = new Map<number, number>()
 
@@ -61,6 +63,10 @@ const renderTitle = (title: string, lineBreaks?: TitleProps['lineBreaks']) => {
       if (matchLimit > 0 && applied >= matchLimit) break
 
       const insertAt = match.index + match[0].length
+      const isInsideWord = isLetterOrNumber(title[insertAt - 1]) && isLetterOrNumber(title[insertAt])
+
+      if (isInsideWord) continue
+
       insertions.set(insertAt, Math.max(insertions.get(insertAt) ?? 0, breakCount))
       applied += 1
     }
@@ -105,6 +111,7 @@ export const TitleBlock: React.FC<TitleProps> = ({
   const isCentered = align === 'center'
   const resolvedVerticalScale = verticalScale ?? 'normal'
   const resolvedDistress = distress ?? 'none'
+  const titleLetterSpacing = '0.04em'
 
   return (
     <section className={cn('container', className)}>
@@ -112,20 +119,25 @@ export const TitleBlock: React.FC<TitleProps> = ({
         <div className={cn('relative z-10', isCentered ? 'text-center' : 'text-left')}>
           <h2
             className={cn(
-              'uppercase leading-[0.95] tracking-[0.04em] origin-center',
+              'max-w-full uppercase leading-[0.95] tracking-[0.02em] md:tracking-[0.04em] origin-center',
               typographyFontSizeClasses[fontSize ?? 'hero'],
               typographyFontWeightClasses[fontWeight ?? 'regular'],
-              resolvedVerticalScale === 'normal' ? undefined : 'inline-block',
+              isCentered || resolvedVerticalScale !== 'normal' ? 'inline-block' : undefined,
             )}
             style={{
               color: 'color-mix(in srgb, var(--theme-text-primary) 78%, #a1a1aa)',
               fontFamily: typographyFontFamilyStyles[fontFamily ?? 'cinzel'],
+              hyphens: 'manual',
               marginBottom: margin?.bottom ?? 0,
               marginLeft: margin?.left ?? 0,
               marginRight: margin?.right ?? 0,
               marginTop: margin?.top ?? 0,
+              overflowWrap: 'normal',
+              paddingInlineStart: isCentered ? titleLetterSpacing : undefined,
               transform: `scaleY(${typographyVerticalScaleValues[resolvedVerticalScale]})`,
               textShadow: '0 2px 0 rgba(0,0,0,0.35), 0 10px 24px rgba(0,0,0,0.45)',
+              textWrap: 'balance',
+              wordBreak: 'normal',
               ...typographyDistressStyles[resolvedDistress],
             }}
           >

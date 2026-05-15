@@ -20,10 +20,41 @@ const fallbackLegalLinks = [
   },
 ]
 
+const fallbackDescription =
+  'Un luogo storto al punto giusto per arte, incontri, giochi e idee fuori asse.'
+
+const fallbackSocialLinks = [
+  {
+    link: {
+      label: 'Instagram',
+      newTab: true,
+      type: 'custom' as const,
+      url: 'https://instagram.com',
+    },
+  },
+  {
+    link: {
+      label: 'LinkedIn',
+      newTab: true,
+      type: 'custom' as const,
+      url: 'https://linkedin.com',
+    },
+  },
+  {
+    link: {
+      label: 'X(Twitter)',
+      newTab: true,
+      type: 'custom' as const,
+      url: 'https://x.com',
+    },
+  },
+]
+
 export async function Footer() {
   const footerData = await getCachedGlobal('footer', 1)()
 
-  const navItems = footerData?.navItems || []
+  const description = footerData?.description || fallbackDescription
+  const navItems = footerData?.navItems?.length ? footerData.navItems : fallbackSocialLinks
   const legalLinks = footerData?.legalLinks?.length ? footerData.legalLinks : fallbackLegalLinks
   const year = new Date().getFullYear()
 
@@ -38,20 +69,16 @@ export async function Footer() {
             <p className="site-footer__brand-name">
               {footerData?.brandName || 'Il Sorriso Storto'}
             </p>
-            {footerData?.description ? (
-              <p className="site-footer__description">{footerData.description}</p>
-            ) : null}
+            <p className="site-footer__description">{description}</p>
           </div>
 
           <div className="site-footer__columns">
-            {navItems.length ? (
-              <nav aria-label="Social" className="site-footer__link-group">
-                <p className="site-footer__group-title">Seguici</p>
-                {navItems.map(({ link }, i) => {
-                  return <CMSLink className="site-footer__link" key={i} {...link} />
-                })}
-              </nav>
-            ) : null}
+            <nav aria-label="Social" className="site-footer__link-group">
+              <p className="site-footer__group-title">Seguici</p>
+              {navItems.map(({ link }, i) => {
+                return <CMSLink className="site-footer__link" key={i} {...link} />
+              })}
+            </nav>
 
             <nav aria-label="Legal" className="site-footer__link-group">
               <p className="site-footer__group-title">Informazioni</p>

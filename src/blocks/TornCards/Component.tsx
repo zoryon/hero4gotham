@@ -22,9 +22,9 @@ type TornCardsComponentProps = TornCardsBlockProps & {
 
 const containerWidthClasses = {
   container: 'container',
-  extraWide: 'mx-auto w-full max-w-[88rem] px-4 md:px-8',
+  extraWide: 'mx-auto w-full max-w-[88rem] px-4 md:px-4 lg:px-0',
   full: 'w-full',
-  wide: 'mx-auto w-full max-w-7xl px-4 md:px-8',
+  wide: 'mx-auto w-full max-w-7xl px-4 md:px-4 lg:px-0',
 } as const
 
 const imageSizeClasses = {

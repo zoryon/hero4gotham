@@ -20,6 +20,14 @@ import {
 import { formatTextTransform, textTransformClass, type TextTransform } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 
+const letterSpacingValues = {
+  normal: '0.1em',
+  poster: '0.45em',
+  tight: '0.04em',
+  wide: '0.22em',
+  wider: '0.32em',
+} satisfies Record<TypographyLetterSpacing, string>
+
 export type SubtitleProps = {
   className?: string
   text?: string
@@ -126,22 +134,27 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
     textColorMode === 'theme'
       ? themeTextColorValues[themeTextColor || 'secondary']
       : textColor || 'var(--theme-text-secondary)'
+  const resolvedLetterSpacing = letterSpacing ?? 'wide'
 
   return (
     <section className={cn('container', isCentered ? 'text-center' : 'text-left', className)}>
       <p
         className={cn(
-          'leading-snug origin-center',
+          'max-w-full break-words leading-snug origin-center',
           textTransformClass(textTransform ?? 'uppercase'),
           typographySubtitleFontSizeClasses[fontSize ?? 'base'],
           typographyFontWeightClasses[fontWeight ?? 'regular'],
-          typographyLetterSpacingClasses[letterSpacing ?? 'wide'],
-          resolvedVerticalScale === 'normal' ? undefined : 'inline-block',
+          typographyLetterSpacingClasses[resolvedLetterSpacing],
+          isCentered || resolvedVerticalScale !== 'normal' ? 'inline-block' : undefined,
         )}
         style={{
           color: resolvedTextColor,
           fontFamily: typographyFontFamilyStyles[fontFamily ?? 'geistSans'],
+          hyphens: 'auto',
+          overflowWrap: 'anywhere',
+          paddingInlineStart: isCentered ? letterSpacingValues[resolvedLetterSpacing] : undefined,
           transform: `scaleY(${typographyVerticalScaleValues[resolvedVerticalScale]})`,
+          textWrap: 'balance',
           ...typographyDistressStyles[resolvedDistress],
         }}
       >
