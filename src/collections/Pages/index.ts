@@ -21,6 +21,7 @@ import { Flexbox } from '../../blocks/Flexbox/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { MembershipApplication } from '@/blocks/MembershipApplication/config'
+import { ProcessSteps } from '@/blocks/ProcessSteps/config'
 import { QuoteBanner } from '../../blocks/QuoteBanner/config'
 import { Subtitle } from '../../blocks/Subtitle/config'
 import { TextBackdrop } from '../../blocks/TextBackdrop/config'
@@ -120,6 +121,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 UpcomingEvents,
                 MediaBlock,
                 MembershipApplication,
+                ProcessSteps,
                 Archive,
                 FormBlock,
               ]),

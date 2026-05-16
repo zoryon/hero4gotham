@@ -1298,6 +1298,36 @@
     inset: calc(var(--vintage-border-width, 11px) * -0.55);
   }
 
+  .process-steps-circle {
+    border: 2px solid var(--process-steps-circle-border, #8f2b83);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.04),
+      0 0 20px color-mix(in srgb, var(--process-steps-circle-border, #8f2b83) 36%, transparent);
+    height: var(--process-steps-circle-size, 112px);
+    width: var(--process-steps-circle-size, 112px);
+  }
+
+  .process-steps-circle.vintage-surface::before {
+    border-radius: inherit;
+  }
+
+  .process-steps-number {
+    background: var(--theme-text-green, #93b51f);
+    box-shadow:
+      0 0 0 2px rgb(0 0 0 / 0.4),
+      0 4px 10px rgb(0 0 0 / 0.35);
+    height: 1.7rem;
+    margin-top: -0.65rem;
+    transform: translateX(-50%);
+    width: 1.7rem;
+  }
+
+  .process-steps-arrow {
+    color: var(--process-steps-arrow-color, #93b51f);
+    filter: drop-shadow(0 0 5px color-mix(in srgb, currentColor 38%, transparent));
+    opacity: 0.88;
+  }
+
   .event-filters.vintage-surface {
     overflow: visible;
   }
@@ -1707,6 +1737,7 @@
 
 .background-container:has(.event-filters--open),
 .scribble-border:has(> .event-filters--open) {
+  overflow: visible;
   z-index: 90;
 }
 

@@ -3,7 +3,7 @@ import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
-import { it } from 'payload/i18n/it'
+import { it as italianTranslations } from 'payload/i18n/it'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -93,7 +93,7 @@ export default buildConfig({
   globals: [Header, Footer, ThemeColors],
   i18n: {
     fallbackLanguage: 'it',
-    supportedLanguages: { it },
+    supportedLanguages: { it: { ...italianTranslations } },
   },
   plugins,
   secret: process.env.PAYLOAD_SECRET,

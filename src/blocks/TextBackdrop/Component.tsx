@@ -103,11 +103,11 @@ export const TextBackdropBlock: React.FC<TextBackdropBlockProps> = ({
           resolvedMarginBottom !== undefined &&
             'mb-[calc(var(--text-backdrop-margin-bottom)*0.25)] md:mb-[calc(var(--text-backdrop-margin-bottom)*0.4)] lg:mb-[calc(var(--text-backdrop-margin-bottom)*0.5)] xl:mb-[calc(var(--text-backdrop-margin-bottom)*0.5)] 2xl:mb-[calc(var(--text-backdrop-margin-bottom)*0.7)] 3xl:mb-[var(--text-backdrop-margin-bottom)]',
           resolvedMarginLeft !== undefined &&
-            'ml-[calc(var(--text-backdrop-margin-left)*0.25)] md:ml-[calc(var(--text-backdrop-margin-left)*0.4)] lg:ml-[calc(var(--text-backdrop-margin-left)*0.5)] xl:ml-[calc(var(--text-backdrop-margin-left)*0.5)] 2xl:ml-[calc(var(--text-backdrop-margin-left)*0.65)] 3xl:ml-[var(--text-backdrop-margin-left)]',
+            'ml-[calc(var(--text-backdrop-margin-left)*0.25)] md:ml-[calc(var(--text-backdrop-margin-left)*0.4)] lg:ml-[calc(var(--text-backdrop-margin-left)*0.5)] xl:ml-[calc(var(--text-backdrop-margin-left)*0.5)] 2xl:ml-[calc(var(--text-backdrop-margin-left)*0.7)] 3xl:ml-[var(--text-backdrop-margin-left)]',
           resolvedMarginRight !== undefined &&
-            'mr-[calc(var(--text-backdrop-margin-right)*0.25)] md:mr-[calc(var(--text-backdrop-margin-right)*0.4)] lg:mr-[calc(var(--text-backdrop-margin-right)*0.5)] xl:mr-[calc(var(--text-backdrop-margin-right)*0.5)] 2xl:mr-[calc(var(--text-backdrop-margin-right)*0.65)] 3xl:mr-[var(--text-backdrop-margin-right)]',
+            'mr-[calc(var(--text-backdrop-margin-right)*0.25)] md:mr-[calc(var(--text-backdrop-margin-right)*0.4)] lg:mr-[calc(var(--text-backdrop-margin-right)*0.5)] xl:mr-[calc(var(--text-backdrop-margin-right)*0.5)] 2xl:mr-[calc(var(--text-backdrop-margin-right)*0.7)] 3xl:mr-[var(--text-backdrop-margin-right)]',
           resolvedMarginTop !== undefined &&
-            'mt-[calc(var(--text-backdrop-margin-top)*0.25)] md:mt-[calc(var(--text-backdrop-margin-top)*0.4)] lg:mt-[calc(var(--text-backdrop-margin-top)*0.5)] xl:mt-[calc(var(--text-backdrop-margin-top)*0.5)] 2xl:mt-[calc(var(--text-backdrop-margin-top)*0.65)] 3xl:mt-[var(--text-backdrop-margin-top)]',
+            'mt-[calc(var(--text-backdrop-margin-top)*0.25)] md:mt-[calc(var(--text-backdrop-margin-top)*0.4)] lg:mt-[calc(var(--text-backdrop-margin-top)*0.5)] xl:mt-[calc(var(--text-backdrop-margin-top)*0.5)] 2xl:mt-[calc(var(--text-backdrop-margin-top)*0.7)] 3xl:mt-[var(--text-backdrop-margin-top)]',
         )}
         style={
           {

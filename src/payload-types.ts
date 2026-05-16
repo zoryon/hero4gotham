@@ -232,6 +232,7 @@ export interface Page {
     | UpcomingEventsBlock
     | MediaBlock
     | MembershipApplicationBlock
+    | ProcessStepsBlock
     | ArchiveBlock
     | FormBlock
   )[];
@@ -2093,6 +2094,7 @@ export interface FlexboxBlock {
     | UpcomingEventsBlock
     | MediaBlock
     | MembershipApplicationBlock
+    | ProcessStepsBlock
     | ArchiveBlock
     | FormBlock
     | FlexboxBlock
@@ -2385,6 +2387,105 @@ export interface MembershipApplicationBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'membershipApplication';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProcessStepsBlock".
+ */
+export interface ProcessStepsBlock {
+  heading?: string | null;
+  headingStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     */
+    color?: string | null;
+  };
+  steps?:
+    | {
+        icon?: (number | null) | Media;
+        numberLabel: string;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  stepTitleStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     */
+    color?: string | null;
+  };
+  stepDescriptionStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     */
+    color?: string | null;
+  };
+  numberStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     */
+    color?: string | null;
+  };
+  circleSize?: number | null;
+  iconSize?: number | null;
+  maxWidth?: number | null;
+  circleBorderColor?: string | null;
+  arrowColor?: string | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Adds the reusable yellow hand-drawn border around this block.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'processSteps';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2839,6 +2940,7 @@ export interface BackgroundContainerBlock {
     | UpcomingEventsBlock
     | MediaBlock
     | MembershipApplicationBlock
+    | ProcessStepsBlock
     | ArchiveBlock
     | FormBlock
   )[];
@@ -3320,6 +3422,7 @@ export interface PagesSelect<T extends boolean = true> {
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
+        processSteps?: T | ProcessStepsBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };
@@ -4700,6 +4803,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
+        processSteps?: T | ProcessStepsBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         flexbox?: T | FlexboxBlockSelect<T>;
@@ -4987,6 +5091,99 @@ export interface MembershipApplicationBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProcessStepsBlock_select".
+ */
+export interface ProcessStepsBlockSelect<T extends boolean = true> {
+  heading?: T;
+  headingStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  steps?:
+    | T
+    | {
+        icon?: T;
+        numberLabel?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  stepTitleStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  stepDescriptionStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  numberStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  circleSize?: T;
+  iconSize?: T;
+  maxWidth?: T;
+  circleBorderColor?: T;
+  arrowColor?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArchiveBlock_select".
  */
 export interface ArchiveBlockSelect<T extends boolean = true> {
@@ -5206,6 +5403,7 @@ export interface BackgroundContainerBlockSelect<T extends boolean = true> {
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
+        processSteps?: T | ProcessStepsBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };

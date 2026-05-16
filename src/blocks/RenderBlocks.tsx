@@ -22,6 +22,7 @@ import { FlexboxBlock } from '@/blocks/Flexbox/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { MembershipApplicationBlock } from '@/blocks/MembershipApplication/Component'
+import { ProcessStepsBlock } from '@/blocks/ProcessSteps/Component'
 import { QuoteBannerBlock } from '@/blocks/QuoteBanner/Component'
 import { SubtitleBlock } from '@/blocks/Subtitle/Component'
 import { TextBackdropBlock } from '@/blocks/TextBackdrop/Component'
@@ -52,6 +53,7 @@ const blockComponents = {
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   membershipApplication: MembershipApplicationBlock,
+  processSteps: ProcessStepsBlock,
   quoteBanner: QuoteBannerBlock,
   subtitle: SubtitleBlock,
   textBackdrop: TextBackdropBlock,
