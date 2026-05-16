@@ -7,7 +7,6 @@ import { ActivitiesDetailGridBlock } from '@/blocks/ActivitiesDetailGrid/Compone
 import { ActivityChoiceCtaBlock } from '@/blocks/ActivityChoiceCta/Component'
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { ArrowBlock } from '@/blocks/Arrow/Component'
-import { BackgroundContainerBlock } from '@/blocks/BackgroundContainer/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContactMessageBlock } from '@/blocks/ContactMessage/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
@@ -38,7 +37,6 @@ const blockComponents = {
   activityChoiceCta: ActivityChoiceCtaBlock,
   archive: ArchiveBlock,
   arrow: ArrowBlock,
-  backgroundContainer: BackgroundContainerBlock,
   contactMessage: ContactMessageBlock,
   content: ContentBlock,
   cta: CallToActionBlock,

@@ -117,11 +117,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     themeColors: ThemeColor;
+    siteBackground: SiteBackground;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     themeColors: ThemeColorsSelect<false> | ThemeColorsSelect<true>;
+    siteBackground: SiteBackgroundSelect<false> | SiteBackgroundSelect<true>;
   };
   locale: null;
   widgets: {
@@ -227,7 +229,6 @@ export interface Page {
     | FeatureGridBlock
     | ThreePanelShowcaseBlock
     | QuoteBannerBlock
-    | BackgroundContainerBlock
     | TornCardsBlock
     | UpcomingEventsBlock
     | MediaBlock
@@ -2891,80 +2892,6 @@ export interface QuoteBannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BackgroundContainerBlock".
- */
-export interface BackgroundContainerBlock {
-  backgroundImage: number | Media;
-  /**
-   * Optional. Falls back to the desktop image if empty.
-   */
-  bgTab?: (number | null) | Media;
-  /**
-   * Optional. Falls back to the tablet or desktop image if empty.
-   */
-  bgMob?: (number | null) | Media;
-  /**
-   * Higher values reduce compression artifacts. Use 95-100 for full-screen textured backgrounds.
-   */
-  imageQuality?: number | null;
-  imagePositionMobile?:
-    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
-    | null;
-  imagePositionTablet?:
-    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
-    | null;
-  imagePositionDesktop?:
-    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
-    | null;
-  overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
-  width?: ('full' | 'contained') | null;
-  padding?: ('small' | 'medium' | 'large') | null;
-  blocks: (
-    | ActivitiesDetailGridBlock
-    | ActivityChoiceCtaBlock
-    | ArrowBlock
-    | CallToActionBlock
-    | ContactMessageBlock
-    | ContentBlock
-    | EventFiltersBlock
-    | EventGalleryBlock
-    | FaqAccordionBlock
-    | TitleBlock
-    | SubtitleBlock
-    | TextBackdropBlock
-    | FlexboxBlock
-    | FeatureGridBlock
-    | ThreePanelShowcaseBlock
-    | QuoteBannerBlock
-    | TornCardsBlock
-    | UpcomingEventsBlock
-    | MediaBlock
-    | MembershipApplicationBlock
-    | ProcessStepsBlock
-    | ArchiveBlock
-    | FormBlock
-  )[];
-  layout?: {
-    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
-    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    /**
-     * Adds the reusable yellow hand-drawn border around this block.
-     */
-    scribbleBorder?: boolean | null;
-  };
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'backgroundContainer';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TornCardsBlock".
  */
 export interface TornCardsBlock {
@@ -3417,7 +3344,6 @@ export interface PagesSelect<T extends boolean = true> {
         featureGrid?: T | FeatureGridBlockSelect<T>;
         threePanelShowcase?: T | ThreePanelShowcaseBlockSelect<T>;
         quoteBanner?: T | QuoteBannerBlockSelect<T>;
-        backgroundContainer?: T | BackgroundContainerBlockSelect<T>;
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -5367,65 +5293,6 @@ export interface QuoteBannerBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "BackgroundContainerBlock_select".
- */
-export interface BackgroundContainerBlockSelect<T extends boolean = true> {
-  backgroundImage?: T;
-  bgTab?: T;
-  bgMob?: T;
-  imageQuality?: T;
-  imagePositionMobile?: T;
-  imagePositionTablet?: T;
-  imagePositionDesktop?: T;
-  overlay?: T;
-  width?: T;
-  padding?: T;
-  blocks?:
-    | T
-    | {
-        activitiesDetailGrid?: T | ActivitiesDetailGridBlockSelect<T>;
-        activityChoiceCta?: T | ActivityChoiceCtaBlockSelect<T>;
-        arrow?: T | ArrowBlockSelect<T>;
-        cta?: T | CallToActionBlockSelect<T>;
-        contactMessage?: T | ContactMessageBlockSelect<T>;
-        content?: T | ContentBlockSelect<T>;
-        eventFilters?: T | EventFiltersBlockSelect<T>;
-        eventGallery?: T | EventGalleryBlockSelect<T>;
-        faqAccordion?: T | FaqAccordionBlockSelect<T>;
-        title?: T | TitleBlockSelect<T>;
-        subtitle?: T | SubtitleBlockSelect<T>;
-        textBackdrop?: T | TextBackdropBlockSelect<T>;
-        flexbox?: T | FlexboxBlockSelect<T>;
-        featureGrid?: T | FeatureGridBlockSelect<T>;
-        threePanelShowcase?: T | ThreePanelShowcaseBlockSelect<T>;
-        quoteBanner?: T | QuoteBannerBlockSelect<T>;
-        tornCards?: T | TornCardsBlockSelect<T>;
-        upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
-        mediaBlock?: T | MediaBlockSelect<T>;
-        membershipApplication?: T | MembershipApplicationBlockSelect<T>;
-        processSteps?: T | ProcessStepsBlockSelect<T>;
-        archive?: T | ArchiveBlockSelect<T>;
-        formBlock?: T | FormBlockSelect<T>;
-      };
-  layout?:
-    | T
-    | {
-        size?: T;
-        marginTop?: T;
-        marginRight?: T;
-        marginBottom?: T;
-        marginLeft?: T;
-        paddingTop?: T;
-        paddingRight?: T;
-        paddingBottom?: T;
-        paddingLeft?: T;
-        scribbleBorder?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TornCardsBlock_select".
  */
 export interface TornCardsBlockSelect<T extends boolean = true> {
@@ -6247,6 +6114,40 @@ export interface ThemeColor {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "siteBackground".
+ */
+export interface SiteBackground {
+  id: number;
+  backgroundImage: number | Media;
+  /**
+   * Optional. Falls back to the desktop image if empty.
+   */
+  bgTab?: (number | null) | Media;
+  /**
+   * Optional. Falls back to the tablet or desktop image if empty.
+   */
+  bgMob?: (number | null) | Media;
+  /**
+   * Higher values reduce compression artifacts. Use 95-100 for full-screen textured backgrounds.
+   */
+  imageQuality?: number | null;
+  imagePositionMobile?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionTablet?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionDesktop?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
+  width?: ('full' | 'contained') | null;
+  padding?: ('small' | 'medium' | 'large') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -6403,6 +6304,25 @@ export interface ThemeColorsSelect<T extends boolean = true> {
         backgroundContainerOverflow?: T;
       };
   vintageBorderImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "siteBackground_select".
+ */
+export interface SiteBackgroundSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  bgTab?: T;
+  bgMob?: T;
+  imageQuality?: T;
+  imagePositionMobile?: T;
+  imagePositionTablet?: T;
+  imagePositionDesktop?: T;
+  overlay?: T;
+  width?: T;
+  padding?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -1,10 +1,9 @@
 import React from 'react'
 
-import type { BackgroundContainerBlock as BackgroundContainerBlockProps } from '@/payload-types'
+import type { Media as MediaDocument, SiteBackground as SiteBackgroundGlobal } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 import { cn } from '@/utilities/ui'
-import { RenderBlocks } from '@/blocks/RenderBlocks'
 
 const overlayClasses = {
   light: 'bg-zinc-950/30',
@@ -39,16 +38,25 @@ const backgroundImageSizes = {
   tablet: '(min-width: 768px) and (max-width: 1023px) 100vw, 1px',
 } as const
 
-type BackgroundContainerProps = BackgroundContainerBlockProps & {
-  isFirstPageBlock?: boolean
-}
+export type SiteBackgroundSettings = Partial<
+  Pick<
+    SiteBackgroundGlobal,
+    | 'backgroundImage'
+    | 'bgMob'
+    | 'bgTab'
+    | 'imagePositionDesktop'
+    | 'imagePositionMobile'
+    | 'imagePositionTablet'
+    | 'imageQuality'
+    | 'overlay'
+    | 'padding'
+    | 'width'
+  >
+>
 
-type BackgroundImageResource =
-  | BackgroundContainerBlockProps['backgroundImage']
-  | BackgroundContainerBlockProps['bgMob']
-  | BackgroundContainerBlockProps['bgTab']
+type BackgroundImageResource = MediaDocument | number | null | undefined
 
-const getImageResource = (image?: BackgroundImageResource | null) =>
+const getImageResource = (image?: BackgroundImageResource) =>
   image && typeof image === 'object' ? image : null
 
 const getAllowedImageQuality = (quality?: number | null) => {
@@ -61,19 +69,36 @@ const getAllowedImageQuality = (quality?: number | null) => {
   }, 95)
 }
 
-export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
-  backgroundImage,
-  bgMob,
-  bgTab,
-  blocks,
-  imagePositionDesktop = 'center',
-  imagePositionMobile = 'center',
-  imagePositionTablet = 'center',
-  imageQuality = 95,
-  isFirstPageBlock = false,
-  overlay = 'medium',
-  padding = 'medium',
-}) => {
+const coalesce = <T,>(value: T | null | undefined, fallback: T | null | undefined, defaultValue: T) =>
+  value ?? fallback ?? defaultValue
+
+export const SiteBackgroundFrame: React.FC<{
+  children: React.ReactNode
+  fallbackSettings?: SiteBackgroundSettings | null
+  isFirstPageBlock?: boolean
+  settings?: SiteBackgroundSettings | null
+}> = ({ children, fallbackSettings, isFirstPageBlock = false, settings }) => {
+  const backgroundImage = settings?.backgroundImage || fallbackSettings?.backgroundImage
+  const bgTab = settings?.bgTab || fallbackSettings?.bgTab
+  const bgMob = settings?.bgMob || fallbackSettings?.bgMob
+  const imagePositionDesktop = coalesce(
+    settings?.imagePositionDesktop,
+    fallbackSettings?.imagePositionDesktop,
+    'center',
+  )
+  const imagePositionMobile = coalesce(
+    settings?.imagePositionMobile,
+    fallbackSettings?.imagePositionMobile,
+    'center',
+  )
+  const imagePositionTablet = coalesce(
+    settings?.imagePositionTablet,
+    fallbackSettings?.imagePositionTablet,
+    'center',
+  )
+  const imageQuality = coalesce(settings?.imageQuality, fallbackSettings?.imageQuality, 95)
+  const overlay = coalesce(settings?.overlay, fallbackSettings?.overlay, 'medium')
+  const padding = coalesce(settings?.padding, fallbackSettings?.padding, 'medium')
   const desktopImage = getImageResource(backgroundImage)
   const tabletImage = getImageResource(bgTab) || desktopImage
   const mobileImage = getImageResource(bgMob) || tabletImage || desktopImage
@@ -149,7 +174,7 @@ export const BackgroundContainerBlock: React.FC<BackgroundContainerProps> = ({
           )}
         />
 
-        <RenderBlocks blocks={blocks || []} wrapperClassName="my-8 first:mt-0 last:mb-0" />
+        {children}
       </div>
     </section>
   )

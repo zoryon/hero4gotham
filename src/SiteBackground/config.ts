@@ -1,29 +1,7 @@
-import type { Block } from 'payload'
+import type { GlobalConfig } from 'payload'
 
-import { ActivitiesDetailGrid } from '@/blocks/ActivitiesDetailGrid/config'
-import { ActivityChoiceCta } from '@/blocks/ActivityChoiceCta/config'
-import { Archive } from '@/blocks/ArchiveBlock/config'
-import { Arrow } from '@/blocks/Arrow/config'
-import { CallToAction } from '@/blocks/CallToAction/config'
-import { ContactMessage } from '@/blocks/ContactMessage/config'
-import { Content } from '@/blocks/Content/config'
-import { EventFilters } from '@/blocks/EventFilters/config'
-import { EventGallery } from '@/blocks/EventGallery/config'
-import { FaqAccordion } from '@/blocks/FaqAccordion/config'
-import { FeatureGrid } from '@/blocks/FeatureGrid/config'
-import { Flexbox } from '@/blocks/Flexbox/config'
-import { FormBlock } from '@/blocks/Form/config'
-import { MediaBlock } from '@/blocks/MediaBlock/config'
-import { MembershipApplication } from '@/blocks/MembershipApplication/config'
-import { ProcessSteps } from '@/blocks/ProcessSteps/config'
-import { QuoteBanner } from '@/blocks/QuoteBanner/config'
-import { Subtitle } from '@/blocks/Subtitle/config'
-import { TextBackdrop } from '@/blocks/TextBackdrop/config'
-import { Title } from '@/blocks/Title/config'
-import { TornCards } from '@/blocks/TornCards/config'
-import { ThreePanelShowcase } from '@/blocks/ThreePanelShowcase/config'
-import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
-import { withBlockLayoutFields } from '@/fields/blockLayout'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import { revalidateSiteBackground } from './hooks/revalidateSiteBackground'
 
 const imagePositionOptions = [
   {
@@ -64,9 +42,16 @@ const imagePositionOptions = [
   },
 ] as const
 
-export const BackgroundContainer: Block = {
-  slug: 'backgroundContainer',
-  interfaceName: 'BackgroundContainerBlock',
+export const SiteBackground: GlobalConfig = {
+  slug: 'siteBackground',
+  label: 'Site Background',
+  access: {
+    read: () => true,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
+  },
   fields: [
     {
       name: 'backgroundImage',
@@ -120,7 +105,6 @@ export const BackgroundContainer: Block = {
             {
               name: 'imagePositionMobile',
               type: 'select',
-              dbName: 'img_pos_m',
               defaultValue: 'center',
               label: 'Mobile position',
               options: [...imagePositionOptions],
@@ -131,7 +115,6 @@ export const BackgroundContainer: Block = {
             {
               name: 'imagePositionTablet',
               type: 'select',
-              dbName: 'img_pos_t',
               defaultValue: 'center',
               label: 'Tablet position',
               options: [...imagePositionOptions],
@@ -142,7 +125,6 @@ export const BackgroundContainer: Block = {
             {
               name: 'imagePositionDesktop',
               type: 'select',
-              dbName: 'img_pos_d',
               defaultValue: 'center',
               label: 'Desktop position',
               options: [...imagePositionOptions],
@@ -211,46 +193,8 @@ export const BackgroundContainer: Block = {
         },
       ],
     },
-    {
-      name: 'blocks',
-      type: 'blocks',
-      blocks: withBlockLayoutFields([
-        ActivitiesDetailGrid,
-        ActivityChoiceCta,
-        Arrow,
-        CallToAction,
-        ContactMessage,
-        Content,
-        EventFilters,
-        EventGallery,
-        FaqAccordion,
-        Title,
-        Subtitle,
-        TextBackdrop,
-        Flexbox,
-        FeatureGrid,
-        ThreePanelShowcase,
-        QuoteBanner,
-        TornCards,
-        UpcomingEvents,
-        MediaBlock,
-        MembershipApplication,
-        ProcessSteps,
-        Archive,
-        FormBlock,
-      ]),
-      required: true,
-      admin: {
-        initCollapsed: true,
-      },
-      labels: {
-        plural: 'Contained blocks',
-        singular: 'Contained block',
-      },
-    },
   ],
-  labels: {
-    plural: 'Background Containers',
-    singular: 'Background Container',
+  hooks: {
+    afterChange: [revalidateSiteBackground],
   },
 }

@@ -6,7 +6,6 @@ import { ActivitiesDetailGrid } from '../../blocks/ActivitiesDetailGrid/config'
 import { ActivityChoiceCta } from '../../blocks/ActivityChoiceCta/config'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { Arrow } from '../../blocks/Arrow/config'
-import { BackgroundContainer } from '../../blocks/BackgroundContainer/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { ContactMessage } from '@/blocks/ContactMessage/config'
 import { Content } from '../../blocks/Content/config'
@@ -116,7 +115,6 @@ export const Pages: CollectionConfig<'pages'> = {
                 FeatureGrid,
                 ThreePanelShowcase,
                 QuoteBanner,
-                BackgroundContainer,
                 TornCards,
                 UpcomingEvents,
                 MediaBlock,

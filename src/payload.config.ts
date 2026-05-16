@@ -15,6 +15,7 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { SiteBackground } from './SiteBackground/config'
 import { ThemeColors } from './ThemeColors/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -72,6 +73,7 @@ export default buildConfig({
     skipVerify:
       process.env.PAYLOAD_MIGRATING === 'true' ||
       process.env.SMTP_SKIP_VERIFY === 'true' ||
+      process.env.NODE_ENV !== 'production' ||
       !process.env.SMTP_USER ||
       !process.env.SMTP_PASS,
     transportOptions: {
@@ -90,7 +92,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Activities, Events, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, ThemeColors],
+  globals: [Header, Footer, ThemeColors, SiteBackground],
   i18n: {
     fallbackLanguage: 'it',
     supportedLanguages: { it: { ...italianTranslations } },
