@@ -134,6 +134,9 @@ const createFlexboxFields = (blocks: Block[]): Field[] => [
     blocks,
     required: true,
     admin: {
+      components: {
+        beforeInput: ['@/components/BlockClipboardControls#BlockClipboardControls'],
+      },
       initCollapsed: true,
     },
     labels: {

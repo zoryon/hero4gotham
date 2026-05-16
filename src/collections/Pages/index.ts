@@ -125,6 +125,9 @@ export const Pages: CollectionConfig<'pages'> = {
               ]),
               required: true,
               admin: {
+                components: {
+                  beforeInput: ['@/components/BlockClipboardControls#BlockClipboardControls'],
+                },
                 initCollapsed: true,
               },
             },

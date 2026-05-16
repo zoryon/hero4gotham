@@ -263,6 +263,9 @@ export const TextBackdrop: Block = {
       ]),
       required: true,
       admin: {
+        components: {
+          beforeInput: ['@/components/BlockClipboardControls#BlockClipboardControls'],
+        },
         initCollapsed: true,
       },
       labels: {
