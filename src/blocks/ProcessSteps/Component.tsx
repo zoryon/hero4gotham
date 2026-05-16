@@ -58,7 +58,7 @@ const StepArrow: React.FC<{ className?: string; index: number }> = ({ className,
   return (
     <svg
       aria-hidden
-      className={cn('process-steps-arrow pointer-events-none hidden xl:block', className)}
+      className={cn('process-steps-arrow pointer-events-none', className)}
       fill="none"
       preserveAspectRatio="none"
       viewBox="0 0 168 54"
@@ -116,7 +116,7 @@ export const ProcessStepsBlock: React.FC<ProcessStepsBlockProps> = ({
     >
       {heading ? (
         <div className="mb-6 flex items-center justify-center gap-3 text-center md:mb-7">
-          <StepArrow className="h-6 w-20 rotate-180 opacity-80" index={1} />
+          <StepArrow className="hidden h-6 w-20 rotate-180 opacity-80 xl:block" index={1} />
           <h2
             className={cn(
               'text-[length:var(--process-steps-heading-font-size-mobile)] md:text-[length:var(--process-steps-heading-font-size-desktop)]',
@@ -140,7 +140,7 @@ export const ProcessStepsBlock: React.FC<ProcessStepsBlockProps> = ({
           >
             {formatTextTransform(heading, headingStyle?.textTransform)}
           </h2>
-          <StepArrow className="h-6 w-20 opacity-80" index={0} />
+          <StepArrow className="hidden h-6 w-20 opacity-80 xl:block" index={0} />
         </div>
       ) : null}
 
@@ -154,10 +154,25 @@ export const ProcessStepsBlock: React.FC<ProcessStepsBlockProps> = ({
               key={step.id || index}
             >
               {index < visibleSteps.length - 1 ? (
-                <StepArrow
-                  className="absolute left-[calc(50%+3.5rem)] top-7 h-12 w-[calc(100%-3rem)]"
-                  index={index}
-                />
+                <>
+                  <StepArrow
+                    className="absolute left-1/2 top-[calc(100%+0.15rem)] h-10 w-16 -translate-x-1/2 rotate-90 md:hidden"
+                    index={index}
+                  />
+                  <StepArrow
+                    className={cn(
+                      'absolute xl:hidden',
+                      index % 2 === 0
+                        ? 'left-[calc(50%+3.5rem)] top-7 hidden h-12 w-[calc(100%-3rem)] md:block'
+                        : 'left-1/2 top-[calc(100%+0.15rem)] hidden h-10 w-16 -translate-x-1/2 rotate-90 md:block',
+                    )}
+                    index={index}
+                  />
+                  <StepArrow
+                    className="absolute left-[calc(50%+3.5rem)] top-7 hidden h-12 w-[calc(100%-3rem)] xl:block"
+                    index={index}
+                  />
+                </>
               ) : null}
 
               <div className="process-steps-circle vintage-surface relative isolate grid place-items-center rounded-full">

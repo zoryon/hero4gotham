@@ -1300,9 +1300,7 @@
 
   .process-steps-circle {
     border: 2px solid var(--process-steps-circle-border, #8f2b83);
-    box-shadow:
-      0 0 0 1px rgb(255 255 255 / 0.04),
-      0 0 20px color-mix(in srgb, var(--process-steps-circle-border, #8f2b83) 36%, transparent);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.04);
     height: var(--process-steps-circle-size, 112px);
     width: var(--process-steps-circle-size, 112px);
   }
