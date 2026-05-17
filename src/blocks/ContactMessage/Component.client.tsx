@@ -1,6 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { Download, FileText, X } from 'lucide-react'
 
 import type { EventSuiteMedia, EventSuiteTextStyle } from '@/blocks/EventSuite/shared'
 
@@ -27,6 +29,7 @@ type Props = {
   messagePlaceholder?: null | string
   namePlaceholder?: null | string
   privacyLabel?: null | string
+  privacyDocuments?: null | PrivacyDocument[]
   privacyStyle?: EventSuiteTextStyle | null
   statusStyle?: EventSuiteTextStyle | null
   subjectPlaceholder?: null | string
@@ -37,6 +40,18 @@ type Props = {
 }
 
 type SubmitState = 'error' | 'idle' | 'sending' | 'success'
+
+type PrivacyDocument = {
+  description?: null | string
+  document?: EventSuiteMedia | number | null
+  id?: null | string
+  title?: null | string
+}
+
+type PendingDownload = {
+  label: string
+  url: string
+}
 
 const initialFormState = {
   email: '',
@@ -62,6 +77,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
   messagePlaceholder = 'Messaggio',
   namePlaceholder = 'Nome e Cognome',
   privacyLabel = "Ho letto l'informativa sulla privacy e acconsento al trattamento dei dati.",
+  privacyDocuments,
   privacyStyle,
   statusStyle,
   subjectPlaceholder = 'Oggetto',
@@ -73,6 +89,32 @@ export const ContactMessageBlock: React.FC<Props> = ({
   const [formState, setFormState] = useState(initialFormState)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [feedback, setFeedback] = useState('')
+  const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null)
+  const cancelDownloadButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!pendingDownload) return
+
+    const previousFocusedElement =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setPendingDownload(null)
+      }
+    }
+
+    const previousOverflow = document.body.style.overflow
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', closeOnEscape)
+    window.setTimeout(() => cancelDownloadButtonRef.current?.focus(), 0)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', closeOnEscape)
+      previousFocusedElement?.focus()
+    }
+  }, [pendingDownload])
 
   const fieldClassName = getEventSuiteTextClassName(fieldStyle, 'regular')
   const fieldTextStyle = getEventSuiteTextStyle(fieldStyle, {
@@ -81,6 +123,18 @@ export const ContactMessageBlock: React.FC<Props> = ({
     fontSizeMobile: 11,
     fontWeight: 'regular',
     lineHeight: 1.2,
+  })
+  const downloadablePrivacyDocuments =
+    privacyDocuments?.filter(
+      (item) => item?.document && typeof item.document === 'object' && item.document.url,
+    ) || []
+  const privacyClassName = getEventSuiteTextClassName(privacyStyle, 'regular')
+  const privacyTextStyle = getEventSuiteTextStyle(privacyStyle, {
+    fontFamily: 'geistSans',
+    fontSizeDesktop: 12,
+    fontSizeMobile: 11,
+    fontWeight: 'regular',
+    lineHeight: 1.3,
   })
 
   const updateField = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -132,6 +186,58 @@ export const ContactMessageBlock: React.FC<Props> = ({
       setFeedback(errorMessage || 'Messaggio non inviato.')
     }
   }
+
+  const requestDownload = (url: null | string | undefined, label: string) => {
+    if (!url) return
+
+    setPendingDownload({ label, url })
+  }
+
+  const downloadPendingDocument = () => {
+    if (!pendingDownload) return
+    const link = document.createElement('a')
+
+    link.download = ''
+    link.href = pendingDownload.url
+    link.rel = 'noreferrer'
+    link.target = '_blank'
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    setPendingDownload(null)
+  }
+
+  const renderPrivacyDocuments = () =>
+    downloadablePrivacyDocuments.length ? (
+      <div className="mt-3 grid gap-2">
+        {downloadablePrivacyDocuments.map((item, index) => {
+          const document = item.document as EventSuiteMedia
+          const label = item.title || document.alt || document.filename || `Documento ${index + 1}`
+
+          return (
+            <div
+              className={cn(privacyClassName, 'membership-application-document-row')}
+              key={item.id || `${label}-${index}`}
+              style={{
+                ...privacyTextStyle,
+                display: 'flex',
+              }}
+            >
+              <FileText aria-hidden className="membership-application-document-icon" />
+              <span className="membership-application-document-title font-semibold">{label}</span>
+              <button
+                aria-label={`Scarica ${label}`}
+                className="membership-application-document-download-button"
+                onClick={() => requestDownload(document.url, label)}
+                type="button"
+              >
+                <Download aria-hidden className="membership-application-document-download-icon" />
+              </button>
+            </div>
+          )
+        })}
+      </div>
+    ) : null
 
   return (
     <section className="w-full px-4 md:px-0">
@@ -267,30 +373,24 @@ export const ContactMessageBlock: React.FC<Props> = ({
               />
             </label>
 
-            <label className="mt-1 flex items-start gap-2">
-              <span className="contact-message-checkbox scribble-border relative mt-[0.1rem] inline-flex size-4 shrink-0">
-                <input
-                  checked={formState.privacy}
-                  className="relative z-10 size-full cursor-pointer appearance-none bg-transparent"
-                  name="privacy"
-                  onChange={updateField}
-                  required
-                  type="checkbox"
-                />
-              </span>
-              <span
-                className={getEventSuiteTextClassName(privacyStyle, 'regular')}
-                style={getEventSuiteTextStyle(privacyStyle, {
-                  fontFamily: 'geistSans',
-                  fontSizeDesktop: 12,
-                  fontSizeMobile: 11,
-                  fontWeight: 'regular',
-                  lineHeight: 1.3,
-                })}
-              >
-                {privacyLabel}
-              </span>
-            </label>
+            <div>
+              <label className="mt-1 flex items-start gap-2">
+                <span className="contact-message-checkbox scribble-border relative mt-[0.1rem] inline-flex size-4 shrink-0">
+                  <input
+                    checked={formState.privacy}
+                    className="relative z-10 size-full cursor-pointer appearance-none bg-transparent"
+                    name="privacy"
+                    onChange={updateField}
+                    required
+                    type="checkbox"
+                  />
+                </span>
+                <span className={privacyClassName} style={privacyTextStyle}>
+                  {privacyLabel}
+                </span>
+              </label>
+              {renderPrivacyDocuments()}
+            </div>
 
             <div className="mt-1 flex flex-wrap items-center gap-4">
               <button
@@ -336,6 +436,75 @@ export const ContactMessageBlock: React.FC<Props> = ({
           </form>
         </div>
       </div>
+
+      {pendingDownload
+        ? createPortal(
+            <div
+              aria-labelledby="contact-download-modal-title"
+              aria-modal="true"
+              className="membership-application-download-modal"
+              onClick={() => setPendingDownload(null)}
+              role="dialog"
+            >
+              <div
+                className="membership-application-download-modal-panel vintage-surface"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <button
+                  aria-label="Chiudi conferma download"
+                  className="membership-application-download-modal-close"
+                  onClick={() => setPendingDownload(null)}
+                  type="button"
+                >
+                  <X aria-hidden className="size-4" />
+                </button>
+
+                <div aria-hidden className="membership-application-download-modal-icon-wrap">
+                  <FileText className="membership-application-download-modal-icon" />
+                </div>
+
+                <div className="membership-application-download-modal-content">
+                  <span className="membership-application-download-modal-eyebrow">Documenti</span>
+                  <h3
+                    className="membership-application-download-modal-title font-black"
+                    id="contact-download-modal-title"
+                    style={{
+                      fontFamily: 'var(--font-cinzel), serif',
+                      fontSize: '1rem',
+                      lineHeight: 1,
+                    }}
+                  >
+                    Scarica documento
+                  </h3>
+                  <div className="membership-application-download-modal-file">
+                    <FileText aria-hidden className="size-4" />
+                    <span>{pendingDownload.label}</span>
+                  </div>
+                </div>
+
+                <div className="membership-application-download-modal-actions">
+                  <button
+                    className="membership-application-download-modal-button membership-application-download-modal-button--ghost"
+                    onClick={() => setPendingDownload(null)}
+                    ref={cancelDownloadButtonRef}
+                    type="button"
+                  >
+                    Annulla
+                  </button>
+                  <button
+                    className="membership-application-download-modal-button membership-application-download-modal-button--primary"
+                    onClick={downloadPendingDocument}
+                    type="button"
+                  >
+                    <Download aria-hidden className="size-4" />
+                    Scarica
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </section>
   )
 }

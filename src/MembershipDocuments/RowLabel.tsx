@@ -7,8 +7,7 @@ import { useRowLabel } from '@payloadcms/ui'
 export const RowLabel: React.FC<RowLabelProps> = () => {
   const row = useRowLabel<{ title?: string }>()
 
-  const label =
-    row.data?.title || `Documento privacy ${String((row.rowNumber || 0) + 1).padStart(2, '0')}`
+  const label = row.data?.title || `Documento ${String((row.rowNumber || 0) + 1).padStart(2, '0')}`
 
   return <span>{label}</span>
 }

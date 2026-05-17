@@ -8,11 +8,15 @@ type Props = React.ComponentProps<typeof MembershipApplicationBlockClient>
 
 export const MembershipApplicationBlock = async (props: Props) => {
   const membershipDocuments = await getCachedGlobal('membershipDocuments', 1)()
+  const privacyDocuments =
+    membershipDocuments.privacyDocuments?.filter(
+      (item) => item.showIn?.includes('membershipApplication'),
+    ) || []
 
   return (
     <MembershipApplicationBlockClient
       {...props}
-      privacyDocuments={membershipDocuments.privacyDocuments}
+      privacyDocuments={privacyDocuments}
     />
   )
 }

@@ -6155,12 +6155,13 @@ export interface SiteBackground {
 export interface MembershipDocument {
   id: number;
   /**
-   * Documenti mostrati nel quadrante Dichiarazioni del blocco candidatura associazione.
+   * Documenti scaricabili mostrati nei form selezionati.
    */
   privacyDocuments?:
     | {
         title: string;
         description?: string | null;
+        showIn: ('membershipApplication' | 'contactMessage')[];
         document: number | Media;
         id?: string | null;
       }[]
@@ -6359,6 +6360,7 @@ export interface MembershipDocumentsSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        showIn?: T;
         document?: T;
         id?: T;
       };

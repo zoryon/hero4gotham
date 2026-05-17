@@ -5,7 +5,7 @@ import { revalidateMembershipDocuments } from './hooks/revalidateMembershipDocum
 
 export const MembershipDocuments: GlobalConfig = {
   slug: 'membershipDocuments',
-  label: 'Documenti candidatura associazione',
+  label: 'Documenti',
   access: {
     read: () => true,
     update: adminOrEventsManager,
@@ -19,7 +19,7 @@ export const MembershipDocuments: GlobalConfig = {
           RowLabel: '@/MembershipDocuments/RowLabel#RowLabel',
         },
         description:
-          'Documenti mostrati nel quadrante Dichiarazioni del blocco candidatura associazione.',
+          'Documenti scaricabili mostrati nei form selezionati.',
         initCollapsed: true,
       },
       fields: [
@@ -35,6 +35,24 @@ export const MembershipDocuments: GlobalConfig = {
           label: 'Descrizione',
         },
         {
+          name: 'showIn',
+          type: 'select',
+          defaultValue: ['membershipApplication'],
+          hasMany: true,
+          label: 'Mostra in',
+          options: [
+            {
+              label: 'Form candidatura',
+              value: 'membershipApplication',
+            },
+            {
+              label: 'Form contatto',
+              value: 'contactMessage',
+            },
+          ],
+          required: true,
+        },
+        {
           name: 'document',
           type: 'upload',
           label: 'Documento scaricabile',
@@ -42,7 +60,7 @@ export const MembershipDocuments: GlobalConfig = {
           required: true,
         },
       ],
-      label: 'Documenti privacy',
+      label: 'Documenti',
     },
   ],
   hooks: {

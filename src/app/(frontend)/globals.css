@@ -1201,6 +1201,80 @@
     padding-top: 1rem;
   }
 
+  .membership-application-upload-group {
+    display: grid;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+
+  .membership-application-upload-heading {
+    color: color-mix(in srgb, var(--theme-text-secondary) 86%, transparent);
+    max-width: 34rem;
+  }
+
+  .membership-application-upload-field {
+    align-items: center;
+    color: var(--theme-text-secondary);
+    cursor: pointer;
+    display: flex;
+    gap: 0.55rem;
+    min-height: 4.85rem;
+    min-width: 0;
+    padding: 0.82rem 1rem;
+    transition:
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .membership-application-upload-field:hover,
+  .membership-application-upload-field:has(input:focus-visible) {
+    color: var(--theme-text-primary);
+    transform: translateY(-1px);
+  }
+
+  .membership-application-upload-icon {
+    align-items: center;
+    color: var(--theme-text-green);
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 1rem;
+    justify-content: center;
+    width: 1rem;
+  }
+
+  .membership-application-upload-copy {
+    display: grid;
+    gap: 0.18rem;
+    min-width: 0;
+  }
+
+  .membership-application-upload-label {
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .membership-application-upload-hint {
+    color: color-mix(in srgb, currentColor 74%, transparent);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.68rem;
+    line-height: 1.2;
+  }
+
+  .membership-application-upload-name {
+    color: color-mix(in srgb, var(--theme-text-green) 86%, transparent);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-top: 0.18rem;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .membership-application-document-row {
     align-items: center;
     color: var(--theme-text-secondary);

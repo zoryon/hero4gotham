@@ -145,7 +145,7 @@ export const MembershipApplication: Block = {
             {
               name: 'phoneLabel',
               type: 'text',
-              defaultValue: 'Telefono',
+              defaultValue: 'Telefono *',
               required: true,
               admin: {
                 width: '50%',
@@ -168,7 +168,7 @@ export const MembershipApplication: Block = {
         {
           name: 'interestAreasLabel',
           type: 'text',
-          defaultValue: 'Aree di interesse',
+          defaultValue: 'Aree di interesse *',
           required: true,
         },
       ],

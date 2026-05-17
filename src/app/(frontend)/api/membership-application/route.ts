@@ -5,6 +5,15 @@ export const dynamic = 'force-dynamic'
 
 const MAX_FIELD_LENGTH = 500
 const MAX_MESSAGE_LENGTH = 5000
+const MAX_DOCUMENT_FILE_SIZE = 4 * 1024 * 1024
+const MAX_DOCUMENT_TOTAL_SIZE = 16 * 1024 * 1024
+
+type DocumentFileKey = 'identityDocument' | 'taxCodeDocument'
+
+const documentFileLabels: Record<DocumentFileKey, string> = {
+  identityDocument: "Carta d'identita",
+  taxCodeDocument: 'Codice fiscale',
+}
 
 const escapeHTML = (value: string) =>
   value
@@ -17,13 +26,41 @@ const escapeHTML = (value: string) =>
 const getString = (value: unknown, maxLength = MAX_FIELD_LENGTH) =>
   typeof value === 'string' ? value.trim().slice(0, maxLength) : ''
 
-const getBoolean = (value: unknown) => value === true
+const getFormBoolean = (value: unknown) => value === true || value === 'true'
+
+const sanitizeFilename = (value: string) => value.replace(/[^\w.\-]+/g, '_').slice(0, 120)
+
+const getDocumentFiles = (formData: FormData, key: DocumentFileKey) =>
+  formData
+    .getAll(key)
+    .filter((value): value is File => value instanceof File && value.size > 0)
+    .slice(0, 3)
+
+const formatFileList = (files: File[]) =>
+  files.length ? files.map((file) => escapeHTML(file.name)).join('<br />') : '-'
 
 export async function POST(request: Request) {
   let body: Record<string, unknown>
+  let documentFiles: Record<DocumentFileKey, File[]>
 
   try {
-    body = (await request.json()) as Record<string, unknown>
+    const contentType = request.headers.get('content-type') || ''
+
+    if (contentType.includes('multipart/form-data')) {
+      const formData = await request.formData()
+
+      body = Object.fromEntries(formData.entries())
+      documentFiles = {
+        identityDocument: getDocumentFiles(formData, 'identityDocument'),
+        taxCodeDocument: getDocumentFiles(formData, 'taxCodeDocument'),
+      }
+    } else {
+      body = (await request.json()) as Record<string, unknown>
+      documentFiles = {
+        identityDocument: [],
+        taxCodeDocument: [],
+      }
+    }
   } catch {
     return Response.json({ message: 'Invalid request body.' }, { status: 400 })
   }
@@ -37,7 +74,6 @@ export async function POST(request: Request) {
     birthPlace: getString(body.birthPlace),
     email: getString(body.email),
     firstName: getString(body.firstName),
-    fiscalCode: getString(body.fiscalCode).toUpperCase(),
     interestAreas: getString(body.interestAreas, MAX_MESSAGE_LENGTH),
     lastName: getString(body.lastName),
     motivation: getString(body.motivation, MAX_MESSAGE_LENGTH),
@@ -46,30 +82,48 @@ export async function POST(request: Request) {
     residenceAddress: getString(body.residenceAddress),
   }
   const declarations = {
-    mediaConsent: getBoolean(body.mediaConsent),
-    privacyDeclaration: getBoolean(body.privacyDeclaration),
-    purposeDeclaration: getBoolean(body.purposeDeclaration),
-    statuteDeclaration: getBoolean(body.statuteDeclaration),
-    truthDeclaration: getBoolean(body.truthDeclaration),
+    mediaConsent: getFormBoolean(body.mediaConsent),
+    privacyDeclaration: getFormBoolean(body.privacyDeclaration),
+    purposeDeclaration: getFormBoolean(body.purposeDeclaration),
+    statuteDeclaration: getFormBoolean(body.statuteDeclaration),
+    truthDeclaration: getFormBoolean(body.truthDeclaration),
   }
   const emailSubjectPrefix = getString(body.emailSubjectPrefix) || 'Nuova candidatura associazione'
+  const documentFileEntries = Object.entries(documentFiles) as [DocumentFileKey, File[]][]
+  const uploadedDocumentFiles = documentFileEntries.flatMap(([key, files]) =>
+    files.map((file, index) => ({ file, index, key })),
+  )
+  const hasTaxCodeDocument = documentFiles.taxCodeDocument.length > 0
+  const hasIdentityDocument = documentFiles.identityDocument.length > 0
 
   if (
     !fields.firstName ||
     !fields.lastName ||
     !fields.birthDate ||
     !fields.birthPlace ||
-    !fields.fiscalCode ||
     !fields.residenceAddress ||
     !fields.email ||
+    !fields.phone ||
     !fields.requestType ||
+    !fields.interestAreas ||
     !fields.motivation ||
     !declarations.statuteDeclaration ||
     !declarations.purposeDeclaration ||
     !declarations.truthDeclaration ||
-    !declarations.privacyDeclaration
+    !declarations.privacyDeclaration ||
+    !hasTaxCodeDocument ||
+    !hasIdentityDocument
   ) {
     return Response.json({ message: 'Missing required fields.' }, { status: 400 })
+  }
+
+  const totalDocumentSize = uploadedDocumentFiles.reduce((total, { file }) => total + file.size, 0)
+  const invalidDocumentFile = uploadedDocumentFiles.find(
+    ({ file }) => file.size > MAX_DOCUMENT_FILE_SIZE || !file.type.startsWith('image/'),
+  )
+
+  if (invalidDocumentFile || totalDocumentSize > MAX_DOCUMENT_TOTAL_SIZE) {
+    return Response.json({ message: 'Invalid document upload.' }, { status: 400 })
   }
 
   const recipient =
@@ -94,8 +148,20 @@ export async function POST(request: Request) {
     ['Privacy', declarations.privacyDeclaration],
     ['Foto/video eventi', declarations.mediaConsent],
   ]
+  const documentRows = documentFileEntries.map(
+    ([key, files]) =>
+      `<tr><td><strong>${escapeHTML(documentFileLabels[key])}</strong></td><td>${formatFileList(files)}</td></tr>`,
+  )
+  const attachments = await Promise.all(
+    uploadedDocumentFiles.map(async ({ file, index, key }) => ({
+      content: Buffer.from(await file.arrayBuffer()),
+      contentType: file.type,
+      filename: `${documentFileLabels[key]} ${index + 1} - ${sanitizeFilename(file.name)}`,
+    })),
+  )
 
   await payload.sendEmail({
+    attachments,
     html: `
       <h2>${escapeHTML(emailSubjectPrefix)}</h2>
       <h3>Dati personali</h3>
@@ -104,10 +170,13 @@ export async function POST(request: Request) {
         <tr><td><strong>Cognome</strong></td><td>${escaped.lastName}</td></tr>
         <tr><td><strong>Data di nascita</strong></td><td>${escaped.birthDate}</td></tr>
         <tr><td><strong>Luogo di nascita</strong></td><td>${escaped.birthPlace}</td></tr>
-        <tr><td><strong>Codice fiscale</strong></td><td>${escaped.fiscalCode}</td></tr>
         <tr><td><strong>Indirizzo di residenza</strong></td><td>${escaped.residenceAddress}</td></tr>
         <tr><td><strong>Email</strong></td><td>${escaped.email}</td></tr>
         <tr><td><strong>Telefono</strong></td><td>${escaped.phone || '-'}</td></tr>
+      </table>
+      <h3>Documenti allegati</h3>
+      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
+        ${documentRows.join('')}
       </table>
       <h3>Candidatura</h3>
       <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
@@ -136,10 +205,15 @@ export async function POST(request: Request) {
       `Cognome: ${fields.lastName}`,
       `Data di nascita: ${fields.birthDate}`,
       `Luogo di nascita: ${fields.birthPlace}`,
-      `Codice fiscale: ${fields.fiscalCode}`,
       `Indirizzo di residenza: ${fields.residenceAddress}`,
       `Email: ${fields.email}`,
       `Telefono: ${fields.phone || '-'}`,
+      '',
+      'Documenti allegati',
+      ...documentFileEntries.map(
+        ([key, files]) =>
+          `${documentFileLabels[key]}: ${files.length ? files.map((file) => file.name).join(', ') : '-'}`,
+      ),
       '',
       'Candidatura',
       `Tipo di richiesta: ${fields.requestType}`,

@@ -7,7 +7,7 @@ export const revalidateMembershipDocuments: GlobalAfterChangeHook = ({
   req: { context, payload },
 }) => {
   if (!context.disableRevalidate) {
-    payload.logger.info('Revalidating membership documents')
+    payload.logger.info('Revalidating documents')
 
     revalidateTag('global_membershipDocuments', 'max')
   }

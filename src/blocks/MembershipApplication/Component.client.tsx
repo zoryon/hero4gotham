@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Download, FileText, X } from 'lucide-react'
+import { Download, FileText, Upload, X } from 'lucide-react'
 
 import type { EventSuiteMedia, EventSuiteTextStyle } from '@/blocks/EventSuite/shared'
 
@@ -75,6 +75,22 @@ type PendingDownload = {
   url: string
 }
 
+type DocumentFileKey = 'identityDocument' | 'taxCodeDocument'
+
+const documentFileLabels: Record<DocumentFileKey, string> = {
+  identityDocument: "Carta d'identita",
+  taxCodeDocument: 'Codice fiscale',
+}
+
+const emptyDocumentFiles: Record<DocumentFileKey, File[]> = {
+  identityDocument: [],
+  taxCodeDocument: [],
+}
+
+const maxDocumentFileSize = 4 * 1024 * 1024
+const maxDocumentFileSizeLabel = '4 MB'
+const maxDocumentFilesPerDocument = 3
+
 const fallbackRequestTypes = [
   'Domanda di ammissione come socio',
   'Candidatura come volontario',
@@ -86,7 +102,6 @@ const initialFormState = {
   birthPlace: '',
   email: '',
   firstName: '',
-  fiscalCode: '',
   interestAreas: '',
   lastName: '',
   mediaConsent: false,
@@ -104,6 +119,12 @@ const initialFormState = {
 const srLabel = (label: null | string | undefined, fallback: string) =>
   (label || fallback).replace(/\s*\*+\s*$/, '')
 
+const requiredLabel = (label: null | string | undefined, fallback: string) => {
+  const value = label || fallback
+
+  return /\*\s*$/.test(value) ? value : `${value} *`
+}
+
 export const MembershipApplicationBlock: React.FC<Props> = ({
   applicationTitle = 'Candidatura',
   backgroundImage,
@@ -117,11 +138,10 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   errorMessage = 'Non siamo riusciti a inviare la candidatura. Riprova tra poco.',
   fieldStyle,
   firstNameLabel = 'Nome *',
-  fiscalCodeLabel = 'Codice fiscale *',
   heading = "Domanda di ammissione all'associazione",
   headingBackgroundImage,
   headingStyle,
-  interestAreasLabel = 'Aree di interesse',
+  interestAreasLabel = 'Aree di interesse *',
   introStyle,
   introText = 'Compila la candidatura con i tuoi dati. Ti ricontatteremo dopo averla ricevuta.',
   lastNameLabel = 'Cognome *',
@@ -129,7 +149,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   motivationLabel = "Perche vuoi entrare nell'associazione? *",
   optionalConsentsTitle = 'Consensi facoltativi',
   personalDataTitle = 'Dati personali',
-  phoneLabel = 'Telefono',
+  phoneLabel = 'Telefono *',
   privacyDeclarationLabel = "Ho letto l'informativa privacy. *",
   privacyDocuments,
   purposeDeclarationLabel = "Dichiaro di condividere le finalita dell'associazione. *",
@@ -149,6 +169,9 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [feedback, setFeedback] = useState('')
   const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null)
+  const [documentFiles, setDocumentFiles] = useState<Record<DocumentFileKey, File[]>>(
+    emptyDocumentFiles,
+  )
   const [activeDateField, setActiveDateField] = useState<keyof typeof initialFormState | null>(
     null,
   )
@@ -224,6 +247,26 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     }))
   }
 
+  const updateDocumentFile =
+    (name: DocumentFileKey) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(event.target.files || []).slice(0, maxDocumentFilesPerDocument)
+      const oversizedFile = files.find((file) => file.size > maxDocumentFileSize)
+
+      setFeedback('')
+
+      if (oversizedFile) {
+        setDocumentFiles((current) => ({ ...current, [name]: [] }))
+        event.target.value = ''
+        setSubmitState('error')
+        setFeedback(
+          `Il file "${oversizedFile.name}" supera il limite di ${maxDocumentFileSizeLabel}.`,
+        )
+        return
+      }
+
+      setDocumentFiles((current) => ({ ...current, [name]: files }))
+    }
+
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -233,14 +276,32 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     setFeedback('')
 
     try {
+      const hasTaxCodeDocument = documentFiles.taxCodeDocument.length > 0
+      const hasIdentityDocument = documentFiles.identityDocument.length > 0
+
+      if (!hasTaxCodeDocument || !hasIdentityDocument) {
+        setSubmitState('error')
+        setFeedback('Carica codice fiscale e carta identita: foto completa oppure fronte e retro.')
+        return
+      }
+
+      const formData = new FormData()
+
+      Object.entries({
+        ...formState,
+        emailSubjectPrefix,
+      }).forEach(([key, value]) => {
+        formData.append(key, String(value))
+      })
+
+      Object.entries(documentFiles).forEach(([key, file]) => {
+        file.forEach((file) => {
+          formData.append(key, file)
+        })
+      })
+
       const response = await fetch('/api/membership-application', {
-        body: JSON.stringify({
-          ...formState,
-          emailSubjectPrefix,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        body: formData,
         method: 'POST',
       })
 
@@ -251,6 +312,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
       setSubmitState('success')
       setFeedback(successMessage || 'Candidatura inviata.')
       setFormState(initialFormState)
+      setDocumentFiles(emptyDocumentFiles)
     } catch {
       setSubmitState('error')
       setFeedback(errorMessage || 'Candidatura non inviata.')
@@ -315,6 +377,48 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
       </label>
     )
   }
+
+  const renderDocumentUpload = (name: DocumentFileKey) => {
+    const files = documentFiles[name]
+    const selectedLabel = files.length
+      ? `${files.length} ${files.length === 1 ? 'foto selezionata' : 'foto selezionate'}`
+      : 'Nessuna foto selezionata'
+
+    return (
+      <label className="contact-message-field membership-application-upload-field scribble-border relative">
+        <span className="sr-only">{documentFileLabels[name]}</span>
+        <input
+          accept="image/*"
+          className="sr-only"
+          multiple
+          name={name}
+          onChange={updateDocumentFile(name)}
+          type="file"
+        />
+        <span className="membership-application-upload-icon">
+          <Upload aria-hidden className="size-3.5" />
+        </span>
+        <span className="membership-application-upload-copy">
+          <span className="membership-application-upload-label">{documentFileLabels[name]} *</span>
+          <span className="membership-application-upload-hint">
+            Foto fronte retro, max {maxDocumentFilesPerDocument} foto da {maxDocumentFileSizeLabel}
+          </span>
+          <span className="membership-application-upload-name">
+            {selectedLabel}
+          </span>
+        </span>
+      </label>
+    )
+  }
+
+  const renderIdentityUploads = () => (
+    <div className="membership-application-upload-group md:col-span-2 xl:col-span-2">
+      <div className="grid gap-3">
+        {renderDocumentUpload('taxCodeDocument')}
+        {renderDocumentUpload('identityDocument')}
+      </div>
+    </div>
+  )
 
   const renderCheckbox = ({
     label,
@@ -477,39 +581,41 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                   {renderTextField({
                     autoComplete: 'given-name',
-                    label: firstNameLabel,
+                    label: requiredLabel(firstNameLabel, 'Nome'),
                     name: 'firstName',
                   })}
                   {renderTextField({
                     autoComplete: 'family-name',
-                    label: lastNameLabel,
+                    label: requiredLabel(lastNameLabel, 'Cognome'),
                     name: 'lastName',
                   })}
-                  {renderTextField({ label: birthDateLabel, name: 'birthDate', type: 'date' })}
-                  {renderTextField({ label: birthPlaceLabel, name: 'birthPlace' })}
                   {renderTextField({
-                    autoComplete: 'off',
-                    label: fiscalCodeLabel,
-                    name: 'fiscalCode',
+                    label: requiredLabel(birthDateLabel, 'Data di nascita'),
+                    name: 'birthDate',
+                    type: 'date',
+                  })}
+                  {renderTextField({
+                    label: requiredLabel(birthPlaceLabel, 'Luogo di nascita'),
+                    name: 'birthPlace',
                   })}
                   {renderTextField({
                     autoComplete: 'street-address',
-                    label: residenceAddressLabel,
+                    label: requiredLabel(residenceAddressLabel, 'Indirizzo di residenza'),
                     name: 'residenceAddress',
                   })}
                   {renderTextField({
                     autoComplete: 'email',
-                    label: emailLabel,
+                    label: requiredLabel(emailLabel, 'Email'),
                     name: 'email',
                     type: 'email',
                   })}
                   {renderTextField({
                     autoComplete: 'tel',
-                    label: phoneLabel,
+                    label: requiredLabel(phoneLabel, 'Telefono'),
                     name: 'phone',
-                    required: false,
                     type: 'tel',
                   })}
+                  {renderIdentityUploads()}
                 </div>
               </div>
 
@@ -525,7 +631,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     style={fieldTextStyle}
                     value={formState.requestType}
                   >
-                    <option value="">{requestTypeLabel || 'Tipo di richiesta *'}</option>
+                    <option value="">{requiredLabel(requestTypeLabel, 'Tipo di richiesta')}</option>
                     {requestTypeOptions.map((option) => (
                       <option key={option} value={option}>
                         {option}
@@ -540,7 +646,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     className={cn('contact-message-input min-h-28 resize-y', fieldClassName)}
                     name="motivation"
                     onChange={updateField}
-                    placeholder={motivationLabel || 'Motivazione *'}
+                    placeholder={requiredLabel(motivationLabel, 'Motivazione')}
                     required
                     style={fieldTextStyle}
                     value={formState.motivation}
@@ -555,7 +661,8 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     className={cn('contact-message-input min-h-20 resize-y', fieldClassName)}
                     name="interestAreas"
                     onChange={updateField}
-                    placeholder={interestAreasLabel || 'Aree di interesse'}
+                    placeholder={requiredLabel(interestAreasLabel, 'Aree di interesse')}
+                    required
                     style={fieldTextStyle}
                     value={formState.interestAreas}
                   />
