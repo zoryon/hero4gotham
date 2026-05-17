@@ -1,6 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { Download, FileText, X } from 'lucide-react'
 
 import type { EventSuiteMedia, EventSuiteTextStyle } from '@/blocks/EventSuite/shared'
 
@@ -15,6 +17,13 @@ import { cn } from '@/utilities/ui'
 type RequestTypeOption = {
   id?: null | string
   label?: null | string
+}
+
+type PrivacyDocument = {
+  description?: null | string
+  document?: EventSuiteMedia | number | null
+  id?: null | string
+  title?: null | string
 }
 
 type Props = {
@@ -44,6 +53,7 @@ type Props = {
   personalDataTitle?: null | string
   phoneLabel?: null | string
   privacyDeclarationLabel?: null | string
+  privacyDocuments?: null | PrivacyDocument[]
   purposeDeclarationLabel?: null | string
   requestTypeLabel?: null | string
   requestTypes?: null | RequestTypeOption[]
@@ -59,6 +69,11 @@ type Props = {
 }
 
 type SubmitState = 'error' | 'idle' | 'sending' | 'success'
+
+type PendingDownload = {
+  label: string
+  url: string
+}
 
 const fallbackRequestTypes = [
   'Domanda di ammissione come socio',
@@ -116,6 +131,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   personalDataTitle = 'Dati personali',
   phoneLabel = 'Telefono',
   privacyDeclarationLabel = "Ho letto l'informativa privacy. *",
+  privacyDocuments,
   purposeDeclarationLabel = "Dichiaro di condividere le finalita dell'associazione. *",
   requestTypeLabel = 'Tipo di richiesta *',
   requestTypes,
@@ -132,10 +148,42 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   const [formState, setFormState] = useState(initialFormState)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [feedback, setFeedback] = useState('')
+  const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null)
+  const [activeDateField, setActiveDateField] = useState<keyof typeof initialFormState | null>(
+    null,
+  )
+  const cancelDownloadButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!pendingDownload) return
+
+    const previousFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setPendingDownload(null)
+      }
+    }
+
+    const previousOverflow = document.body.style.overflow
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', closeOnEscape)
+    window.setTimeout(() => cancelDownloadButtonRef.current?.focus(), 0)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', closeOnEscape)
+      previousFocusedElement?.focus()
+    }
+  }, [pendingDownload])
 
   const requestTypeOptions =
     requestTypes?.map((item) => item.label).filter((label): label is string => Boolean(label)) ||
     fallbackRequestTypes
+  const downloadablePrivacyDocuments =
+    privacyDocuments?.filter(
+      (item) => item?.document && typeof item.document === 'object' && item.document.url,
+    ) || []
 
   const fieldClassName = getEventSuiteTextClassName(fieldStyle, 'regular')
   const fieldTextStyle = getEventSuiteTextStyle(fieldStyle, {
@@ -231,22 +279,42 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     name: keyof typeof initialFormState
     required?: boolean
     type?: string
-  }) => (
-    <label className="contact-message-field scribble-border relative block min-w-0">
-      <span className="sr-only">{srLabel(label, name)}</span>
-      <input
-        autoComplete={autoComplete}
-        className={cn('contact-message-input', fieldClassName)}
-        name={name}
-        onChange={updateField}
-        placeholder={label || name}
-        required={required}
-        style={fieldTextStyle}
-        type={type}
-        value={String(formState[name])}
-      />
-    </label>
-  )
+  }) => {
+    const isDateField = type === 'date'
+    const inputType = isDateField && !formState[name] && activeDateField !== name ? 'text' : type
+
+    return (
+      <label
+        className={cn(
+          'contact-message-field scribble-border relative block min-w-0',
+          isDateField && 'contact-message-field--date',
+        )}
+      >
+        <span className="sr-only">{srLabel(label, name)}</span>
+        <input
+          autoComplete={autoComplete}
+          className={cn('contact-message-input', fieldClassName)}
+          name={name}
+          onBlur={() => {
+            if (isDateField && !formState[name]) {
+              setActiveDateField(null)
+            }
+          }}
+          onChange={updateField}
+          onFocus={() => {
+            if (isDateField) {
+              setActiveDateField(name)
+            }
+          }}
+          placeholder={label || name}
+          required={required}
+          style={fieldTextStyle}
+          type={inputType}
+          value={String(formState[name])}
+        />
+      </label>
+    )
+  }
 
   const renderCheckbox = ({
     label,
@@ -273,6 +341,58 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
       </span>
     </label>
   )
+
+  const requestDownload = (url: null | string | undefined, label: string) => {
+    if (!url) return
+
+    setPendingDownload({ label, url })
+  }
+
+  const downloadPendingDocument = () => {
+    if (!pendingDownload) return
+    const link = document.createElement('a')
+
+    link.download = ''
+    link.href = pendingDownload.url
+    link.rel = 'noreferrer'
+    link.target = '_blank'
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    setPendingDownload(null)
+  }
+
+  const renderPrivacyDocuments = () =>
+    downloadablePrivacyDocuments.length ? (
+      <div className="mt-3 grid gap-2">
+        {downloadablePrivacyDocuments.map((item, index) => {
+          const document = item.document as EventSuiteMedia
+          const label = item.title || document.alt || document.filename || `Documento ${index + 1}`
+
+          return (
+            <div
+              className={cn(checkboxClassName, 'membership-application-document-row')}
+              key={item.id || `${label}-${index}`}
+              style={{
+                ...checkboxTextStyle,
+                display: 'flex',
+              }}
+            >
+              <FileText aria-hidden className="membership-application-document-icon" />
+              <span className="membership-application-document-title font-semibold">{label}</span>
+              <button
+                aria-label={`Scarica ${label}`}
+                className="membership-application-document-download-button"
+                onClick={() => requestDownload(document.url, label)}
+                type="button"
+              >
+                <Download aria-hidden className="membership-application-document-download-icon" />
+              </button>
+            </div>
+          )
+        })}
+      </div>
+    ) : null
 
   return (
     <section className="w-full px-4 md:px-0">
@@ -351,123 +471,128 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
               value={formState.website}
             />
 
-            <div className="grid gap-3">
-              {renderSectionTitle(personalDataTitle)}
-              <div className="grid gap-3 md:grid-cols-2">
-                {renderTextField({
-                  autoComplete: 'given-name',
-                  label: firstNameLabel,
-                  name: 'firstName',
-                })}
-                {renderTextField({
-                  autoComplete: 'family-name',
-                  label: lastNameLabel,
-                  name: 'lastName',
-                })}
-                {renderTextField({ label: birthDateLabel, name: 'birthDate', type: 'date' })}
-                {renderTextField({ label: birthPlaceLabel, name: 'birthPlace' })}
-                {renderTextField({
-                  autoComplete: 'off',
-                  label: fiscalCodeLabel,
-                  name: 'fiscalCode',
-                })}
-                {renderTextField({
-                  autoComplete: 'street-address',
-                  label: residenceAddressLabel,
-                  name: 'residenceAddress',
-                })}
-                {renderTextField({
-                  autoComplete: 'email',
-                  label: emailLabel,
-                  name: 'email',
-                  type: 'email',
-                })}
-                {renderTextField({
-                  autoComplete: 'tel',
-                  label: phoneLabel,
-                  name: 'phone',
-                  required: false,
-                  type: 'tel',
-                })}
+            <div className="membership-application-quadrants grid gap-5 lg:grid-cols-2">
+              <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
+                {renderSectionTitle(personalDataTitle)}
+                <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  {renderTextField({
+                    autoComplete: 'given-name',
+                    label: firstNameLabel,
+                    name: 'firstName',
+                  })}
+                  {renderTextField({
+                    autoComplete: 'family-name',
+                    label: lastNameLabel,
+                    name: 'lastName',
+                  })}
+                  {renderTextField({ label: birthDateLabel, name: 'birthDate', type: 'date' })}
+                  {renderTextField({ label: birthPlaceLabel, name: 'birthPlace' })}
+                  {renderTextField({
+                    autoComplete: 'off',
+                    label: fiscalCodeLabel,
+                    name: 'fiscalCode',
+                  })}
+                  {renderTextField({
+                    autoComplete: 'street-address',
+                    label: residenceAddressLabel,
+                    name: 'residenceAddress',
+                  })}
+                  {renderTextField({
+                    autoComplete: 'email',
+                    label: emailLabel,
+                    name: 'email',
+                    type: 'email',
+                  })}
+                  {renderTextField({
+                    autoComplete: 'tel',
+                    label: phoneLabel,
+                    name: 'phone',
+                    required: false,
+                    type: 'tel',
+                  })}
+                </div>
               </div>
-            </div>
 
-            <div className="grid gap-3">
-              {renderSectionTitle(applicationTitle)}
-              <label className="contact-message-field scribble-border relative block min-w-0">
-                <span className="sr-only">{srLabel(requestTypeLabel, 'Tipo di richiesta')}</span>
-                <select
-                  className={cn('contact-message-input', fieldClassName)}
-                  name="requestType"
-                  onChange={updateField}
-                  required
-                  style={fieldTextStyle}
-                  value={formState.requestType}
-                >
-                  <option value="">{requestTypeLabel || 'Tipo di richiesta *'}</option>
-                  {requestTypeOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
+                {renderSectionTitle(applicationTitle)}
+                <label className="contact-message-field scribble-border relative block min-w-0">
+                  <span className="sr-only">{srLabel(requestTypeLabel, 'Tipo di richiesta')}</span>
+                  <select
+                    className={cn('contact-message-input', fieldClassName)}
+                    name="requestType"
+                    onChange={updateField}
+                    required
+                    style={fieldTextStyle}
+                    value={formState.requestType}
+                  >
+                    <option value="">{requestTypeLabel || 'Tipo di richiesta *'}</option>
+                    {requestTypeOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                </label>
 
-              <label className="contact-message-field contact-message-field--textarea scribble-border relative block min-w-0">
-                <span className="sr-only">{srLabel(motivationLabel, 'Motivazione')}</span>
-                <textarea
-                  className={cn('contact-message-input min-h-28 resize-y', fieldClassName)}
-                  name="motivation"
-                  onChange={updateField}
-                  placeholder={motivationLabel || 'Motivazione *'}
-                  required
-                  style={fieldTextStyle}
-                  value={formState.motivation}
-                />
-              </label>
+                <label className="contact-message-field contact-message-field--textarea scribble-border relative block min-w-0">
+                  <span className="sr-only">{srLabel(motivationLabel, 'Motivazione')}</span>
+                  <textarea
+                    className={cn('contact-message-input min-h-28 resize-y', fieldClassName)}
+                    name="motivation"
+                    onChange={updateField}
+                    placeholder={motivationLabel || 'Motivazione *'}
+                    required
+                    style={fieldTextStyle}
+                    value={formState.motivation}
+                  />
+                </label>
 
-              <label className="contact-message-field contact-message-field--textarea scribble-border relative block min-w-0">
-                <span className="sr-only">{srLabel(interestAreasLabel, 'Aree di interesse')}</span>
-                <textarea
-                  className={cn('contact-message-input min-h-20 resize-y', fieldClassName)}
-                  name="interestAreas"
-                  onChange={updateField}
-                  placeholder={interestAreasLabel || 'Aree di interesse'}
-                  style={fieldTextStyle}
-                  value={formState.interestAreas}
-                />
-              </label>
-            </div>
-
-            <div className="grid gap-3">
-              {renderSectionTitle(declarationsTitle)}
-              <div className="grid gap-2">
-                {renderCheckbox({
-                  label: statuteDeclarationLabel,
-                  name: 'statuteDeclaration',
-                  required: true,
-                })}
-                {renderCheckbox({
-                  label: purposeDeclarationLabel,
-                  name: 'purposeDeclaration',
-                  required: true,
-                })}
-                {renderCheckbox({
-                  label: truthDeclarationLabel,
-                  name: 'truthDeclaration',
-                  required: true,
-                })}
-                {renderCheckbox({
-                  label: privacyDeclarationLabel,
-                  name: 'privacyDeclaration',
-                  required: true,
-                })}
+                <label className="contact-message-field contact-message-field--textarea scribble-border relative block min-w-0">
+                  <span className="sr-only">
+                    {srLabel(interestAreasLabel, 'Aree di interesse')}
+                  </span>
+                  <textarea
+                    className={cn('contact-message-input min-h-20 resize-y', fieldClassName)}
+                    name="interestAreas"
+                    onChange={updateField}
+                    placeholder={interestAreasLabel || 'Aree di interesse'}
+                    style={fieldTextStyle}
+                    value={formState.interestAreas}
+                  />
+                </label>
               </div>
-            </div>
 
-            <div className="grid gap-3">
-              {renderSectionTitle(optionalConsentsTitle)}
-              {renderCheckbox({ label: mediaConsentLabel, name: 'mediaConsent' })}
+              <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
+                {renderSectionTitle(declarationsTitle)}
+                <div className="grid gap-2">
+                  {renderCheckbox({
+                    label: statuteDeclarationLabel,
+                    name: 'statuteDeclaration',
+                    required: true,
+                  })}
+                  {renderCheckbox({
+                    label: purposeDeclarationLabel,
+                    name: 'purposeDeclaration',
+                    required: true,
+                  })}
+                  {renderCheckbox({
+                    label: truthDeclarationLabel,
+                    name: 'truthDeclaration',
+                    required: true,
+                  })}
+                  {renderCheckbox({
+                    label: privacyDeclarationLabel,
+                    name: 'privacyDeclaration',
+                    required: true,
+                  })}
+                </div>
+                {renderPrivacyDocuments()}
+              </div>
+
+              <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
+                {renderSectionTitle(optionalConsentsTitle)}
+                {renderCheckbox({ label: mediaConsentLabel, name: 'mediaConsent' })}
+              </div>
             </div>
 
             <div className="mt-1 flex flex-wrap items-center gap-4">
@@ -514,6 +639,74 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
           </form>
         </div>
       </div>
+
+      {pendingDownload
+        ? createPortal(
+            <div
+              aria-labelledby="membership-download-modal-title"
+              aria-modal="true"
+              className="membership-application-download-modal"
+              onClick={() => setPendingDownload(null)}
+              role="dialog"
+            >
+              <div
+                className="membership-application-download-modal-panel vintage-surface"
+                onClick={(event) => event.stopPropagation()}
+              >
+                <button
+                  aria-label="Chiudi conferma download"
+                  className="membership-application-download-modal-close"
+                  onClick={() => setPendingDownload(null)}
+                  type="button"
+                >
+                  <X aria-hidden className="size-4" />
+                </button>
+
+                <div aria-hidden className="membership-application-download-modal-icon-wrap">
+                  <FileText className="membership-application-download-modal-icon" />
+                </div>
+
+                <div className="membership-application-download-modal-content">
+                  <span className="membership-application-download-modal-eyebrow">Area soci</span>
+                  <h3
+                    className={cn(
+                      sectionTitleClassName,
+                      'membership-application-download-modal-title',
+                    )}
+                    id="membership-download-modal-title"
+                    style={sectionTitleTextStyle}
+                  >
+                    Scarica documento
+                  </h3>
+                  <div className="membership-application-download-modal-file">
+                    <FileText aria-hidden className="size-4" />
+                    <span>{pendingDownload.label}</span>
+                  </div>
+                </div>
+
+                <div className="membership-application-download-modal-actions">
+                  <button
+                    className="membership-application-download-modal-button membership-application-download-modal-button--ghost"
+                    onClick={() => setPendingDownload(null)}
+                    ref={cancelDownloadButtonRef}
+                    type="button"
+                  >
+                    Annulla
+                  </button>
+                  <button
+                    className="membership-application-download-modal-button membership-application-download-modal-button--primary"
+                    onClick={downloadPendingDocument}
+                    type="button"
+                  >
+                    <Download aria-hidden className="size-4" />
+                    Scarica
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </section>
   )
 }

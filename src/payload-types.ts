@@ -118,12 +118,14 @@ export interface Config {
     footer: Footer;
     themeColors: ThemeColor;
     siteBackground: SiteBackground;
+    membershipDocuments: MembershipDocument;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     themeColors: ThemeColorsSelect<false> | ThemeColorsSelect<true>;
     siteBackground: SiteBackgroundSelect<false> | SiteBackgroundSelect<true>;
+    membershipDocuments: MembershipDocumentsSelect<false> | MembershipDocumentsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -6148,6 +6150,26 @@ export interface SiteBackground {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "membershipDocuments".
+ */
+export interface MembershipDocument {
+  id: number;
+  /**
+   * Documenti mostrati nel quadrante Dichiarazioni del blocco candidatura associazione.
+   */
+  privacyDocuments?:
+    | {
+        title: string;
+        description?: string | null;
+        document: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -6323,6 +6345,23 @@ export interface SiteBackgroundSelect<T extends boolean = true> {
   overlay?: T;
   width?: T;
   padding?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "membershipDocuments_select".
+ */
+export interface MembershipDocumentsSelect<T extends boolean = true> {
+  privacyDocuments?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        document?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -40,6 +40,7 @@ import * as migration_20260509_100000_remove_event_fallback_images from './20260
 import * as migration_20260509_110000_themed_footer_legal_links from './20260509_110000_themed_footer_legal_links'
 import * as migration_20260509_120000_upcoming_events_description_limit from './20260509_120000_upcoming_events_description_limit'
 import * as migration_20260516_120000_global_site_background from './20260516_120000_global_site_background'
+import * as migration_20260516_180600_membership_documents_global from './20260516_180600_membership_documents_global'
 
 export const migrations = [
   {
@@ -251,5 +252,10 @@ export const migrations = [
     up: migration_20260516_120000_global_site_background.up,
     down: migration_20260516_120000_global_site_background.down,
     name: '20260516_120000_global_site_background',
+  },
+  {
+    up: migration_20260516_180600_membership_documents_global.up,
+    down: migration_20260516_180600_membership_documents_global.down,
+    name: '20260516_180600_membership_documents_global',
   },
 ]

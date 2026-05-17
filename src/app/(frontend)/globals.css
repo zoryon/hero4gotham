@@ -298,7 +298,12 @@
     bottom: 0;
     content: '';
     left: 50%;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.18) 2rem, #000 8rem);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      rgb(0 0 0 / 0.18) 2rem,
+      #000 8rem
+    );
     mask-image: linear-gradient(to bottom, transparent 0, rgb(0 0 0 / 0.18) 2rem, #000 8rem);
     mix-blend-mode: overlay;
     opacity: 0.2;
@@ -841,9 +846,7 @@
   }
 
   .vintage-surface {
-    background:
-      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%),
-      #202028;
+    background: radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%), #202028;
     background-color: #202028;
     overflow: hidden;
     position: relative;
@@ -876,8 +879,7 @@
   .cornice-vintage.vintage-surface::before {
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%),
-      #202028;
+      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%), #202028;
     background-blend-mode: overlay, normal, normal;
     background-size:
       243px 243px,
@@ -933,8 +935,7 @@
   .event-list-link-surface::before {
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%),
-      #202028;
+      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%), #202028;
     background-blend-mode: overlay, normal, normal;
     background-size:
       243px 243px,
@@ -1188,10 +1189,315 @@
   .contact-message-submit {
     background-color: transparent !important;
     border: 0;
+    cursor: pointer;
   }
 
   .membership-application-section-title {
     margin-bottom: 0.15rem;
+  }
+
+  .membership-application-quadrant {
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    padding-top: 1rem;
+  }
+
+  .membership-application-document-row {
+    align-items: center;
+    color: var(--theme-text-secondary);
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    line-height: 1;
+    padding: 0.2rem 0;
+    text-align: left;
+    transition: color 160ms ease;
+    width: fit-content;
+  }
+
+  .membership-application-document-row:has(.membership-application-document-download-button:hover) {
+    color: var(--theme-text-green);
+  }
+
+  .membership-application-document-icon {
+    flex: 0 0 auto;
+    height: 1.1rem;
+    line-height: 0;
+    width: 1.1rem;
+  }
+
+  .membership-application-document-title {
+    flex: 1 1 auto;
+    line-height: 1.15;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .membership-application-document-download-icon {
+    color: var(--theme-text-green);
+    flex: 0 0 auto;
+    height: 1rem;
+    line-height: 0;
+    width: 1rem;
+  }
+
+  .membership-application-document-download-button {
+    align-items: center;
+    color: var(--theme-text-green);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 1.1rem;
+    justify-content: center;
+    line-height: 0;
+    padding: 0;
+    transition:
+      color 160ms ease,
+      transform 160ms ease;
+    width: 1.1rem;
+  }
+
+  .membership-application-document-download-button:hover {
+    color: var(--theme-text-primary);
+    transform: translateY(-1px);
+  }
+
+  .membership-application-download-modal {
+    align-items: center;
+    animation: membership-download-overlay-in 180ms ease-out both;
+    background: rgb(6 6 8 / 0.74);
+    backdrop-filter: blur(8px) saturate(1.08);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    padding: 1.25rem;
+    position: fixed;
+    pointer-events: auto;
+    z-index: 2147483000;
+  }
+
+  .membership-application-download-modal-panel {
+    animation: membership-download-dialog-in 210ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    background: var(--theme-background-container-overflow, #18181a);
+    border: 1px solid color-mix(in srgb, var(--theme-text-green) 26%, rgb(255 255 255 / 0.1));
+    border-radius: 0.5rem;
+    box-shadow:
+      0 24px 80px rgb(0 0 0 / 0.58),
+      0 1px 0 rgb(255 255 255 / 0.08) inset;
+    color: var(--theme-text-primary);
+    max-width: 28rem;
+    overflow: hidden;
+    padding: 1.35rem;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .membership-application-download-modal-close {
+    align-items: center;
+    border-radius: 0.375rem;
+    color: color-mix(in srgb, var(--theme-text-primary) 54%, transparent);
+    cursor: pointer;
+    display: inline-flex;
+    height: 2rem;
+    justify-content: center;
+    position: absolute;
+    right: 0.85rem;
+    top: 0.85rem;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+    width: 2rem;
+  }
+
+  .membership-application-download-modal-close:hover {
+    background: color-mix(in srgb, var(--theme-text-green) 10%, rgb(255 255 255 / 0.06));
+    color: var(--theme-text-green);
+    transform: translateY(-1px);
+  }
+
+  .membership-application-download-modal-close:focus-visible,
+  .membership-application-download-modal-button:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--theme-text-green) 72%, transparent);
+    outline-offset: 2px;
+  }
+
+  .membership-application-download-modal-content {
+    display: grid;
+    gap: 0.6rem;
+    min-width: 0;
+    padding-right: 2.25rem;
+  }
+
+  .membership-application-download-modal-icon-wrap {
+    align-items: center;
+    background: color-mix(in srgb, var(--theme-text-green) 10%, rgb(0 0 0 / 0.18));
+    border: 1px solid color-mix(in srgb, var(--theme-text-green) 32%, rgb(255 255 255 / 0.1));
+    border-radius: 0.375rem;
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 2.75rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    width: 2.75rem;
+  }
+
+  .membership-application-download-modal-icon {
+    color: var(--theme-text-green);
+    height: 1.25rem;
+    width: 1.25rem;
+  }
+
+  .membership-application-download-modal-eyebrow {
+    color: var(--theme-text-purple);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .membership-application-download-modal-title {
+    margin: 0;
+  }
+
+  .membership-application-download-modal-description {
+    color: color-mix(in srgb, var(--theme-text-primary) 68%, transparent);
+    margin: 0;
+  }
+
+  .membership-application-download-modal-file {
+    align-items: center;
+    background: rgb(0 0 0 / 0.14);
+    border: 1px solid color-mix(in srgb, var(--theme-text-secondary) 20%, rgb(255 255 255 / 0.06));
+    border-radius: 0.375rem;
+    color: var(--theme-text-primary);
+    display: flex;
+    gap: 0.55rem;
+    line-height: 1.25;
+    margin-top: 0.35rem;
+    min-width: 0;
+    padding: 0.30rem 0.60rem;
+    font-size: small;
+  }
+
+  .membership-application-download-modal-file svg {
+    color: var(--theme-text-green);
+    flex: 0 0 auto;
+  }
+
+  .membership-application-download-modal-file span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .membership-application-download-modal-actions {
+    display: flex;
+    gap: 0.65rem;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+  }
+
+  .membership-application-download-modal-button {
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    color: var(--theme-text-primary);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    gap: 0.45rem;
+    justify-content: center;
+    min-height: 2.5rem;
+    min-width: 6.25rem;
+    padding: 0.55rem 0.95rem;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .membership-application-download-modal-button:hover {
+    transform: translateY(-0.5px);
+  }
+
+  .membership-application-download-modal-button--ghost {
+    background: rgb(0 0 0 / 0.12);
+    border-color: color-mix(in srgb, var(--theme-text-secondary) 18%, rgb(255 255 255 / 0.08));
+    color: color-mix(in srgb, var(--theme-text-primary) 80%, transparent);
+  }
+
+  .membership-application-download-modal-button--ghost:hover {
+    background: rgb(255 255 255 / 0.055);
+    color: var(--theme-text-primary);
+  }
+
+  .membership-application-download-modal-button--primary {
+    background: color-mix(in srgb, var(--theme-text-green) 16%, rgb(0 0 0 / 0.08));
+    border-color: color-mix(in srgb, var(--theme-text-green) 52%, transparent);
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--theme-text-green) 16%, transparent);
+    color: var(--theme-text-green);
+  }
+
+  .membership-application-download-modal-button--primary:hover {
+    background: color-mix(in srgb, var(--theme-text-green) 24%, rgb(255 255 255 / 0.02));
+    border-color: var(--theme-text-green);
+    box-shadow: 0 12px 34px color-mix(in srgb, var(--theme-text-green) 24%, transparent);
+  }
+
+  @keyframes membership-download-overlay-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes membership-download-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.6rem) scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .membership-application-download-modal {
+      align-items: flex-end;
+      padding: 0.75rem;
+    }
+
+    .membership-application-download-modal-panel {
+      border-radius: 0.5rem;
+      padding: 1.1rem;
+    }
+
+    .membership-application-download-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .membership-application-download-modal-button {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .membership-application-download-modal,
+    .membership-application-download-modal-panel {
+      animation: none;
+    }
   }
 
   .membership-application-panel .contact-message-input[type='date'] {
@@ -1474,8 +1780,7 @@
   .activity-detail-card__content.vintage-surface::before {
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.62'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%),
-      #202028;
+      radial-gradient(circle at 30% 90%, #222431 0%, #202028 48%, #191a22 100%), #202028;
     background-blend-mode: overlay, normal, normal;
     background-size:
       243px 243px,

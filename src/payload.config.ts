@@ -15,6 +15,7 @@ import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { MembershipDocuments } from './MembershipDocuments/config'
 import { SiteBackground } from './SiteBackground/config'
 import { ThemeColors } from './ThemeColors/config'
 import { plugins } from './plugins'
@@ -92,7 +93,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Activities, Events, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, ThemeColors, SiteBackground],
+  globals: [Header, Footer, ThemeColors, SiteBackground, MembershipDocuments],
   i18n: {
     fallbackLanguage: 'it',
     supportedLanguages: { it: { ...italianTranslations } },
