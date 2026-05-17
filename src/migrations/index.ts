@@ -43,6 +43,8 @@ import * as migration_20260516_120000_global_site_background from './20260516_12
 import * as migration_20260516_180600_membership_documents_global from './20260516_180600_membership_documents_global'
 import * as migration_20260517_111700_documents_show_in from './20260517_111700_documents_show_in'
 import * as migration_20260517_113000_privacy_policy_global from './20260517_113000_privacy_policy_global'
+import * as migration_20260517_160800_privacy_trigger_links from './20260517_160800_privacy_trigger_links'
+import * as migration_20260517_162000_declaration_trigger_links from './20260517_162000_declaration_trigger_links'
 
 export const migrations = [
   {
@@ -269,5 +271,15 @@ export const migrations = [
     up: migration_20260517_113000_privacy_policy_global.up,
     down: migration_20260517_113000_privacy_policy_global.down,
     name: '20260517_113000_privacy_policy_global',
+  },
+  {
+    up: migration_20260517_160800_privacy_trigger_links.up,
+    down: migration_20260517_160800_privacy_trigger_links.down,
+    name: '20260517_160800_privacy_trigger_links',
+  },
+  {
+    up: migration_20260517_162000_declaration_trigger_links.up,
+    down: migration_20260517_162000_declaration_trigger_links.down,
+    name: '20260517_162000_declaration_trigger_links',
   },
 ]

@@ -36,6 +36,11 @@ type Props = {
   decorativeImage?: EventSuiteMedia | number | null
   emailLabel?: null | string
   emailSubjectPrefix?: null | string
+  enableMediaConsentTriggerLink?: boolean | null
+  enablePrivacyTriggerLink?: boolean | null
+  enablePurposeDeclarationTriggerLink?: boolean | null
+  enableStatuteDeclarationTriggerLink?: boolean | null
+  enableTruthDeclarationTriggerLink?: boolean | null
   errorMessage?: null | string
   fieldStyle?: EventSuiteTextStyle | null
   firstNameLabel?: null | string
@@ -48,24 +53,29 @@ type Props = {
   introText?: null | string
   lastNameLabel?: null | string
   mediaConsentLabel?: null | string
+  mediaConsentTriggerLinkUrl?: null | string
   motivationLabel?: null | string
   optionalConsentsTitle?: null | string
   personalDataTitle?: null | string
   phoneLabel?: null | string
   privacyDeclarationLabel?: null | string
   privacyDocuments?: null | PrivacyDocument[]
+  privacyTriggerLinkUrl?: null | string
   purposeDeclarationLabel?: null | string
+  purposeDeclarationTriggerLinkUrl?: null | string
   requestTypeLabel?: null | string
   requestTypes?: null | RequestTypeOption[]
   residenceAddressLabel?: null | string
   sectionTitleStyle?: EventSuiteTextStyle | null
   statuteDeclarationLabel?: null | string
+  statuteDeclarationTriggerLinkUrl?: null | string
   statusStyle?: EventSuiteTextStyle | null
   submitBackgroundImage?: EventSuiteMedia | number | null
   submitLabel?: null | string
   submitStyle?: EventSuiteTextStyle | null
   successMessage?: null | string
   truthDeclarationLabel?: null | string
+  truthDeclarationTriggerLinkUrl?: null | string
 }
 
 type SubmitState = 'error' | 'idle' | 'sending' | 'success'
@@ -135,6 +145,11 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   decorativeImage,
   emailLabel = 'Email *',
   emailSubjectPrefix = 'Nuova candidatura associazione',
+  enableMediaConsentTriggerLink = false,
+  enablePrivacyTriggerLink = false,
+  enablePurposeDeclarationTriggerLink = false,
+  enableStatuteDeclarationTriggerLink = false,
+  enableTruthDeclarationTriggerLink = false,
   errorMessage = 'Non siamo riusciti a inviare la candidatura. Riprova tra poco.',
   fieldStyle,
   firstNameLabel = 'Nome *',
@@ -146,24 +161,29 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   introText = 'Compila la candidatura con i tuoi dati. Ti ricontatteremo dopo averla ricevuta.',
   lastNameLabel = 'Cognome *',
   mediaConsentLabel = "Acconsento all'uso di foto/video in cui appaio durante eventi associativi.",
+  mediaConsentTriggerLinkUrl,
   motivationLabel = "Perche vuoi entrare nell'associazione? *",
   optionalConsentsTitle = 'Consensi facoltativi',
   personalDataTitle = 'Dati personali',
   phoneLabel = 'Telefono *',
   privacyDeclarationLabel = "Ho letto l'informativa privacy. *",
   privacyDocuments,
+  privacyTriggerLinkUrl,
   purposeDeclarationLabel = "Dichiaro di condividere le finalita dell'associazione. *",
+  purposeDeclarationTriggerLinkUrl,
   requestTypeLabel = 'Tipo di richiesta *',
   requestTypes,
   residenceAddressLabel = 'Indirizzo di residenza *',
   sectionTitleStyle,
   statuteDeclarationLabel = "Dichiaro di aver letto e accettare lo statuto e il regolamento dell'associazione. *",
+  statuteDeclarationTriggerLinkUrl,
   statusStyle,
   submitBackgroundImage,
   submitLabel = 'Invia candidatura',
   submitStyle,
   successMessage = 'Candidatura inviata. Ti ricontatteremo presto.',
   truthDeclarationLabel = 'Dichiaro che i dati inseriti sono veritieri. *',
+  truthDeclarationTriggerLinkUrl,
 }) => {
   const [formState, setFormState] = useState(initialFormState)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
@@ -224,6 +244,8 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     fontWeight: 'regular',
     lineHeight: 1.3,
   })
+  const getTriggerLinkUrl = (enabled: boolean | null | undefined, url: null | string | undefined) =>
+    enabled && url ? url : ''
   const sectionTitleClassName = getEventSuiteTextClassName(sectionTitleStyle, 'black')
   const sectionTitleTextStyle = getEventSuiteTextStyle(sectionTitleStyle, {
     fontFamily: 'cinzel',
@@ -424,10 +446,12 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     label,
     name,
     required = false,
+    triggerLinkUrl,
   }: {
     label: null | string | undefined
     name: keyof typeof initialFormState
     required?: boolean
+    triggerLinkUrl?: string
   }) => (
     <label className="membership-application-checkbox-row flex items-start gap-2">
       <span className="contact-message-checkbox scribble-border relative mt-[0.1rem] inline-flex size-4 shrink-0">
@@ -442,6 +466,20 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
       </span>
       <span className={checkboxClassName} style={checkboxTextStyle}>
         {label}
+        {triggerLinkUrl ? (
+          <>
+            {' '}
+            <a
+              className="form-declaration-trigger-link"
+              href={triggerLinkUrl}
+              onClick={(event) => event.stopPropagation()}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Clicca qui per visualizzare
+            </a>
+          </>
+        ) : null}
       </span>
     </label>
   )
@@ -676,21 +714,37 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     label: statuteDeclarationLabel,
                     name: 'statuteDeclaration',
                     required: true,
+                    triggerLinkUrl: getTriggerLinkUrl(
+                      enableStatuteDeclarationTriggerLink,
+                      statuteDeclarationTriggerLinkUrl,
+                    ),
                   })}
                   {renderCheckbox({
                     label: purposeDeclarationLabel,
                     name: 'purposeDeclaration',
                     required: true,
+                    triggerLinkUrl: getTriggerLinkUrl(
+                      enablePurposeDeclarationTriggerLink,
+                      purposeDeclarationTriggerLinkUrl,
+                    ),
                   })}
                   {renderCheckbox({
                     label: truthDeclarationLabel,
                     name: 'truthDeclaration',
                     required: true,
+                    triggerLinkUrl: getTriggerLinkUrl(
+                      enableTruthDeclarationTriggerLink,
+                      truthDeclarationTriggerLinkUrl,
+                    ),
                   })}
                   {renderCheckbox({
                     label: privacyDeclarationLabel,
                     name: 'privacyDeclaration',
                     required: true,
+                    triggerLinkUrl: getTriggerLinkUrl(
+                      enablePrivacyTriggerLink,
+                      privacyTriggerLinkUrl,
+                    ),
                   })}
                 </div>
                 {renderPrivacyDocuments()}
@@ -698,7 +752,14 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
 
               <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
                 {renderSectionTitle(optionalConsentsTitle)}
-                {renderCheckbox({ label: mediaConsentLabel, name: 'mediaConsent' })}
+                {renderCheckbox({
+                  label: mediaConsentLabel,
+                  name: 'mediaConsent',
+                  triggerLinkUrl: getTriggerLinkUrl(
+                    enableMediaConsentTriggerLink,
+                    mediaConsentTriggerLinkUrl,
+                  ),
+                })}
               </div>
             </div>
 

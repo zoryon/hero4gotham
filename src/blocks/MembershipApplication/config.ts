@@ -200,10 +200,38 @@ export const MembershipApplication: Block = {
           required: true,
         },
         {
+          name: 'enableStatuteDeclarationTriggerLink',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Show statute declaration trigger link',
+        },
+        {
+          name: 'statuteDeclarationTriggerLinkUrl',
+          type: 'text',
+          label: 'Statute declaration trigger link URL',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.enableStatuteDeclarationTriggerLink),
+          },
+        },
+        {
           name: 'purposeDeclarationLabel',
           type: 'text',
           defaultValue: "Dichiaro di condividere le finalita dell'associazione. *",
           required: true,
+        },
+        {
+          name: 'enablePurposeDeclarationTriggerLink',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Show purpose declaration trigger link',
+        },
+        {
+          name: 'purposeDeclarationTriggerLinkUrl',
+          type: 'text',
+          label: 'Purpose declaration trigger link URL',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.enablePurposeDeclarationTriggerLink),
+          },
         },
         {
           name: 'truthDeclarationLabel',
@@ -212,10 +240,38 @@ export const MembershipApplication: Block = {
           required: true,
         },
         {
+          name: 'enableTruthDeclarationTriggerLink',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Show truth declaration trigger link',
+        },
+        {
+          name: 'truthDeclarationTriggerLinkUrl',
+          type: 'text',
+          label: 'Truth declaration trigger link URL',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.enableTruthDeclarationTriggerLink),
+          },
+        },
+        {
           name: 'privacyDeclarationLabel',
           type: 'text',
           defaultValue: "Ho letto l'informativa privacy. *",
           required: true,
+        },
+        {
+          name: 'enablePrivacyTriggerLink',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Show privacy trigger link',
+        },
+        {
+          name: 'privacyTriggerLinkUrl',
+          type: 'text',
+          label: 'Privacy trigger link URL',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.enablePrivacyTriggerLink),
+          },
         },
         {
           name: 'mediaConsentLabel',
@@ -223,6 +279,20 @@ export const MembershipApplication: Block = {
           defaultValue:
             "Acconsento all'uso di foto/video in cui appaio durante eventi associativi.",
           required: true,
+        },
+        {
+          name: 'enableMediaConsentTriggerLink',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Show media consent trigger link',
+        },
+        {
+          name: 'mediaConsentTriggerLinkUrl',
+          type: 'text',
+          label: 'Media consent trigger link URL',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.enableMediaConsentTriggerLink),
+          },
         },
       ],
     },

@@ -1103,6 +1103,19 @@
     background-color: transparent;
   }
 
+  .form-declaration-trigger-link {
+    color: var(--theme-text-green);
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--theme-text-green) 55%, transparent);
+    text-underline-offset: 0.16em;
+  }
+
+  .form-declaration-trigger-link:hover {
+    color: var(--theme-text-secondary);
+    text-decoration-color: color-mix(in srgb, var(--theme-text-secondary) 70%, transparent);
+  }
+
   .privacy-policy-page {
     min-height: 70svh;
   }

@@ -19,6 +19,7 @@ type Props = {
   decorativeImage?: EventSuiteMedia | number | null
   emailPlaceholder?: null | string
   emailSubjectPrefix?: null | string
+  enablePrivacyTriggerLink?: boolean | null
   errorMessage?: null | string
   fieldStyle?: EventSuiteTextStyle | null
   heading?: null | string
@@ -31,6 +32,7 @@ type Props = {
   privacyLabel?: null | string
   privacyDocuments?: null | PrivacyDocument[]
   privacyStyle?: EventSuiteTextStyle | null
+  privacyTriggerLinkUrl?: null | string
   statusStyle?: EventSuiteTextStyle | null
   subjectPlaceholder?: null | string
   submitBackgroundImage?: EventSuiteMedia | number | null
@@ -67,6 +69,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
   decorativeImage,
   emailPlaceholder = 'Email',
   emailSubjectPrefix = 'Nuovo messaggio dal sito',
+  enablePrivacyTriggerLink = false,
   errorMessage = 'Non siamo riusciti a inviare il messaggio. Riprova tra poco.',
   fieldStyle,
   heading = 'Invia un messaggio',
@@ -79,6 +82,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
   privacyLabel = "Ho letto l'informativa sulla privacy e acconsento al trattamento dei dati.",
   privacyDocuments,
   privacyStyle,
+  privacyTriggerLinkUrl,
   statusStyle,
   subjectPlaceholder = 'Oggetto',
   submitBackgroundImage,
@@ -136,6 +140,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
     fontWeight: 'regular',
     lineHeight: 1.3,
   })
+  const showPrivacyTriggerLink = Boolean(enablePrivacyTriggerLink && privacyTriggerLinkUrl)
 
   const updateField = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, type, value } = event.target
@@ -387,6 +392,20 @@ export const ContactMessageBlock: React.FC<Props> = ({
                 </span>
                 <span className={privacyClassName} style={privacyTextStyle}>
                   {privacyLabel}
+                  {showPrivacyTriggerLink ? (
+                    <>
+                      {' '}
+                      <a
+                        className="form-declaration-trigger-link"
+                        href={privacyTriggerLinkUrl || undefined}
+                        onClick={(event) => event.stopPropagation()}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        Clicca qui per visualizzare
+                      </a>
+                    </>
+                  ) : null}
                 </span>
               </label>
               {renderPrivacyDocuments()}

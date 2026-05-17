@@ -57,6 +57,20 @@ export const ContactMessage: Block = {
       required: true,
     },
     {
+      name: 'enablePrivacyTriggerLink',
+      type: 'checkbox',
+      defaultValue: false,
+      label: 'Show privacy trigger link',
+    },
+    {
+      name: 'privacyTriggerLinkUrl',
+      type: 'text',
+      label: 'Privacy trigger link URL',
+      admin: {
+        condition: (_, siblingData) => Boolean(siblingData?.enablePrivacyTriggerLink),
+      },
+    },
+    {
       name: 'submitLabel',
       type: 'text',
       defaultValue: 'Invia messaggio',
