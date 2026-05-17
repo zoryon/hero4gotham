@@ -77,11 +77,13 @@ export const SiteBackgroundFrame: React.FC<{
   fallbackSettings?: SiteBackgroundSettings | null
   isFirstPageBlock?: boolean
   hideBackgroundImage?: boolean
+  hideOverlay?: boolean
   settings?: SiteBackgroundSettings | null
 }> = ({
   children,
   fallbackSettings,
   hideBackgroundImage = false,
+  hideOverlay = false,
   isFirstPageBlock = false,
   settings,
 }) => {
@@ -175,13 +177,15 @@ export const SiteBackgroundFrame: React.FC<{
           />
         ) : null}
 
-        <div
-          aria-hidden
-          className={cn(
-            'pointer-events-none absolute left-1/2 top-0 -z-10 h-[100svh] w-screen -translate-x-1/2',
-            overlayClasses[overlay || 'medium'],
-          )}
-        />
+        {!hideOverlay ? (
+          <div
+            aria-hidden
+            className={cn(
+              'pointer-events-none absolute left-1/2 top-0 -z-10 h-[100svh] w-screen -translate-x-1/2',
+              overlayClasses[overlay || 'medium'],
+            )}
+          />
+        ) : null}
 
         {children}
       </div>

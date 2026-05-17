@@ -24,7 +24,7 @@ export default async function PrivacyPolicyPage() {
 
   return (
     <article>
-      <SiteBackgroundFrame hideBackgroundImage isFirstPageBlock settings={siteBackground}>
+      <SiteBackgroundFrame hideBackgroundImage hideOverlay isFirstPageBlock settings={siteBackground}>
         <section className="privacy-policy-page container mt-3 lg:mt-8 2xl:mt-10">
           <div className="privacy-policy-shell mx-auto max-w-6xl">
             <header className="privacy-policy-hero">
