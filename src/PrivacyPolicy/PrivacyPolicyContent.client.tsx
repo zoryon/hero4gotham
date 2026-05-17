@@ -144,7 +144,7 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
       </aside>
 
       <RichText
-        className="privacy-policy-content"
+        className="privacy-policy-content scribble-border vintage-surface relative isolate overflow-visible"
         data={activeSection.content}
         enableGutter={false}
       />
