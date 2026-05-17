@@ -6066,6 +6066,7 @@ export interface Footer {
           url?: string | null;
           label: string;
         };
+        openCookiePreferences?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -6089,6 +6090,7 @@ export interface Footer {
           url?: string | null;
           label: string;
         };
+        openCookiePreferences?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -6341,6 +6343,7 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        openCookiePreferences?: T;
         id?: T;
       };
   legalLinks?:
@@ -6355,6 +6358,7 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        openCookiePreferences?: T;
         id?: T;
       };
   updatedAt?: T;

@@ -12,6 +12,7 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { ScrollToTopButton } from '@/components/ScrollToTopButton'
+import { CookieConsentBanner } from '@/components/CookieConsentBanner'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -75,6 +76,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
           <ScrollToTopButton />
+          <CookieConsentBanner />
         </Providers>
       </body>
     </html>

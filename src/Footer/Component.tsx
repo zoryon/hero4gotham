@@ -2,9 +2,11 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 
 import { CMSLink } from '@/components/Link'
+import { CookiePreferencesLink } from './CookiePreferencesLink.client'
 
 const fallbackLegalLinks = [
   {
+    openCookiePreferences: false,
     link: {
       label: 'Privacy Policy',
       type: 'custom' as const,
@@ -12,6 +14,7 @@ const fallbackLegalLinks = [
     },
   },
   {
+    openCookiePreferences: true,
     link: {
       label: 'Le tue preferenze relative alla privacy',
       type: 'custom' as const,
@@ -25,6 +28,7 @@ const fallbackDescription =
 
 const fallbackSocialLinks = [
   {
+    openCookiePreferences: false,
     link: {
       label: 'Instagram',
       newTab: true,
@@ -33,6 +37,7 @@ const fallbackSocialLinks = [
     },
   },
   {
+    openCookiePreferences: false,
     link: {
       label: 'LinkedIn',
       newTab: true,
@@ -41,6 +46,7 @@ const fallbackSocialLinks = [
     },
   },
   {
+    openCookiePreferences: false,
     link: {
       label: 'X(Twitter)',
       newTab: true,
@@ -75,16 +81,36 @@ export async function Footer() {
           <div className="site-footer__columns">
             <nav aria-label="Social" className="site-footer__link-group">
               <p className="site-footer__group-title">Seguici</p>
-              {navItems.map(({ link }, i) => {
+              {navItems.map(({ link, openCookiePreferences }, i) => {
+                if (openCookiePreferences) {
+                  return (
+                    <CookiePreferencesLink
+                      className="site-footer__link"
+                      key={i}
+                      label={link?.label}
+                    />
+                  )
+                }
+
                 return <CMSLink className="site-footer__link" key={i} {...link} />
               })}
             </nav>
 
             <nav aria-label="Legal" className="site-footer__link-group">
               <p className="site-footer__group-title">Informazioni</p>
-              {legalLinks.map(({ link }, i) => (
-                <CMSLink className="site-footer__link" key={i} {...link} />
-              ))}
+              {legalLinks.map(({ link, openCookiePreferences }, i) => {
+                if (openCookiePreferences) {
+                  return (
+                    <CookiePreferencesLink
+                      className="site-footer__link"
+                      key={i}
+                      label={link?.label}
+                    />
+                  )
+                }
+
+                return <CMSLink className="site-footer__link" key={i} {...link} />
+              })}
             </nav>
           </div>
         </div>

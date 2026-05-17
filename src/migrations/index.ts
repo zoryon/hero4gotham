@@ -45,6 +45,7 @@ import * as migration_20260517_111700_documents_show_in from './20260517_111700_
 import * as migration_20260517_113000_privacy_policy_global from './20260517_113000_privacy_policy_global'
 import * as migration_20260517_160800_privacy_trigger_links from './20260517_160800_privacy_trigger_links'
 import * as migration_20260517_162000_declaration_trigger_links from './20260517_162000_declaration_trigger_links'
+import * as migration_20260517_163000_footer_cookie_preferences from './20260517_163000_footer_cookie_preferences'
 
 export const migrations = [
   {
@@ -281,5 +282,10 @@ export const migrations = [
     up: migration_20260517_162000_declaration_trigger_links.up,
     down: migration_20260517_162000_declaration_trigger_links.down,
     name: '20260517_162000_declaration_trigger_links',
+  },
+  {
+    up: migration_20260517_163000_footer_cookie_preferences.up,
+    down: migration_20260517_163000_footer_cookie_preferences.down,
+    name: '20260517_163000_footer_cookie_preferences',
   },
 ]

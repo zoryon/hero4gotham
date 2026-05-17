@@ -65,6 +65,12 @@ export const Footer: GlobalConfig = {
                 link({
                   appearances: false,
                 }),
+                {
+                  name: 'openCookiePreferences',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Open cookie preferences instead of link',
+                },
               ],
               label: 'Right / social links',
               maxRows: 6,
@@ -83,6 +89,12 @@ export const Footer: GlobalConfig = {
                 link({
                   appearances: false,
                 }),
+                {
+                  name: 'openCookiePreferences',
+                  type: 'checkbox',
+                  defaultValue: false,
+                  label: 'Open cookie preferences instead of link',
+                },
               ],
               label: 'Legal links',
               maxRows: 4,

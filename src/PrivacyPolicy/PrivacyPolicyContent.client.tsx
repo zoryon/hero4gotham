@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useId, useMemo, useState } from 'react'
+import React, { useEffect, useId, useMemo, useState } from 'react'
 
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
@@ -84,6 +84,31 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
   const mobileMenuId = useId()
   const activeSection = sections.find((section) => section.id === activeSectionId) || sections[0]
 
+  useEffect(() => {
+    const applySectionFromHash = () => {
+      const hash = window.location.hash.replace('#', '')
+
+      if (!hash) return
+
+      const targetSection =
+        sections.find((section) => section.id === hash) ||
+        (hash === 'cookie-policy'
+          ? sections.find((section) => section.title.toLowerCase().includes('cookie'))
+          : undefined)
+
+      if (targetSection) {
+        setActiveSectionId(targetSection.id)
+      }
+    }
+
+    applySectionFromHash()
+    window.addEventListener('hashchange', applySectionFromHash)
+
+    return () => {
+      window.removeEventListener('hashchange', applySectionFromHash)
+    }
+  }, [sections])
+
   if (!activeSection) return null
 
   return (
@@ -147,6 +172,7 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
         className="privacy-policy-content"
         data={activeSection.content}
         enableGutter={false}
+        id={activeSection.title.toLowerCase().includes('cookie') ? 'cookie-policy' : activeSection.id}
       />
     </div>
   )
