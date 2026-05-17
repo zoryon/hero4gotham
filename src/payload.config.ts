@@ -12,6 +12,7 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { PrivacyPolicy } from './PrivacyPolicy/config'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -93,7 +94,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Activities, Events, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, ThemeColors, SiteBackground, MembershipDocuments],
+  globals: [Header, Footer, ThemeColors, SiteBackground, MembershipDocuments, PrivacyPolicy],
   i18n: {
     fallbackLanguage: 'it',
     supportedLanguages: { it: { ...italianTranslations } },

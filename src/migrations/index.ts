@@ -42,6 +42,7 @@ import * as migration_20260509_120000_upcoming_events_description_limit from './
 import * as migration_20260516_120000_global_site_background from './20260516_120000_global_site_background'
 import * as migration_20260516_180600_membership_documents_global from './20260516_180600_membership_documents_global'
 import * as migration_20260517_111700_documents_show_in from './20260517_111700_documents_show_in'
+import * as migration_20260517_113000_privacy_policy_global from './20260517_113000_privacy_policy_global'
 
 export const migrations = [
   {
@@ -263,5 +264,10 @@ export const migrations = [
     up: migration_20260517_111700_documents_show_in.up,
     down: migration_20260517_111700_documents_show_in.down,
     name: '20260517_111700_documents_show_in',
+  },
+  {
+    up: migration_20260517_113000_privacy_policy_global.up,
+    down: migration_20260517_113000_privacy_policy_global.down,
+    name: '20260517_113000_privacy_policy_global',
   },
 ]

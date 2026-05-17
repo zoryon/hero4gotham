@@ -119,6 +119,7 @@ export interface Config {
     themeColors: ThemeColor;
     siteBackground: SiteBackground;
     membershipDocuments: MembershipDocument;
+    privacyPolicy: PrivacyPolicy;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -126,6 +127,7 @@ export interface Config {
     themeColors: ThemeColorsSelect<false> | ThemeColorsSelect<true>;
     siteBackground: SiteBackgroundSelect<false> | SiteBackgroundSelect<true>;
     membershipDocuments: MembershipDocumentsSelect<false> | MembershipDocumentsSelect<true>;
+    privacyPolicy: PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
   };
   locale: null;
   widgets: {
@@ -6171,6 +6173,35 @@ export interface MembershipDocument {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacyPolicy".
+ */
+export interface PrivacyPolicy {
+  id: number;
+  title: string;
+  intro?: string | null;
+  lastUpdatedLabel: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -6364,6 +6395,21 @@ export interface MembershipDocumentsSelect<T extends boolean = true> {
         document?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacyPolicy_select".
+ */
+export interface PrivacyPolicySelect<T extends boolean = true> {
+  title?: T;
+  intro?: T;
+  lastUpdatedLabel?: T;
+  content?: T;
+  metaTitle?: T;
+  metaDescription?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

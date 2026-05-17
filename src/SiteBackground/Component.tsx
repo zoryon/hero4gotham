@@ -76,11 +76,20 @@ export const SiteBackgroundFrame: React.FC<{
   children: React.ReactNode
   fallbackSettings?: SiteBackgroundSettings | null
   isFirstPageBlock?: boolean
+  hideBackgroundImage?: boolean
   settings?: SiteBackgroundSettings | null
-}> = ({ children, fallbackSettings, isFirstPageBlock = false, settings }) => {
-  const backgroundImage = settings?.backgroundImage || fallbackSettings?.backgroundImage
-  const bgTab = settings?.bgTab || fallbackSettings?.bgTab
-  const bgMob = settings?.bgMob || fallbackSettings?.bgMob
+}> = ({
+  children,
+  fallbackSettings,
+  hideBackgroundImage = false,
+  isFirstPageBlock = false,
+  settings,
+}) => {
+  const backgroundImage = hideBackgroundImage
+    ? null
+    : settings?.backgroundImage || fallbackSettings?.backgroundImage
+  const bgTab = hideBackgroundImage ? null : settings?.bgTab || fallbackSettings?.bgTab
+  const bgMob = hideBackgroundImage ? null : settings?.bgMob || fallbackSettings?.bgMob
   const imagePositionDesktop = coalesce(
     settings?.imagePositionDesktop,
     fallbackSettings?.imagePositionDesktop,
