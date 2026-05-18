@@ -90,7 +90,7 @@ export type EventSuiteItem = {
       }[]
     | null
   id: number | string
-  link?: Record<string, unknown> | null
+  slug?: null | string
   startsAt: string
   timeLabel?: null | string
   title: string
@@ -104,12 +104,29 @@ export const eventSuiteSelect = {
     caption: true,
     image: true,
   },
-  link: true,
   startsAt: true,
+  slug: true,
   timeLabel: true,
   title: true,
   venue: true,
 } as const
+
+export const getEventDetailHref = (event: Pick<EventSuiteItem, 'slug'>) =>
+  event.slug ? `/eventi/${encodeURIComponent(event.slug)}` : null
+
+export const getEventPrimaryLink = (event: EventSuiteItem) => {
+  const detailHref = getEventDetailHref(event)
+
+  if (detailHref) {
+    return {
+      label: 'Scopri di più',
+      type: 'custom' as const,
+      url: detailHref,
+    }
+  }
+
+  return null
+}
 
 export const getEventTypeLabel = (activity: EventSuiteItem['activity']) => {
   if (!activity || typeof activity !== 'object') return null

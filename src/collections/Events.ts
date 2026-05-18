@@ -1,7 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
 import { adminOrEventsManager } from '@/access/roles'
-import { link } from '@/fields/link'
+import { slugField } from 'payload'
+import { revalidateDelete, revalidateEvent } from './Events/hooks/revalidateEvent'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -12,16 +13,17 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'activity', 'startsAt', 'timeLabel', 'venue', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'activity', 'startsAt', 'timeLabel', 'venue', 'updatedAt'],
     group: 'Content',
+    preview: (data) => (data?.slug ? `/eventi/${data.slug as string}` : null),
     useAsTitle: 'title',
   },
   defaultPopulate: {
     activity: true,
     description: true,
     gallery: true,
-    link: true,
     startsAt: true,
+    slug: true,
     timeLabel: true,
     title: true,
     venue: true,
@@ -106,13 +108,10 @@ export const Events: CollectionConfig<'events'> = {
       validate: (value: unknown) =>
         typeof value === 'string' && value.trim().length > 0 ? true : 'Venue is required.',
     },
-    link({
-      appearances: false,
-      overrides: {
-        admin: {
-          description: 'Link used by the "Scopri di piu" event action.',
-        },
-      },
-    }),
+    slugField(),
   ],
+  hooks: {
+    afterChange: [revalidateEvent],
+    afterDelete: [revalidateDelete],
+  },
 }

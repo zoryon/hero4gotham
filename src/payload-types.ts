@@ -1847,23 +1847,10 @@ export interface Event {
    */
   venue?: string | null;
   /**
-   * Link used by the "Scopri di piu" event action.
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
-  link: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
-    url?: string | null;
-    label: string;
-  };
+  generateSlug?: boolean | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -5519,15 +5506,8 @@ export interface EventsSelect<T extends boolean = true> {
       };
   description?: T;
   venue?: T;
-  link?:
-    | T
-    | {
-        type?: T;
-        newTab?: T;
-        reference?: T;
-        url?: T;
-        label?: T;
-      };
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

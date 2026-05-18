@@ -6,6 +6,7 @@ import {
   eventSuiteSelect,
   formatEventDateParts,
   getEventDisplayImage,
+  getEventPrimaryLink,
   getEventTypeLabel,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
@@ -107,6 +108,7 @@ export const FeaturedEventBlock = async ({
 
   const dateParts = formatEventDateParts(event.startsAt)
   const displayImage = backgroundImage || getEventDisplayImage(event)
+  const eventPrimaryLink = getEventPrimaryLink(event)
   const eventTypeLabel = getEventTypeLabel(event.activity)
 
   return (
@@ -207,12 +209,12 @@ export const FeaturedEventBlock = async ({
             </p>
           ) : null}
           <CMSLink
-            {...event.link}
+            {...eventPrimaryLink}
             className={cn(
               getEventSuiteTextClassName(lnkStyle, 'black'),
               'mt-1 inline-flex min-h-9 w-fit min-w-36 items-center justify-center bg-center bg-no-repeat px-7 py-2.5',
             )}
-            label={(event.link?.label as string) || linkFallbackLabel || 'Scopri di piu'}
+            label="Scopri di più"
             style={{
               ...getEventSuiteTextStyle(lnkStyle, {
                 fontFamily: 'cinzel',

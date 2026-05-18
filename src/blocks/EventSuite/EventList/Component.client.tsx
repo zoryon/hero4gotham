@@ -8,6 +8,7 @@ import { ChevronDown, MapPin } from 'lucide-react'
 import {
   formatEventDateParts,
   getEventDisplayImage,
+  getEventPrimaryLink,
   getEventTypeLabel,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
@@ -290,6 +291,7 @@ export const EventListClient: React.FC<Props> = ({
             const dateParts = formatEventDateParts(event.startsAt)
             const displayTime = event.timeLabel || dateParts.time
             const displayImage = getEventDisplayImage(event)
+            const eventPrimaryLink = getEventPrimaryLink(event)
             const eventTypeLabel = getEventTypeLabel(event.activity)
             const hasPassed = new Date(event.startsAt).getTime() < Date.now()
             const passedContentClassName = hasPassed ? 'opacity-70' : undefined
@@ -463,15 +465,13 @@ export const EventListClient: React.FC<Props> = ({
                         </div>
                       ) : null}
                       <CMSLink
-                        {...event.link}
+                        {...eventPrimaryLink}
                         className={cn(
                           getEventSuiteTextClassName(lnkStyle, 'black'),
                           'event-list-link-mobile scribble-border event-list-link-border event-list-link-surface relative w-fit items-center justify-center px-4 py-2.5',
                           passedContentClassName,
                         )}
-                        label={
-                          (event.link?.label as string) || eventLinkFallbackLabel || 'Scopri di piu'
-                        }
+                        label="Scopri di più"
                         style={getEventSuiteTextStyle(lnkStyle, {
                           fontFamily: 'cinzel',
                           fontSizeDesktop: 10,
@@ -494,15 +494,13 @@ export const EventListClient: React.FC<Props> = ({
                       />
                     ) : null}
                     <CMSLink
-                      {...event.link}
+                      {...eventPrimaryLink}
                       className={cn(
                         getEventSuiteTextClassName(lnkStyle, 'black'),
                         'event-list-link-image scribble-border event-list-link-border event-list-link-surface absolute bottom-5 right-5 z-10 w-fit items-center justify-center px-5 py-3',
                         passedContentClassName,
                       )}
-                      label={
-                        (event.link?.label as string) || eventLinkFallbackLabel || 'Scopri di piu'
-                      }
+                      label="Scopri di più"
                       style={getEventSuiteTextStyle(lnkStyle, {
                         fontFamily: 'cinzel',
                         fontSizeDesktop: 10,

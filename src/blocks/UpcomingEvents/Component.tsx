@@ -8,6 +8,7 @@ import type {
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
+import { getEventPrimaryLink } from '@/blocks/EventSuite/shared'
 import {
   typographyFontFamilyStyles,
   typographyFontSizeClasses,
@@ -35,12 +36,12 @@ const eventDateFormatter = new Intl.DateTimeFormat('it-IT', {
 
 const eventSelect = {
   description: true,
-  link: true,
   startsAt: true,
+  slug: true,
   title: true,
 } as const
 
-type UpcomingEventData = Pick<EventDocument, 'description' | 'id' | 'link' | 'startsAt' | 'title'>
+type UpcomingEventData = Pick<EventDocument, 'description' | 'id' | 'slug' | 'startsAt' | 'title'>
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
   if (!image || typeof image !== 'object') return undefined
@@ -354,6 +355,7 @@ export const UpcomingEventsBlock = async ({
                 {eventItems.length ? (
                   eventItems.map((event) => {
                     const formattedDate = formatEventDate(event.startsAt)
+                    const eventPrimaryLink = getEventPrimaryLink(event)
 
                     return (
                       <article
@@ -440,7 +442,7 @@ export const UpcomingEventsBlock = async ({
 
                           <span className="inline-flex w-fit flex-col items-start justify-self-start xl:items-end xl:self-end xl:justify-self-end">
                             <CMSLink
-                              {...event.link}
+                              {...eventPrimaryLink}
                               className={cn(
                                 getTextClassName({
                                   base: 'whitespace-nowrap uppercase',
@@ -450,7 +452,7 @@ export const UpcomingEventsBlock = async ({
                                 }),
                                 'text-[0.58rem] md:text-[0.62rem]',
                               )}
-                              label={event.link?.label || eventLinkLabel || 'Scopri di piu'}
+                              label="Scopri di più"
                               style={getTextStyle({
                                 color: eventLinkColor || '#a3e635',
                                 fontFamily: eventLinkFontFamily,
