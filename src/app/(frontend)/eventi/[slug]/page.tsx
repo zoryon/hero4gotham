@@ -9,7 +9,7 @@ import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import configPromise from '@payload-config'
-import { CalendarDays, Clock, MapPin } from 'lucide-react'
+import { CalendarDays, Clock, MapPin, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { cache, type ReactNode } from 'react'
 import { getPayload } from 'payload'
@@ -45,8 +45,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
   const siteBackground = await getCachedGlobal('siteBackground', 1)().catch(() => null)
   const dateParts = formatEventDateParts(event.startsAt)
+  const fullMonth = new Intl.DateTimeFormat('it-IT', { month: 'long' })
+    .format(new Date(event.startsAt))
+    .toUpperCase()
   const eventTypeLabel = getEventTypeLabel(event.activity)
-  const hasPassed = new Date(event.startsAt).getTime() < Date.now()
   const galleryImages = event.gallery.flatMap((item) =>
     typeof item.image === 'object'
       ? [
@@ -65,7 +67,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
       <SiteBackgroundFrame isFirstPageBlock settings={siteBackground}>
         <header className="event-detail-hero">
-          <div className="container relative z-10 flex min-h-[inherit] items-center pb-12 md:pb-16">
+          <div className="container relative z-10 mt-4 flex min-h-[inherit] items-center pb-6 md:pb-10">
             <div className="event-detail-hero__copy max-w-4xl pb-3 md:pb-6">
               <Link
                 className="mb-7 inline-flex font-cinzel text-xs font-black uppercase leading-none text-[var(--theme-text-green)] underline decoration-[var(--theme-text-green)]/55 underline-offset-4 transition hover:text-[var(--theme-text-accent)]"
@@ -91,24 +93,30 @@ export default async function EventPage({ params: paramsPromise }: Args) {
           </div>
         </header>
 
-        <div className="container pb-16 pt-10 md:pt-12">
-          <aside className="scribble-border vintage-surface grid max-w-3xl gap-4 p-5 md:grid-cols-3">
-            {hasPassed ? (
-              <span className="w-fit bg-black px-2 py-1 font-cinzel text-xs font-black uppercase text-[#ff2d2d] md:col-span-3">
-                Evento passato
-              </span>
-            ) : null}
-            <EventDetailRow icon={<CalendarDays aria-hidden className="h-5 w-5" />}>
-              {dateParts.weekday} {dateParts.day} {dateParts.month} {dateParts.year}
-            </EventDetailRow>
-            <EventDetailRow icon={<Clock aria-hidden className="h-5 w-5" />}>
-              {event.timeLabel || dateParts.time}
-            </EventDetailRow>
-            {event.venue ? (
-              <EventDetailRow icon={<MapPin aria-hidden className="h-5 w-5" />}>
-                {event.venue}
-              </EventDetailRow>
-            ) : null}
+        <div className="container pb-16 pt-4 md:pt-6">
+          <aside className="event-detail-info-bar scribble-border vintage-surface grid gap-0 p-5 md:grid-cols-2 xl:grid-cols-4">
+            <EventInfoItem
+              icon={<CalendarDays aria-hidden className="h-7 w-7" />}
+              label="Data"
+              primary={`${dateParts.day} ${fullMonth} ${dateParts.year}`}
+              secondary={dateParts.weekday}
+            />
+            <EventInfoItem
+              icon={<Clock aria-hidden className="h-7 w-7" />}
+              label="Orario"
+              primary={event.timeLabel || dateParts.time}
+            />
+            <EventInfoItem
+              icon={<MapPin aria-hidden className="h-7 w-7" />}
+              label="Luogo"
+              primary={event.venue}
+              secondary={event.venueAddress}
+            />
+            <EventInfoItem
+              icon={<UsersRound aria-hidden className="h-7 w-7" />}
+              label="Pubblico"
+              primary={event.audience || 'Da definire'}
+            />
           </aside>
 
           {galleryPreviewImages.length > 0 ? (
@@ -203,15 +211,31 @@ const getAbsoluteMediaUrl = (image: MediaDocument) => {
   return `${getServerSideURL()}${url}`
 }
 
-const EventDetailRow = ({
-  children,
+const EventInfoItem = ({
   icon,
+  label,
+  primary,
+  secondary,
 }: {
-  children: ReactNode
   icon: ReactNode
+  label: string
+  primary?: null | string
+  secondary?: null | string
 }) => (
-  <div className="flex items-start gap-3 text-[var(--theme-text-primary)]">
-    <span className="mt-0.5 text-[var(--theme-text-green)]">{icon}</span>
-    <span className="font-cinzel text-sm font-black uppercase leading-5">{children}</span>
+  <div className="event-detail-info-item flex min-w-0 items-center gap-4 px-3 py-4 md:px-5">
+    <span className="shrink-0 text-[var(--theme-text-green)]">{icon}</span>
+    <span className="min-w-0">
+      <span className="block font-cinzel text-[0.68rem] font-black uppercase leading-none text-[var(--theme-text-purple)]">
+        {label}
+      </span>
+      <span className="mt-1.5 block truncate font-cinzel text-sm font-black uppercase leading-none text-[var(--theme-text-secondary)]">
+        {primary || 'Da definire'}
+      </span>
+      {secondary ? (
+        <span className="mt-1.5 block truncate font-cinzel text-[0.58rem] font-black uppercase leading-none text-[var(--theme-text-primary)]">
+          {secondary}
+        </span>
+      ) : null}
+    </span>
   </div>
 )

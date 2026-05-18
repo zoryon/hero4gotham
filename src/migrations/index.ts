@@ -48,6 +48,7 @@ import * as migration_20260517_162000_declaration_trigger_links from './20260517
 import * as migration_20260517_163000_footer_cookie_preferences from './20260517_163000_footer_cookie_preferences'
 import * as migration_20260518_100000_event_detail_pages from './20260518_100000_event_detail_pages'
 import * as migration_20260518_101000_remove_event_manual_cta from './20260518_101000_remove_event_manual_cta'
+import * as migration_20260518_102000_event_detail_info_fields from './20260518_102000_event_detail_info_fields'
 
 export const migrations = [
   {
@@ -299,5 +300,10 @@ export const migrations = [
     up: migration_20260518_101000_remove_event_manual_cta.up,
     down: migration_20260518_101000_remove_event_manual_cta.down,
     name: '20260518_101000_remove_event_manual_cta',
+  },
+  {
+    up: migration_20260518_102000_event_detail_info_fields.up,
+    down: migration_20260518_102000_event_detail_info_fields.down,
+    name: '20260518_102000_event_detail_info_fields',
   },
 ]

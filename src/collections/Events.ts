@@ -26,7 +26,9 @@ export const Events: CollectionConfig<'events'> = {
     slug: true,
     timeLabel: true,
     title: true,
+    audience: true,
     venue: true,
+    venueAddress: true,
   },
   fields: [
     {
@@ -101,12 +103,28 @@ export const Events: CollectionConfig<'events'> = {
       name: 'venue',
       type: 'text',
       admin: {
-        description: 'Place used by the event filters.',
+        description: 'Display venue used by event lists and filters.',
       },
       index: true,
-      label: 'Venue',
+      label: 'Display venue',
       validate: (value: unknown) =>
         typeof value === 'string' && value.trim().length > 0 ? true : 'Venue is required.',
+    },
+    {
+      name: 'venueAddress',
+      type: 'text',
+      admin: {
+        description: 'Venue address shown on the generated event detail page.',
+      },
+      label: 'Venue address',
+    },
+    {
+      name: 'audience',
+      type: 'text',
+      admin: {
+        description: 'Public/audience label shown on the generated event detail page.',
+      },
+      label: 'Audience',
     },
     slugField(),
   ],

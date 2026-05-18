@@ -81,6 +81,7 @@ export type EventSuiteItem = {
       }
     | number
     | null
+  audience?: null | string
   description?: null | string
   gallery?:
     | {
@@ -95,10 +96,12 @@ export type EventSuiteItem = {
   timeLabel?: null | string
   title: string
   venue?: null | string
+  venueAddress?: null | string
 }
 
 export const eventSuiteSelect = {
   activity: true,
+  audience: true,
   description: true,
   gallery: {
     caption: true,
@@ -109,6 +112,7 @@ export const eventSuiteSelect = {
   timeLabel: true,
   title: true,
   venue: true,
+  venueAddress: true,
 } as const
 
 export const getEventDetailHref = (event: Pick<EventSuiteItem, 'slug'>) =>

@@ -1843,9 +1843,17 @@ export interface Event {
   }[];
   description: string;
   /**
-   * Place used by the event filters.
+   * Display venue used by event lists and filters.
    */
   venue?: string | null;
+  /**
+   * Venue address shown on the generated event detail page.
+   */
+  venueAddress?: string | null;
+  /**
+   * Public/audience label shown on the generated event detail page.
+   */
+  audience?: string | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -5506,6 +5514,8 @@ export interface EventsSelect<T extends boolean = true> {
       };
   description?: T;
   venue?: T;
+  venueAddress?: T;
+  audience?: T;
   generateSlug?: T;
   slug?: T;
   updatedAt?: T;
