@@ -60,6 +60,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
       : [],
   )
   const galleryPreviewImages = galleryImages.slice(1)
+  const fallbackBannerImage = galleryImages[0]?.image
 
   return (
     <article>
@@ -94,6 +95,34 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         </header>
 
         <div className="container pb-16 pt-4 md:pt-6">
+          <section className="event-detail-banner scribble-border mb-5 md:mb-6">
+            <div className="relative aspect-[16/7] min-h-[10rem] md:aspect-[21/6] md:min-h-0">
+              {event.banner && typeof event.banner === 'object' ? (
+                <Media
+                  fill
+                  imgClassName="object-cover object-center"
+                  pictureClassName="absolute inset-0"
+                  priority
+                  resource={event.banner}
+                  size="(max-width: 1536px) calc(100vw - 2rem), 1312px"
+                />
+              ) : fallbackBannerImage ? (
+                <>
+                  <Media
+                    fill
+                    imgClassName="object-cover object-center"
+                    pictureClassName="absolute inset-0"
+                    resource={fallbackBannerImage}
+                    size="(max-width: 1536px) calc(100vw - 2rem), 1312px"
+                  />
+                  <div aria-hidden className="event-detail-banner__fallback-shade absolute inset-0" />
+                </>
+              ) : (
+                <div className="event-detail-banner__placeholder absolute inset-0" />
+              )}
+            </div>
+          </section>
+
           <aside className="event-detail-info-bar scribble-border vintage-surface grid gap-0 p-5 md:grid-cols-2 xl:grid-cols-4">
             <EventInfoItem
               icon={<CalendarDays aria-hidden className="h-7 w-7" />}

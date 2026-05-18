@@ -1841,6 +1841,10 @@ export interface Event {
     caption?: string | null;
     id?: string | null;
   }[];
+  /**
+   * Optional special banner used on the generated event detail page, between the hero text and event info bar.
+   */
+  banner?: (number | null) | Media;
   description: string;
   /**
    * Display venue used by event lists and filters.
@@ -5512,6 +5516,7 @@ export interface EventsSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
+  banner?: T;
   description?: T;
   venue?: T;
   venueAddress?: T;

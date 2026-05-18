@@ -27,6 +27,7 @@ export const Events: CollectionConfig<'events'> = {
     timeLabel: true,
     title: true,
     audience: true,
+    banner: true,
     venue: true,
     venueAddress: true,
   },
@@ -93,6 +94,16 @@ export const Events: CollectionConfig<'events'> = {
         plural: 'Photos',
         singular: 'Photo',
       },
+    },
+    {
+      name: 'banner',
+      type: 'upload',
+      admin: {
+        description:
+          'Optional special banner used on the generated event detail page, between the hero text and event info bar.',
+      },
+      label: 'Banner',
+      relationTo: 'media',
     },
     {
       name: 'description',
