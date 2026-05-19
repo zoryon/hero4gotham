@@ -62,6 +62,7 @@ export const AdminBar: React.FC<{
             logo: 'text-white',
             user: 'text-white',
           }}
+          adminPath="/control-room-h4g"
           cmsURL={getClientSideURL()}
           collectionSlug={collection}
           collectionLabels={{

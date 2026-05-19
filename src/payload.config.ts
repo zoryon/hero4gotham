@@ -26,6 +26,7 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 const smtpPort = Number(process.env.SMTP_PORT || 587)
+const adminRoute = '/control-room-h4g'
 
 export default buildConfig({
   admin: {
@@ -36,6 +37,7 @@ export default buildConfig({
     },
     importMap: {
       baseDir: path.resolve(dirname),
+      importMapFile: path.resolve(dirname, `app/(payload)${adminRoute}/importMap.js`),
     },
     user: Users.slug,
     livePreview: {
@@ -60,6 +62,9 @@ export default buildConfig({
         },
       ],
     },
+  },
+  routes: {
+    admin: adminRoute,
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
