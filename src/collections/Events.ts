@@ -21,13 +21,17 @@ export const Events: CollectionConfig<'events'> = {
   defaultPopulate: {
     activity: true,
     description: true,
+    longDescription: true,
     gallery: true,
+    artistsAndGuests: true,
     startsAt: true,
     slug: true,
     timeLabel: true,
     title: true,
+    timeline: true,
     audience: true,
     banner: true,
+    usefulInfo: true,
     venue: true,
     venueAddress: true,
   },
@@ -108,7 +112,123 @@ export const Events: CollectionConfig<'events'> = {
     {
       name: 'description',
       type: 'textarea',
+      admin: {
+        description: 'Short summary used in event cards, previews, and the top of the event page.',
+      },
+      label: 'Descrizione breve',
       required: true,
+    },
+    {
+      name: 'longDescription',
+      type: 'textarea',
+      admin: {
+        description: 'Optional longer text shown in the event detail page.',
+      },
+      label: 'Descrizione lunga',
+    },
+    {
+      name: 'timeline',
+      type: 'array',
+      admin: {
+        description:
+          'Optional event schedule. Add time, short title, and a brief description for each step.',
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'time',
+          type: 'text',
+          label: 'Orario',
+          required: true,
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Titolo',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Descrizione',
+        },
+      ],
+      label: 'Timestamps / programma',
+      labels: {
+        plural: 'Timestamps',
+        singular: 'Timestamp',
+      },
+    },
+    {
+      name: 'artistsAndGuests',
+      type: 'array',
+      admin: {
+        description:
+          'Optional section for artists, hosts, speakers, and guests shown in the event detail page.',
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'firstName',
+          type: 'text',
+          label: 'Nome',
+          required: true,
+        },
+        {
+          name: 'lastName',
+          type: 'text',
+          label: 'Cognome',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Descrizione breve',
+        },
+        {
+          name: 'photo',
+          type: 'upload',
+          label: 'Foto',
+          relationTo: 'media',
+        },
+      ],
+      label: 'Artisti ed ospiti',
+      labels: {
+        plural: 'Artisti ed ospiti',
+        singular: 'Artista o ospite',
+      },
+    },
+    {
+      name: 'usefulInfo',
+      type: 'array',
+      admin: {
+        description: 'Optional practical information blocks shown in the event detail page.',
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'icon',
+          type: 'upload',
+          label: 'Icona',
+          relationTo: 'media',
+        },
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Titolo',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Descrizione',
+        },
+      ],
+      label: 'Informazioni utili',
+      labels: {
+        plural: 'Informazioni utili',
+        singular: 'Informazione utile',
+      },
     },
     {
       name: 'venue',

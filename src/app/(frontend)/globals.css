@@ -553,6 +553,126 @@
     border-top: 0;
   }
 
+  .font-rye-western {
+    font-family: var(--font-rye), 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .event-detail-section-heading {
+    text-shadow:
+      0 0.1em 0.16em rgb(0 0 0 / 0.58),
+      0 0 0.55rem rgb(0 0 0 / 0.28);
+  }
+
+  .event-detail-timeline__item {
+    display: grid;
+    grid-template-columns: minmax(3.65rem, max-content) 1.25rem minmax(0, 1fr);
+    column-gap: clamp(0.7rem, 2vw, 1.25rem);
+    min-width: 0;
+  }
+
+  .event-detail-timeline__time {
+    color: var(--theme-text-green, #90a434);
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    font-size: clamp(0.86rem, 2vw, 1rem);
+    font-weight: 900;
+    line-height: 1;
+    padding-top: 0.08rem;
+    text-shadow: 0 0.08em 0.12em rgb(0 0 0 / 0.68);
+  }
+
+  .event-detail-timeline__rail {
+    display: grid;
+    justify-items: center;
+    position: relative;
+  }
+
+  .event-detail-timeline__rail::before {
+    background: color-mix(in srgb, var(--theme-text-green, #90a434) 62%, rgb(255 255 255 / 0.12));
+    bottom: 0;
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 2px;
+  }
+
+  .event-detail-timeline__item:first-child .event-detail-timeline__rail::before {
+    top: 0.35rem;
+  }
+
+  .event-detail-timeline__item:last-child .event-detail-timeline__rail::before {
+    bottom: calc(100% - 0.85rem);
+  }
+
+  .event-detail-timeline__dot {
+    background: var(--theme-background-container-overflow, #050505);
+    border: 3px solid var(--theme-text-green, #90a434);
+    box-shadow:
+      0 0 0 2px rgb(0 0 0 / 0.35),
+      0 0 1rem color-mix(in srgb, var(--theme-text-green, #90a434) 24%, transparent);
+    display: block;
+    height: 0.82rem;
+    margin-top: 0.06rem;
+    position: relative;
+    width: 0.82rem;
+    z-index: 1;
+  }
+
+  .event-detail-person-card,
+  .event-detail-gallery-card,
+  .event-detail-useful-card,
+  .event-detail-related-card {
+    --vintage-border-width: 10px;
+  }
+
+  .event-detail-gallery-card,
+  .event-detail-related-card {
+    padding: calc(var(--vintage-border-width, 10px) * 0.72);
+  }
+
+  .event-detail-related-card {
+    padding: calc(var(--vintage-border-width, 10px) * 1.15);
+  }
+
+  .event-detail-gallery-card__image {
+    overflow: hidden;
+  }
+
+  .event-detail-related-card__media {
+    contain: paint;
+    isolation: isolate;
+  }
+
+  .event-detail-related-card__picture {
+    display: block;
+    overflow: hidden;
+  }
+
+  .event-detail-person-card__photo,
+  .event-detail-useful-card__icon,
+  .event-detail-related-card__media {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 243 243'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' seed='15' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.38'/%3E%3C/svg%3E"),
+      linear-gradient(135deg, rgb(38 39 45 / 0.9), rgb(17 18 22 / 0.96));
+    background-blend-mode: overlay, normal;
+  }
+
+  .event-detail-person-card__photo,
+  .event-detail-useful-card__icon {
+    border: 1px solid color-mix(in srgb, var(--theme-text-green, #90a434) 42%, transparent);
+  }
+
+  .event-detail-related-card__media::after {
+    background:
+      linear-gradient(180deg, transparent 52%, rgb(0 0 0 / 0.48)),
+      linear-gradient(90deg, rgb(0 0 0 / 0.24), transparent 44%, rgb(0 0 0 / 0.18));
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
   .background-container__image {
     image-rendering: auto;
     object-position: var(--background-container-image-position-mobile, center center);

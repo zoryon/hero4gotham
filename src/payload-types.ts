@@ -1845,7 +1845,48 @@ export interface Event {
    * Optional special banner used on the generated event detail page, between the hero text and event info bar.
    */
   banner?: (number | null) | Media;
+  /**
+   * Short summary used in event cards, previews, and the top of the event page.
+   */
   description: string;
+  /**
+   * Optional longer text shown in the event detail page.
+   */
+  longDescription?: string | null;
+  /**
+   * Optional event schedule. Add time, short title, and a brief description for each step.
+   */
+  timeline?:
+    | {
+        time: string;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional section for artists, hosts, speakers, and guests shown in the event detail page.
+   */
+  artistsAndGuests?:
+    | {
+        firstName: string;
+        lastName: string;
+        description?: string | null;
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Optional practical information blocks shown in the event detail page.
+   */
+  usefulInfo?:
+    | {
+        icon?: (number | null) | Media;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Display venue used by event lists and filters.
    */
@@ -5518,6 +5559,32 @@ export interface EventsSelect<T extends boolean = true> {
       };
   banner?: T;
   description?: T;
+  longDescription?: T;
+  timeline?:
+    | T
+    | {
+        time?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  artistsAndGuests?:
+    | T
+    | {
+        firstName?: T;
+        lastName?: T;
+        description?: T;
+        photo?: T;
+        id?: T;
+      };
+  usefulInfo?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   venue?: T;
   venueAddress?: T;
   audience?: T;

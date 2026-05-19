@@ -49,6 +49,11 @@ export const buildEventWhere = (filters?: EventFilterParams): Where => {
           },
         },
         {
+          longDescription: {
+            contains: normalizedFilters.query,
+          },
+        },
+        {
           venue: {
             contains: normalizedFilters.query,
           },
