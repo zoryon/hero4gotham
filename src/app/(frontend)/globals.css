@@ -620,23 +620,17 @@
   }
 
   .event-detail-person-card,
-  .event-detail-gallery-card,
   .event-detail-useful-card,
   .event-detail-related-card {
     --vintage-border-width: 10px;
   }
 
-  .event-detail-gallery-card,
   .event-detail-related-card {
     padding: calc(var(--vintage-border-width, 10px) * 0.72);
   }
 
   .event-detail-related-card {
     padding: calc(var(--vintage-border-width, 10px) * 1.15);
-  }
-
-  .event-detail-gallery-card__image {
-    overflow: hidden;
   }
 
   .event-detail-related-card__media {

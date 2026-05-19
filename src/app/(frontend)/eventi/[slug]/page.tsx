@@ -17,6 +17,7 @@ import configPromise from '@payload-config'
 import { ArrowLeft, ArrowRight, CalendarDays, Clock, Info, MapPin, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { cache, type ReactNode } from 'react'
+import { EventDetailGallery, type EventDetailGalleryPhoto } from './EventDetailGallery.client'
 import { getPayload } from 'payload'
 
 export async function generateStaticParams() {
@@ -63,11 +64,12 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     (item) => item.firstName || item.lastName,
   )
   const usefulInfoItems = (event.usefulInfo || []).filter((item) => item.title || item.description)
-  const galleryImages = event.gallery.flatMap((item) =>
+  const galleryImages = event.gallery.flatMap((item, index): EventDetailGalleryPhoto[] =>
     typeof item.image === 'object'
       ? [
           {
             caption: item.caption,
+            id: item.id || `${item.image.id}-${index}`,
             image: item.image,
           },
         ]
@@ -271,28 +273,8 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               <h2 className="font-rye-western text-2xl uppercase text-[var(--theme-text-green)]">
                 Galleria
               </h2>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {galleryPreviewImages.map(({ caption, image }, index) => (
-                  <figure
-                    className="event-detail-gallery-card scribble-border vintage-surface"
-                    key={`${image.id}-${index}`}
-                  >
-                    <div className="event-detail-gallery-card__image relative aspect-[4/3]">
-                      <Media
-                        fill
-                        imgClassName="object-cover object-center"
-                        pictureClassName="absolute inset-0"
-                        resource={image}
-                        size="(max-width: 1023px) 50vw, 33vw"
-                      />
-                    </div>
-                    {caption ? (
-                      <figcaption className="px-4 py-3 text-sm text-[var(--theme-text-primary)]">
-                        {caption}
-                      </figcaption>
-                    ) : null}
-                  </figure>
-                ))}
+              <div className="mt-6">
+                <EventDetailGallery photos={galleryPreviewImages} />
               </div>
             </section>
           ) : null}
