@@ -85,8 +85,8 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
       <SiteBackgroundFrame isFirstPageBlock settings={siteBackground}>
         <header className="event-detail-hero">
-          <div className="container relative z-10 mt-8 lg:mt-18 flex min-h-[inherit] items-center pb-6 md:pb-10">
-            <div className="event-detail-hero__copy max-w-4xl pb-3 md:pb-6">
+          <div className="container relative z-10 mt-8 lg:mt-18 flex min-h-[inherit] items-center pb-3">
+            <div className="event-detail-hero__copy max-w-4xl pb-1">
               <Link
                 className="mb-7 inline-flex items-center gap-2 font-cinzel text-xs font-black uppercase leading-none text-[var(--theme-text-green)] underline decoration-[var(--theme-text-green)]/55 underline-offset-4 transition hover:text-[var(--theme-text-accent)]"
                 href="/eventi"
@@ -112,7 +112,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
           </div>
         </header>
 
-        <div className="container pb-16 pt-4 md:pt-6">
+        <div className="container pb-16 pt-2">
           <section className="event-detail-banner scribble-border mb-5 md:mb-6">
             <div className="relative aspect-[16/7] min-h-[10rem] md:aspect-[21/6] md:min-h-0">
               {event.banner && typeof event.banner === 'object' ? (

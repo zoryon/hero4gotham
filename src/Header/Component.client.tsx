@@ -21,27 +21,27 @@ interface HeaderClientProps {
 
 type HeaderNavItem = NonNullable<Header['navItems']>[number]
 type HeaderSocialItem = NonNullable<Header['socialItems']>[number]
-type HeaderTypography = NonNullable<Header['eyebrowTypography']>
+type HeaderTypography = NonNullable<Header['navTypography']>
 
 const typographyDefaults = {
-  brandTypography: {
-    fontFamily: 'cinzel',
-    fontSize: 27,
-    fontWeight: 'black',
-    letterSpacing: 0.03,
-    lineHeight: 0.95,
-    textTransform: 'uppercase',
-    verticalScale: 'normal',
-  },
-  eyebrowTypography: {
-    fontFamily: 'cinzel',
-    fontSize: 13,
-    fontWeight: 'black',
-    letterSpacing: 0.1,
-    lineHeight: 0.95,
-    textTransform: 'uppercase',
-    verticalScale: 'normal',
-  },
+  // brandTypography: {
+  //   fontFamily: 'cinzel',
+  //   fontSize: 27,
+  //   fontWeight: 'black',
+  //   letterSpacing: 0.03,
+  //   lineHeight: 0.95,
+  //   textTransform: 'uppercase',
+  //   verticalScale: 'normal',
+  // },
+  // eyebrowTypography: {
+  //   fontFamily: 'cinzel',
+  //   fontSize: 13,
+  //   fontWeight: 'black',
+  //   letterSpacing: 0.1,
+  //   lineHeight: 0.95,
+  //   textTransform: 'uppercase',
+  //   verticalScale: 'normal',
+  // },
   navTypography: {
     fontFamily: 'cinzel',
     fontSize: 14,
@@ -60,15 +60,15 @@ const typographyDefaults = {
     textTransform: 'normal',
     verticalScale: 'normal',
   },
-  taglineTypography: {
-    fontFamily: 'cinzel',
-    fontSize: 16,
-    fontWeight: 'black',
-    letterSpacing: 0.12,
-    lineHeight: 0.95,
-    textTransform: 'uppercase',
-    verticalScale: 'normal',
-  },
+  // taglineTypography: {
+  //   fontFamily: 'cinzel',
+  //   fontSize: 16,
+  //   fontWeight: 'black',
+  //   letterSpacing: 0.12,
+  //   lineHeight: 0.95,
+  //   textTransform: 'uppercase',
+  //   verticalScale: 'normal',
+  // },
 } as const
 
 const fontWeightValues = {
@@ -202,9 +202,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const navItems = data?.navItems || []
   const socialItems = data?.socialItems || []
   const hasLogo = Boolean(data?.logo && typeof data.logo === 'object')
-  const eyebrowTextTransform = data?.eyebrowTypography?.textTransform
-  const brandTextTransform = data?.brandTypography?.textTransform
-  const taglineTextTransform = data?.taglineTypography?.textTransform
+  // const eyebrowTextTransform = data?.eyebrowTypography?.textTransform
+  // const brandTextTransform = data?.brandTypography?.textTransform
+  // const taglineTextTransform = data?.taglineTypography?.textTransform
   const navTextTransform = data?.navTypography?.textTransform
   const socialTextTransform = data?.socialTypography?.textTransform
 
@@ -242,21 +242,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           '--header-logo-width': `${data?.logoWidth || 82}px`,
           '--header-max-width': `${data?.maxWidth || 1240}px`,
           '--header-text': data?.textColor || '#f4f0dc',
-          ...typographyVars(
-            'header-eyebrow',
-            data?.eyebrowTypography,
-            typographyDefaults.eyebrowTypography,
-          ),
-          ...typographyVars(
-            'header-brand',
-            data?.brandTypography,
-            typographyDefaults.brandTypography,
-          ),
-          ...typographyVars(
-            'header-tagline',
-            data?.taglineTypography,
-            typographyDefaults.taglineTypography,
-          ),
+          // ...typographyVars(
+          //   'header-eyebrow',
+          //   data?.eyebrowTypography,
+          //   typographyDefaults.eyebrowTypography,
+          // ),
+          // ...typographyVars(
+          //   'header-brand',
+          //   data?.brandTypography,
+          //   typographyDefaults.brandTypography,
+          // ),
+          // ...typographyVars(
+          //   'header-tagline',
+          //   data?.taglineTypography,
+          //   typographyDefaults.taglineTypography,
+          // ),
           ...typographyVars('header-nav', data?.navTypography, typographyDefaults.navTypography),
           ...typographyVars(
             'header-social',
@@ -282,6 +282,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               <Logo loading="eager" priority="high" className="h-full w-full object-contain" />
             )}
           </span>
+          {/*
           <span className="site-header__brand-copy">
             {data?.eyebrow ? (
               <span
@@ -303,6 +304,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               </span>
             ) : null}
           </span>
+          */}
         </Link>
 
         <button

@@ -156,32 +156,32 @@ export const Header: GlobalConfig = {
               relationTo: 'media',
               label: 'Logo mark',
             },
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'eyebrow',
-                  type: 'text',
-                  defaultValue: 'ASSOCIAZIONE CULTURALE',
-                  admin: {
-                    width: '50%',
-                  },
-                },
-                {
-                  name: 'brandName',
-                  type: 'text',
-                  defaultValue: 'IL SORRISO STORTO',
-                  admin: {
-                    width: '50%',
-                  },
-                },
-              ],
-            },
-            {
-              name: 'tagline',
-              type: 'text',
-              defaultValue: 'IDEA. CAOS. ARTE.',
-            },
+            // {
+            //   type: 'row',
+            //   fields: [
+            //     {
+            //       name: 'eyebrow',
+            //       type: 'text',
+            //       defaultValue: 'ASSOCIAZIONE CULTURALE',
+            //       admin: {
+            //         width: '50%',
+            //       },
+            //     },
+            //     {
+            //       name: 'brandName',
+            //       type: 'text',
+            //       defaultValue: 'IL SORRISO STORTO',
+            //       admin: {
+            //         width: '50%',
+            //       },
+            //     },
+            //   ],
+            // },
+            // {
+            //   name: 'tagline',
+            //   type: 'text',
+            //   defaultValue: 'IDEA. CAOS. ARTE.',
+            // },
           ],
         },
         {
@@ -324,33 +324,33 @@ export const Header: GlobalConfig = {
         {
           label: 'Typography',
           fields: [
-            headerTypographyField('eyebrowTypography', 'Eyebrow typography', {
-              fontFamily: 'cinzel',
-              fontSize: 13,
-              fontWeight: 'black',
-              letterSpacing: 0.1,
-              lineHeight: 0.95,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }),
-            headerTypographyField('brandTypography', 'Brand name typography', {
-              fontFamily: 'cinzel',
-              fontSize: 27,
-              fontWeight: 'black',
-              letterSpacing: 0.03,
-              lineHeight: 0.95,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }),
-            headerTypographyField('taglineTypography', 'Tagline typography', {
-              fontFamily: 'cinzel',
-              fontSize: 16,
-              fontWeight: 'black',
-              letterSpacing: 0.12,
-              lineHeight: 0.95,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }),
+            // headerTypographyField('eyebrowTypography', 'Eyebrow typography', {
+            //   fontFamily: 'cinzel',
+            //   fontSize: 13,
+            //   fontWeight: 'black',
+            //   letterSpacing: 0.1,
+            //   lineHeight: 0.95,
+            //   textTransform: 'uppercase',
+            //   verticalScale: 'normal',
+            // }),
+            // headerTypographyField('brandTypography', 'Brand name typography', {
+            //   fontFamily: 'cinzel',
+            //   fontSize: 27,
+            //   fontWeight: 'black',
+            //   letterSpacing: 0.03,
+            //   lineHeight: 0.95,
+            //   textTransform: 'uppercase',
+            //   verticalScale: 'normal',
+            // }),
+            // headerTypographyField('taglineTypography', 'Tagline typography', {
+            //   fontFamily: 'cinzel',
+            //   fontSize: 16,
+            //   fontWeight: 'black',
+            //   letterSpacing: 0.12,
+            //   lineHeight: 0.95,
+            //   textTransform: 'uppercase',
+            //   verticalScale: 'normal',
+            // }),
             headerTypographyField('navTypography', 'Navigation typography', {
               fontFamily: 'cinzel',
               fontSize: 14,

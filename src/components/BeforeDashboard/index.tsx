@@ -10,58 +10,56 @@ const BeforeDashboard: React.FC = () => {
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
+        <h4>Benvenuto nella dashboard.</h4>
       </Banner>
-      Here&apos;s what to do next:
+      Ecco cosa fare ora:
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
-          {' with a few pages, posts, and projects to jump-start your new site, then '}
+          {' con alcune pagine, articoli e progetti per avviare il sito, poi '}
           <a href="/" target="_blank">
-            visit your website
+            visita il sito
           </a>
-          {' to see the results.'}
+          {' per vedere il risultato.'}
         </li>
         <li>
-          {'Modify your '}
+          {'Modifica le '}
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            collections
+            raccolte
           </a>
-          {' and add more '}
+          {' e aggiungi altri '}
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            fields
+            campi
           </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
+          {' se servono. Se Payload e nuovo per te, dai anche uno sguardo alla guida '}
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Getting Started
+            per iniziare
           </a>
-          {' docs.'}
+          {'.'}
         </li>
-        <li>
-          Commit and push your changes to the repository to trigger a redeployment of your project.
-        </li>
+        <li>Fai commit e push delle modifiche per avviare una nuova pubblicazione del progetto.</li>
       </ul>
-      {'Pro Tip: This block is a '}
+      {'Nota: questo blocco e un '}
       <a
         href="https://payloadcms.com/docs/custom-components/overview"
         rel="noopener noreferrer"
         target="_blank"
       >
-        custom component
+        componente custom
       </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+      , puoi rimuoverlo in qualsiasi momento aggiornando <strong>payload.config</strong>.
     </div>
   )
 }

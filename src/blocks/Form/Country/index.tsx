@@ -16,6 +16,9 @@ import { Error } from '../Error'
 import { Width } from '../Width'
 import { countryOptions } from './options'
 
+const countryDisplayNames =
+  typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames(['it'], { type: 'region' }) : null
+
 export const Country: React.FC<
   CountryField & {
     control: Control
@@ -29,7 +32,7 @@ export const Country: React.FC<
 
         {required && (
           <span className="required">
-            * <span className="sr-only">(required)</span>
+            * <span className="sr-only">(obbligatorio)</span>
           </span>
         )}
       </Label>
@@ -47,9 +50,11 @@ export const Country: React.FC<
               </SelectTrigger>
               <SelectContent>
                 {countryOptions.map(({ label, value }) => {
+                  const displayLabel = countryDisplayNames?.of(value) || label
+
                   return (
                     <SelectItem key={value} value={value}>
-                      {label}
+                      {displayLabel}
                     </SelectItem>
                   )
                 })}

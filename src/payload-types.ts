@@ -204,7 +204,7 @@ export interface Page {
             url?: string | null;
             label: string;
             /**
-             * Choose how the link should be rendered.
+             * Scegli come deve essere visualizzato il link.
              */
             appearance?: ('default' | 'outline') | null;
           };
@@ -244,14 +244,14 @@ export interface Page {
   meta?: {
     title?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Maximum upload file dimensione: 12MB. Recommended file dimensione for immagini is <500KB.
      */
     image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
   /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   * When enabled, the slug will auto-generate from the titolo campo on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
@@ -287,7 +287,7 @@ export interface Post {
   meta?: {
     title?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Maximum upload file dimensione: 12MB. Recommended file dimensione for immagini is <500KB.
      */
     image?: (number | null) | Media;
     description?: string | null;
@@ -301,7 +301,7 @@ export interface Post {
       }[]
     | null;
   /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   * When enabled, the slug will auto-generate from the titolo campo on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
@@ -436,7 +436,7 @@ export interface Category {
   id: number;
   title: string;
   /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   * When enabled, the slug will auto-generate from the titolo campo on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
@@ -499,7 +499,7 @@ export interface ActivitiesDetailGridBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -515,7 +515,7 @@ export interface ActivitiesDetailGridBlock {
         cta?: string | null;
         ctaImage?: (number | null) | Media;
         /**
-         * Adds the reusable vintage border to this single activity.
+         * Aggiunge il bordo vintage riutilizzabile a questa singola attivita.
          */
         border?: boolean | null;
         details?:
@@ -536,7 +536,7 @@ export interface ActivitiesDetailGridBlock {
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
           textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
-           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
            */
           color?: string | null;
           maxWidth?: number | null;
@@ -552,7 +552,7 @@ export interface ActivitiesDetailGridBlock {
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
           textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
-           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
            */
           color?: string | null;
           maxWidth?: number | null;
@@ -568,7 +568,7 @@ export interface ActivitiesDetailGridBlock {
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
           textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
-           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
            */
           color?: string | null;
           maxWidth?: number | null;
@@ -584,7 +584,7 @@ export interface ActivitiesDetailGridBlock {
           letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
           textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           /**
-           * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+           * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
            */
           color?: string | null;
           maxWidth?: number | null;
@@ -615,13 +615,13 @@ export interface ActivitiesDetailGridBlock {
   automaticImageSize?: number | null;
   automaticBorder?: boolean | null;
   /**
-   * Caps automatic fetches. The collection itself is also limited to 8.
+   * Limita i recuperi automatici. Anche la raccolta e limitata a 8 elementi.
    */
   automaticLimit?: number | null;
   cellMinHeight?: number | null;
   contentPadding?: number | null;
   /**
-   * Creates the soft blend where image and content meet. No background color is added.
+   * Creates the soft blend where immagine and contenuto meet. No sfondo colore is added.
    */
   imageFadeSize?: number | null;
   gridGap?: number | null;
@@ -636,7 +636,7 @@ export interface ActivitiesDetailGridBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -652,7 +652,7 @@ export interface ActivitiesDetailGridBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -668,7 +668,7 @@ export interface ActivitiesDetailGridBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -684,17 +684,17 @@ export interface ActivitiesDetailGridBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
   };
   /**
-   * Leave empty for transparent. Use this only if you want the purple/dark panel color later.
+   * Leave vuoto for transparent. Use this only if you want the purple/dark pannello colore later.
    */
   panelBg?: string | null;
   /**
-   * Leave empty for no hard-coded divider color.
+   * Lascia vuoto per non impostare un colore divisore fisso.
    */
   dividerColor?: string | null;
   layout?: {
@@ -708,7 +708,7 @@ export interface ActivitiesDetailGridBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -739,7 +739,7 @@ export interface ActivityChoiceCtaBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #a6bd17, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
   };
@@ -754,7 +754,7 @@ export interface ActivityChoiceCtaBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #a6bd17, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
   };
@@ -769,7 +769,7 @@ export interface ActivityChoiceCtaBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #a6bd17, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
   };
@@ -785,7 +785,7 @@ export interface ActivityChoiceCtaBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #a6bd17, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
   };
@@ -823,7 +823,7 @@ export interface ActivityChoiceCtaBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -843,7 +843,7 @@ export interface ArrowBlock {
   size: 'sm' | 'md' | 'lg' | 'xl' | 'custom';
   strokeWidth: number;
   /**
-   * Use rounded line endings and joins.
+   * Usa estremita e giunzioni arrotondate.
    */
   roundedEnds?: boolean | null;
   customWidth?: number | null;
@@ -853,7 +853,7 @@ export interface ArrowBlock {
     | ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple' | 'white' | 'black' | 'success')
     | null;
   /**
-   * Any valid CSS color, e.g. #7dff2a or rgb(125 255 42).
+   * Qualsiasi colore CSS valido, ad esempio #7dff2a o rgb(125 255 42).
    */
   customColor?: string | null;
   backgroundStyle: 'none' | 'soft' | 'solid';
@@ -862,17 +862,17 @@ export interface ArrowBlock {
   glowColor?: string | null;
   image?: (number | null) | Media;
   /**
-   * Optional text rendered near the arrow.
+   * Testo opzionale visualizzato vicino alla freccia.
    */
   label?: string | null;
   description?: string | null;
   /**
-   * Used for accessibility when the arrow is interactive.
+   * Usato per l'accessibilita quando la freccia e interattiva.
    */
   ariaLabel?: string | null;
   enableLink?: boolean | null;
   /**
-   * Optional target for the arrow. Use internal or custom URL.
+   * Destinazione opzionale della freccia. Usa un link interno o un URL personalizzato.
    */
   link?: {
     type?: ('reference' | 'custom') | null;
@@ -899,7 +899,7 @@ export interface ArrowBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -978,7 +978,7 @@ export interface CallToActionBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1019,7 +1019,7 @@ export interface ContactMessageBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1034,7 +1034,7 @@ export interface ContactMessageBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1049,7 +1049,7 @@ export interface ContactMessageBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1064,7 +1064,7 @@ export interface ContactMessageBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1079,7 +1079,7 @@ export interface ContactMessageBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1094,7 +1094,7 @@ export interface ContactMessageBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1109,7 +1109,7 @@ export interface ContactMessageBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1156,7 +1156,7 @@ export interface ContentBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * Scegli come deve essere visualizzato il link.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -1174,7 +1174,7 @@ export interface ContentBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1190,11 +1190,11 @@ export interface EventCalendarBlock {
   heading: string;
   headingBackgroundImage?: (number | null) | Media;
   /**
-   * 0 is current month, 1 is next month, and so on.
+   * 0 indica il mese corrente, 1 il mese successivo e cosi via.
    */
   monthOffset?: number | null;
   /**
-   * Optional CSS color for days that contain events.
+   * Colore CSS opzionale per i giorni che contengono eventi.
    */
   markerColor?: string | null;
   specialBorder?: boolean | null;
@@ -1209,7 +1209,7 @@ export interface EventCalendarBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1224,7 +1224,7 @@ export interface EventCalendarBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1239,7 +1239,7 @@ export interface EventCalendarBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1254,7 +1254,7 @@ export interface EventCalendarBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1296,7 +1296,7 @@ export interface EventFiltersBlock {
       | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
       | null;
     /**
-     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
+     * Colore CSS, ad esempio #a3e635 o rgb(255 255 255 / 0.8).
      */
     colorCustom?: string | null;
   };
@@ -1315,7 +1315,7 @@ export interface EventFiltersBlock {
       | ('default' | 'primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple' | 'white' | 'black')
       | null;
     /**
-     * CSS color, for example #a3e635 or rgb(255 255 255 / 0.8).
+     * Colore CSS, ad esempio #a3e635 o rgb(255 255 255 / 0.8).
      */
     colorCustom?: string | null;
   };
@@ -1330,7 +1330,7 @@ export interface EventFiltersBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1362,7 +1362,7 @@ export interface EventGalleryBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1377,7 +1377,7 @@ export interface EventGalleryBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1392,7 +1392,7 @@ export interface EventGalleryBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1407,7 +1407,7 @@ export interface EventGalleryBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1422,7 +1422,7 @@ export interface EventGalleryBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1443,7 +1443,7 @@ export interface EventListBlock {
   maxEvents?: number | null;
   rowHeight?: number | null;
   /**
-   * Optional CSS color. Leave empty for no visible divider.
+   * Colore CSS opzionale. Lascia vuoto per non mostrare il divisore.
    */
   dividerColor?: string | null;
   hdgStyle?: {
@@ -1457,7 +1457,7 @@ export interface EventListBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1472,7 +1472,7 @@ export interface EventListBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1516,7 +1516,7 @@ export interface EventListBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1536,7 +1536,7 @@ export interface EventListBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1551,7 +1551,7 @@ export interface EventListBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1566,7 +1566,7 @@ export interface EventListBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1583,7 +1583,7 @@ export interface EventListBlock {
           textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
           colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
           /**
-           * Optional. If set, this custom CSS color overrides the theme color.
+           * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
            */
           colorCustom?: string | null;
         };
@@ -1601,7 +1601,7 @@ export interface EventListBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1639,7 +1639,7 @@ export interface FaqAccordionBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1654,7 +1654,7 @@ export interface FaqAccordionBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1669,7 +1669,7 @@ export interface FaqAccordionBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1684,7 +1684,7 @@ export interface FaqAccordionBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1702,7 +1702,7 @@ export interface FeaturedEventBlock {
   eventSource?: ('automatic' | 'manual') | null;
   manualEvent?: (number | null) | Event;
   /**
-   * Optional override for this card. If empty, the selected event gallery image is used.
+   * Override opzionale per questa scheda. Se vuoto, viene usata l'immagine della galleria evento selezionata.
    */
   backgroundImage?: (number | null) | Media;
   linkFallbackLabel: string;
@@ -1719,7 +1719,7 @@ export interface FeaturedEventBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1734,7 +1734,7 @@ export interface FeaturedEventBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1749,7 +1749,7 @@ export interface FeaturedEventBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1764,7 +1764,7 @@ export interface FeaturedEventBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1779,7 +1779,7 @@ export interface FeaturedEventBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1794,7 +1794,7 @@ export interface FeaturedEventBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -1809,7 +1809,7 @@ export interface FeaturedEventBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -1825,16 +1825,16 @@ export interface Event {
   id: number;
   title: string;
   /**
-   * Activity used by the event filters.
+   * Attivita used by the evento filtri.
    */
   activity?: (number | null) | Activity;
   startsAt: string;
   /**
-   * Optional display time. If empty, the frontend formats the time from Event date.
+   * Orario visualizzato opzionale. Se vuoto, il frontend lo ricava dalla data evento.
    */
   timeLabel?: string | null;
   /**
-   * Event photos. Add at least one photo. The first image is used anywhere the event card needs a single image.
+   * Evento photos. Aggiungi at least one photo. The first immagine is used anywhere the evento scheda needs a single immagine.
    */
   gallery: {
     image: number | Media;
@@ -1842,19 +1842,19 @@ export interface Event {
     id?: string | null;
   }[];
   /**
-   * Optional special banner used on the generated event detail page, between the hero text and event info bar.
+   * Banner speciale opzionale usato nella pagina dettaglio evento, tra testo hero e barra informazioni evento.
    */
   banner?: (number | null) | Media;
   /**
-   * Short summary used in event cards, previews, and the top of the event page.
+   * Breve riepilogo usato nelle card evento, nelle anteprime e in alto nella pagina evento.
    */
   description: string;
   /**
-   * Optional longer text shown in the event detail page.
+   * Testo piu lungo opzionale mostrato nella pagina dettaglio evento.
    */
   longDescription?: string | null;
   /**
-   * Optional event schedule. Add time, short title, and a brief description for each step.
+   * Opzionale evento schedule. Aggiungi time, short titolo, and a brief descrizione for each step.
    */
   timeline?:
     | {
@@ -1865,7 +1865,7 @@ export interface Event {
       }[]
     | null;
   /**
-   * Optional section for artists, hosts, speakers, and guests shown in the event detail page.
+   * Sezione opzionale per artisti, host, speaker e ospiti mostrata nella pagina dettaglio evento.
    */
   artistsAndGuests?:
     | {
@@ -1877,7 +1877,7 @@ export interface Event {
       }[]
     | null;
   /**
-   * Optional practical information blocks shown in the event detail page.
+   * Blocchi informativi opzionali mostrati nella pagina dettaglio evento.
    */
   usefulInfo?:
     | {
@@ -1888,19 +1888,19 @@ export interface Event {
       }[]
     | null;
   /**
-   * Display venue used by event lists and filters.
+   * Luogo visualizzato nelle liste eventi e nei filtri.
    */
   venue?: string | null;
   /**
-   * Venue address shown on the generated event detail page.
+   * Indirizzo luogo mostrato nella pagina dettaglio evento.
    */
   venueAddress?: string | null;
   /**
-   * Public/audience label shown on the generated event detail page.
+   * Etichetta pubblico mostrata nella pagina dettaglio evento.
    */
   audience?: string | null;
   /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   * When enabled, the slug will auto-generate from the titolo campo on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
@@ -1915,7 +1915,7 @@ export interface Activity {
   id: number;
   title: string;
   /**
-   * Short label used by event filter buttons.
+   * Etichetta breve usata dai pulsanti filtro evento.
    */
   shortName: string;
   description?: string | null;
@@ -1930,7 +1930,7 @@ export interface Activity {
       }[]
     | null;
   /**
-   * Lower numbers appear first in automatic activity blocks.
+   * I numeri piu bassi appaiono prima nei blocchi attivita automatici.
    */
   order?: number | null;
   updatedAt: string;
@@ -1960,7 +1960,7 @@ export interface TitleBlock {
       }[]
     | null;
   /**
-   * Legacy field kept to avoid deleting existing data. Use the Subtitle block for new content.
+   * Legacy campo kept to avoid deleting existing data. Use the Subtitle blocco for new contenuto.
    */
   subtitle?: string | null;
   fontSize?: ('compact' | 'medium' | 'large' | 'hero' | 'massive') | null;
@@ -1986,7 +1986,7 @@ export interface TitleBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2025,7 +2025,7 @@ export interface SubtitleBlock {
   textColorMode?: ('custom' | 'theme') | null;
   themeTextColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple') | null;
   /**
-   * Optional CSS color, for example #f4f0dc or rgba(255,255,255,0.85).
+   * Opzionale CSS colore, for example #f4f0dc or rgba(255,255,255,0.85).
    */
   textColor?: string | null;
   distress?: ('none' | 'light' | 'worn' | 'destroyed') | null;
@@ -2042,7 +2042,7 @@ export interface SubtitleBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2059,7 +2059,7 @@ export interface TextBackdropBlock {
   intensity?: ('light' | 'medium' | 'strong' | 'heavy') | null;
   width?: ('content' | 'narrow' | 'container' | 'wide' | 'extraWide' | 'full') | null;
   /**
-   * Optional width in px for this one backdrop. Useful when a title needs a specific two-line layout.
+   * Opzionale larghezza in px for this one backdrop. Useful when a titolo needs a specific two-riga layout.
    */
   customMaxWidth?: number | null;
   align?: ('left' | 'center' | 'right') | null;
@@ -2095,7 +2095,7 @@ export interface TextBackdropBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2119,7 +2119,7 @@ export interface FlexboxBlock {
   gap?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
   minHeight?: ('none' | 'small' | 'medium' | 'large' | 'screen') | null;
   /**
-   * Use for the event board: first child wide on the left, second child narrow on the right.
+   * Use for the evento board: first child wide on the sinistra, second child narrow on the destra.
    */
   itemSizing?: ('auto' | 'eventBoardColumns') | null;
   blocks: (
@@ -2157,7 +2157,7 @@ export interface FlexboxBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2189,7 +2189,7 @@ export interface FeatureGridBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2208,12 +2208,12 @@ export interface UpcomingEventsBlock {
   emptyEventsText?: string | null;
   eventLinkLabel: string;
   /**
-   * Maximum visible description characters. The text continues to the next space before adding "...". Set 0 to disable truncation.
+   * Maximum visible descrizione characters. The testo continues to the next space before adding "...". Set 0 to disable truncation.
    */
   eventDescriptionMaxCharacters?: number | null;
   eventSource: 'automatic' | 'manual';
   /**
-   * Choose the events to show. The block will render the first two selected.
+   * Scegli gli eventi da mostrare. Il blocco mostrera i primi due selezionati.
    */
   manualEvents?: (number | Event)[] | null;
   leftPanelScribbleBorder?: boolean | null;
@@ -2312,7 +2312,7 @@ export interface UpcomingEventsBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2392,7 +2392,7 @@ export interface MembershipApplicationBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -2407,7 +2407,7 @@ export interface MembershipApplicationBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -2422,7 +2422,7 @@ export interface MembershipApplicationBlock {
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
     /**
-     * Optional. If set, this custom CSS color overrides the theme color.
+     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
      */
     colorCustom?: string | null;
   };
@@ -2437,7 +2437,7 @@ export interface MembershipApplicationBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2462,7 +2462,7 @@ export interface ProcessStepsBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     * Colore CSS, ad esempio #93b51f o rgba(255,255,255,0.78).
      */
     color?: string | null;
   };
@@ -2486,7 +2486,7 @@ export interface ProcessStepsBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     * Colore CSS, ad esempio #93b51f o rgba(255,255,255,0.78).
      */
     color?: string | null;
   };
@@ -2501,7 +2501,7 @@ export interface ProcessStepsBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     * Colore CSS, ad esempio #93b51f o rgba(255,255,255,0.78).
      */
     color?: string | null;
   };
@@ -2516,7 +2516,7 @@ export interface ProcessStepsBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #93b51f or rgba(255,255,255,0.78).
+     * Colore CSS, ad esempio #93b51f o rgba(255,255,255,0.78).
      */
     color?: string | null;
   };
@@ -2536,7 +2536,7 @@ export interface ProcessStepsBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2585,7 +2585,7 @@ export interface ArchiveBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2626,7 +2626,7 @@ export interface FormBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2752,7 +2752,7 @@ export interface Form {
     | null;
   submitButtonLabel?: string | null;
   /**
-   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
+   * Choose whether to visualizzato an on-page messaggio or redirect to a different page after they invio the form.
    */
   confirmationType?: ('message' | 'redirect') | null;
   confirmationMessage?: {
@@ -2774,7 +2774,7 @@ export interface Form {
     url: string;
   };
   /**
-   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
+   * Send personalizzato emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that campo's nome with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output tutti data and {{*:table}} to format it as an HTML table in the email.
    */
   emails?:
     | {
@@ -2785,7 +2785,7 @@ export interface Form {
         emailFrom?: string | null;
         subject: string;
         /**
-         * Enter the message that should be sent in this email.
+         * Enter the messaggio that should be sent in this email.
          */
         message?: {
           root: {
@@ -2834,7 +2834,7 @@ export interface ThreePanelShowcaseBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #a6bd17, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -2850,7 +2850,7 @@ export interface ThreePanelShowcaseBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #a6bd17, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #a6bd17, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -2870,7 +2870,7 @@ export interface ThreePanelShowcaseBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2899,7 +2899,7 @@ export interface QuoteBannerBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #2f1631, white, or rgba(0,0,0,0.8).
+     * Colore CSS, ad esempio #2f1631, white o rgba(0,0,0,0.8).
      */
     color?: string | null;
     align?: ('center' | 'left') | null;
@@ -2915,7 +2915,7 @@ export interface QuoteBannerBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, for example #2f1631, white, or rgba(0,0,0,0.8).
+     * Colore CSS, ad esempio #2f1631, white o rgba(0,0,0,0.8).
      */
     color?: string | null;
     align?: ('center' | 'left') | null;
@@ -2938,7 +2938,7 @@ export interface QuoteBannerBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -2966,7 +2966,7 @@ export interface TornCardsBlock {
     letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
     textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
     /**
-     * CSS color, e.g. #90a434, white, or rgba(255,255,255,0.85).
+     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
      */
     color?: string | null;
     maxWidth?: number | null;
@@ -2977,7 +2977,7 @@ export interface TornCardsBlock {
     title: string;
     description?: string | null;
     /**
-     * Adds the optional vintage border to this single card.
+     * Aggiunge il bordo vintage opzionale a questa singola scheda.
      */
     scribbleBorder?: boolean | null;
     imageTitleGap?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
@@ -3010,7 +3010,7 @@ export interface TornCardsBlock {
       | {
           word: string;
           /**
-           * 0 = every matching occurrence.
+           * 0 = tutte le occorrenze trovate.
            */
           occurrences?: number | null;
           breaks?: number | null;
@@ -3042,13 +3042,13 @@ export interface TornCardsBlock {
   titleColorMode?: ('custom' | 'theme') | null;
   titleThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple') | null;
   /**
-   * Custom CSS color, for example #e8d5a0.
+   * Colore CSS personalizzato, ad esempio #e8d5a0.
    */
   titleColor?: string | null;
   textColorMode?: ('custom' | 'theme') | null;
   textThemeColor?: ('primary' | 'secondary' | 'accent' | 'muted' | 'green' | 'purple') | null;
   /**
-   * Custom CSS color, for example #d9d0c2.
+   * Colore CSS personalizzato, ad esempio #d9d0c2.
    */
   textColor?: string | null;
   layout?: {
@@ -3062,7 +3062,7 @@ export interface TornCardsBlock {
     paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     /**
-     * Adds the reusable yellow hand-drawn border around this block.
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
      */
     scribbleBorder?: boolean | null;
   };
@@ -3077,7 +3077,7 @@ export interface TornCardsBlock {
 export interface Redirect {
   id: number;
   /**
-   * You will need to rebuild the website when changing this field.
+   * Dopo aver modificato questo campo dovrai rigenerare il sito.
    */
   from: string;
   to?: {
@@ -3114,7 +3114,7 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
- * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
+ * This is a collection of automatically created ricerca results. These results are used by the globale site ricerca and will be updated automatically as documents in the CMS are created or updated.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search".
@@ -6013,9 +6013,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Header {
   id: number;
   logo?: (number | null) | Media;
-  eyebrow?: string | null;
-  brandName?: string | null;
-  tagline?: string | null;
   navItems?:
     | {
         link: {
@@ -6050,33 +6047,6 @@ export interface Header {
   maxWidth?: number | null;
   height?: number | null;
   logoWidth?: number | null;
-  eyebrowTypography?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontSize?: number | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    letterSpacing?: number | null;
-    lineHeight?: number | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-  };
-  brandTypography?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontSize?: number | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    letterSpacing?: number | null;
-    lineHeight?: number | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-  };
-  taglineTypography?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontSize?: number | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    letterSpacing?: number | null;
-    lineHeight?: number | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-  };
   navTypography?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontSize?: number | null;
@@ -6109,7 +6079,7 @@ export interface Footer {
   description?: string | null;
   legalNote?: string | null;
   /**
-   * Small links shown on the bottom-right side of the footer.
+   * Piccoli link mostrati in basso a destra nel footer.
    */
   navItems?:
     | {
@@ -6133,7 +6103,7 @@ export interface Footer {
       }[]
     | null;
   /**
-   * Use custom URLs now, then switch to internal pages after creating the legal pages.
+   * Use personalizzato URLs now, then switch to internal pages after creating the legal pages.
    */
   legalLinks?:
     | {
@@ -6198,7 +6168,7 @@ export interface ThemeColor {
     backgroundContainerOverflow?: string | null;
   };
   /**
-   * Image used by the optional Scribble border / cornice vintage style.
+   * Immagine usata dal bordo disegnato opzionale / stile cornice vintage.
    */
   vintageBorderImage?: (number | null) | Media;
   updatedAt?: string | null;
@@ -6212,15 +6182,15 @@ export interface SiteBackground {
   id: number;
   backgroundImage: number | Media;
   /**
-   * Optional. Falls back to the desktop image if empty.
+   * Opzionale. Se vuoto usa l'immagine desktop.
    */
   bgTab?: (number | null) | Media;
   /**
-   * Optional. Falls back to the tablet or desktop image if empty.
+   * Opzionale. Se vuoto usa l'immagine tablet o desktop.
    */
   bgMob?: (number | null) | Media;
   /**
-   * Higher values reduce compression artifacts. Use 95-100 for full-screen textured backgrounds.
+   * Higher values reduce compression artifacts. Use 95-100 for piena-screen textured backgrounds.
    */
   imageQuality?: number | null;
   imagePositionMobile?:
@@ -6294,9 +6264,6 @@ export interface PrivacyPolicy {
  */
 export interface HeaderSelect<T extends boolean = true> {
   logo?: T;
-  eyebrow?: T;
-  brandName?: T;
-  tagline?: T;
   navItems?:
     | T
     | {
@@ -6325,39 +6292,6 @@ export interface HeaderSelect<T extends boolean = true> {
   maxWidth?: T;
   height?: T;
   logoWidth?: T;
-  eyebrowTypography?:
-    | T
-    | {
-        fontFamily?: T;
-        fontSize?: T;
-        fontWeight?: T;
-        verticalScale?: T;
-        letterSpacing?: T;
-        lineHeight?: T;
-        textTransform?: T;
-      };
-  brandTypography?:
-    | T
-    | {
-        fontFamily?: T;
-        fontSize?: T;
-        fontWeight?: T;
-        verticalScale?: T;
-        letterSpacing?: T;
-        lineHeight?: T;
-        textTransform?: T;
-      };
-  taglineTypography?:
-    | T
-    | {
-        fontFamily?: T;
-        fontSize?: T;
-        fontWeight?: T;
-        verticalScale?: T;
-        letterSpacing?: T;
-        lineHeight?: T;
-        textTransform?: T;
-      };
   navTypography?:
     | T
     | {
