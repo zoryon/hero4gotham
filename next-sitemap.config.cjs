@@ -13,6 +13,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
+        disallow: '/control-room-h4g',
       },
     ],
     additionalSitemaps: [
