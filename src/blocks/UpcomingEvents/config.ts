@@ -172,6 +172,12 @@ export const UpcomingEvents: Block = {
       required: true,
     },
     {
+      name: 'eventLinkBackgroundImage',
+      type: 'upload',
+      label: 'Event link background image',
+      relationTo: 'media',
+    },
+    {
       name: 'eventDescriptionMaxCharacters',
       type: 'number',
       admin: {
@@ -266,6 +272,12 @@ export const UpcomingEvents: Block = {
       type: 'upload',
       label: 'CTA link background image',
       relationTo: 'media',
+    },
+    {
+      name: 'ctaAccentLabel',
+      type: 'text',
+      defaultValue: 'Fai la differenza',
+      label: 'CTA accent label',
     },
     {
       name: 'ctaGlyph',

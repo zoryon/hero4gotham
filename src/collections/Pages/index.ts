@@ -20,6 +20,7 @@ import { Flexbox } from '../../blocks/Flexbox/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { MembershipApplication } from '@/blocks/MembershipApplication/config'
+import { PhotoGalleryStrip } from '@/blocks/PhotoGalleryStrip/config'
 import { ProcessSteps } from '@/blocks/ProcessSteps/config'
 import { QuoteBanner } from '../../blocks/QuoteBanner/config'
 import { Subtitle } from '../../blocks/Subtitle/config'
@@ -117,6 +118,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 QuoteBanner,
                 TornCards,
                 UpcomingEvents,
+                PhotoGalleryStrip,
                 MediaBlock,
                 MembershipApplication,
                 ProcessSteps,

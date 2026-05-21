@@ -25,6 +25,7 @@ import { FeatureGrid } from '@/blocks/FeatureGrid/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { MembershipApplication } from '@/blocks/MembershipApplication/config'
+import { PhotoGalleryStrip } from '@/blocks/PhotoGalleryStrip/config'
 import { ProcessSteps } from '@/blocks/ProcessSteps/config'
 import { Subtitle } from '@/blocks/Subtitle/config'
 import { Title } from '@/blocks/Title/config'
@@ -48,6 +49,7 @@ const baseFlexChildBlocks = [
   Subtitle,
   FeatureGrid,
   UpcomingEvents,
+  PhotoGalleryStrip,
   MediaBlock,
   MembershipApplication,
   ProcessSteps,

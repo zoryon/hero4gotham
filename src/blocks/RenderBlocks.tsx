@@ -22,6 +22,7 @@ import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { MembershipApplicationBlock } from '@/blocks/MembershipApplication/Component'
 import { ProcessStepsBlock } from '@/blocks/ProcessSteps/Component'
+import { PhotoGalleryStripBlock } from '@/blocks/PhotoGalleryStrip/Component'
 import { QuoteBannerBlock } from '@/blocks/QuoteBanner/Component'
 import { SubtitleBlock } from '@/blocks/Subtitle/Component'
 import { TextBackdropBlock } from '@/blocks/TextBackdrop/Component'
@@ -52,6 +53,7 @@ const blockComponents = {
   mediaBlock: MediaBlock,
   membershipApplication: MembershipApplicationBlock,
   processSteps: ProcessStepsBlock,
+  photoGalleryStrip: PhotoGalleryStripBlock,
   quoteBanner: QuoteBannerBlock,
   subtitle: SubtitleBlock,
   textBackdrop: TextBackdropBlock,
@@ -63,6 +65,7 @@ const blockComponents = {
 
 const flushBlockTypes = new Set<keyof typeof blockComponents>([
   'activityChoiceCta',
+  'photoGalleryStrip',
   'quoteBanner',
   'threePanelShowcase',
   'tornCards',

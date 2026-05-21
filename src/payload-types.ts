@@ -235,6 +235,7 @@ export interface Page {
     | QuoteBannerBlock
     | TornCardsBlock
     | UpcomingEventsBlock
+    | PhotoGalleryStripBlock
     | MediaBlock
     | MembershipApplicationBlock
     | ProcessStepsBlock
@@ -2139,6 +2140,7 @@ export interface FlexboxBlock {
     | SubtitleBlock
     | FeatureGridBlock
     | UpcomingEventsBlock
+    | PhotoGalleryStripBlock
     | MediaBlock
     | MembershipApplicationBlock
     | ProcessStepsBlock
@@ -2207,6 +2209,7 @@ export interface UpcomingEventsBlock {
   emptyEventsTitle: string;
   emptyEventsText?: string | null;
   eventLinkLabel: string;
+  eventLinkBackgroundImage?: (number | null) | Media;
   /**
    * Maximum visible descrizione characters. The testo continues to the next space before adding "...". Set 0 to disable truncation.
    */
@@ -2238,6 +2241,7 @@ export interface UpcomingEventsBlock {
   };
   ctaLinkFallbackLabel: string;
   ctaLinkBackgroundImage?: (number | null) | Media;
+  ctaAccentLabel?: string | null;
   ctaGlyph?: (number | null) | Media;
   headingColor?: string | null;
   dateColor?: string | null;
@@ -2319,6 +2323,77 @@ export interface UpcomingEventsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'upcomingEvents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhotoGalleryStripBlock".
+ */
+export interface PhotoGalleryStripBlock {
+  headingTop: string;
+  headingBottom: string;
+  headingUnderlineColor?: string | null;
+  photoSource: 'automatic' | 'manual';
+  /**
+   * Choose exactly 3 photos for the strip.
+   */
+  manualPhotos?: (number | Media)[] | null;
+  ctaLabel: string;
+  ctaLink: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  ctaBackgroundImage?: (number | null) | Media;
+  ctaFallbackBackgroundColor?: string | null;
+  headingTopColor?: string | null;
+  headingTopFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  headingTopFontSize?: ('small' | 'base' | 'large' | 'lead') | null;
+  headingTopFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  headingTopFontStyle?: ('normal' | 'italic') | null;
+  headingTopVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  headingTopLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  headingBottomColor?: string | null;
+  headingBottomFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  headingBottomFontSize?: ('small' | 'base' | 'large' | 'lead') | null;
+  headingBottomFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  headingBottomFontStyle?: ('normal' | 'italic') | null;
+  headingBottomVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  headingBottomLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  ctaLabelColor?: string | null;
+  ctaLabelFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  ctaLabelFontSize?: ('small' | 'base' | 'large' | 'lead') | null;
+  ctaLabelFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  ctaLabelFontStyle?: ('normal' | 'italic') | null;
+  ctaLabelVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  ctaLabelLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'photoGalleryStrip';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3402,6 +3477,7 @@ export interface PagesSelect<T extends boolean = true> {
         quoteBanner?: T | QuoteBannerBlockSelect<T>;
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
+        photoGalleryStrip?: T | PhotoGalleryStripBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
         processSteps?: T | ProcessStepsBlockSelect<T>;
@@ -4785,6 +4861,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         subtitle?: T | SubtitleBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
+        photoGalleryStrip?: T | PhotoGalleryStripBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
         processSteps?: T | ProcessStepsBlockSelect<T>;
@@ -4851,6 +4928,7 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   emptyEventsTitle?: T;
   emptyEventsText?: T;
   eventLinkLabel?: T;
+  eventLinkBackgroundImage?: T;
   eventDescriptionMaxCharacters?: T;
   eventSource?: T;
   manualEvents?: T;
@@ -4870,6 +4948,7 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
       };
   ctaLinkFallbackLabel?: T;
   ctaLinkBackgroundImage?: T;
+  ctaAccentLabel?: T;
   ctaGlyph?: T;
   headingColor?: T;
   dateColor?: T;
@@ -4933,6 +5012,66 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   ctaButtonFontStyle?: T;
   ctaButtonVerticalScale?: T;
   ctaButtonLetterSpacing?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PhotoGalleryStripBlock_select".
+ */
+export interface PhotoGalleryStripBlockSelect<T extends boolean = true> {
+  headingTop?: T;
+  headingBottom?: T;
+  headingUnderlineColor?: T;
+  photoSource?: T;
+  manualPhotos?: T;
+  ctaLabel?: T;
+  ctaLink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  ctaBackgroundImage?: T;
+  ctaFallbackBackgroundColor?: T;
+  headingTopColor?: T;
+  headingTopFontFamily?: T;
+  headingTopFontSize?: T;
+  headingTopFontWeight?: T;
+  headingTopFontStyle?: T;
+  headingTopVerticalScale?: T;
+  headingTopLetterSpacing?: T;
+  headingBottomColor?: T;
+  headingBottomFontFamily?: T;
+  headingBottomFontSize?: T;
+  headingBottomFontWeight?: T;
+  headingBottomFontStyle?: T;
+  headingBottomVerticalScale?: T;
+  headingBottomLetterSpacing?: T;
+  ctaLabelColor?: T;
+  ctaLabelFontFamily?: T;
+  ctaLabelFontSize?: T;
+  ctaLabelFontWeight?: T;
+  ctaLabelFontStyle?: T;
+  ctaLabelVerticalScale?: T;
+  ctaLabelLetterSpacing?: T;
   layout?:
     | T
     | {

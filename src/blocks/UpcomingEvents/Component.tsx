@@ -8,7 +8,7 @@ import type {
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import { getEventPrimaryLink } from '@/blocks/EventSuite/shared'
+import { getEventPrimaryLink, getEventTypeLabel } from '@/blocks/EventSuite/shared'
 import {
   typographyFontFamilyStyles,
   typographyFontSizeClasses,
@@ -20,6 +20,7 @@ import {
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
+import { Clock, MapPin, Tag, Ticket } from 'lucide-react'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
@@ -34,14 +35,36 @@ const eventDateFormatter = new Intl.DateTimeFormat('it-IT', {
   month: 'short',
 })
 
+const eventTimeFormatter = new Intl.DateTimeFormat('it-IT', {
+  hour: '2-digit',
+  minute: '2-digit',
+})
+
 const eventSelect = {
+  activity: true,
+  audience: true,
   description: true,
   startsAt: true,
   slug: true,
+  timeLabel: true,
   title: true,
+  venue: true,
+  venueAddress: true,
 } as const
 
-type UpcomingEventData = Pick<EventDocument, 'description' | 'id' | 'slug' | 'startsAt' | 'title'>
+type UpcomingEventData = Pick<
+  EventDocument,
+  | 'activity'
+  | 'audience'
+  | 'description'
+  | 'id'
+  | 'slug'
+  | 'startsAt'
+  | 'timeLabel'
+  | 'title'
+  | 'venue'
+  | 'venueAddress'
+>
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
   if (!image || typeof image !== 'object') return undefined
@@ -62,13 +85,6 @@ const getFontSizeClass = (value: null | string | undefined, sizeKind: 'display' 
   }
 
   return getRecordValue(extendedSubtitleFontSizeClasses, value, 'small')
-}
-
-const getReducedCtaTitleSize = (value: null | string | undefined) => {
-  if (value && value in typographySubtitleFontSizeClasses) return value
-  if (value === 'compact') return 'large'
-
-  return 'lead'
 }
 
 const getReadableHeadingColor = (value: null | string | undefined) => {
@@ -139,6 +155,9 @@ const truncateAtNextWord = (value: null | string | undefined, maxCharacters?: nu
 
   return `${text.slice(0, limit + nextSpaceIndex).trimEnd()}...`
 }
+
+const formatEventTime = (event: Pick<UpcomingEventData, 'startsAt' | 'timeLabel'>) =>
+  event.timeLabel || `ore ${eventTimeFormatter.format(new Date(event.startsAt))}`
 
 const isEventDocument = (
   event: EventDocument | number | null | undefined,
@@ -229,6 +248,7 @@ export const UpcomingEventsBlock = async ({
   ctaLink,
   ctaLinkBackgroundImage,
   ctaLinkFallbackLabel = 'Unisciti a noi',
+  ctaAccentLabel = 'Fai la differenza',
   ctaText,
   ctaTextColor = '#ffffff',
   ctaTextFontFamily,
@@ -265,6 +285,7 @@ export const UpcomingEventsBlock = async ({
   eventLinkFontWeight,
   eventLinkLetterSpacing,
   eventLinkVerticalScale,
+  eventLinkBackgroundImage,
   eventLinkColor = '#a3e635',
   eventLinkLabel = 'Scopri di piu',
   eventDescriptionMaxCharacters = 140,
@@ -299,9 +320,40 @@ export const UpcomingEventsBlock = async ({
 }: UpcomingEventsBlockProps) => {
   const eventItems =
     eventSource === 'manual' ? await getManualEvents(manualEvents) : await getAutomaticEvents()
+  const ctaButtonLabel = ctaLink?.label || ctaLinkFallbackLabel || 'Unisciti a noi'
+  const ctaButtonClassName = getTextClassName({
+    base: 'inline-flex w-fit max-w-full justify-center px-7 py-3 text-center uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)] [overflow-wrap:anywhere] md:px-8 md:py-3.5',
+    fontSize: ctaButtonFontSize,
+    fontWeight: ctaButtonFontWeight,
+    letterSpacing: ctaButtonLetterSpacing,
+  })
+  const ctaButtonStyle: React.CSSProperties = {
+    backgroundColor: ctaLinkBackgroundImage ? 'transparent' : ctaButtonBackgroundColor || '#84cc16',
+    backgroundImage: resolveBackgroundImage(ctaLinkBackgroundImage),
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '100% 100%',
+    clipPath: 'polygon(2% 0, 100% 0, 98% 93%, 0 100%)',
+    color: ctaButtonTextColor || '#251414',
+    fontFamily: getRecordValue(typographyFontFamilyStyles, ctaButtonFontFamily, 'cinzel'),
+    fontStyle: ctaButtonFontStyle === 'italic' ? 'italic' : 'normal',
+    transform: `scaleY(${getRecordValue(
+      typographyVerticalScaleValues,
+      ctaButtonVerticalScale,
+      'normal',
+    )})`,
+    transformOrigin: 'center',
+  }
+  const ctaLinkHasHref = Boolean(
+    ctaLink?.url ||
+    (ctaLink?.type === 'reference' &&
+      ctaLink.reference?.value &&
+      typeof ctaLink.reference.value === 'object' &&
+      ctaLink.reference.value.slug),
+  )
 
   return (
-    <section className="grid items-start gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(21rem,0.6fr)] xl:items-center">
+    <section className="grid items-start gap-0">
       <div
         className={cn(
           'vintage-surface relative isolate',
@@ -344,25 +396,43 @@ export const UpcomingEventsBlock = async ({
         </div>
 
         <div
-          className="relative isolate overflow-hidden px-7 pb-3 pt-2 lg:pb-3 lg:pl-5 lg:pr-5 lg:pt-2 xl:pb-6 xl:pl-6 xl:pr-6 xl:pt-3"
+          className="relative isolate overflow-hidden px-5 pb-5 pt-8 md:px-7 md:pb-6 md:pt-9 lg:px-9 lg:pb-6 lg:pt-8 xl:px-12 xl:pb-5 xl:pt-5"
           style={{
             clipPath: 'polygon(1% 2.5%, 99% 0.5%, 98% 97.5%, 1.5% 99%)',
           }}
         >
-          <div className="grid gap-4 pt-6 md:grid-cols-[minmax(0,1fr)_minmax(12rem,34%)] md:items-center md:pt-5 xl:grid-cols-[minmax(0,1fr)_minmax(14rem,38%)]">
-            <div className="grid content-start">
-              <div className="max-w-[31rem] divide-y divide-[#7b5a2f]/35 md:max-w-[28rem] xl:max-w-[31rem]">
+          <div className="grid gap-5 pt-4 md:pt-3 lg:grid-cols-[minmax(18rem,0.43fr)_minmax(0,0.57fr)] lg:items-stretch lg:gap-7 xl:gap-10 xl:pt-2">
+            <div className="grid content-center">
+              <div className="upcoming-events-event-card-border scribble-border vintage-surface relative max-w-[34rem] divide-y divide-[#7b5a2f]/35 px-5 py-4 shadow-[0_18px_40px_rgb(0_0_0_/_0.28)] md:px-6 md:py-5 lg:max-w-none xl:px-7 xl:py-5">
                 {eventItems.length ? (
                   eventItems.map((event) => {
                     const formattedDate = formatEventDate(event.startsAt)
                     const eventPrimaryLink = getEventPrimaryLink(event)
+                    const eventTypeLabel = getEventTypeLabel(event.activity)
+                    const eventMetaItems = [
+                      {
+                        Icon: MapPin,
+                        color: eventLinkColor || '#a3e635',
+                        label: event.venue,
+                      },
+                      {
+                        Icon: Tag,
+                        color: eventLinkColor || '#a3e635',
+                        label: eventTypeLabel,
+                      },
+                      {
+                        Icon: Ticket,
+                        color: dateColor || '#e879f9',
+                        label: event.audience,
+                      },
+                    ].filter((item): item is typeof item & { label: string } => Boolean(item.label))
 
                     return (
                       <article
-                        className="grid grid-cols-[3.55rem_minmax(0,1fr)] items-start gap-2 py-2 xl:grid-cols-[3.85rem_minmax(0,1fr)] xl:gap-2.5 xl:py-2.5"
+                        className="grid grid-cols-[4rem_minmax(0,1fr)] items-start gap-3 py-3 first:pt-0 last:pb-0 md:grid-cols-[4.45rem_minmax(0,1fr)] xl:gap-4"
                         key={event.id}
                       >
-                        <div className="justify-self-start text-left uppercase leading-none">
+                        <div className="grid justify-self-start text-left uppercase leading-none">
                           <div
                             className={getTextClassName({
                               base: '-mb-1',
@@ -396,9 +466,28 @@ export const UpcomingEventsBlock = async ({
                           >
                             {formattedDate.month}
                           </div>
+                          <div
+                            className="mt-3 inline-flex items-center gap-1 text-[0.62rem] font-semibold normal-case leading-none tracking-[0.02em]"
+                            style={{
+                              color: eventTextColor || '#d7d0d3',
+                              fontFamily: getRecordValue(
+                                typographyFontFamilyStyles,
+                                eventTextFontFamily,
+                                'geistSans',
+                              ),
+                            }}
+                          >
+                            <Clock
+                              aria-hidden
+                              className="h-3 w-3 shrink-0"
+                              style={{ color: eventLinkColor || '#a3e635' }}
+                              strokeWidth={2.5}
+                            />
+                            <span>{formatEventTime(event)}</span>
+                          </div>
                         </div>
 
-                        <div className="grid min-w-0 gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start xl:gap-3">
+                        <div className="grid min-w-0 gap-2">
                           <div className="min-w-0">
                             <h3
                               className={getTextClassName({
@@ -421,7 +510,7 @@ export const UpcomingEventsBlock = async ({
                             </h3>
                             <p
                               className={getTextClassName({
-                                base: 'mt-1 max-w-[15rem] xl:max-w-[17rem]',
+                                base: 'mt-1 max-w-[24rem]',
                                 fontSize: eventTextFontSize,
                                 fontWeight: eventTextFontWeight,
                                 letterSpacing: eventTextLetterSpacing,
@@ -440,30 +529,69 @@ export const UpcomingEventsBlock = async ({
                             </p>
                           </div>
 
-                          <span className="inline-flex w-fit flex-col items-start justify-self-start xl:items-end xl:self-end xl:justify-self-end">
+                          {eventMetaItems.length ? (
+                            <div className="grid gap-1">
+                              {eventMetaItems.map(({ Icon, color, label }) => (
+                                <div
+                                  className="flex min-w-0 items-center gap-1.5 text-[0.62rem] font-semibold leading-tight"
+                                  key={label}
+                                  style={{
+                                    color: eventTextColor || '#d7d0d3',
+                                    fontFamily: getRecordValue(
+                                      typographyFontFamilyStyles,
+                                      eventTextFontFamily,
+                                      'geistSans',
+                                    ),
+                                  }}
+                                >
+                                  <Icon
+                                    aria-hidden
+                                    className="h-3 w-3 shrink-0"
+                                    style={{ color }}
+                                    strokeWidth={3}
+                                  />
+                                  <span className="min-w-0 truncate">{label}</span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+
+                          <span className="inline-flex w-fit items-start justify-self-start">
                             <CMSLink
                               {...eventPrimaryLink}
                               className={cn(
                                 getTextClassName({
-                                  base: 'whitespace-nowrap uppercase',
+                                  base: 'whitespace-nowrap px-5 py-2 text-center uppercase shadow-[0_3px_0_rgb(0_0_0_/_0.22)]',
                                   fontSize: eventLinkFontSize,
                                   fontWeight: eventLinkFontWeight,
                                   letterSpacing: eventLinkLetterSpacing,
                                 }),
                                 'text-[0.58rem] md:text-[0.62rem]',
                               )}
-                              label="Scopri di più"
-                              style={getTextStyle({
-                                color: eventLinkColor || '#a3e635',
-                                fontFamily: eventLinkFontFamily,
-                                fontStyle: eventLinkFontStyle,
-                                verticalScale: eventLinkVerticalScale,
-                              })}
-                            />
-                            <span
-                              aria-hidden
-                              className="mt-1 h-0.5 w-10"
-                              style={{ backgroundColor: eventLinkColor || '#a3e635' }}
+                              label={eventLinkLabel || 'Scopri di piu'}
+                              style={{
+                                backgroundColor: eventLinkBackgroundImage
+                                  ? 'transparent'
+                                  : eventLinkColor || '#a3e635',
+                                backgroundImage: resolveBackgroundImage(eventLinkBackgroundImage),
+                                backgroundPosition: 'center',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: '100% 100%',
+                                clipPath: 'polygon(3% 0, 100% 0, 97% 92%, 0 100%)',
+                                color: '#211713',
+                                fontFamily: getRecordValue(
+                                  typographyFontFamilyStyles,
+                                  eventLinkFontFamily,
+                                  'cinzel',
+                                ),
+                                fontStyle: eventLinkFontStyle === 'italic' ? 'italic' : 'normal',
+                                transform: `scaleY(${getRecordValue(
+                                  typographyVerticalScaleValues,
+                                  eventLinkVerticalScale,
+                                  'normal',
+                                )})`,
+                                transformOrigin: 'center',
+                              }}
                             />
                           </span>
                         </div>
@@ -517,14 +645,14 @@ export const UpcomingEventsBlock = async ({
               </div>
             </div>
 
-            <div className="relative aspect-[16/9] min-h-44 overflow-hidden md:min-h-0 md:self-center">
+            <div className="upcoming-events-feature-frame relative min-h-56 overflow-hidden md:min-h-72 lg:min-h-[17rem] lg:self-stretch xl:min-h-[17.8rem]">
               {featureImage && typeof featureImage === 'object' ? (
                 <Media
                   fill
                   imgClassName="object-cover object-center saturate-[0.95] contrast-[1.04]"
-                  pictureClassName="absolute inset-0"
+                  pictureClassName="absolute inset-[3.5%] z-10"
                   resource={featureImage}
-                  size="(max-width: 767px) 100vw, (max-width: 1279px) 42vw, 46vw"
+                  size="(max-width: 767px) 100vw, (max-width: 1279px) 92vw, 52vw"
                 />
               ) : null}
             </div>
@@ -533,91 +661,107 @@ export const UpcomingEventsBlock = async ({
       </div>
 
       <aside
-        className="relative isolate min-h-[13.5rem] w-full max-w-[42rem] justify-self-center overflow-visible md:h-[clamp(18rem,33vw,22rem)] md:min-h-0 md:max-w-[54rem] lg:h-[clamp(18.5rem,31vw,23rem)] lg:max-w-[58rem] xl:h-[clamp(14rem,17vw,17rem)] xl:max-w-[42rem]"
+        className="upcoming-events-cta-strip relative isolate -mt-1 min-h-[13.5rem] w-full overflow-hidden md:min-h-[12rem] lg:min-h-[10.75rem] xl:min-h-[11.25rem]"
         style={{
           backgroundImage: resolveBackgroundImage(rightBackground),
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundSize: '100% 100%',
+          backgroundSize: 'cover',
         }}
       >
-        <div className="upcoming-events-cta-copy-backdrop absolute bottom-[18%] left-[9%] top-[21%] z-10 flex w-[min(58%,22rem)] min-w-0 flex-col justify-center md:bottom-[18%] md:left-[10%] md:top-[23%] md:w-[min(68%,34rem)] lg:w-[min(70%,37rem)] xl:left-[11%] xl:top-[24%] xl:w-[min(72%,27rem)] 2xl:w-[min(58%,28rem)]">
-          <h2
-            className={getTextClassName({
-              base: 'max-w-full uppercase [overflow-wrap:anywhere]',
-              fontSize: getReducedCtaTitleSize(ctaTitleFontSize),
-              fontWeight: ctaTitleFontWeight,
-              letterSpacing: ctaTitleLetterSpacing,
-            })}
-            style={getTextStyle({
-              color: ctaTextColor || '#ffffff',
-              fontFamily: ctaTitleFontFamily,
-              fontStyle: ctaTitleFontStyle,
-              verticalScale: ctaTitleVerticalScale,
-            })}
-          >
-            {ctaTitle}
-          </h2>
-          {ctaText ? (
-            <p
-              className={getTextClassName({
-                base: 'mt-3 max-w-[21rem] [overflow-wrap:anywhere] md:mt-4 md:max-w-[32rem] lg:max-w-[35rem] xl:max-w-[24rem]',
-                fontSize: ctaTextFontSize,
-                fontWeight: ctaTextFontWeight,
-                letterSpacing: ctaTextLetterSpacing,
-              })}
-              style={getTextStyle({
-                color: ctaTextColor || '#ffffff',
-                fontFamily: ctaTextFontFamily,
-                fontStyle: ctaTextFontStyle,
-                verticalScale: ctaTextVerticalScale,
-              })}
-            >
-              {ctaText}
-            </p>
-          ) : null}
-          <CMSLink
-            {...ctaLink}
-            className={getTextClassName({
-              base: 'mt-5 inline-flex w-fit max-w-full justify-center px-7 py-3 text-center uppercase shadow-[0_5px_0_rgb(0_0_0_/_0.18)] [overflow-wrap:anywhere] md:mt-5 md:px-7 md:py-3 xl:mt-6 xl:px-8 xl:py-3.5',
-              fontSize: ctaButtonFontSize,
-              fontWeight: ctaButtonFontWeight,
-              letterSpacing: ctaButtonLetterSpacing,
-            })}
-            label={ctaLink?.label || ctaLinkFallbackLabel || 'Unisciti a noi'}
-            style={{
-              backgroundColor: ctaLinkBackgroundImage
-                ? 'transparent'
-                : ctaButtonBackgroundColor || '#84cc16',
-              backgroundImage: resolveBackgroundImage(ctaLinkBackgroundImage),
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: '100% 100%',
-              color: ctaButtonTextColor || '#251414',
-              clipPath: 'polygon(2% 0, 100% 0, 98% 93%, 0 100%)',
-              fontFamily: getRecordValue(typographyFontFamilyStyles, ctaButtonFontFamily, 'cinzel'),
-              fontStyle: ctaButtonFontStyle === 'italic' ? 'italic' : 'normal',
-              transform: `scaleY(${getRecordValue(
-                typographyVerticalScaleValues,
-                ctaButtonVerticalScale,
-                'normal',
-              )})`,
-              transformOrigin: 'center',
-            }}
-          />
-        </div>
+        <div className="pointer-events-none absolute inset-0 bg-black/10" />
 
         {ctaGlyph && typeof ctaGlyph === 'object' ? (
-          <div className="pointer-events-none absolute right-[8%] top-[53%] hidden h-40 w-40 -translate-y-1/2 opacity-95 2xl:block">
+          <div className="pointer-events-none absolute bottom-[-18%] left-[2%] z-0 h-36 w-36 opacity-95 md:bottom-[-24%] md:left-[5%] md:h-44 md:w-44 xl:h-52 xl:w-52">
             <Media
               fill
               imgClassName="object-contain"
               pictureClassName="absolute inset-0"
               resource={ctaGlyph}
-              size="(max-width: 767px) 9rem, (max-width: 1279px) 10.5rem, 16rem"
+              size="(max-width: 767px) 9rem, (max-width: 1279px) 11rem, 13rem"
             />
           </div>
         ) : null}
+
+        <div className="relative z-10 grid min-h-[13.5rem] items-center gap-6 px-6 py-7 md:min-h-[12rem] md:grid-cols-[minmax(0,1fr)_auto] md:px-10 lg:min-h-[10.75rem] lg:px-16 lg:py-6 xl:min-h-[11.25rem] xl:grid-cols-[minmax(0,1fr)_minmax(13rem,0.34fr)] xl:px-24">
+          <div className="upcoming-events-cta-copy-backdrop relative z-10 min-w-0 max-w-[50rem] justify-self-center text-center md:justify-self-start md:pl-[20%] md:text-left lg:pl-[18%] xl:pl-[16%]">
+            <h2
+              className={getTextClassName({
+                base: 'max-w-full uppercase [overflow-wrap:anywhere]',
+                fontSize: ctaTitleFontSize,
+                fontWeight: ctaTitleFontWeight,
+                letterSpacing: ctaTitleLetterSpacing,
+                sizeKind: 'display',
+              })}
+              style={getTextStyle({
+                color: ctaTextColor || '#ffffff',
+                fontFamily: ctaTitleFontFamily,
+                fontStyle: ctaTitleFontStyle,
+                verticalScale: ctaTitleVerticalScale,
+              })}
+            >
+              {ctaTitle}
+            </h2>
+            {ctaText ? (
+              <p
+                className={getTextClassName({
+                  base: 'mt-3 max-w-[38rem] [overflow-wrap:anywhere]',
+                  fontSize: ctaTextFontSize,
+                  fontWeight: ctaTextFontWeight,
+                  letterSpacing: ctaTextLetterSpacing,
+                })}
+                style={{
+                  ...getTextStyle({
+                    color: ctaTextColor || '#ffffff',
+                    fontFamily: ctaTextFontFamily,
+                    fontStyle: ctaTextFontStyle,
+                    verticalScale: ctaTextVerticalScale,
+                  }),
+                  display: 'block',
+                }}
+              >
+                {ctaText}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="relative z-10 grid justify-items-center gap-3 md:justify-self-end">
+            {ctaLinkHasHref ? (
+              <CMSLink
+                {...ctaLink}
+                className={ctaButtonClassName}
+                label={ctaButtonLabel}
+                style={ctaButtonStyle}
+              />
+            ) : (
+              <span className={ctaButtonClassName} style={ctaButtonStyle}>
+                {ctaButtonLabel}
+              </span>
+            )}
+            {ctaAccentLabel ? (
+              <div className="upcoming-events-cta-accent flex items-center gap-4">
+                <span className="upcoming-events-cta-accent-arrow" aria-hidden />
+                <span className="grid justify-items-start">
+                  <span
+                    className="whitespace-nowrap text-sm font-semibold leading-none md:text-base"
+                    style={{
+                      color: ctaTextColor || '#ffffff',
+                      fontFamily: getRecordValue(
+                        typographyFontFamilyStyles,
+                        ctaTextFontFamily,
+                        'geistSans',
+                      ),
+                      fontStyle: ctaTextFontStyle === 'italic' ? 'italic' : 'normal',
+                    }}
+                  >
+                    {ctaAccentLabel}
+                  </span>
+                  <span className="upcoming-events-cta-accent-underline" aria-hidden />
+                </span>
+              </div>
+            ) : null}
+          </div>
+        </div>
       </aside>
     </section>
   )
