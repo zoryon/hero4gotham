@@ -156,6 +156,14 @@ export const RenderBlocks: React.FC<{
               const blockWrapperClassName = flushBlockTypes.has(blockType)
                 ? undefined
                 : wrapperClassName
+              const hasDetachedTornCards =
+                blockType === 'tornCards' && block.cardGap && block.cardGap !== 'none'
+              const blockLayout = hasDetachedTornCards
+                ? {
+                    ...block.layout,
+                    scribbleBorder: false,
+                  }
+                : block.layout
 
               if (blockType === 'upcomingEvents') {
                 const nextBlock = blocks[index + 1]
@@ -312,7 +320,7 @@ export const RenderBlocks: React.FC<{
               return (
                 <div
                   className={cn(
-                    getBlockLayoutClasses(block.layout, blockWrapperClassName),
+                    getBlockLayoutClasses(blockLayout, blockWrapperClassName),
                     index === firstRenderableIndex && 'mt-0',
                     index === lastRenderableIndex && 'mb-0',
                   )}

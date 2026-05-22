@@ -2683,6 +2683,16 @@
     width: 100%;
   }
 
+  .torn-cards-block--layout-width-with-card-bleed {
+    margin-inline: calc(var(--vintage-border-width, 15px) * 0.75);
+    width: auto;
+  }
+
+  .torn-grid--spaced {
+    column-gap: var(--torn-card-gap, 0);
+    row-gap: var(--torn-card-gap, 0);
+  }
+
   .torn-grid--flow-column {
     grid-auto-flow: column;
   }

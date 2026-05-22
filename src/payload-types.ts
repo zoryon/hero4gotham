@@ -3121,6 +3121,10 @@ export interface TornCardsBlock {
     id?: string | null;
   }[];
   fillDirection: 'row' | 'column';
+  /**
+   * Il default mantiene le schede unite. Se abiliti la spaziatura, ogni scheda riceve superficie e bordo vintage propri.
+   */
+  cardGap?: ('none' | 'xs' | 'xxs' | 'sm' | 'md' | 'lg' | 'xl') | null;
   containerWidth?: ('full' | 'container' | 'wide' | 'extraWide') | null;
   responsive: {
     mobile: {
@@ -5625,6 +5629,7 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
         id?: T;
       };
   fillDirection?: T;
+  cardGap?: T;
   containerWidth?: T;
   responsive?:
     | T

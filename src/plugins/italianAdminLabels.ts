@@ -496,6 +496,7 @@ const exactTranslations: Record<string, string> = {
   Solid: 'Solido',
   'Space around': 'Spazio attorno',
   'Space between': 'Spazio tra',
+  'Space between cards': 'Spazio tra le schede',
   'Space evenly': 'Spazio uniforme',
   Spacing: 'Spaziatura',
   Start: 'Inizio',
@@ -586,6 +587,8 @@ const descriptionTranslations: Record<string, string> = {
   '0 = every matching occurrence.': '0 = tutte le occorrenze trovate.',
   'Adds the optional vintage border to this single card.':
     'Aggiunge il bordo vintage opzionale a questa singola scheda.',
+  'Default keeps cards joined. When spacing is enabled, each card gets its own vintage surface and border.':
+    'Il default mantiene le schede unite. Se abiliti la spaziatura, ogni scheda riceve superficie e bordo vintage propri.',
   'Adds the reusable vintage border to this single activity.':
     'Aggiunge il bordo vintage riutilizzabile a questa singola attivita.',
   'Adds the reusable yellow hand-drawn border around this block.':

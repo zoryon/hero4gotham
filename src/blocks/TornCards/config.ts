@@ -614,6 +614,18 @@ export const TornCards: Block = {
       required: true,
     },
     {
+      name: 'cardGap',
+      type: 'select',
+      dbName: 'gap',
+      defaultValue: 'none',
+      label: 'Space between cards',
+      options: [...tornCardSpacingOptions],
+      admin: {
+        description:
+          'Default keeps cards joined. When spacing is enabled, each card gets its own vintage surface and border.',
+      },
+    },
+    {
       name: 'containerWidth',
       type: 'select',
       defaultValue: 'wide',

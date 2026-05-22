@@ -247,8 +247,9 @@ const getCardSpacingStyle = (item: TornCardItem): React.CSSProperties => ({
 })
 
 const TornCard: React.FC<{
+  forceCardBorder?: boolean
   item: TornCardItem
-}> = ({ item }) => {
+}> = ({ forceCardBorder = false, item }) => {
   const hasImage = Boolean(item.image && typeof item.image === 'object')
   const titleTypography = item.titleType
   const descriptionTypography = item.descType
@@ -257,7 +258,7 @@ const TornCard: React.FC<{
     <article
       className={cn(
         'torn-card vintage-surface relative isolate flex flex-col items-center justify-center text-center',
-        item.scribbleBorder && 'scribble-border',
+        (item.scribbleBorder || forceCardBorder) && 'scribble-border',
       )}
       style={getCardSpacingStyle(item)}
     >
@@ -315,6 +316,7 @@ const TornCard: React.FC<{
 }
 
 export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
+  cardGap = 'none',
   containerWidth = 'wide',
   fillDirection = 'row',
   heading,
@@ -372,15 +374,22 @@ export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
     titleColor,
     '#e8d5a0',
   )
-  const containerClassName = layout?.scribbleBorder
-    ? 'w-full'
+  const cardGapValue = getSpacingValue(cardGap)
+  const hasCardGap = cardGapValue !== '0'
+  const hasBleedingCardBorders = hasCardGap || cards.some((item) => item.scribbleBorder)
+  const hasExplicitLayoutSize = Boolean(layout?.size && layout.size !== 'default')
+  const usesLayoutWidth = Boolean(layout?.scribbleBorder || hasExplicitLayoutSize)
+  const containerClassName = usesLayoutWidth
+    ? hasBleedingCardBorders
+      ? 'torn-cards-block--layout-width-with-card-bleed'
+      : 'w-full'
     : containerWidthClasses[containerWidth || 'wide']
 
   return (
     <div
       className={cn(
         'torn-cards-block relative',
-        layout?.scribbleBorder && 'torn-cards-block--container-border',
+        layout?.scribbleBorder && !hasCardGap && 'torn-cards-block--container-border',
         containerClassName,
       )}
     >
@@ -427,6 +436,7 @@ export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
       <section
         className={cn(
           'torn-grid torn-grid--generated grid',
+          hasCardGap && 'torn-grid--spaced',
           fillDirection === 'column' && 'torn-grid--flow-column',
         )}
         style={
@@ -439,13 +449,14 @@ export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
             '--torn-rows-laptop': laptopRows,
             '--torn-rows-mobile': mobileRows,
             '--torn-rows-tablet': tabletRows,
+            '--torn-card-gap': cardGapValue,
             '--torn-text-color': resolvedTextColor,
             '--torn-title-color': resolvedTitleColor,
           } as React.CSSProperties
         }
       >
         {cards.map((item, index) => (
-          <TornCard item={item} key={item.id || index} />
+          <TornCard forceCardBorder={hasCardGap} item={item} key={item.id || index} />
         ))}
       </section>
     </div>
