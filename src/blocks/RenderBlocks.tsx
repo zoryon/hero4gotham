@@ -30,6 +30,7 @@ import { ThreePanelShowcaseBlock } from '@/blocks/ThreePanelShowcase/Component'
 import { TitleBlock } from '@/blocks/Title/Component'
 import { TornCardsBlock } from '@/blocks/TornCards/Component'
 import { UpcomingEventsBlock } from '@/blocks/UpcomingEvents/Component'
+import { UpcomingEventsCtaBlock } from '@/blocks/UpcomingEventsCta/Component'
 import { EventFiltersProvider } from '@/providers/EventFilters'
 import { cn } from '@/utilities/ui'
 
@@ -61,6 +62,7 @@ const blockComponents = {
   title: TitleBlock,
   tornCards: TornCardsBlock,
   upcomingEvents: UpcomingEventsBlock,
+  upcomingEventsCta: UpcomingEventsCtaBlock,
 }
 
 const flushBlockTypes = new Set<keyof typeof blockComponents>([
@@ -154,6 +156,39 @@ export const RenderBlocks: React.FC<{
               const blockWrapperClassName = flushBlockTypes.has(blockType)
                 ? undefined
                 : wrapperClassName
+
+              if (blockType === 'upcomingEvents') {
+                const nextBlock = blocks[index + 1]
+
+                if (nextBlock?.blockType === 'upcomingEventsCta') {
+                  groupedEventSidebarIndices.add(index + 1)
+
+                  const UpcomingEventsCtaBlockToRender =
+                    blockComponents.upcomingEventsCta as React.ComponentType<RenderableBlockProps>
+
+                  return (
+                    <div
+                      className={cn(
+                        getBlockLayoutClasses(block.layout, blockWrapperClassName),
+                        index === firstRenderableIndex && 'mt-0',
+                        index + 1 === lastRenderableIndex && 'mb-0',
+                      )}
+                      key={index}
+                    >
+                      <BlockToRender
+                        {...block}
+                        disableInnerContainer
+                        isFirstPageBlock={index === firstRenderableIndex}
+                      />
+                      <UpcomingEventsCtaBlockToRender
+                        {...nextBlock}
+                        disableInnerContainer
+                        isFirstPageBlock={false}
+                      />
+                    </div>
+                  )
+                }
+              }
 
               if (blockType === 'eventFilters') {
                 const nextBlock = blocks[index + 1]

@@ -60,6 +60,7 @@ const entityLabels: Record<string, EntityLabels> = {
   title: { plural: 'Titoli', singular: 'Titolo' },
   tornCards: { plural: 'Schede strappate', singular: 'Scheda strappata' },
   upcomingEvents: { plural: 'Prossimi eventi', singular: 'Prossimi eventi' },
+  upcomingEventsCta: { plural: 'CTA prossimi eventi', singular: 'CTA prossimi eventi' },
   users: { plural: 'Utenti', singular: 'Utente' },
 }
 

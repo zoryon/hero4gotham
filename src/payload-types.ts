@@ -235,6 +235,7 @@ export interface Page {
     | QuoteBannerBlock
     | TornCardsBlock
     | UpcomingEventsBlock
+    | UpcomingEventsCtaBlock
     | PhotoGalleryStripBlock
     | MediaBlock
     | MembershipApplicationBlock
@@ -2140,6 +2141,7 @@ export interface FlexboxBlock {
     | SubtitleBlock
     | FeatureGridBlock
     | UpcomingEventsBlock
+    | UpcomingEventsCtaBlock
     | PhotoGalleryStripBlock
     | MediaBlock
     | MembershipApplicationBlock
@@ -2221,36 +2223,11 @@ export interface UpcomingEventsBlock {
   manualEvents?: (number | Event)[] | null;
   leftPanelScribbleBorder?: boolean | null;
   featureImage?: (number | null) | Media;
-  rightBackground?: (number | null) | Media;
-  ctaTitle: string;
-  ctaText?: string | null;
-  ctaLink: {
-    type?: ('reference' | 'custom') | null;
-    newTab?: boolean | null;
-    reference?:
-      | ({
-          relationTo: 'pages';
-          value: number | Page;
-        } | null)
-      | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null);
-    url?: string | null;
-    label: string;
-  };
-  ctaLinkFallbackLabel: string;
-  ctaLinkBackgroundImage?: (number | null) | Media;
-  ctaAccentLabel?: string | null;
-  ctaGlyph?: (number | null) | Media;
   headingColor?: string | null;
   dateColor?: string | null;
   eventTitleColor?: string | null;
   eventTextColor?: string | null;
   eventLinkColor?: string | null;
-  ctaTextColor?: string | null;
-  ctaButtonBackgroundColor?: string | null;
-  ctaButtonTextColor?: string | null;
   headingFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
   headingFontSize?: ('small' | 'base' | 'large' | 'lead') | null;
   headingFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
@@ -2287,6 +2264,55 @@ export interface UpcomingEventsBlock {
   eventLinkFontStyle?: ('normal' | 'italic') | null;
   eventLinkVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
   eventLinkLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'upcomingEvents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingEventsCtaBlock".
+ */
+export interface UpcomingEventsCtaBlock {
+  rightBackground?: (number | null) | Media;
+  ctaTitle: string;
+  ctaText?: string | null;
+  ctaLink: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  ctaLinkFallbackLabel: string;
+  ctaLinkBackgroundImage?: (number | null) | Media;
+  ctaAccentLabel?: string | null;
+  ctaGlyph?: (number | null) | Media;
+  ctaTextColor?: string | null;
+  ctaButtonBackgroundColor?: string | null;
+  ctaButtonTextColor?: string | null;
   ctaTitleFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
   ctaTitleFontSize?: ('compact' | 'medium' | 'large' | 'hero' | 'massive') | null;
   ctaTitleFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
@@ -2322,7 +2348,7 @@ export interface UpcomingEventsBlock {
   };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'upcomingEvents';
+  blockType: 'upcomingEventsCta';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3477,6 +3503,7 @@ export interface PagesSelect<T extends boolean = true> {
         quoteBanner?: T | QuoteBannerBlockSelect<T>;
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
+        upcomingEventsCta?: T | UpcomingEventsCtaBlockSelect<T>;
         photoGalleryStrip?: T | PhotoGalleryStripBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
@@ -4861,6 +4888,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         subtitle?: T | SubtitleBlockSelect<T>;
         featureGrid?: T | FeatureGridBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
+        upcomingEventsCta?: T | UpcomingEventsCtaBlockSelect<T>;
         photoGalleryStrip?: T | PhotoGalleryStripBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         membershipApplication?: T | MembershipApplicationBlockSelect<T>;
@@ -4934,30 +4962,11 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   manualEvents?: T;
   leftPanelScribbleBorder?: T;
   featureImage?: T;
-  rightBackground?: T;
-  ctaTitle?: T;
-  ctaText?: T;
-  ctaLink?:
-    | T
-    | {
-        type?: T;
-        newTab?: T;
-        reference?: T;
-        url?: T;
-        label?: T;
-      };
-  ctaLinkFallbackLabel?: T;
-  ctaLinkBackgroundImage?: T;
-  ctaAccentLabel?: T;
-  ctaGlyph?: T;
   headingColor?: T;
   dateColor?: T;
   eventTitleColor?: T;
   eventTextColor?: T;
   eventLinkColor?: T;
-  ctaTextColor?: T;
-  ctaButtonBackgroundColor?: T;
-  ctaButtonTextColor?: T;
   headingFontFamily?: T;
   headingFontSize?: T;
   headingFontWeight?: T;
@@ -4994,6 +5003,47 @@ export interface UpcomingEventsBlockSelect<T extends boolean = true> {
   eventLinkFontStyle?: T;
   eventLinkVerticalScale?: T;
   eventLinkLetterSpacing?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UpcomingEventsCtaBlock_select".
+ */
+export interface UpcomingEventsCtaBlockSelect<T extends boolean = true> {
+  rightBackground?: T;
+  ctaTitle?: T;
+  ctaText?: T;
+  ctaLink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  ctaLinkFallbackLabel?: T;
+  ctaLinkBackgroundImage?: T;
+  ctaAccentLabel?: T;
+  ctaGlyph?: T;
+  ctaTextColor?: T;
+  ctaButtonBackgroundColor?: T;
+  ctaButtonTextColor?: T;
   ctaTitleFontFamily?: T;
   ctaTitleFontSize?: T;
   ctaTitleFontWeight?: T;

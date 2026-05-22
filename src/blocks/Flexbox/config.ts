@@ -30,6 +30,7 @@ import { ProcessSteps } from '@/blocks/ProcessSteps/config'
 import { Subtitle } from '@/blocks/Subtitle/config'
 import { Title } from '@/blocks/Title/config'
 import { UpcomingEvents } from '@/blocks/UpcomingEvents/config'
+import { UpcomingEventsCta } from '@/blocks/UpcomingEventsCta/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 
 const baseFlexChildBlocks = [
@@ -49,6 +50,7 @@ const baseFlexChildBlocks = [
   Subtitle,
   FeatureGrid,
   UpcomingEvents,
+  UpcomingEventsCta,
   PhotoGalleryStrip,
   MediaBlock,
   MembershipApplication,

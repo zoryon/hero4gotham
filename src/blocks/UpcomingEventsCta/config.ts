@@ -1,5 +1,6 @@
 import type { Block, Field } from 'payload'
 
+import { link } from '@/fields/link'
 import {
   typographyFontFamilyOptions,
   typographyFontSizeOptions,
@@ -18,18 +19,6 @@ const fontStyleOptions = [
     label: 'Italic',
     value: 'italic',
   },
-] as const
-
-const eventTextFontSizeOptions = [
-  {
-    label: 'Tiny',
-    value: 'tiny',
-  },
-  {
-    label: 'Extra small',
-    value: 'xs',
-  },
-  ...typographySubtitleFontSizeOptions,
 ] as const
 
 const textStyleFields = ({
@@ -134,102 +123,61 @@ const textStyleFields = ({
   ],
 })
 
-export const UpcomingEvents: Block = {
-  slug: 'upcomingEvents',
-  interfaceName: 'UpcomingEventsBlock',
+export const UpcomingEventsCta: Block = {
+  slug: 'upcomingEventsCta',
+  dbName: 'ue_cta',
+  interfaceName: 'UpcomingEventsCtaBlock',
   fields: [
     {
-      name: 'heading',
-      type: 'text',
-      defaultValue: 'Prossimi eventi',
-      required: true,
-    },
-    {
-      name: 'headingBackgroundImage',
+      name: 'rightBackground',
       type: 'upload',
-      label: 'Heading background image',
+      label: 'CTA panel background',
       relationTo: 'media',
     },
     {
-      name: 'emptyEventsTitle',
+      name: 'ctaTitle',
       type: 'text',
-      defaultValue: 'Nessun evento in programma',
-      label: 'Empty events title',
+      defaultValue: 'Diventa socio',
+      label: 'CTA title',
       required: true,
     },
     {
-      name: 'emptyEventsText',
+      name: 'ctaText',
       type: 'textarea',
-      defaultValue: 'Torna presto per scoprire le prossime date.',
-      label: 'Empty events text',
+      defaultValue:
+        'Sostieni le nostre attivita e fai parte di una comunita che trasforma il diverso in straordinario.',
+      label: 'CTA text',
     },
+    link({
+      appearances: false,
+      overrides: {
+        name: 'ctaLink',
+        label: 'CTA link',
+      },
+    }),
     {
-      name: 'eventLinkLabel',
+      name: 'ctaLinkFallbackLabel',
       type: 'text',
-      defaultValue: 'Scopri di piu',
-      label: 'Event link fallback label',
+      defaultValue: 'Unisciti a noi',
+      label: 'CTA link fallback label',
       required: true,
     },
     {
-      name: 'eventLinkBackgroundImage',
+      name: 'ctaLinkBackgroundImage',
       type: 'upload',
-      label: 'Event link background image',
+      label: 'CTA link background image',
       relationTo: 'media',
     },
     {
-      name: 'eventDescriptionMaxCharacters',
-      type: 'number',
-      admin: {
-        description:
-          'Maximum visible description characters. The text continues to the next space before adding "...". Set 0 to disable truncation.',
-        step: 1,
-      },
-      defaultValue: 140,
-      label: 'Event description max characters',
-      min: 0,
+      name: 'ctaAccentLabel',
+      type: 'text',
+      defaultValue: 'Fai la differenza',
+      label: 'CTA accent label',
     },
     {
-      name: 'eventSource',
-      type: 'radio',
-      admin: {
-        layout: 'horizontal',
-      },
-      defaultValue: 'automatic',
-      label: 'Events source',
-      options: [
-        {
-          label: 'Automatic: next 2 by date',
-          value: 'automatic',
-        },
-        {
-          label: 'Manual selection',
-          value: 'manual',
-        },
-      ],
-      required: true,
-    },
-    {
-      name: 'manualEvents',
-      type: 'relationship',
-      admin: {
-        condition: (_, siblingData) => siblingData?.eventSource === 'manual',
-        description: 'Choose the events to show. The block will render the first two selected.',
-      },
-      hasMany: true,
-      label: 'Manual events',
-      maxRows: 2,
-      relationTo: 'events',
-    },
-    {
-      name: 'leftPanelScribbleBorder',
-      type: 'checkbox',
-      defaultValue: false,
-      label: 'Left panel scribble border',
-    },
-    {
-      name: 'featureImage',
+      name: 'ctaGlyph',
       type: 'upload',
-      label: 'Events feature image',
+      label: 'CTA decorative image',
       relationTo: 'media',
     },
     {
@@ -243,45 +191,22 @@ export const UpcomingEvents: Block = {
           type: 'row',
           fields: [
             {
-              name: 'headingColor',
+              name: 'ctaTextColor',
               type: 'text',
               admin: {
                 width: '50%',
               },
-              defaultValue: '#211713',
-              label: 'Heading color',
+              defaultValue: '#ffffff',
+              label: 'CTA text color',
             },
             {
-              name: 'dateColor',
+              name: 'ctaButtonBackgroundColor',
               type: 'text',
               admin: {
                 width: '50%',
               },
-              defaultValue: '#e879f9',
-              label: 'Date color',
-            },
-          ],
-        },
-        {
-          type: 'row',
-          fields: [
-            {
-              name: 'eventTitleColor',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-              defaultValue: '#fef3c7',
-              label: 'Event title color',
-            },
-            {
-              name: 'eventTextColor',
-              type: 'text',
-              admin: {
-                width: '50%',
-              },
-              defaultValue: '#f4f4f5',
-              label: 'Event text color',
+              defaultValue: '#84cc16',
+              label: 'CTA button background',
             },
           ],
         },
@@ -289,13 +214,13 @@ export const UpcomingEvents: Block = {
           type: 'row',
           fields: [
             {
-              name: 'eventLinkColor',
+              name: 'ctaButtonTextColor',
               type: 'text',
               admin: {
                 width: '50%',
               },
-              defaultValue: '#a3e635',
-              label: 'Event link color',
+              defaultValue: '#251414',
+              label: 'CTA button text color',
             },
           ],
         },
@@ -303,7 +228,7 @@ export const UpcomingEvents: Block = {
     },
     {
       type: 'collapsible',
-      label: 'Left panel text formats',
+      label: 'Right panel text formats',
       admin: {
         initCollapsed: true,
       },
@@ -311,59 +236,25 @@ export const UpcomingEvents: Block = {
         textStyleFields({
           defaults: {
             fontFamily: 'cinzel',
-            fontSize: 'small',
+            fontSize: 'compact',
             fontWeight: 'black',
             letterSpacing: 'tight',
             verticalScale: 'normal',
           },
-          label: 'Heading',
-          name: 'heading',
-        }),
-        textStyleFields({
-          defaults: {
-            fontFamily: 'cinzel',
-            fontSize: 'medium',
-            fontWeight: 'black',
-            letterSpacing: 'tight',
-            verticalScale: 'normal',
-          },
-          label: 'Date day',
-          name: 'dateDay',
+          label: 'CTA title',
+          name: 'ctaTitle',
           sizeOptions: typographyFontSizeOptions,
         }),
         textStyleFields({
           defaults: {
-            fontFamily: 'cinzel',
-            fontSize: 'small',
-            fontWeight: 'black',
-            letterSpacing: 'normal',
-            verticalScale: 'normal',
-          },
-          label: 'Date month',
-          name: 'dateMonth',
-        }),
-        textStyleFields({
-          defaults: {
-            fontFamily: 'cinzel',
-            fontSize: 'small',
-            fontWeight: 'black',
-            letterSpacing: 'tight',
-            verticalScale: 'normal',
-          },
-          label: 'Event title',
-          name: 'eventTitle',
-        }),
-        textStyleFields({
-          defaults: {
             fontFamily: 'geistSans',
-            fontSize: 'xs',
+            fontSize: 'small',
             fontWeight: 'regular',
             letterSpacing: 'tight',
             verticalScale: 'normal',
           },
-          label: 'Event text',
-          name: 'eventText',
-          sizeOptions: eventTextFontSizeOptions,
+          label: 'CTA text',
+          name: 'ctaText',
         }),
         textStyleFields({
           defaults: {
@@ -373,14 +264,14 @@ export const UpcomingEvents: Block = {
             letterSpacing: 'tight',
             verticalScale: 'normal',
           },
-          label: 'Event link',
-          name: 'eventLink',
+          label: 'CTA button',
+          name: 'ctaButton',
         }),
       ],
     },
   ],
   labels: {
-    plural: 'Upcoming Events',
-    singular: 'Upcoming Events',
+    plural: 'Upcoming Events CTAs',
+    singular: 'Upcoming Events CTA',
   },
 }

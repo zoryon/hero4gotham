@@ -29,6 +29,7 @@ import { Title } from '../../blocks/Title/config'
 import { TornCards } from '../../blocks/TornCards/config'
 import { ThreePanelShowcase } from '../../blocks/ThreePanelShowcase/config'
 import { UpcomingEvents } from '../../blocks/UpcomingEvents/config'
+import { UpcomingEventsCta } from '@/blocks/UpcomingEventsCta/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
@@ -118,6 +119,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 QuoteBanner,
                 TornCards,
                 UpcomingEvents,
+                UpcomingEventsCta,
                 PhotoGalleryStrip,
                 MediaBlock,
                 MembershipApplication,

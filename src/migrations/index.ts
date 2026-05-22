@@ -51,6 +51,7 @@ import * as migration_20260518_101000_remove_event_manual_cta from './20260518_1
 import * as migration_20260518_102000_event_detail_info_fields from './20260518_102000_event_detail_info_fields'
 import * as migration_20260518_103000_event_banner from './20260518_103000_event_banner'
 import * as migration_20260519_120000_event_detail_sections from './20260519_120000_event_detail_sections'
+import * as migration_20260522_092800_split_upcoming_events_cta from './20260522_092800_split_upcoming_events_cta'
 
 export const migrations = [
   {
@@ -317,5 +318,10 @@ export const migrations = [
     up: migration_20260519_120000_event_detail_sections.up,
     down: migration_20260519_120000_event_detail_sections.down,
     name: '20260519_120000_event_detail_sections',
+  },
+  {
+    up: migration_20260522_092800_split_upcoming_events_cta.up,
+    down: migration_20260522_092800_split_upcoming_events_cta.down,
+    name: '20260522_092800_split_upcoming_events_cta',
   },
 ]

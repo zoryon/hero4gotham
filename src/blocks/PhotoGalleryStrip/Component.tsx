@@ -240,14 +240,14 @@ export const PhotoGalleryStripBlock = async ({
   const visiblePhotos = photos.slice(0, 3)
   const ctaLinkHasHref = Boolean(
     ctaLink?.url ||
-      (ctaLink?.type === 'reference' &&
-        ctaLink.reference?.value &&
-        typeof ctaLink.reference.value === 'object' &&
-        ctaLink.reference.value.slug),
+    (ctaLink?.type === 'reference' &&
+      ctaLink.reference?.value &&
+      typeof ctaLink.reference.value === 'object' &&
+      ctaLink.reference.value.slug),
   )
 
   const ctaClassName = getTextClassName({
-    base: 'inline-flex min-h-9 w-[min(100%,10.5rem)] items-center justify-center px-4 py-2 text-center uppercase shadow-[0_4px_0_rgb(0_0_0_/_0.18)]',
+    base: 'inline-flex min-h-11 w-[min(100%,10.5rem)] items-center justify-center px-4 py-3 text-center uppercase shadow-[0_4px_0_rgb(0_0_0_/_0.18)]',
     fontSize: ctaLabelFontSize,
     fontWeight: ctaLabelFontWeight,
     letterSpacing: ctaLabelLetterSpacing,
@@ -269,9 +269,12 @@ export const PhotoGalleryStripBlock = async ({
     )})`,
     transformOrigin: 'center',
   }
+  const headingUnderlineStyle = {
+    '--photo-gallery-strip-underline-color': headingUnderlineColor || '#e879f9',
+  } as React.CSSProperties
 
   return (
-    <section className="photo-gallery-strip vintage-surface relative isolate overflow-hidden px-4 py-5 md:px-6 md:py-6 xl:px-4 xl:py-5">
+    <section className="photo-gallery-strip relative isolate overflow-hidden px-4 py-5 md:px-6 md:py-6 xl:px-4 xl:py-5">
       <div className="relative z-10 grid min-w-0 items-center gap-6 md:grid-cols-[10.5rem_minmax(0,1fr)] lg:grid-cols-[12rem_minmax(0,1fr)] xl:gap-8">
         <div className="grid min-w-0 justify-items-start">
           <h2 className="grid min-w-0 leading-none">
@@ -310,8 +313,8 @@ export const PhotoGalleryStripBlock = async ({
           </h2>
           <span
             aria-hidden
-            className="mt-2 h-1 w-28 -rotate-2"
-            style={{ backgroundColor: headingUnderlineColor || '#e879f9' }}
+            className="photo-gallery-strip-heading-underline"
+            style={headingUnderlineStyle}
           />
           <div className="mt-5 w-full">
             {ctaLinkHasHref ? (
