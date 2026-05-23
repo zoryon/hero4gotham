@@ -179,7 +179,6 @@ export const EventFiltersClient: React.FC<Props> = ({
   controlTextStyle,
   dateBorder = false,
   dateLabel = 'Data',
-  filterByLabel = 'Filtra per:',
   filterLabelTextStyle,
   mutedColor = 'rgba(243,238,229,0.68)',
   searchBorder = false,
@@ -329,10 +328,15 @@ export const EventFiltersClient: React.FC<Props> = ({
         } as React.CSSProperties
       }
     >
-      <div className={cn('relative grid gap-y-4', activeDropdown ? 'z-[70]' : 'z-10')}>
+      <div
+        className={cn(
+          'relative grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-[minmax(16rem,1.15fr)_minmax(10rem,0.78fr)_minmax(10rem,0.72fr)_minmax(10rem,0.78fr)] lg:items-center lg:gap-3',
+          activeDropdown ? 'z-[70]' : 'z-10',
+        )}
+      >
         <label
           className={cn(
-            'relative flex min-h-11 items-center gap-3 px-4 py-1',
+            'relative flex min-h-11 items-center gap-3 px-4 py-1 md:col-span-3 lg:col-span-1',
             searchBorder && specialBorderClass,
           )}
         >
@@ -353,208 +357,57 @@ export const EventFiltersClient: React.FC<Props> = ({
           <Search aria-hidden className="h-5 w-5 shrink-0" style={{ color: resolvedMutedColor }} />
         </label>
 
-        <div className="grid gap-y-1">
-          <span className={filterLabelClassName} style={filterLabelStyles}>
-            {formatFilterText(filterByLabel)}
-          </span>
-
-          <div className="grid gap-1 lg:grid-cols-3 lg:items-center lg:gap-5">
-            <div
+        <div
+          className={cn(
+            'relative block min-h-10',
+            activeDropdown === 'type' && 'z-[80]',
+            typeBorder && specialBorderClass,
+          )}
+        >
+          <button
+            aria-expanded={activeDropdown === 'type'}
+            aria-label={resolvedTypeLabel}
+            className={controlButtonClassName}
+            onClick={() => setActiveDropdown((current) => (current === 'type' ? null : 'type'))}
+            style={controlTextStyles}
+            type="button"
+          >
+            <span className={inlineFilterLabelClassName} style={filterLabelStyles}>
+              {formatFilterText(resolvedTypeLabel)}
+            </span>
+            <span className="min-w-0 truncate">{formatControlText(selectedActivityLabel)}</span>
+            <ChevronDown
+              aria-hidden
               className={cn(
-                'relative block min-h-10',
-                activeDropdown === 'type' && 'z-[80]',
-                typeBorder && specialBorderClass,
+                'h-4 w-4 shrink-0 transition',
+                activeDropdown === 'type' && 'rotate-180',
               )}
-            >
-              <button
-                aria-expanded={activeDropdown === 'type'}
-                aria-label={resolvedTypeLabel}
-                className={controlButtonClassName}
-                onClick={() => setActiveDropdown((current) => (current === 'type' ? null : 'type'))}
-                style={controlTextStyles}
-                type="button"
-              >
-                <span className={inlineFilterLabelClassName} style={filterLabelStyles}>
-                  {formatFilterText(resolvedTypeLabel)}
-                </span>
-                <span className="min-w-0 truncate">{formatControlText(selectedActivityLabel)}</span>
-                <ChevronDown
-                  aria-hidden
-                  className={cn(
-                    'h-4 w-4 shrink-0 transition',
-                    activeDropdown === 'type' && 'rotate-180',
-                  )}
-                  style={{ color: resolvedAccentColor }}
-                />
-              </button>
+              style={{ color: resolvedAccentColor }}
+            />
+          </button>
 
-              {activeDropdown === 'type' ? (
-                <div
-                  className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 grid max-h-72 overflow-y-auto border"
-                  style={menuPanelStyles}
-                >
-                  {dropdownOptions.map((option) => {
-                    const optionValue = option.id === 'all' ? 'all' : String(option.id)
-                    const isSelected = optionValue === selectedActivityValue
-
-                    return (
-                      <button
-                        key={option.id}
-                        className={cn(menuButtonClassName, isSelected && 'bg-[#2b2b2b]')}
-                        onClick={() => {
-                          setActivityId(option.id === 'all' ? 'all' : option.id)
-                          setActiveDropdown(null)
-                        }}
-                        style={controlTextStyles}
-                        type="button"
-                      >
-                        <span className="min-w-0 truncate">{formatControlText(option.label)}</span>
-                        {isSelected ? (
-                          <Check
-                            aria-hidden
-                            className="h-4 w-4 shrink-0"
-                            style={{ color: resolvedAccentColor }}
-                          />
-                        ) : null}
-                      </button>
-                    )
-                  })}
-                </div>
-              ) : null}
-            </div>
-
+          {activeDropdown === 'type' ? (
             <div
-              className={cn(
-                'relative block min-h-10',
-                activeDropdown === 'date' && 'z-[80]',
-                dateBorder && specialBorderClass,
-              )}
+              className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 grid max-h-72 overflow-y-auto border"
+              style={menuPanelStyles}
             >
-              <button
-                aria-expanded={activeDropdown === 'date'}
-                aria-label={dateLabel}
-                className={controlButtonClassName}
-                onClick={() => setActiveDropdown((current) => (current === 'date' ? null : 'date'))}
-                style={controlTextStyles}
-                type="button"
-              >
-                <span className={inlineFilterLabelClassName} style={filterLabelStyles}>
-                  {formatFilterText(dateLabel)}
-                </span>
-                <span className="min-w-0 truncate">{formatControlText(selectedDateLabel)}</span>
-                <ChevronDown
-                  aria-hidden
-                  className={cn(
-                    'h-4 w-4 shrink-0 transition',
-                    activeDropdown === 'date' && 'rotate-180',
-                  )}
-                  style={{ color: resolvedAccentColor }}
-                />
-              </button>
+              {dropdownOptions.map((option) => {
+                const optionValue = option.id === 'all' ? 'all' : String(option.id)
+                const isSelected = optionValue === selectedActivityValue
 
-              {activeDropdown === 'date' ? (
-                <div
-                  className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] overflow-hidden border sm:w-[min(22rem,calc(100vw-2rem))]"
-                  style={menuPanelStyles}
-                >
-                  <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-center border-b border-white/10 bg-[#242424]">
-                    <button
-                      aria-label="Mese precedente"
-                      className="grid h-9 w-8 place-items-center bg-transparent outline-none transition hover:bg-[#303030] focus:bg-[#303030] focus:outline-none focus-visible:outline-none focus-visible:ring-0"
-                      onClick={() => setCalendarMonth((current) => getNextMonth(current, -1))}
-                      type="button"
-                    >
-                      <ChevronLeft
-                        aria-hidden
-                        className="h-4 w-4"
-                        style={{ color: resolvedAccentColor }}
-                      />
-                    </button>
-                    <span className={calendarMonthClassName} style={controlTextStyles}>
-                      {monthDisplayFormatter.format(calendarMonth)}
-                    </span>
-                    <button
-                      aria-label="Mese successivo"
-                      className="grid h-9 w-8 place-items-center bg-transparent outline-none transition hover:bg-[#303030] focus:bg-[#303030] focus:outline-none focus-visible:outline-none focus-visible:ring-0"
-                      onClick={() => setCalendarMonth((current) => getNextMonth(current, 1))}
-                      type="button"
-                    >
-                      <ChevronRight
-                        aria-hidden
-                        className="h-4 w-4"
-                        style={{ color: resolvedAccentColor }}
-                      />
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-7 bg-[#1b1b1b]">
-                    {weekdayLabels.map((weekday, index) => (
-                      <span
-                        key={`${weekday}-${index}`}
-                        className={cn(
-                          filterLabelClassName,
-                          'grid h-9 place-items-center border-b border-white/10 bg-[#242424]',
-                        )}
-                        style={filterLabelStyles}
-                      >
-                        {weekday.toLowerCase()}
-                      </span>
-                    ))}
-                    {calendarCells.map((cell) => {
-                      const cellValue = getDateValue(cell.date)
-                      const isSelected = cellValue === selectedDateValue
-                      const isToday = cellValue === todayValue
-
-                      return (
-                        <button
-                          key={cellValue}
-                          className={cn(
-                            'grid h-9 place-items-center border-0 border-r border-t border-white/10 bg-transparent px-0 text-center outline-none transition hover:bg-[#2b2b2b] focus:bg-[#2b2b2b] focus:outline-none focus-visible:outline-none focus-visible:ring-0 [&:nth-child(7n)]:border-r-0',
-                            isSelected && 'bg-[#3a3a3a]',
-                            !cell.inCurrentMonth && 'text-white/45',
-                            getTextClassName(
-                              controlTextStyle,
-                              'text-[length:var(--event-filters-control-font-size-mobile)] md:text-[length:var(--event-filters-control-font-size-desktop)]',
-                            ),
-                          )}
-                          onClick={() => {
-                            setDate(cellValue)
-                            setActiveDropdown(null)
-                          }}
-                          style={{
-                            ...controlTextStyles,
-                            color: !cell.inCurrentMonth
-                              ? resolvedMutedColor
-                              : isSelected
-                                ? resolvedTextColor
-                                : controlTextStyles.color,
-                          }}
-                          type="button"
-                        >
-                          <span
-                            className={cn(
-                              'grid h-7 w-7 place-items-center border border-transparent',
-                              isToday && !isSelected && 'border-white/20',
-                            )}
-                          >
-                            {cell.date.getDate()}
-                          </span>
-                        </button>
-                      )
-                    })}
-                  </div>
-
+                return (
                   <button
-                    className={cn(menuButtonClassName, 'border-t border-white/10 bg-[#1f1f1f]')}
+                    key={option.id}
+                    className={cn(menuButtonClassName, isSelected && 'bg-[#2b2b2b]')}
                     onClick={() => {
-                      setDate('')
+                      setActivityId(option.id === 'all' ? 'all' : option.id)
                       setActiveDropdown(null)
                     }}
                     style={controlTextStyles}
                     type="button"
                   >
-                    <span>{formatControlText('Tutte le date')}</span>
-                    {!date ? (
+                    <span className="min-w-0 truncate">{formatControlText(option.label)}</span>
+                    {isSelected ? (
                       <Check
                         aria-hidden
                         className="h-4 w-4 shrink-0"
@@ -562,78 +415,217 @@ export const EventFiltersClient: React.FC<Props> = ({
                       />
                     ) : null}
                   </button>
-                </div>
-              ) : null}
+                )
+              })}
             </div>
+          ) : null}
+        </div>
 
-            <div
+        <div
+          className={cn(
+            'relative block min-h-10',
+            activeDropdown === 'date' && 'z-[80]',
+            dateBorder && specialBorderClass,
+          )}
+        >
+          <button
+            aria-expanded={activeDropdown === 'date'}
+            aria-label={dateLabel}
+            className={controlButtonClassName}
+            onClick={() => setActiveDropdown((current) => (current === 'date' ? null : 'date'))}
+            style={controlTextStyles}
+            type="button"
+          >
+            <span className={inlineFilterLabelClassName} style={filterLabelStyles}>
+              {formatFilterText(dateLabel)}
+            </span>
+            <span className="min-w-0 truncate">{formatControlText(selectedDateLabel)}</span>
+            <ChevronDown
+              aria-hidden
               className={cn(
-                'relative block min-h-10',
-                activeDropdown === 'venue' && 'z-[80]',
-                venueBorder && specialBorderClass,
+                'h-4 w-4 shrink-0 transition',
+                activeDropdown === 'date' && 'rotate-180',
               )}
+              style={{ color: resolvedAccentColor }}
+            />
+          </button>
+
+          {activeDropdown === 'date' ? (
+            <div
+              className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] overflow-hidden border sm:w-[min(22rem,calc(100vw-2rem))]"
+              style={menuPanelStyles}
             >
+              <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-center border-b border-white/10 bg-[#242424]">
+                <button
+                  aria-label="Mese precedente"
+                  className="grid h-9 w-8 place-items-center bg-transparent outline-none transition hover:bg-[#303030] focus:bg-[#303030] focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                  onClick={() => setCalendarMonth((current) => getNextMonth(current, -1))}
+                  type="button"
+                >
+                  <ChevronLeft
+                    aria-hidden
+                    className="h-4 w-4"
+                    style={{ color: resolvedAccentColor }}
+                  />
+                </button>
+                <span className={calendarMonthClassName} style={controlTextStyles}>
+                  {monthDisplayFormatter.format(calendarMonth)}
+                </span>
+                <button
+                  aria-label="Mese successivo"
+                  className="grid h-9 w-8 place-items-center bg-transparent outline-none transition hover:bg-[#303030] focus:bg-[#303030] focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                  onClick={() => setCalendarMonth((current) => getNextMonth(current, 1))}
+                  type="button"
+                >
+                  <ChevronRight
+                    aria-hidden
+                    className="h-4 w-4"
+                    style={{ color: resolvedAccentColor }}
+                  />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-7 bg-[#1b1b1b]">
+                {weekdayLabels.map((weekday, index) => (
+                  <span
+                    key={`${weekday}-${index}`}
+                    className={cn(
+                      filterLabelClassName,
+                      'grid h-9 place-items-center border-b border-white/10 bg-[#242424]',
+                    )}
+                    style={filterLabelStyles}
+                  >
+                    {weekday.toLowerCase()}
+                  </span>
+                ))}
+                {calendarCells.map((cell) => {
+                  const cellValue = getDateValue(cell.date)
+                  const isSelected = cellValue === selectedDateValue
+                  const isToday = cellValue === todayValue
+
+                  return (
+                    <button
+                      key={cellValue}
+                      className={cn(
+                        'grid h-9 place-items-center border-0 border-r border-t border-white/10 bg-transparent px-0 text-center outline-none transition hover:bg-[#2b2b2b] focus:bg-[#2b2b2b] focus:outline-none focus-visible:outline-none focus-visible:ring-0 [&:nth-child(7n)]:border-r-0',
+                        isSelected && 'bg-[#3a3a3a]',
+                        !cell.inCurrentMonth && 'text-white/45',
+                        getTextClassName(
+                          controlTextStyle,
+                          'text-[length:var(--event-filters-control-font-size-mobile)] md:text-[length:var(--event-filters-control-font-size-desktop)]',
+                        ),
+                      )}
+                      onClick={() => {
+                        setDate(cellValue)
+                        setActiveDropdown(null)
+                      }}
+                      style={{
+                        ...controlTextStyles,
+                        color: !cell.inCurrentMonth
+                          ? resolvedMutedColor
+                          : isSelected
+                            ? resolvedTextColor
+                            : controlTextStyles.color,
+                      }}
+                      type="button"
+                    >
+                      <span
+                        className={cn(
+                          'grid h-7 w-7 place-items-center border border-transparent',
+                          isToday && !isSelected && 'border-white/20',
+                        )}
+                      >
+                        {cell.date.getDate()}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+
               <button
-                aria-expanded={activeDropdown === 'venue'}
-                aria-label={resolvedVenueLabel}
-                className={controlButtonClassName}
-                onClick={() =>
-                  setActiveDropdown((current) => (current === 'venue' ? null : 'venue'))
-                }
+                className={cn(menuButtonClassName, 'border-t border-white/10 bg-[#1f1f1f]')}
+                onClick={() => {
+                  setDate('')
+                  setActiveDropdown(null)
+                }}
                 style={controlTextStyles}
                 type="button"
               >
-                <span className={inlineFilterLabelClassName} style={filterLabelStyles}>
-                  {formatFilterText(resolvedVenueLabel)}
-                </span>
-                <span className="min-w-0 truncate">
-                  {formatControlText(venue || allVenuesLabel)}
-                </span>
-                <ChevronDown
-                  aria-hidden
-                  className={cn(
-                    'h-4 w-4 shrink-0 transition',
-                    activeDropdown === 'venue' && 'rotate-180',
-                  )}
-                  style={{ color: resolvedAccentColor }}
-                />
+                <span>{formatControlText('Tutte le date')}</span>
+                {!date ? (
+                  <Check
+                    aria-hidden
+                    className="h-4 w-4 shrink-0"
+                    style={{ color: resolvedAccentColor }}
+                  />
+                ) : null}
               </button>
-
-              {activeDropdown === 'venue' ? (
-                <div
-                  className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 grid max-h-72 overflow-y-auto border"
-                  style={menuPanelStyles}
-                >
-                  {['', ...uniqueVenues].map((venueOption) => {
-                    const optionLabel = venueOption || allVenuesLabel
-                    const isSelected = venueOption === venue
-
-                    return (
-                      <button
-                        key={optionLabel}
-                        className={cn(menuButtonClassName, isSelected && 'bg-[#2b2b2b]')}
-                        onClick={() => {
-                          setVenue(venueOption)
-                          setActiveDropdown(null)
-                        }}
-                        style={controlTextStyles}
-                        type="button"
-                      >
-                        <span className="min-w-0 truncate">{formatControlText(optionLabel)}</span>
-                        {isSelected ? (
-                          <Check
-                            aria-hidden
-                            className="h-4 w-4 shrink-0"
-                            style={{ color: resolvedAccentColor }}
-                          />
-                        ) : null}
-                      </button>
-                    )
-                  })}
-                </div>
-              ) : null}
             </div>
-          </div>
+          ) : null}
+        </div>
+
+        <div
+          className={cn(
+            'relative block min-h-10',
+            activeDropdown === 'venue' && 'z-[80]',
+            venueBorder && specialBorderClass,
+          )}
+        >
+          <button
+            aria-expanded={activeDropdown === 'venue'}
+            aria-label={resolvedVenueLabel}
+            className={controlButtonClassName}
+            onClick={() => setActiveDropdown((current) => (current === 'venue' ? null : 'venue'))}
+            style={controlTextStyles}
+            type="button"
+          >
+            <span className={inlineFilterLabelClassName} style={filterLabelStyles}>
+              {formatFilterText(resolvedVenueLabel)}
+            </span>
+            <span className="min-w-0 truncate">{formatControlText(venue || allVenuesLabel)}</span>
+            <ChevronDown
+              aria-hidden
+              className={cn(
+                'h-4 w-4 shrink-0 transition',
+                activeDropdown === 'venue' && 'rotate-180',
+              )}
+              style={{ color: resolvedAccentColor }}
+            />
+          </button>
+
+          {activeDropdown === 'venue' ? (
+            <div
+              className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 grid max-h-72 overflow-y-auto border"
+              style={menuPanelStyles}
+            >
+              {['', ...uniqueVenues].map((venueOption) => {
+                const optionLabel = venueOption || allVenuesLabel
+                const isSelected = venueOption === venue
+
+                return (
+                  <button
+                    key={optionLabel}
+                    className={cn(menuButtonClassName, isSelected && 'bg-[#2b2b2b]')}
+                    onClick={() => {
+                      setVenue(venueOption)
+                      setActiveDropdown(null)
+                    }}
+                    style={controlTextStyles}
+                    type="button"
+                  >
+                    <span className="min-w-0 truncate">{formatControlText(optionLabel)}</span>
+                    {isSelected ? (
+                      <Check
+                        aria-hidden
+                        className="h-4 w-4 shrink-0"
+                        style={{ color: resolvedAccentColor }}
+                      />
+                    ) : null}
+                  </button>
+                )
+              })}
+            </div>
+          ) : null}
         </div>
       </div>
     </section>
