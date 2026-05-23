@@ -111,6 +111,8 @@ const getTextStyle = (
     fontStyle: style?.fontStyle === 'italic' ? 'italic' : fallback.fontStyle,
     lineHeight: style?.lineHeight ?? fallback.lineHeight,
     maxWidth: style?.maxWidth ?? fallback.maxWidth,
+    minWidth: 0,
+    overflowWrap: 'anywhere',
     transform: `scaleY(${
       typographyVerticalScaleValues[
         (style?.verticalScale ||
@@ -144,7 +146,17 @@ const getImageMask = (
   return `linear-gradient(to right, #000 calc(100% - ${safeFade}), transparent 100%)`
 }
 
-const getActivityGridStyle = (activity: ActivityCardData): React.CSSProperties => {
+const getActivityGridStyle = (
+  activity: ActivityCardData,
+  hasImage: boolean,
+): React.CSSProperties => {
+  if (!hasImage) {
+    return {
+      gridTemplateColumns: '1fr',
+      gridTemplateRows: '1fr',
+    }
+  }
+
   const imageSize = Math.min(Math.max(activity.imageSize ?? 46, 20), 80)
   const contentSize = 100 - imageSize
   const imagePosition = activity.imagePosition || 'left'
@@ -260,13 +272,14 @@ const ActivityCard: React.FC<{
   sharedTitleStyle,
 }) => {
   const image = getMedia(activity.image)
+  const hasImage = Boolean(image)
   const imagePosition = activity.imagePosition || 'left'
   const imageFirst = imagePosition === 'left' || imagePosition === 'top'
   const ctaBannerImage = getMedia(activity.ctaImage)
   const textPadding = `${contentPadding}px`
   const surfaceFadeSize = Math.max(24, Math.min(fadeSize || 44, 72))
 
-  const imageNode = (
+  const imageNode = hasImage ? (
     <div
       className={cn(
         'activity-detail-card__media relative min-h-0 overflow-hidden',
@@ -288,15 +301,13 @@ const ActivityCard: React.FC<{
                   : undefined,
       } as React.CSSProperties}
     >
-      {image ? (
-        <Media
-          fill
-          imgClassName="object-cover object-center"
-          pictureClassName="absolute inset-0 block h-full w-full"
-          resource={image}
-          size="(max-width: 768px) 100vw, 46vw"
-        />
-      ) : null}
+      <Media
+        fill
+        imgClassName="object-cover object-center"
+        pictureClassName="absolute inset-0 block h-full w-full"
+        resource={image}
+        size="(max-width: 768px) 100vw, 46vw"
+      />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
@@ -308,13 +319,15 @@ const ActivityCard: React.FC<{
         }}
       />
     </div>
-  )
+  ) : null
 
   const contentNode = (
     <div
       className={cn(
         'activity-detail-card__content vintage-surface relative isolate flex min-h-0 flex-col justify-center',
-        `activity-detail-card__surface--${imagePosition}`,
+        hasImage
+          ? `activity-detail-card__surface--${imagePosition}`
+          : 'activity-detail-card__content--full',
         !imageFirst && 'order-1',
       )}
       style={{
@@ -450,7 +463,7 @@ const ActivityCard: React.FC<{
   return (
     <article
       className={cn(
-        'activity-detail-card-frame relative isolate h-full min-h-[var(--activity-detail-cell-min-height)] overflow-hidden',
+        'activity-detail-card-frame relative isolate overflow-hidden',
         activity.border && 'activity-detail-card-frame--bordered',
       )}
     >
@@ -458,12 +471,14 @@ const ActivityCard: React.FC<{
         className="activity-detail-card grid"
         style={
           {
-            ...getActivityGridStyle(activity),
+            ...getActivityGridStyle(activity, hasImage),
             '--activity-detail-divider-color': dividerColor || 'transparent',
           } as React.CSSProperties
         }
       >
-        {imageFirst ? (
+        {!imageNode ? (
+          contentNode
+        ) : imageFirst ? (
           <>
             {imageNode}
             {contentNode}
@@ -513,6 +528,7 @@ export const ActivitiesDetailGridBlock = async ({
   descriptionStyle,
   detailStyle,
   dividerColor,
+  gridGap = 0,
   heading,
   headingBannerImage,
   headingPaddingX = 34,
@@ -539,7 +555,10 @@ export const ActivitiesDetailGridBlock = async ({
     desktopColumns * desktopRows,
   )
   const fetchLimit = Math.min(Math.max(automaticLimit ?? 8, 1), 8, responsiveCapacity)
-  const resolvedCellMinHeight = !cellMinHeight || cellMinHeight === 190 ? 240 : cellMinHeight
+  const resolvedCellMinHeight = Math.max(cellMinHeight ?? 190, 150)
+  const compactCellMinHeight = Math.min(resolvedCellMinHeight, 170)
+  const responsiveCellHeight = `clamp(${compactCellMinHeight}px, 13vw, ${resolvedCellMinHeight}px)`
+  const resolvedGridGap = Math.max(gridGap ?? 0, 0)
   const automaticActivities = source === 'automatic' ? await getAutomaticActivities(fetchLimit) : []
   const cards: ActivityCardData[] =
     source === 'automatic'
@@ -556,6 +575,24 @@ export const ActivitiesDetailGridBlock = async ({
 
   if (!cards.length) return null
   const headingImage = getMedia(headingBannerImage)
+  const hasFeaturedRow = cards.length > 1 && desktopColumns >= 2
+  const featuredCards = hasFeaturedRow ? cards.slice(0, 2) : []
+  const gridCards = hasFeaturedRow ? cards.slice(2) : cards
+  const renderCard = (activity: ActivityCardData, index: number) => (
+    <ActivityCard
+      activity={activity}
+      contentPadding={contentPadding ?? 22}
+      dividerColor={dividerColor}
+      fadeSize={imageFadeSize ?? 44}
+      index={index}
+      key={activity.id || index}
+      panelBackgroundColor={panelBg}
+      sharedCtaStyle={ctaStyle}
+      sharedDescriptionStyle={descriptionStyle}
+      sharedDetailStyle={detailStyle}
+      sharedTitleStyle={titleStyle}
+    />
+  )
 
   return (
     <section className={containerWidthClasses[containerWidth || 'wide']}>
@@ -601,10 +638,11 @@ export const ActivitiesDetailGridBlock = async ({
       ) : null}
 
       <div
-        className="activity-detail-grid grid"
+        className="activity-detail-stack"
         style={
           {
             '--activity-detail-cell-min-height': `${resolvedCellMinHeight}px`,
+            '--activity-detail-card-min-height': responsiveCellHeight,
             '--activity-detail-cols-desktop': desktopColumns,
             '--activity-detail-cols-laptop': laptopColumns,
             '--activity-detail-cols-mobile': mobileColumns,
@@ -613,25 +651,23 @@ export const ActivitiesDetailGridBlock = async ({
             '--activity-detail-rows-laptop': laptopRows,
             '--activity-detail-rows-mobile': mobileRows,
             '--activity-detail-rows-tablet': tabletRows,
-            gap: 0,
+            '--activity-detail-grid-gap': `${resolvedGridGap}px`,
           } as React.CSSProperties
         }
       >
-        {cards.map((activity, index) => (
-          <ActivityCard
-            activity={activity}
-            contentPadding={contentPadding ?? 22}
-            dividerColor={dividerColor}
-            fadeSize={imageFadeSize ?? 44}
-            index={index}
-            key={activity.id || index}
-            panelBackgroundColor={panelBg}
-            sharedCtaStyle={ctaStyle}
-            sharedDescriptionStyle={descriptionStyle}
-            sharedDetailStyle={detailStyle}
-            sharedTitleStyle={titleStyle}
-          />
-        ))}
+        {featuredCards.length ? (
+          <div className="activity-detail-feature-row">
+            {featuredCards.map((activity, index) => renderCard(activity, index))}
+          </div>
+        ) : null}
+
+        {gridCards.length ? (
+          <div className="activity-detail-grid grid">
+            {gridCards.map((activity, index) =>
+              renderCard(activity, index + featuredCards.length),
+            )}
+          </div>
+        ) : null}
       </div>
     </section>
   )
