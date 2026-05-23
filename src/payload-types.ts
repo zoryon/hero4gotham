@@ -233,6 +233,7 @@ export interface Page {
     | FeatureGridBlock
     | ThreePanelShowcaseBlock
     | QuoteBannerBlock
+    | SocialFollowCtaBlock
     | TornCardsBlock
     | UpcomingEventsBlock
     | UpcomingEventsCtaBlock
@@ -3049,6 +3050,143 @@ export interface QuoteBannerBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialFollowCtaBlock".
+ */
+export interface SocialFollowCtaBlock {
+  title: string;
+  body: string;
+  socialItems?:
+    | {
+        platform: 'facebook' | 'instagram' | 'email' | 'custom';
+        label: string;
+        url: string;
+        newTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  primaryLabel: string;
+  secondaryLabel: string;
+  primaryLink?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+  };
+  secondaryLink?: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+  };
+  primaryBackgroundImage?: (number | null) | Media;
+  primaryBackgroundColor?: string | null;
+  secondaryColor?: string | null;
+  titleStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS colore, for example #a6bd17 or rgb(255 255 255 / 0.8).
+     */
+    color?: string | null;
+  };
+  bodyStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS colore, for example #a6bd17 or rgb(255 255 255 / 0.8).
+     */
+    color?: string | null;
+  };
+  primaryStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS colore, for example #a6bd17 or rgb(255 255 255 / 0.8).
+     */
+    color?: string | null;
+  };
+  secondaryStyle?: {
+    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+    fontStyle?: ('normal' | 'italic') | null;
+    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+    fontSizeMobile?: number | null;
+    fontSizeDesktop?: number | null;
+    lineHeight?: number | null;
+    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+    /**
+     * CSS colore, for example #a6bd17 or rgb(255 255 255 / 0.8).
+     */
+    color?: string | null;
+  };
+  heightMobile?: number | null;
+  heightDesktop?: number | null;
+  contentMaxWidth?: number | null;
+  paddingX?: number | null;
+  paddingY?: number | null;
+  accentColor?: string | null;
+  dividerColor?: string | null;
+  iconSize?: number | null;
+  dividerHeight?: number | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'socialFollowCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TornCardsBlock".
  */
 export interface TornCardsBlock {
@@ -3505,6 +3643,7 @@ export interface PagesSelect<T extends boolean = true> {
         featureGrid?: T | FeatureGridBlockSelect<T>;
         threePanelShowcase?: T | ThreePanelShowcaseBlockSelect<T>;
         quoteBanner?: T | QuoteBannerBlockSelect<T>;
+        socialFollowCta?: T | SocialFollowCtaBlockSelect<T>;
         tornCards?: T | TornCardsBlockSelect<T>;
         upcomingEvents?: T | UpcomingEventsBlockSelect<T>;
         upcomingEventsCta?: T | UpcomingEventsCtaBlockSelect<T>;
@@ -5535,6 +5674,125 @@ export interface QuoteBannerBlockSelect<T extends boolean = true> {
   paddingX?: T;
   paddingY?: T;
   quoteOffsetY?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialFollowCtaBlock_select".
+ */
+export interface SocialFollowCtaBlockSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  socialItems?:
+    | T
+    | {
+        platform?: T;
+        label?: T;
+        url?: T;
+        newTab?: T;
+        id?: T;
+      };
+  primaryLabel?: T;
+  secondaryLabel?: T;
+  primaryLink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+      };
+  secondaryLink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+      };
+  primaryBackgroundImage?: T;
+  primaryBackgroundColor?: T;
+  secondaryColor?: T;
+  titleStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  bodyStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  primaryStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  secondaryStyle?:
+    | T
+    | {
+        fontFamily?: T;
+        fontWeight?: T;
+        fontStyle?: T;
+        verticalScale?: T;
+        fontSizeMobile?: T;
+        fontSizeDesktop?: T;
+        lineHeight?: T;
+        letterSpacing?: T;
+        textTransform?: T;
+        color?: T;
+      };
+  heightMobile?: T;
+  heightDesktop?: T;
+  contentMaxWidth?: T;
+  paddingX?: T;
+  paddingY?: T;
+  accentColor?: T;
+  dividerColor?: T;
+  iconSize?: T;
+  dividerHeight?: T;
   layout?:
     | T
     | {

@@ -23,6 +23,7 @@ import { MembershipApplication } from '@/blocks/MembershipApplication/config'
 import { PhotoGalleryStrip } from '@/blocks/PhotoGalleryStrip/config'
 import { ProcessSteps } from '@/blocks/ProcessSteps/config'
 import { QuoteBanner } from '../../blocks/QuoteBanner/config'
+import { SocialFollowCta } from '@/blocks/SocialFollowCta/config'
 import { Subtitle } from '../../blocks/Subtitle/config'
 import { TextBackdrop } from '../../blocks/TextBackdrop/config'
 import { Title } from '../../blocks/Title/config'
@@ -117,6 +118,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FeatureGrid,
                 ThreePanelShowcase,
                 QuoteBanner,
+                SocialFollowCta,
                 TornCards,
                 UpcomingEvents,
                 UpcomingEventsCta,

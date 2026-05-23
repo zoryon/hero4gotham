@@ -1212,6 +1212,175 @@
     }
   }
 
+  .social-follow-cta {
+    background: transparent;
+    color: #f4f0dc;
+    isolation: isolate;
+    min-height: var(--social-follow-mobile-height, 170px);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .social-follow-cta__inner {
+    align-items: center;
+    display: grid;
+    gap: 0.72rem;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    margin-inline: auto;
+    max-width: var(--social-follow-content-max-width, 1180px);
+    min-height: inherit;
+    padding: var(--social-follow-padding-y, 12px)
+      clamp(1rem, 5vw, var(--social-follow-padding-x, 36px));
+    position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 3;
+  }
+
+  .social-follow-cta__copy {
+    min-width: 0;
+  }
+
+  .social-follow-cta__copy h2,
+  .social-follow-cta__copy p {
+    margin: 0;
+  }
+
+  .social-follow-cta__divider {
+    border-top: 1px dashed var(--social-follow-divider-color, rgb(159 189 24 / 0.68));
+    display: block;
+    height: 0;
+    opacity: 0.88;
+    width: min(15rem, 72%);
+  }
+
+  .social-follow-cta__social {
+    align-items: center;
+    display: flex;
+    gap: clamp(1rem, 4.2vw, 1.55rem);
+    justify-content: center;
+  }
+
+  .social-follow-cta__social-link {
+    align-items: center;
+    background: rgb(0 0 0 / 0.12);
+    border: 1.5px solid var(--social-follow-accent, #9fbd18);
+    border-radius: 999px;
+    color: var(--social-follow-accent, #9fbd18);
+    display: inline-flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: calc(var(--social-follow-icon-size, 39px) * 0.42);
+    height: var(--social-follow-icon-size, 39px);
+    justify-content: center;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      transform 160ms ease;
+    width: var(--social-follow-icon-size, 39px);
+  }
+
+  .social-follow-cta__social-link:hover {
+    background: rgb(159 189 24 / 0.12);
+    transform: translateY(-1px);
+  }
+
+  .social-follow-cta__social-glyph {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    transform: translateY(-0.02em);
+  }
+
+  .social-follow-cta__actions {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.44rem;
+    min-width: 0;
+  }
+
+  .social-follow-cta__primary {
+    align-items: center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    clip-path: polygon(2% 13%, 96% 0, 100% 78%, 88% 100%, 4% 91%, 0 24%);
+    display: inline-flex;
+    justify-content: center;
+    min-height: 2.18rem;
+    min-width: 9.8rem;
+    overflow: hidden;
+    padding: 0.54rem 1.45rem 0.5rem;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .social-follow-cta__primary-media {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+  }
+
+  .social-follow-cta__primary-label {
+    position: relative;
+    z-index: 1;
+  }
+
+  .social-follow-cta__secondary {
+    align-items: center;
+    color: var(--social-follow-secondary, #9b2da0);
+    display: inline-flex;
+    gap: 0.52rem;
+    justify-content: center;
+    min-width: 0;
+    text-decoration: none;
+  }
+
+  .social-follow-cta__secondary-arrow {
+    color: currentColor;
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1;
+    transform: translateY(-0.02em);
+  }
+
+  @media (width >= 40rem) {
+    .social-follow-cta {
+      min-height: var(--social-follow-desktop-height, 80px);
+    }
+
+    .social-follow-cta__inner {
+      gap: clamp(1.2rem, 3vw, 2.35rem);
+      grid-template-columns:
+        minmax(15rem, 1fr) 1px minmax(10.5rem, 0.54fr) 1px
+        minmax(12rem, 0.64fr);
+      justify-items: stretch;
+      padding: var(--social-follow-padding-y, 12px)
+        clamp(1.25rem, 4vw, var(--social-follow-padding-x, 36px));
+      text-align: left;
+    }
+
+    .social-follow-cta__divider {
+      align-self: center;
+      border-left: 1px dashed var(--social-follow-divider-color, rgb(159 189 24 / 0.68));
+      border-top: 0;
+      height: var(--social-follow-divider-height, 52px);
+      justify-self: center;
+      width: 0;
+    }
+
+    .social-follow-cta__actions {
+      align-items: flex-start;
+      gap: 0.36rem;
+      justify-self: start;
+    }
+  }
+
   .cta-rich-text-shell,
   .cta-rich-text-shell :where(*) {
     color: var(--cta-text-color) !important;

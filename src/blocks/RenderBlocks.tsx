@@ -24,6 +24,7 @@ import { MembershipApplicationBlock } from '@/blocks/MembershipApplication/Compo
 import { ProcessStepsBlock } from '@/blocks/ProcessSteps/Component'
 import { PhotoGalleryStripBlock } from '@/blocks/PhotoGalleryStrip/Component'
 import { QuoteBannerBlock } from '@/blocks/QuoteBanner/Component'
+import { SocialFollowCtaBlock } from '@/blocks/SocialFollowCta/Component'
 import { SubtitleBlock } from '@/blocks/Subtitle/Component'
 import { TextBackdropBlock } from '@/blocks/TextBackdrop/Component'
 import { ThreePanelShowcaseBlock } from '@/blocks/ThreePanelShowcase/Component'
@@ -56,6 +57,7 @@ const blockComponents = {
   processSteps: ProcessStepsBlock,
   photoGalleryStrip: PhotoGalleryStripBlock,
   quoteBanner: QuoteBannerBlock,
+  socialFollowCta: SocialFollowCtaBlock,
   subtitle: SubtitleBlock,
   textBackdrop: TextBackdropBlock,
   threePanelShowcase: ThreePanelShowcaseBlock,
@@ -69,6 +71,7 @@ const flushBlockTypes = new Set<keyof typeof blockComponents>([
   'activityChoiceCta',
   'photoGalleryStrip',
   'quoteBanner',
+  'socialFollowCta',
   'threePanelShowcase',
   'tornCards',
 ])

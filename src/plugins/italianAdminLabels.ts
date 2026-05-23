@@ -53,6 +53,7 @@ const entityLabels: Record<string, EntityLabels> = {
   redirects: { plural: 'Reindirizzamenti', singular: 'Reindirizzamento' },
   search: { plural: 'Ricerca', singular: 'Ricerca' },
   siteBackground: { plural: 'Sfondo sito', singular: 'Sfondo sito' },
+  socialFollowCta: { plural: 'CTA social', singular: 'CTA social' },
   subtitle: { plural: 'Sottotitoli', singular: 'Sottotitolo' },
   textBackdrop: { plural: 'Testi con fondale', singular: 'Testo con fondale' },
   themeColors: { plural: 'Colori tema', singular: 'Colori tema' },
