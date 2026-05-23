@@ -463,7 +463,7 @@ const ActivityCard: React.FC<{
   return (
     <article
       className={cn(
-        'activity-detail-card-frame relative isolate overflow-hidden',
+        'activity-detail-card-frame relative isolate',
         activity.border && 'activity-detail-card-frame--bordered',
       )}
     >
