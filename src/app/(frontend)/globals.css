@@ -1000,9 +1000,9 @@
     }
 
     .site-header__logo {
-      flex-basis: min(var(--header-logo-width), 4rem);
-      height: calc(min(var(--header-logo-width), 4rem) * 0.86);
-      width: min(var(--header-logo-width), 4rem);
+      flex-basis: min(var(--header-logo-width), 4.8rem);
+      height: calc(min(var(--header-logo-width), 4.8rem) * 0.86);
+      width: min(var(--header-logo-width), 4.8rem);
     }
 
     .site-header__eyebrow {
@@ -1172,9 +1172,9 @@
     }
 
     .site-header__logo {
-      flex-basis: clamp(2.85rem, 12.4vw, var(--header-logo-width));
-      height: calc(clamp(2.85rem, 12.4vw, var(--header-logo-width)) * 0.86);
-      width: clamp(2.85rem, 12.4vw, var(--header-logo-width));
+      flex-basis: clamp(3.55rem, 15.5vw, var(--header-logo-width));
+      height: calc(clamp(3.55rem, 15.5vw, var(--header-logo-width)) * 0.86);
+      width: clamp(3.55rem, 15.5vw, var(--header-logo-width));
     }
 
     .site-header__brand {

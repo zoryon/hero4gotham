@@ -186,6 +186,9 @@ const getColumnAwareImagePosition = (
   return index % safeColumns === 0 ? 'left' : 'right'
 }
 
+const getRowsForCardCount = (cardCount: number, columns: number) =>
+  Math.max(1, Math.ceil(cardCount / Math.max(columns, 1)))
+
 const StyledText: React.FC<{
   as?: 'h2' | 'h3' | 'p' | 'span'
   children: React.ReactNode
@@ -578,6 +581,18 @@ export const ActivitiesDetailGridBlock = async ({
   const hasFeaturedRow = cards.length > 1 && desktopColumns >= 2
   const featuredCards = hasFeaturedRow ? cards.slice(0, 2) : []
   const gridCards = hasFeaturedRow ? cards.slice(2) : cards
+  const renderedMobileRows = hasFeaturedRow
+    ? getRowsForCardCount(gridCards.length, mobileColumns)
+    : mobileRows
+  const renderedTabletRows = hasFeaturedRow
+    ? getRowsForCardCount(gridCards.length, tabletColumns)
+    : tabletRows
+  const renderedLaptopRows = hasFeaturedRow
+    ? getRowsForCardCount(gridCards.length, laptopColumns)
+    : laptopRows
+  const renderedDesktopRows = hasFeaturedRow
+    ? getRowsForCardCount(gridCards.length, desktopColumns)
+    : desktopRows
   const renderCard = (activity: ActivityCardData, index: number) => (
     <ActivityCard
       activity={activity}
@@ -647,10 +662,10 @@ export const ActivitiesDetailGridBlock = async ({
             '--activity-detail-cols-laptop': laptopColumns,
             '--activity-detail-cols-mobile': mobileColumns,
             '--activity-detail-cols-tablet': tabletColumns,
-            '--activity-detail-rows-desktop': desktopRows,
-            '--activity-detail-rows-laptop': laptopRows,
-            '--activity-detail-rows-mobile': mobileRows,
-            '--activity-detail-rows-tablet': tabletRows,
+            '--activity-detail-rows-desktop': renderedDesktopRows,
+            '--activity-detail-rows-laptop': renderedLaptopRows,
+            '--activity-detail-rows-mobile': renderedMobileRows,
+            '--activity-detail-rows-tablet': renderedTabletRows,
             '--activity-detail-grid-gap': `${resolvedGridGap}px`,
           } as React.CSSProperties
         }
