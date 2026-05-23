@@ -116,6 +116,39 @@ const getEventBoardParts = (
   }
 }
 
+const getCmsEventPageParts = (
+  flexboxBlock: (Page['layout'][0] & { layout?: BlockLayoutSettings | null }) | null | undefined,
+) => {
+  if (flexboxBlock?.blockType !== 'flexbox' || !Array.isArray(flexboxBlock.blocks)) return null
+
+  const [leftColumn, rightColumn] = flexboxBlock.blocks
+
+  if (
+    leftColumn?.blockType !== 'flexbox' ||
+    rightColumn?.blockType !== 'flexbox' ||
+    !Array.isArray(leftColumn.blocks) ||
+    !Array.isArray(rightColumn.blocks)
+  ) {
+    return null
+  }
+
+  const featuredBlock = leftColumn.blocks.find((child) => child?.blockType === 'featuredEvent')
+  const filterBlock = leftColumn.blocks.find((child) => child?.blockType === 'eventFilters')
+  const eventListBlock = leftColumn.blocks.find((child) => child?.blockType === 'eventList')
+  const calendarBlock = rightColumn.blocks.find((child) => child?.blockType === 'eventCalendar')
+
+  if (!featuredBlock || !eventListBlock || !calendarBlock) return null
+
+  return {
+    calendarBlock,
+    eventListBlock,
+    filterBlock,
+    featuredBlock,
+    leftColumn,
+    rightColumn,
+  }
+}
+
 type RenderableBlockProps = Page['layout'][0] & {
   disableInnerContainer?: boolean
   isFirstPageBlock?: boolean
@@ -196,6 +229,43 @@ export const RenderBlocks: React.FC<{
                         disableInnerContainer
                         isFirstPageBlock={false}
                       />
+                    </div>
+                  )
+                }
+              }
+
+              if (blockType === 'flexbox') {
+                const cmsEventPageParts = getCmsEventPageParts(block)
+
+                if (cmsEventPageParts?.filterBlock) {
+                  const FlexboxBlockToRender =
+                    blockComponents.flexbox as React.ComponentType<RenderableBlockProps>
+
+                  return (
+                    <div
+                      className={cn(
+                        getBlockLayoutClasses(block.layout, blockWrapperClassName),
+                        'grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
+                        index === firstRenderableIndex && 'mt-0',
+                        index === lastRenderableIndex && 'mb-0',
+                      )}
+                      key={index}
+                    >
+                      <div className="min-w-0">
+                        <FlexboxBlockToRender
+                          {...cmsEventPageParts.leftColumn}
+                          disableInnerContainer
+                          isFirstPageBlock={index === firstRenderableIndex}
+                        />
+                      </div>
+
+                      <div className="min-w-0 xl:sticky xl:top-[calc(var(--header-height,92px)+1.25rem)]">
+                        <FlexboxBlockToRender
+                          {...cmsEventPageParts.rightColumn}
+                          disableInnerContainer
+                          isFirstPageBlock={false}
+                        />
+                      </div>
                     </div>
                   )
                 }

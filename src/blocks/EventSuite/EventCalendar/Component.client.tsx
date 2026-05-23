@@ -95,8 +95,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   const dayTextClassName = getEventSuiteTextClassName(dayStyle, 'regular')
   const dayTextStyle = getCellTextStyle(dayStyle)
   const today = React.useMemo(() => new Date(), [])
-  const isCurrentMonth =
-    today.getFullYear() === year && today.getMonth() === monthIndex
+  const isCurrentMonth = today.getFullYear() === year && today.getMonth() === monthIndex
 
   React.useEffect(() => {
     const cachedEventDays = eventDaysCache.current.get(monthKey)
@@ -140,7 +139,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[clamp(16rem,72vw,20rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-none min-[680px]:max-xl:ml-auto min-[680px]:max-xl:mr-0',
+        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
         specialBorder && 'scribble-border event-calendar-card-border',
       )}
     >
@@ -236,12 +235,12 @@ export const EventCalendarClient: React.FC<Props> = ({
             const hasEvent = Boolean(cell.day && eventDaySet.has(cell.day))
 
             return (
-          <div
-            aria-hidden={!cell.day}
-            className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
-            key={cell.key}
-          >
-            {cell.day ? (
+              <div
+                aria-hidden={!cell.day}
+                className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
+                key={cell.key}
+              >
+                {cell.day ? (
                   <span
                     className={dayTextClassName}
                     style={{
