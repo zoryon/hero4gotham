@@ -76,6 +76,7 @@ export type EventSuiteItem = {
               text?: null | string
             }[]
           | null
+        color?: null | string
         shortName?: null | string
         title?: null | string
       }

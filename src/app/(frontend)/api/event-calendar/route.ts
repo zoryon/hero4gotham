@@ -1,4 +1,4 @@
-import { getEventCalendarDays } from '@/blocks/EventSuite/EventCalendar/queries'
+import { getEventCalendarMarkers } from '@/blocks/EventSuite/EventCalendar/queries'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -9,7 +9,10 @@ export async function GET(request: Request) {
     return Response.json({ eventDays: [] }, { status: 400 })
   }
 
-  const eventDays = await getEventCalendarDays(year, month - 1)
+  const eventMarkers = await getEventCalendarMarkers(year, month - 1)
 
-  return Response.json({ eventDays })
+  return Response.json({
+    eventDays: eventMarkers.map((marker) => marker.day),
+    eventMarkers,
+  })
 }

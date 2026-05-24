@@ -1662,6 +1662,30 @@
     inset: 0;
   }
 
+  .event-calendar-card {
+    container-type: inline-size;
+  }
+
+  .event-calendar-legend {
+    border-top: 1px solid color-mix(in srgb, var(--theme-text-secondary) 28%, transparent);
+    padding-top: 0.55rem;
+  }
+
+  @container (min-width: 24rem) {
+    .event-calendar-layout {
+      align-items: start;
+      grid-template-columns: minmax(0, 1fr) minmax(6.75rem, 0.52fr);
+    }
+
+    .event-calendar-legend {
+      align-self: stretch;
+      border-left: 1px solid color-mix(in srgb, var(--theme-text-secondary) 28%, transparent);
+      border-top: 0;
+      padding-left: 0.65rem;
+      padding-top: 0.1rem;
+    }
+  }
+
   .event-gallery-card {
     --vintage-border-width: 15px;
 

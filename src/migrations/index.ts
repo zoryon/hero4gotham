@@ -53,6 +53,7 @@ import * as migration_20260518_103000_event_banner from './20260518_103000_event
 import * as migration_20260519_120000_event_detail_sections from './20260519_120000_event_detail_sections'
 import * as migration_20260522_092800_split_upcoming_events_cta from './20260522_092800_split_upcoming_events_cta'
 import * as migration_20260522_103000_torn_cards_card_gap from './20260522_103000_torn_cards_card_gap'
+import * as migration_20260524_090000_activity_calendar_colors from './20260524_090000_activity_calendar_colors'
 
 export const migrations = [
   {
@@ -329,5 +330,10 @@ export const migrations = [
     up: migration_20260522_103000_torn_cards_card_gap.up,
     down: migration_20260522_103000_torn_cards_card_gap.down,
     name: '20260522_103000_torn_cards_card_gap',
+  },
+  {
+    up: migration_20260524_090000_activity_calendar_colors.up,
+    down: migration_20260524_090000_activity_calendar_colors.down,
+    name: '20260524_090000_activity_calendar_colors',
   },
 ]

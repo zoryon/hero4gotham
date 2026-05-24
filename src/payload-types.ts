@@ -1921,6 +1921,10 @@ export interface Activity {
    * Etichetta breve usata dai pulsanti filtro evento.
    */
   shortName: string;
+  /**
+   * Colore randomico fisso usato dai marker e dalla legenda del calendario eventi. Generato automaticamente.
+   */
+  color?: string | null;
   description?: string | null;
   image?: (number | null) | Media;
   cta?: string | null;
@@ -5978,6 +5982,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface ActivitiesSelect<T extends boolean = true> {
   title?: T;
   shortName?: T;
+  color?: T;
   description?: T;
   image?: T;
   cta?: T;

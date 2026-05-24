@@ -9,6 +9,10 @@ import {
   type EventSuiteMedia,
   type EventSuiteTextStyle,
 } from '@/blocks/EventSuite/shared'
+import type {
+  EventCalendarActivityMarker,
+  EventCalendarDayMarker,
+} from '@/blocks/EventSuite/EventCalendar/queries'
 import { cn } from '@/utilities/ui'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
@@ -17,7 +21,8 @@ type Props = {
   heading?: null | string
   headingBackgroundImage?: EventSuiteMedia | number | null
   hdgStyle?: EventSuiteTextStyle | null
-  initialEventDays: number[]
+  initialEventMarkers: EventCalendarDayMarker[]
+  initialLegendItems: EventCalendarActivityMarker[]
   initialMonth: number
   initialYear: number
   markerColor?: null | string
@@ -28,6 +33,11 @@ type Props = {
 type CalendarCell = {
   day: null | number
   key: string
+}
+
+type EventCalendarResponse = {
+  eventDays?: number[]
+  eventMarkers?: EventCalendarDayMarker[]
 }
 
 const weekdays = ['L', 'M', 'M', 'G', 'V', 'S', 'D']
@@ -68,12 +78,25 @@ const getCellTextStyle = (style: EventSuiteTextStyle | null | undefined): React.
   transformOrigin: 'center',
 })
 
+const getLegacyEventMarkers = (eventDays: number[] | undefined): EventCalendarDayMarker[] =>
+  (eventDays || []).map((day) => ({
+    activities: [
+      {
+        color: null,
+        id: 'events',
+        label: 'Eventi',
+      },
+    ],
+    day,
+  }))
+
 export const EventCalendarClient: React.FC<Props> = ({
   dayStyle,
   heading,
   headingBackgroundImage,
   hdgStyle,
-  initialEventDays,
+  initialEventMarkers,
+  initialLegendItems,
   initialMonth,
   initialYear,
   markerColor,
@@ -81,31 +104,53 @@ export const EventCalendarClient: React.FC<Props> = ({
   specialBorder,
 }) => {
   const [monthDate, setMonthDate] = React.useState(() => new Date(initialYear, initialMonth, 1))
-  const [eventDays, setEventDays] = React.useState(initialEventDays)
-  const eventDaysCache = React.useRef(
-    new Map([[getMonthKey(initialYear, initialMonth), initialEventDays]]),
+  const [eventMarkers, setEventMarkers] = React.useState(initialEventMarkers)
+  const eventMarkersCache = React.useRef(
+    new Map([[getMonthKey(initialYear, initialMonth), initialEventMarkers]]),
   )
 
   const year = monthDate.getFullYear()
   const monthIndex = monthDate.getMonth()
   const monthKey = getMonthKey(year, monthIndex)
   const monthLabel = monthDisplayFormatter.format(monthDate)
-  const eventDaySet = React.useMemo(() => new Set(eventDays), [eventDays])
   const cells = React.useMemo(() => getCalendarCells(year, monthIndex), [monthIndex, year])
   const dayTextClassName = getEventSuiteTextClassName(dayStyle, 'regular')
   const dayTextStyle = getCellTextStyle(dayStyle)
+  const legendTextStyle = {
+    ...dayTextStyle,
+    justifyContent: 'flex-start',
+    lineHeight: 1.12,
+    transformOrigin: 'left center',
+  } as React.CSSProperties
   const today = React.useMemo(() => new Date(), [])
   const isCurrentMonth = today.getFullYear() === year && today.getMonth() === monthIndex
+  const resolveMarkerColor = React.useCallback(
+    (color: null | string | undefined) => color || markerColor || 'var(--theme-text-green)',
+    [markerColor],
+  )
+  const eventMarkersByDay = React.useMemo(
+    () => new Map(eventMarkers.map((marker) => [marker.day, marker.activities])),
+    [eventMarkers],
+  )
+  const legendItems = React.useMemo(() => {
+    return initialLegendItems
+      .map((item) => ({
+        ...item,
+        color: resolveMarkerColor(item.color),
+        label: item.label || 'Evento',
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label, 'it-IT'))
+  }, [initialLegendItems, resolveMarkerColor])
 
   React.useEffect(() => {
-    const cachedEventDays = eventDaysCache.current.get(monthKey)
+    const cachedEventMarkers = eventMarkersCache.current.get(monthKey)
 
-    if (cachedEventDays) {
-      setEventDays(cachedEventDays)
+    if (cachedEventMarkers) {
+      setEventMarkers(cachedEventMarkers)
       return
     }
 
-    setEventDays([])
+    setEventMarkers([])
 
     const controller = new AbortController()
 
@@ -116,16 +161,16 @@ export const EventCalendarClient: React.FC<Props> = ({
       signal: controller.signal,
     })
       .then((response) => (response.ok ? response.json() : Promise.reject()))
-      .then((data: { eventDays?: number[] }) => {
-        const nextEventDays = data.eventDays || []
+      .then((data: EventCalendarResponse) => {
+        const nextEventMarkers = data.eventMarkers || getLegacyEventMarkers(data.eventDays)
 
-        eventDaysCache.current.set(monthKey, nextEventDays)
-        setEventDays(nextEventDays)
+        eventMarkersCache.current.set(monthKey, nextEventMarkers)
+        setEventMarkers(nextEventMarkers)
       })
       .catch(() => {
         if (!controller.signal.aborted) {
-          eventDaysCache.current.set(monthKey, [])
-          setEventDays([])
+          eventMarkersCache.current.set(monthKey, [])
+          setEventMarkers([])
         }
       })
 
@@ -139,7 +184,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
+        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
         specialBorder && 'scribble-border event-calendar-card-border',
       )}
     >
@@ -220,52 +265,102 @@ export const EventCalendarClient: React.FC<Props> = ({
           </button>
         </div>
 
-        <div className="grid min-w-0 grid-cols-7 gap-0.5 sm:gap-1">
-          {weekdays.map((weekday, index) => (
-            <div
-              className="grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
-              key={`${weekday}-${index}`}
-            >
-              <span className={dayTextClassName} style={dayTextStyle}>
-                {weekday}
-              </span>
-            </div>
-          ))}
-          {cells.map((cell) => {
-            const hasEvent = Boolean(cell.day && eventDaySet.has(cell.day))
-
-            return (
+        <div className="event-calendar-layout grid min-w-0 gap-2 sm:gap-3">
+          <div className="grid min-w-0 grid-cols-7 gap-0.5 sm:gap-1">
+            {weekdays.map((weekday, index) => (
               <div
-                aria-hidden={!cell.day}
                 className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
-                key={cell.key}
+                key={`${weekday}-${index}`}
               >
-                {cell.day ? (
-                  <span
-                    className={dayTextClassName}
-                    style={{
-                      ...dayTextStyle,
-                      color:
-                        isCurrentMonth && cell.day === today.getDate()
-                          ? 'var(--theme-text-green)'
-                          : dayTextStyle.color,
-                    }}
-                  >
-                    {cell.day}
-                  </span>
-                ) : null}
-                {hasEvent && markerColor ? (
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0.5 rounded-full sm:inset-1"
-                    style={{
-                      border: `1px solid ${markerColor}`,
-                    }}
-                  />
-                ) : null}
+                <span className={dayTextClassName} style={dayTextStyle}>
+                  {weekday}
+                </span>
               </div>
-            )
-          })}
+            ))}
+            {cells.map((cell) => {
+              const markerActivities = cell.day ? eventMarkersByDay.get(cell.day) || [] : []
+
+              return (
+                <div
+                  aria-hidden={!cell.day}
+                  className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
+                  key={cell.key}
+                >
+                  {cell.day ? (
+                    <span
+                      className={cn(dayTextClassName, 'relative z-10')}
+                      style={{
+                        ...dayTextStyle,
+                        color:
+                          isCurrentMonth && cell.day === today.getDate()
+                            ? 'var(--theme-text-green)'
+                            : dayTextStyle.color,
+                      }}
+                    >
+                      {cell.day}
+                    </span>
+                  ) : null}
+                  {markerActivities.slice(0, 4).map((activity, index) => (
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute z-0 rounded-full"
+                      key={`${activity.id}-${index}`}
+                      style={{
+                        border: `1px solid ${resolveMarkerColor(activity.color)}`,
+                        inset: 2 + index * 3,
+                      }}
+                    />
+                  ))}
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="event-calendar-legend min-w-0">
+            <div
+              className={cn(
+                getEventSuiteTextClassName(monStyle, 'black'),
+                'event-calendar-legend-title min-w-0',
+              )}
+              style={{
+                ...getEventSuiteTextStyle(monStyle, {
+                  fontFamily: 'cinzel',
+                  fontSizeDesktop: 10,
+                  fontSizeMobile: 10,
+                  fontWeight: 'black',
+                  lineHeight: 1,
+                }),
+                transformOrigin: 'left center',
+              }}
+            >
+              Legenda
+            </div>
+            {legendItems.length ? (
+              <ul className="mt-2 grid min-w-0 gap-1.5">
+                {legendItems.map((item) => (
+                  <li
+                    className="grid min-w-0 grid-cols-[0.75rem_minmax(0,1fr)] items-center gap-2"
+                    key={item.id}
+                  >
+                    <span
+                      aria-hidden
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{
+                        backgroundColor: item.color,
+                        boxShadow: `0 0 0 1px ${item.color}`,
+                      }}
+                    />
+                    <span
+                      className={cn(dayTextClassName, 'min-w-0 truncate')}
+                      style={legendTextStyle}
+                    >
+                      {item.label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         </div>
       </div>
     </aside>

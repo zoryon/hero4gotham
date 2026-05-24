@@ -2,7 +2,10 @@ import React from 'react'
 
 import { type EventSuiteMedia, type EventSuiteTextStyle } from '@/blocks/EventSuite/shared'
 import { EventCalendarClient } from '@/blocks/EventSuite/EventCalendar/Component.client'
-import { getEventCalendarDays } from '@/blocks/EventSuite/EventCalendar/queries'
+import {
+  getEventCalendarLegendItems,
+  getEventCalendarMarkers,
+} from '@/blocks/EventSuite/EventCalendar/queries'
 
 type Props = {
   dayStyle?: EventSuiteTextStyle | null
@@ -32,7 +35,10 @@ export const EventCalendarBlock = async ({
   const monthDate = new Date(now.getFullYear(), now.getMonth() + offset, 1)
   const initialYear = monthDate.getFullYear()
   const initialMonth = monthDate.getMonth()
-  const initialEventDays = await getEventCalendarDays(initialYear, initialMonth)
+  const [initialEventMarkers, initialLegendItems] = await Promise.all([
+    getEventCalendarMarkers(initialYear, initialMonth),
+    getEventCalendarLegendItems(),
+  ])
 
   return (
     <EventCalendarClient
@@ -40,7 +46,8 @@ export const EventCalendarBlock = async ({
       heading={heading}
       headingBackgroundImage={headingBackgroundImage}
       hdgStyle={hdgStyle}
-      initialEventDays={initialEventDays}
+      initialEventMarkers={initialEventMarkers}
+      initialLegendItems={initialLegendItems}
       initialMonth={initialMonth}
       initialYear={initialYear}
       markerColor={markerColor}
