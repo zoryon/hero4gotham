@@ -224,6 +224,7 @@ export interface Page {
     | EventFiltersBlock
     | EventGalleryBlock
     | EventListBlock
+    | EventProposalCtaBlock
     | FaqAccordionBlock
     | FeaturedEventBlock
     | TitleBlock
@@ -1614,6 +1615,99 @@ export interface EventListBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventProposalCtaBlock".
+ */
+export interface EventProposalCtaBlock {
+  title: string;
+  body: string;
+  ctaLink: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+  };
+  ctaFallbackLabel: string;
+  iconImage?: (number | null) | Media;
+  buttonBackgroundImage?: (number | null) | Media;
+  buttonBackgroundColor?: string | null;
+  maxWidth?: number | null;
+  minHeightDesktop?: number | null;
+  minHeightMobile?: number | null;
+  contentGap?: number | null;
+  paddingX?: number | null;
+  paddingY?: number | null;
+  iconSizeDesktop?: number | null;
+  iconSizeMobile?: number | null;
+  buttonHeight?: number | null;
+  titleFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  titleFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  titleFontStyle?: ('normal' | 'italic') | null;
+  titleVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  titleFontSizeMobile?: number | null;
+  titleFontSizeDesktop?: number | null;
+  titleLineHeight?: number | null;
+  titleLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  titleTextTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+  /**
+   * Colore CSS, per esempio #a6bd17 o rgb(255 255 255 / 0.8).
+   */
+  titleColor?: string | null;
+  bodyFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  bodyFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  bodyFontStyle?: ('normal' | 'italic') | null;
+  bodyVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  bodyFontSizeMobile?: number | null;
+  bodyFontSizeDesktop?: number | null;
+  bodyLineHeight?: number | null;
+  bodyLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  bodyTextTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+  /**
+   * Colore CSS, per esempio #a6bd17 o rgb(255 255 255 / 0.8).
+   */
+  bodyColor?: string | null;
+  buttonFontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
+  buttonFontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
+  buttonFontStyle?: ('normal' | 'italic') | null;
+  buttonVerticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
+  buttonFontSizeMobile?: number | null;
+  buttonFontSizeDesktop?: number | null;
+  buttonLineHeight?: number | null;
+  buttonLetterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
+  buttonTextTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
+  /**
+   * Colore CSS, per esempio #a6bd17 o rgb(255 255 255 / 0.8).
+   */
+  buttonColor?: string | null;
+  layout?: {
+    size?: ('default' | 'full' | 'wide' | 'extraWide' | 'container' | 'narrow') | null;
+    marginTop?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginRight?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginBottom?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    marginLeft?: ('default' | 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingTop?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingRight?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingBottom?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    paddingLeft?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Aggiunge il bordo giallo disegnato riutilizzabile attorno a questo blocco.
+     */
+    scribbleBorder?: boolean | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'eventProposalCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FaqAccordionBlock".
  */
 export interface FaqAccordionBlock {
@@ -2140,6 +2234,7 @@ export interface FlexboxBlock {
     | EventFiltersBlock
     | EventGalleryBlock
     | EventListBlock
+    | EventProposalCtaBlock
     | FaqAccordionBlock
     | FeaturedEventBlock
     | TitleBlock
@@ -3638,6 +3733,7 @@ export interface PagesSelect<T extends boolean = true> {
         eventFilters?: T | EventFiltersBlockSelect<T>;
         eventGallery?: T | EventGalleryBlockSelect<T>;
         eventList?: T | EventListBlockSelect<T>;
+        eventProposalCta?: T | EventProposalCtaBlockSelect<T>;
         faqAccordion?: T | FaqAccordionBlockSelect<T>;
         featuredEvent?: T | FeaturedEventBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;
@@ -4673,6 +4769,82 @@ export interface EventListBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EventProposalCtaBlock_select".
+ */
+export interface EventProposalCtaBlockSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  ctaLink?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  ctaFallbackLabel?: T;
+  iconImage?: T;
+  buttonBackgroundImage?: T;
+  buttonBackgroundColor?: T;
+  maxWidth?: T;
+  minHeightDesktop?: T;
+  minHeightMobile?: T;
+  contentGap?: T;
+  paddingX?: T;
+  paddingY?: T;
+  iconSizeDesktop?: T;
+  iconSizeMobile?: T;
+  buttonHeight?: T;
+  titleFontFamily?: T;
+  titleFontWeight?: T;
+  titleFontStyle?: T;
+  titleVerticalScale?: T;
+  titleFontSizeMobile?: T;
+  titleFontSizeDesktop?: T;
+  titleLineHeight?: T;
+  titleLetterSpacing?: T;
+  titleTextTransform?: T;
+  titleColor?: T;
+  bodyFontFamily?: T;
+  bodyFontWeight?: T;
+  bodyFontStyle?: T;
+  bodyVerticalScale?: T;
+  bodyFontSizeMobile?: T;
+  bodyFontSizeDesktop?: T;
+  bodyLineHeight?: T;
+  bodyLetterSpacing?: T;
+  bodyTextTransform?: T;
+  bodyColor?: T;
+  buttonFontFamily?: T;
+  buttonFontWeight?: T;
+  buttonFontStyle?: T;
+  buttonVerticalScale?: T;
+  buttonFontSizeMobile?: T;
+  buttonFontSizeDesktop?: T;
+  buttonLineHeight?: T;
+  buttonLetterSpacing?: T;
+  buttonTextTransform?: T;
+  buttonColor?: T;
+  layout?:
+    | T
+    | {
+        size?: T;
+        marginTop?: T;
+        marginRight?: T;
+        marginBottom?: T;
+        marginLeft?: T;
+        paddingTop?: T;
+        paddingRight?: T;
+        paddingBottom?: T;
+        paddingLeft?: T;
+        scribbleBorder?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FaqAccordionBlock_select".
  */
 export interface FaqAccordionBlockSelect<T extends boolean = true> {
@@ -5029,6 +5201,7 @@ export interface FlexboxBlockSelect<T extends boolean = true> {
         eventFilters?: T | EventFiltersBlockSelect<T>;
         eventGallery?: T | EventGalleryBlockSelect<T>;
         eventList?: T | EventListBlockSelect<T>;
+        eventProposalCta?: T | EventProposalCtaBlockSelect<T>;
         faqAccordion?: T | FaqAccordionBlockSelect<T>;
         featuredEvent?: T | FeaturedEventBlockSelect<T>;
         title?: T | TitleBlockSelect<T>;

@@ -14,6 +14,7 @@ import { EventCalendarBlock } from '@/blocks/EventSuite/EventCalendar/Component'
 import { EventFiltersBlock } from '@/blocks/EventFilters/Component'
 import { EventGalleryBlock } from '@/blocks/EventGallery/Component'
 import { EventListBlock } from '@/blocks/EventSuite/EventList/Component'
+import { EventProposalCtaBlock } from '@/blocks/EventProposalCta/Component'
 import { FaqAccordionBlock } from '@/blocks/FaqAccordion/Component'
 import { FeaturedEventBlock } from '@/blocks/EventSuite/FeaturedEvent/Component'
 import { FeatureGridBlock } from '@/blocks/FeatureGrid/Component'
@@ -47,6 +48,7 @@ const blockComponents = {
   eventFilters: EventFiltersBlock,
   eventGallery: EventGalleryBlock,
   eventList: EventListBlock,
+  eventProposalCta: EventProposalCtaBlock,
   faqAccordion: FaqAccordionBlock,
   featuredEvent: FeaturedEventBlock,
   featureGrid: FeatureGridBlock,

@@ -23,6 +23,7 @@ const entityLabels: Record<string, EntityLabels> = {
   eventFilters: { plural: 'Filtri eventi', singular: 'Filtri eventi' },
   eventGallery: { plural: 'Gallerie eventi', singular: 'Galleria eventi' },
   eventList: { plural: 'Liste eventi', singular: 'Lista eventi' },
+  eventProposalCta: { plural: 'CTA proposta evento', singular: 'CTA proposta evento' },
   events: { plural: 'Eventi', singular: 'Evento' },
   faqAccordion: { plural: 'Accordion FAQ', singular: 'Accordion FAQ' },
   featureGrid: { plural: 'Griglie caratteristiche', singular: 'Griglia caratteristiche' },
