@@ -2,15 +2,12 @@
 
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import { Menu, X } from 'lucide-react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 import type { Header } from '@/payload-types'
 
-import { Logo } from '@/components/Logo/Logo'
 import { CMSLink } from '@/components/Link'
-import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
 import { formatTextTransform, textTransformClass, textTransformCssValue } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
@@ -201,7 +198,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const pathname = usePathname()
   const navItems = data?.navItems || []
   const socialItems = data?.socialItems || []
-  const hasLogo = Boolean(data?.logo && typeof data.logo === 'object')
   // const eyebrowTextTransform = data?.eyebrowTypography?.textTransform
   // const brandTextTransform = data?.brandTypography?.textTransform
   // const taglineTextTransform = data?.taglineTypography?.textTransform
@@ -239,7 +235,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           '--header-accent': data?.accentColor || '#a6bd17',
           '--header-bg': data?.backgroundColor || 'transparent',
           '--header-height': `${data?.height || 92}px`,
-          '--header-logo-width': `${data?.logoWidth || 82}px`,
           '--header-max-width': `${data?.maxWidth || 1240}px`,
           '--header-text': data?.textColor || '#f4f0dc',
           // ...typographyVars(
@@ -268,45 +263,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="site-header__inner">
-        <Link aria-label="Home" className="site-header__brand" href="/">
-          <span className="site-header__logo" aria-hidden={!hasLogo}>
-            {hasLogo ? (
-              <Media
-                className="h-full w-full"
-                imgClassName="h-full w-full object-contain"
-                loading="eager"
-                priority
-                resource={data.logo}
-              />
-            ) : (
-              <Logo loading="eager" priority="high" className="h-full w-full object-contain" />
-            )}
-          </span>
-          {/*
-          <span className="site-header__brand-copy">
-            {data?.eyebrow ? (
-              <span
-                className={cn('site-header__eyebrow', textTransformClass(eyebrowTextTransform))}
-              >
-                {formatTextTransform(data.eyebrow, eyebrowTextTransform)}
-              </span>
-            ) : null}
-            {data?.brandName ? (
-              <span className={cn('site-header__name', textTransformClass(brandTextTransform))}>
-                {formatTextTransform(data.brandName, brandTextTransform)}
-              </span>
-            ) : null}
-            {data?.tagline ? (
-              <span
-                className={cn('site-header__tagline', textTransformClass(taglineTextTransform))}
-              >
-                {formatTextTransform(data.tagline, taglineTextTransform)}
-              </span>
-            ) : null}
-          </span>
-          */}
-        </Link>
-
         <button
           aria-controls="site-header-menu"
           aria-expanded={isMenuOpen}

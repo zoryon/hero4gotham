@@ -1,0 +1,87 @@
+Task di modifica sito web
+
+1. Homepage
+
+OK * Rimuovere il logo posizionato sulla sinistra dell’header.
+OK * Centrare il menu di navigazione. In alternativa, distribuire le voci con una struttura equilibrata (4 voci a sinistra e 4 voci a destra).
+OK * Ridurre lo spazio vuoto in fondo alla pagina spostando il footer più in alto.
+
+⸻
+
+2. Pagina “Chi Siamo”
+
+* Eliminare il riquadro contenente le due foto e il testo che replica la sezione “Chi Siamo”, poiché il contenuto è già presente nella parte superiore della pagina.
+* Di conseguenza, risalire il footer eliminando lo spazio vuoto, mantenendo come punto di partenza la sezione verde finale.
+
+⸻
+
+3. Pagina “Attività”
+
+Struttura della pagina
+
+* Eliminare il titolo “Le nostre attività nel dettaglio”.
+* Sostituire l’immagine di sfondo dell’header.
+
+Contenuti
+
+* Rimuovere la sezione “Perché partecipare”.
+* Eliminare anche i riquadri presenti sotto questa sezione.
+
+Sezione Calendario
+
+* Eliminare l’immagine viola posizionata sulla sinistra della sezione “Calendario”.
+
+Card dei progetti
+
+* Rimuovere il pulsante/testo “Scopri i progetti”, “Scopri i laboratori”, ecc., presente sotto ogni scheda.
+
+⸻
+
+4. Pagina “Eventi”
+
+Grafica
+
+* Cambiare l’immagine di sfondo dell’header.
+
+Gestione eventi
+
+* Gli eventi passati non devono comparire automaticamente nell’elenco dei prossimi eventi.
+* Gli eventi passati devono rimanere disponibili esclusivamente tramite il filtro di ricerca.
+
+Layout
+
+* Spostare più in basso la tabella del calendario eventi.
+* Allineare l’inizio della tabella con quello dei filtri e della barra di ricerca, in modo da ottenere un layout uniforme.
+
+Visualizzazione
+
+* Mostrare inizialmente soltanto i prossimi 3 eventi.
+* Se gli eventi sono più di tre, consentire lo scorrimento (slider/carousel oppure paginazione).
+
+⸻
+
+5. Pagina “Diventa Socio”
+
+Icone
+
+* Sostituire le icone attuali con icone più coerenti rispetto al significato del testo associato.
+
+Procedura di iscrizione
+
+* Nella sezione “In pochi passi”, eliminare la voce “Ti ricontattiamo”.
+
+Upload documenti
+
+* Consentire all’utente di eliminare o sostituire il documento caricato nel caso venga selezionato per errore.
+
+Privacy e regolamento
+
+* Integrare nel Regolamento e nell’Informativa Privacy una clausola che specifichi che, accettando l’iscrizione, si autorizza anche l’utilizzo di foto e video realizzati durante gli eventi dell’associazione.
+* Eliminare l’opzione cliccabile separata relativa a foto e video, includendo tale consenso direttamente nell’accettazione del Regolamento e della Privacy.
+
+Form di richiesta
+
+* Aggiungere una sezione dedicata con:
+    * IBAN
+    * Coordinate bancarie
+* Inserire un’intestazione dedicata per la sezione Offerte e Iscrizione, in modo da rendere più chiara la struttura del form.
