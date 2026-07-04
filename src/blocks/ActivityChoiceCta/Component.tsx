@@ -82,7 +82,7 @@ const SideImage: React.FC<{
     {image ? (
       <Media
         fill
-        imgClassName={cn('object-cover', objectPositionClasses[position || 'center'])}
+        imgClassName={cn('object-contain', objectPositionClasses[position || 'center'])}
         pictureClassName="absolute inset-0"
         resource={image}
         size="(max-width: 768px) 100vw, 28vw"
@@ -104,8 +104,6 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
   ctaTextStyle,
   heightDesktop = 160,
   heightTablet = 132,
-  leftImage,
-  leftImagePosition,
   links,
   mobileImageHeight = 150,
   rightImage,
@@ -118,7 +116,7 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
 
   return (
     <section
-      className="activity-choice-cta grid w-full overflow-hidden text-center md:grid-cols-[minmax(0,0.72fr)_minmax(20rem,1fr)_minmax(0,0.72fr)] md:items-stretch xl:grid-cols-[minmax(12rem,0.52fr)_minmax(30rem,1fr)_minmax(12rem,0.52fr)]"
+      className="activity-choice-cta grid w-full overflow-hidden text-center md:grid-cols-[minmax(20rem,1fr)_minmax(0,0.72fr)] md:items-stretch xl:grid-cols-[minmax(30rem,1fr)_minmax(12rem,0.52fr)]"
       style={
         {
           '--activity-choice-height-desktop': `${heightDesktop ?? 160}px`,
@@ -127,13 +125,6 @@ export const ActivityChoiceCtaBlock: React.FC<ActivityChoiceCtaBlockProps> = ({
         } as React.CSSProperties
       }
     >
-      <SideImage
-        className="hidden md:block"
-        image={getImage(leftImage)}
-        label="Left image"
-        position={leftImagePosition as keyof typeof objectPositionClasses}
-      />
-
       <div className="relative isolate flex min-h-[var(--activity-choice-height-tablet)] flex-col items-center justify-center overflow-hidden px-4 py-7 md:px-6 md:py-3 xl:min-h-[var(--activity-choice-height-desktop)]">
         <div className="flex flex-col items-center justify-center gap-1 md:gap-0">
           <p

@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import { ChevronDown, MapPin } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import {
   formatEventDateParts,
   getEventDisplayImage,
@@ -47,8 +47,6 @@ type Props = {
   maxEvents?: null | number
   monthStyle?: EventSuiteTextStyle | null
   rowHeight?: null | number
-  scrollHintLabel?: null | string
-  scrollHintStyle?: EventSuiteTextStyle | null
   timeStyle?: EventSuiteTextStyle | null
   ttlStyle?: EventSuiteTextStyle | null
   typStyle?: EventSuiteTextStyle | null
@@ -66,8 +64,8 @@ type EventListPageResponse = {
   nextPage?: null | number
 }
 
-const batchSize = 6
-const visibleRows = 5
+const batchSize = 4
+const visibleRows = 3
 const borderBleed = 11
 
 export const EventListClient: React.FC<Props> = ({
@@ -87,8 +85,6 @@ export const EventListClient: React.FC<Props> = ({
   maxEvents = 30,
   monthStyle,
   rowHeight = 112,
-  scrollHintLabel = 'Scorri per scoprire gli altri eventi in programma',
-  scrollHintStyle,
   timeStyle,
   ttlStyle,
   typStyle,
@@ -531,18 +527,6 @@ export const EventListClient: React.FC<Props> = ({
             </div>
           ) : null}
           </div>
-
-          {shouldScroll ? (
-            <div
-              aria-hidden
-              className="pointer-events-none absolute bottom-2 left-1/2 z-40 hidden -translate-x-1/2 rounded-full bg-black/55 px-3 py-.5 shadow-[0_2px_0_rgb(0_0_0_/_0.24)] md:grid md:place-items-center xl:px-3.5"
-            >
-              <ChevronDown
-                className="event-list-scroll-chevron h-5 w-5 text-[var(--theme-text-green)] xl:h-6 xl:w-6"
-                strokeWidth={3}
-              />
-            </div>
-          ) : null}
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@ import type { EventFilterParams } from '@/blocks/EventSuite/filters'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-export const eventListPageSize = 6
+export const eventListPageSize = 4
 
 export type EventListPage = {
   events: EventSuiteItem[]
@@ -42,7 +42,7 @@ export const getEventListPage = async ({
     page: safePage,
     select: eventSuiteSelect,
     sort: '-startsAt',
-    where: buildEventWhere(filters),
+    where: buildEventWhere(filters, { futureOnlyWhenUnfiltered: true }),
   })
   const remainingEvents = safeMaxEvents - alreadyRequested
   const events = (result.docs as EventSuiteItem[]).slice(0, remainingEvents)

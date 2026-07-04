@@ -5,10 +5,34 @@ import {
 import type { EventFilterParams } from '@/blocks/EventSuite/filters'
 import type { Where } from 'payload'
 
-export const buildEventWhere = (filters?: EventFilterParams): Where => {
+type BuildEventWhereOptions = {
+  futureOnlyWhenUnfiltered?: boolean
+  now?: Date
+}
+
+const hasActiveFilters = (filters: EventFilterParams) =>
+  Boolean(
+    filters.date ||
+      filters.query ||
+      filters.venue ||
+      (filters.activityId && filters.activityId !== 'all'),
+  )
+
+export const buildEventWhere = (
+  filters?: EventFilterParams,
+  options: BuildEventWhereOptions = {},
+): Where => {
   const normalizedFilters = normalizeEventFilterParams(filters)
   const clauses: Where[] = []
   const selectedDateRange = getDateRangeFromFilterValue(normalizedFilters.date)
+
+  if (options.futureOnlyWhenUnfiltered && !hasActiveFilters(normalizedFilters)) {
+    clauses.push({
+      startsAt: {
+        greater_than_equal: (options.now || new Date()).toISOString(),
+      },
+    })
+  }
 
   if (selectedDateRange) {
     clauses.push({

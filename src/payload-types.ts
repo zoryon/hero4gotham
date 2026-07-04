@@ -1442,7 +1442,6 @@ export interface EventListBlock {
   heading: string;
   headingBackgroundImage?: (number | null) | Media;
   eventLinkFallbackLabel: string;
-  scrollHintLabel: string;
   emptyStateLabel: string;
   maxEvents?: number | null;
   rowHeight?: number | null;
@@ -1545,21 +1544,6 @@ export interface EventListBlock {
     colorCustom?: string | null;
   };
   lnkStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    fontStyle?: ('normal' | 'italic') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    fontSizeMobile?: number | null;
-    fontSizeDesktop?: number | null;
-    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
-    /**
-     * Opzionale. Se impostato, questo colore CSS personalizzato sovrascrive il colore tema.
-     */
-    colorCustom?: string | null;
-  };
-  scrollHintStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
     fontStyle?: ('normal' | 'italic') | null;
@@ -4598,7 +4582,6 @@ export interface EventListBlockSelect<T extends boolean = true> {
   heading?: T;
   headingBackgroundImage?: T;
   eventLinkFallbackLabel?: T;
-  scrollHintLabel?: T;
   emptyStateLabel?: T;
   maxEvents?: T;
   rowHeight?: T;
@@ -4704,20 +4687,6 @@ export interface EventListBlockSelect<T extends boolean = true> {
         colorCustom?: T;
       };
   lnkStyle?:
-    | T
-    | {
-        fontFamily?: T;
-        fontWeight?: T;
-        fontStyle?: T;
-        verticalScale?: T;
-        fontSizeMobile?: T;
-        fontSizeDesktop?: T;
-        letterSpacing?: T;
-        textTransform?: T;
-        colorTheme?: T;
-        colorCustom?: T;
-      };
-  scrollHintStyle?:
     | T
     | {
         fontFamily?: T;

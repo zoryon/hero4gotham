@@ -197,13 +197,6 @@ export const EventList: Block = {
       required: true,
     },
     {
-      name: 'scrollHintLabel',
-      type: 'text',
-      defaultValue: 'Scorri per scoprire gli altri eventi in programma',
-      label: 'Scroll hint label',
-      required: true,
-    },
-    {
       name: 'emptyStateLabel',
       type: 'text',
       defaultValue: 'Non sono presenti eventi',
@@ -215,7 +208,7 @@ export const EventList: Block = {
       type: 'number',
       defaultValue: 30,
       label: 'Maximum upcoming events to load',
-      min: 5,
+      min: 3,
       max: 100,
     },
     {
@@ -285,14 +278,6 @@ export const EventList: Block = {
       colorTheme: 'green',
       fontFamily: 'cinzel',
       fontSizeDesktop: 10,
-      fontSizeMobile: 10,
-      fontWeight: 'black',
-      textTransform: 'uppercase',
-    }),
-    textStyleField('scrollHintStyle', 'Scroll hint typography', {
-      colorTheme: 'green',
-      fontFamily: 'cinzel',
-      fontSizeDesktop: 11,
       fontSizeMobile: 10,
       fontWeight: 'black',
       textTransform: 'uppercase',

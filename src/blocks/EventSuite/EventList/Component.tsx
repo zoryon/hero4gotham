@@ -10,7 +10,7 @@ type Props = React.ComponentProps<typeof EventListClient> & {
 
 const getEvents = unstable_cache(
   async (maxEvents: number) => getEventListPage({ maxEvents, page: 1 }),
-  ['event-list-all-desc'],
+  ['event-list-upcoming-page-v2'],
   {
     revalidate: 300,
     tags: ['events'],
@@ -18,7 +18,7 @@ const getEvents = unstable_cache(
 )
 
 export const EventListBlock = async ({ maxEvents = 30, ...props }: Props) => {
-  const limit = Math.min(Math.max(maxEvents || 30, 5), 100)
+  const limit = Math.min(Math.max(maxEvents || 30, 3), 100)
   const initialPage = await getEvents(limit)
 
   return (
