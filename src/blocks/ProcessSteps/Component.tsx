@@ -91,13 +91,14 @@ export const ProcessStepsBlock: React.FC<ProcessStepsBlockProps> = ({
   heading,
   headingStyle,
   iconSize = 50,
-  maxWidth = 1200,
+  maxWidth = 960,
   numberStyle,
   stepDescriptionStyle,
   steps,
   stepTitleStyle,
 }) => {
-  const visibleSteps = steps?.filter((step) => step?.title || step?.description || step?.icon) || []
+  const visibleSteps =
+    steps?.filter((step) => step?.title || step?.description || step?.icon).slice(0, 3) || []
 
   if (!visibleSteps.length && !heading) return null
 
@@ -144,7 +145,7 @@ export const ProcessStepsBlock: React.FC<ProcessStepsBlockProps> = ({
         </div>
       ) : null}
 
-      <div className="grid gap-x-5 gap-y-12 md:grid-cols-2 xl:grid-cols-4 xl:gap-x-8">
+      <div className="grid gap-x-5 gap-y-12 md:grid-cols-3 xl:gap-x-8">
         {visibleSteps.map((step, index) => {
           const icon = getImage(step.icon)
 
@@ -160,16 +161,7 @@ export const ProcessStepsBlock: React.FC<ProcessStepsBlockProps> = ({
                     index={index}
                   />
                   <StepArrow
-                    className={cn(
-                      'absolute xl:hidden',
-                      index % 2 === 0
-                        ? 'left-[calc(50%+3.5rem)] top-7 hidden h-12 w-[calc(100%-3rem)] md:block'
-                        : 'left-1/2 top-[calc(100%+0.15rem)] hidden h-10 w-16 -translate-x-1/2 rotate-90 md:block',
-                    )}
-                    index={index}
-                  />
-                  <StepArrow
-                    className="absolute left-[calc(50%+3.5rem)] top-7 hidden h-12 w-[calc(100%-3rem)] xl:block"
+                    className="absolute left-[calc(50%+3.5rem)] top-7 hidden h-12 w-[calc(100%-3rem)] md:block"
                     index={index}
                   />
                 </>

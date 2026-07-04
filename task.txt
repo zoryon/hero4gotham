@@ -11,14 +11,6 @@ Layout
 
 5. Pagina “Diventa Socio”
 
-Icone
-
-* Sostituire le icone attuali con icone più coerenti rispetto al significato del testo associato.
-
-Procedura di iscrizione
-
-* Nella sezione “In pochi passi”, eliminare la voce “Ti ricontattiamo”.
-
 Upload documenti
 
 * Consentire all’utente di eliminare o sostituire il documento caricato nel caso venga selezionato per errore.

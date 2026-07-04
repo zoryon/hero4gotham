@@ -198,6 +198,7 @@ export const ProcessSteps: Block = {
         singular: 'Step',
       },
       minRows: 1,
+      maxRows: 3,
       defaultValue: [
         {
           description: 'Inserisci i tuoi dati e raccontaci chi sei.',
@@ -213,11 +214,6 @@ export const ProcessSteps: Block = {
           description: 'Partecipa alle attivita e scopri i progetti in corso.',
           numberLabel: '3',
           title: "Conosci l'associazione",
-        },
-        {
-          description: 'Diventa socio e vivi il caos con noi.',
-          numberLabel: '4',
-          title: 'Entra nella community',
         },
       ],
       fields: [
@@ -337,7 +333,7 @@ export const ProcessSteps: Block = {
                 {
                   name: 'maxWidth',
                   type: 'number',
-                  defaultValue: 1200,
+                  defaultValue: 960,
                   label: 'Max width (px)',
                   min: 320,
                   max: 1800,
