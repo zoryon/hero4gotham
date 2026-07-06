@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Download, FileText, Upload, X } from 'lucide-react'
+import { CheckCircle2, Download, FileText, RefreshCw, Trash2, Upload, X } from 'lucide-react'
 
 import type { EventSuiteMedia, EventSuiteTextStyle } from '@/blocks/EventSuite/shared'
 
@@ -82,6 +82,7 @@ type PendingDownload = {
 }
 
 type DocumentFileKey = 'identityDocument' | 'taxCodeDocument'
+type DocumentSelectionMode = 'append' | 'replace'
 
 const documentFileLabels: Record<DocumentFileKey, string> = {
   identityDocument: "Carta d'identita",
@@ -187,6 +188,20 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     null,
   )
   const cancelDownloadButtonRef = useRef<HTMLButtonElement>(null)
+  const documentInputRefs = useRef<Record<DocumentFileKey, HTMLInputElement | null>>({
+    identityDocument: null,
+    taxCodeDocument: null,
+  })
+  const documentSelectionModes = useRef<Record<DocumentFileKey, DocumentSelectionMode>>({
+    identityDocument: 'append',
+    taxCodeDocument: 'append',
+  })
+  const identityDocumentInputId = React.useId()
+  const taxCodeDocumentInputId = React.useId()
+  const documentInputIds: Record<DocumentFileKey, string> = {
+    identityDocument: identityDocumentInputId,
+    taxCodeDocument: taxCodeDocumentInputId,
+  }
 
   useEffect(() => {
     if (!pendingDownload) return
@@ -262,14 +277,16 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
 
   const updateDocumentFile =
     (name: DocumentFileKey) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(event.target.files || []).slice(0, maxDocumentFilesPerDocument)
-      const oversizedFile = files.find((file) => file.size > maxDocumentFileSize)
+      const selectedFiles = Array.from(event.target.files || [])
+      const oversizedFile = selectedFiles.find((file) => file.size > maxDocumentFileSize)
+      const selectionMode = documentSelectionModes.current[name]
+
+      documentSelectionModes.current[name] = 'append'
+      event.target.value = ''
 
       setFeedback('')
 
       if (oversizedFile) {
-        setDocumentFiles((current) => ({ ...current, [name]: [] }))
-        event.target.value = ''
         setSubmitState('error')
         setFeedback(
           `Il file "${oversizedFile.name}" supera il limite di ${maxDocumentFileSizeLabel}.`,
@@ -277,8 +294,43 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
         return
       }
 
-      setDocumentFiles((current) => ({ ...current, [name]: files }))
+      const currentFiles = selectionMode === 'append' ? documentFiles[name] : []
+      const uniqueFiles = [...currentFiles, ...selectedFiles].filter(
+        (file, index, files) =>
+          files.findIndex(
+            (candidate) =>
+              candidate.name === file.name &&
+              candidate.size === file.size &&
+              candidate.lastModified === file.lastModified,
+          ) === index,
+      )
+      const nextFiles = uniqueFiles.slice(0, maxDocumentFilesPerDocument)
+
+      setDocumentFiles((current) => ({ ...current, [name]: nextFiles }))
+      setSubmitState('idle')
+
+      if (uniqueFiles.length > maxDocumentFilesPerDocument) {
+        setSubmitState('error')
+        setFeedback(`Puoi caricare al massimo ${maxDocumentFilesPerDocument} foto per documento.`)
+      }
     }
+
+  const clearDocumentFiles = (name: DocumentFileKey) => {
+    setDocumentFiles((current) => ({ ...current, [name]: [] }))
+    documentSelectionModes.current[name] = 'append'
+
+    const input = documentInputRefs.current[name]
+
+    if (input) input.value = ''
+
+    setFeedback('')
+    setSubmitState('idle')
+  }
+
+  const replaceDocumentFiles = (name: DocumentFileKey) => {
+    documentSelectionModes.current[name] = 'replace'
+    documentInputRefs.current[name]?.click()
+  }
 
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -326,6 +378,9 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
       setFeedback(successMessage || 'Candidatura inviata.')
       setFormState(initialFormState)
       setDocumentFiles(emptyDocumentFiles)
+      Object.values(documentInputRefs.current).forEach((input) => {
+        if (input) input.value = ''
+      })
     } catch {
       setSubmitState('error')
       setFeedback(errorMessage || 'Candidatura non inviata.')
@@ -393,34 +448,86 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
 
   const renderDocumentUpload = (name: DocumentFileKey) => {
     const files = documentFiles[name]
+    const selectedCountLabel = `${files.length} ${files.length === 1 ? 'foto selezionata' : 'foto selezionate'}`
     const selectedLabel = files.length
-      ? `${files.length} ${files.length === 1 ? 'foto selezionata' : 'foto selezionate'}`
+      ? files.map((file) => file.name).join(', ')
       : 'Nessuna foto selezionata'
 
     return (
-      <label className="contact-message-field membership-application-upload-field scribble-border relative">
-        <span className="sr-only">{documentFileLabels[name]}</span>
+      <div className="contact-message-field membership-application-upload-field scribble-border relative">
         <input
           accept="image/*"
           className="sr-only"
+          id={documentInputIds[name]}
           multiple
           name={name}
           onChange={updateDocumentFile(name)}
+          ref={(input) => {
+            documentInputRefs.current[name] = input
+          }}
           type="file"
         />
-        <span className="membership-application-upload-icon">
-          <Upload aria-hidden className="size-3.5" />
-        </span>
-        <span className="membership-application-upload-copy">
-          <span className="membership-application-upload-label">{documentFileLabels[name]} *</span>
-          <span className="membership-application-upload-hint">
-            Foto fronte retro, max {maxDocumentFilesPerDocument} foto da {maxDocumentFileSizeLabel}
+        <label
+          className="membership-application-upload-selector"
+          htmlFor={documentInputIds[name]}
+          onClick={() => {
+            documentSelectionModes.current[name] = 'append'
+          }}
+        >
+          <span className="membership-application-upload-icon">
+            <Upload aria-hidden className="size-3.5" />
           </span>
-          <span className="membership-application-upload-name">
-            {selectedLabel}
+          <span className="membership-application-upload-copy">
+            <span className="membership-application-upload-label">{documentFileLabels[name]} *</span>
+            <span className="membership-application-upload-hint">
+              Foto fronte retro, max {maxDocumentFilesPerDocument} foto da{' '}
+              {maxDocumentFileSizeLabel}
+            </span>
           </span>
-        </span>
-      </label>
+          <span className="membership-application-upload-cta">
+            <Upload aria-hidden className="size-3.5" />
+            {files.length ? 'Aggiungi altre foto' : 'Aggiungi foto'}
+          </span>
+        </label>
+        {files.length ? (
+          <div className="membership-application-upload-selected">
+            <div className="membership-application-upload-selected-info">
+              <CheckCircle2
+                aria-hidden
+                className="membership-application-upload-selected-icon"
+              />
+              <span className="membership-application-upload-selected-copy">
+                <span className="membership-application-upload-selected-count">
+                  {selectedCountLabel}
+                </span>
+                <span className="membership-application-upload-name">{selectedLabel}</span>
+              </span>
+            </div>
+            <div className="membership-application-upload-actions">
+              <button
+                aria-label={`Sostituisci le foto per ${documentFileLabels[name]}`}
+                className="membership-application-upload-action membership-application-upload-action--replace"
+                disabled={submitState === 'sending'}
+                onClick={() => replaceDocumentFiles(name)}
+                type="button"
+              >
+                <RefreshCw aria-hidden className="size-3.5" />
+                Sostituisci
+              </button>
+              <button
+                aria-label={`Rimuovi le foto per ${documentFileLabels[name]}`}
+                className="membership-application-upload-action membership-application-upload-action--remove"
+                disabled={submitState === 'sending'}
+                onClick={() => clearDocumentFiles(name)}
+                type="button"
+              >
+                <Trash2 aria-hidden className="size-3.5" />
+                Rimuovi
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </div>
     )
   }
 

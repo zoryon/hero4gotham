@@ -1,16 +1,14 @@
 Task di modifica sito web
 
-
-5. Pagina “Diventa Socio”
-
-Upload documenti
-
-* Consentire all’utente di eliminare o sostituire il documento caricato nel caso venga selezionato per errore.
-
+--- DA FAR PRESENTE
 Privacy e regolamento
 
 * Integrare nel Regolamento e nell’Informativa Privacy una clausola che specifichi che, accettando l’iscrizione, si autorizza anche l’utilizzo di foto e video realizzati durante gli eventi dell’associazione.
 * Eliminare l’opzione cliccabile separata relativa a foto e video, includendo tale consenso direttamente nell’accettazione del Regolamento e della Privacy.
+
+
+
+-------------------------------------
 
 Form di richiesta
 
