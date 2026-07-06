@@ -1,13 +1,5 @@
 Task di modifica sito web
 
-4. Pagina “Eventi”
-
-Layout
-
-* Spostare più in basso la tabella del calendario eventi.
-* Allineare l’inizio della tabella con quello dei filtri e della barra di ricerca, in modo da ottenere un layout uniforme.
-
-⸻
 
 5. Pagina “Diventa Socio”
 

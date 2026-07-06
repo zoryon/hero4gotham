@@ -437,11 +437,13 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     label,
     name,
     required = false,
+    triggerLinkOnNewLine = false,
     triggerLinkUrl,
   }: {
     label: null | string | undefined
     name: keyof typeof initialFormState
     required?: boolean
+    triggerLinkOnNewLine?: boolean
     triggerLinkUrl?: string
   }) => (
     <label className="membership-application-checkbox-row flex items-start gap-2">
@@ -461,7 +463,10 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
           <>
             {' '}
             <a
-              className="form-declaration-trigger-link"
+              className={cn(
+                'form-declaration-trigger-link',
+                triggerLinkOnNewLine && 'membership-application-privacy-link',
+              )}
               href={triggerLinkUrl}
               onClick={(event) => event.stopPropagation()}
               rel="noreferrer"
@@ -732,10 +737,10 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     label: privacyDeclarationLabel,
                     name: 'privacyDeclaration',
                     required: true,
-                    triggerLinkUrl: getTriggerLinkUrl(
-                      enablePrivacyTriggerLink,
-                      privacyTriggerLinkUrl,
-                    ),
+                    triggerLinkOnNewLine: true,
+                    triggerLinkUrl:
+                      getTriggerLinkUrl(enablePrivacyTriggerLink, privacyTriggerLinkUrl) ||
+                      '/privacy-policy',
                   })}
                 </div>
                 {renderPrivacyDocuments()}
