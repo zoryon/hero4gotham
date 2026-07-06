@@ -2576,7 +2576,6 @@ export interface MembershipApplicationBlock {
   personalDataTitle: string;
   applicationTitle: string;
   declarationsTitle: string;
-  optionalConsentsTitle: string;
   firstNameLabel: string;
   lastNameLabel: string;
   birthDateLabel: string;
@@ -2606,9 +2605,6 @@ export interface MembershipApplicationBlock {
   privacyDeclarationLabel: string;
   enablePrivacyTriggerLink?: boolean | null;
   privacyTriggerLinkUrl?: string | null;
-  mediaConsentLabel: string;
-  enableMediaConsentTriggerLink?: boolean | null;
-  mediaConsentTriggerLinkUrl?: string | null;
   submitLabel: string;
   submitBackgroundImage?: (number | null) | Media;
   successMessage: string;
@@ -5522,7 +5518,6 @@ export interface MembershipApplicationBlockSelect<T extends boolean = true> {
   personalDataTitle?: T;
   applicationTitle?: T;
   declarationsTitle?: T;
-  optionalConsentsTitle?: T;
   firstNameLabel?: T;
   lastNameLabel?: T;
   birthDateLabel?: T;
@@ -5552,9 +5547,6 @@ export interface MembershipApplicationBlockSelect<T extends boolean = true> {
   privacyDeclarationLabel?: T;
   enablePrivacyTriggerLink?: T;
   privacyTriggerLinkUrl?: T;
-  mediaConsentLabel?: T;
-  enableMediaConsentTriggerLink?: T;
-  mediaConsentTriggerLinkUrl?: T;
   submitLabel?: T;
   submitBackgroundImage?: T;
   successMessage?: T;

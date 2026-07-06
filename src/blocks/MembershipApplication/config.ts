@@ -56,12 +56,6 @@ export const MembershipApplication: Block = {
           required: true,
         },
         {
-          name: 'optionalConsentsTitle',
-          type: 'text',
-          defaultValue: 'Consensi facoltativi',
-          required: true,
-        },
-        {
           type: 'row',
           fields: [
             {
@@ -271,27 +265,6 @@ export const MembershipApplication: Block = {
           label: 'Privacy trigger link URL',
           admin: {
             condition: (_, siblingData) => Boolean(siblingData?.enablePrivacyTriggerLink),
-          },
-        },
-        {
-          name: 'mediaConsentLabel',
-          type: 'text',
-          defaultValue:
-            "Acconsento all'uso di foto/video in cui appaio durante eventi associativi.",
-          required: true,
-        },
-        {
-          name: 'enableMediaConsentTriggerLink',
-          type: 'checkbox',
-          defaultValue: false,
-          label: 'Show media consent trigger link',
-        },
-        {
-          name: 'mediaConsentTriggerLinkUrl',
-          type: 'text',
-          label: 'Media consent trigger link URL',
-          admin: {
-            condition: (_, siblingData) => Boolean(siblingData?.enableMediaConsentTriggerLink),
           },
         },
       ],

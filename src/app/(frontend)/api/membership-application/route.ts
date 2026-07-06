@@ -82,7 +82,6 @@ export async function POST(request: Request) {
     residenceAddress: getString(body.residenceAddress),
   }
   const declarations = {
-    mediaConsent: getFormBoolean(body.mediaConsent),
     privacyDeclaration: getFormBoolean(body.privacyDeclaration),
     purposeDeclaration: getFormBoolean(body.purposeDeclaration),
     statuteDeclaration: getFormBoolean(body.statuteDeclaration),
@@ -146,7 +145,6 @@ export async function POST(request: Request) {
     ['Finalita associative', declarations.purposeDeclaration],
     ['Dati veritieri', declarations.truthDeclaration],
     ['Privacy', declarations.privacyDeclaration],
-    ['Foto/video eventi', declarations.mediaConsent],
   ]
   const documentRows = documentFileEntries.map(
     ([key, files]) =>

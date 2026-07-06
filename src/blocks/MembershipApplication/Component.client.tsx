@@ -36,7 +36,6 @@ type Props = {
   decorativeImage?: EventSuiteMedia | number | null
   emailLabel?: null | string
   emailSubjectPrefix?: null | string
-  enableMediaConsentTriggerLink?: boolean | null
   enablePrivacyTriggerLink?: boolean | null
   enablePurposeDeclarationTriggerLink?: boolean | null
   enableStatuteDeclarationTriggerLink?: boolean | null
@@ -52,10 +51,7 @@ type Props = {
   introStyle?: EventSuiteTextStyle | null
   introText?: null | string
   lastNameLabel?: null | string
-  mediaConsentLabel?: null | string
-  mediaConsentTriggerLinkUrl?: null | string
   motivationLabel?: null | string
-  optionalConsentsTitle?: null | string
   personalDataTitle?: null | string
   phoneLabel?: null | string
   privacyDeclarationLabel?: null | string
@@ -114,7 +110,6 @@ const initialFormState = {
   firstName: '',
   interestAreas: '',
   lastName: '',
-  mediaConsent: false,
   motivation: '',
   phone: '',
   privacyDeclaration: false,
@@ -145,7 +140,6 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   decorativeImage,
   emailLabel = 'Email *',
   emailSubjectPrefix = 'Nuova candidatura associazione',
-  enableMediaConsentTriggerLink = false,
   enablePrivacyTriggerLink = false,
   enablePurposeDeclarationTriggerLink = false,
   enableStatuteDeclarationTriggerLink = false,
@@ -160,10 +154,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   introStyle,
   introText = 'Compila la candidatura con i tuoi dati. Ti ricontatteremo dopo averla ricevuta.',
   lastNameLabel = 'Cognome *',
-  mediaConsentLabel = "Acconsento all'uso di foto/video in cui appaio durante eventi associativi.",
-  mediaConsentTriggerLinkUrl,
   motivationLabel = "Perche vuoi entrare nell'associazione? *",
-  optionalConsentsTitle = 'Consensi facoltativi',
   personalDataTitle = 'Dati personali',
   phoneLabel = 'Telefono *',
   privacyDeclarationLabel = "Ho letto l'informativa privacy. *",
@@ -707,7 +698,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 </label>
               </div>
 
-              <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
+              <div className="membership-application-quadrant grid min-w-0 content-start gap-3 lg:col-span-2">
                 {renderSectionTitle(declarationsTitle)}
                 <div className="grid gap-2">
                   {renderCheckbox({
@@ -748,18 +739,6 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                   })}
                 </div>
                 {renderPrivacyDocuments()}
-              </div>
-
-              <div className="membership-application-quadrant grid min-w-0 content-start gap-3">
-                {renderSectionTitle(optionalConsentsTitle)}
-                {renderCheckbox({
-                  label: mediaConsentLabel,
-                  name: 'mediaConsent',
-                  triggerLinkUrl: getTriggerLinkUrl(
-                    enableMediaConsentTriggerLink,
-                    mediaConsentTriggerLinkUrl,
-                  ),
-                })}
               </div>
             </div>
 
