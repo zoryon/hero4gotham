@@ -15,7 +15,6 @@ type Props = {
   markerColor?: null | string
   monthOffset?: null | number
   monStyle?: EventSuiteTextStyle | null
-  specialBorder?: boolean | null
 }
 
 export const EventCalendarBlock = async ({
@@ -26,7 +25,6 @@ export const EventCalendarBlock = async ({
   markerColor,
   monthOffset = 0,
   monStyle,
-  specialBorder,
 }: Props) => {
   const safeMonthOffset =
     typeof monthOffset === 'number' && Number.isFinite(monthOffset) ? monthOffset : 0
@@ -52,7 +50,6 @@ export const EventCalendarBlock = async ({
       initialYear={initialYear}
       markerColor={markerColor}
       monStyle={monStyle}
-      specialBorder={specialBorder}
     />
   )
 }

@@ -1226,7 +1226,6 @@ export interface EventCalendarBlock {
    * Colore CSS opzionale per i giorni che contengono eventi.
    */
   markerColor?: string | null;
-  specialBorder?: boolean | null;
   hdgStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
@@ -4416,7 +4415,6 @@ export interface EventCalendarBlockSelect<T extends boolean = true> {
   headingBackgroundImage?: T;
   monthOffset?: T;
   markerColor?: T;
-  specialBorder?: T;
   hdgStyle?:
     | T
     | {

@@ -103,9 +103,8 @@ export const FeaturedEventBlock = async ({
     eventSource === 'manual'
       ? await getManualFeaturedEvent(manualEvent)
       : await getNextFeaturedEvent()
-  const hasEvent = Boolean(event)
-  const dateParts = hasEvent ? formatEventDateParts(event.startsAt) : null
-  const displayImage = hasEvent ? backgroundImage || getEventDisplayImage(event) : backgroundImage
+  const hasEvent = event !== null
+
   const eventPrimaryLink = hasEvent
     ? getEventPrimaryLink(event)
     : {
@@ -113,9 +112,12 @@ export const FeaturedEventBlock = async ({
         type: 'custom' as const,
         url: '/eventi',
       }
-  const eventTypeLabel = hasEvent ? getEventTypeLabel(event.activity) : null
+
+  const displayImage = hasEvent ? backgroundImage || getEventDisplayImage(event) : backgroundImage
   const displayTitle = hasEvent ? event.title : 'Nessun evento imminente'
-  const displayDate = hasEvent && dateParts ? `${dateParts.day} ${dateParts.month} ${event.timeLabel || dateParts.time}` : 'Prossimamente'
+  const displayDate = hasEvent
+    ? `${formatEventDateParts(event.startsAt).day} ${formatEventDateParts(event.startsAt).month} ${event.timeLabel || formatEventDateParts(event.startsAt).time}`
+    : 'Prossimamente'
   const displayDescription = hasEvent
     ? event.description
     : 'Non ci sono eventi imminenti al momento. Torna a trovarci presto.'
@@ -189,7 +191,7 @@ export const FeaturedEventBlock = async ({
           >
             {displayDate}
           </div>
-          {eventTypeLabel ? (
+          {hasEvent ? (
             <div
               className={cn(getEventSuiteTextClassName(typStyle, 'black'), 'block')}
               style={getEventSuiteTextStyle(typStyle, {
@@ -200,7 +202,7 @@ export const FeaturedEventBlock = async ({
                 lineHeight: 1,
               })}
             >
-              {eventTypeLabel}
+              {getEventTypeLabel(event.activity)}
             </div>
           ) : null}
           {displayDescription ? (

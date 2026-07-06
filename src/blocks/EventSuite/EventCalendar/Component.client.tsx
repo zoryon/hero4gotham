@@ -27,7 +27,6 @@ type Props = {
   initialYear: number
   markerColor?: null | string
   monStyle?: EventSuiteTextStyle | null
-  specialBorder?: boolean | null
 }
 
 type CalendarCell = {
@@ -101,7 +100,6 @@ export const EventCalendarClient: React.FC<Props> = ({
   initialYear,
   markerColor,
   monStyle,
-  specialBorder,
 }) => {
   const [monthDate, setMonthDate] = React.useState(() => new Date(initialYear, initialMonth, 1))
   const [eventMarkers, setEventMarkers] = React.useState(initialEventMarkers)
@@ -184,8 +182,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-visible sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
-        specialBorder && 'scribble-border event-calendar-card-border',
+        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-hidden sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
       )}
     >
       <div className="relative z-10 grid min-w-0 gap-2 p-2 sm:gap-3 sm:p-3 min-[680px]:max-xl:h-full min-[680px]:max-xl:content-center">

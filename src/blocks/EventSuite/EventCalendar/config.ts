@@ -1,6 +1,6 @@
 import type { Block } from 'payload'
 
-import { labelImageField, specialBorderField, textStyleField } from '@/blocks/EventSuite/shared'
+import { labelImageField, textStyleField } from '@/blocks/EventSuite/shared'
 
 export const EventCalendar: Block = {
   slug: 'eventCalendar',
@@ -32,7 +32,6 @@ export const EventCalendar: Block = {
         description: 'Optional CSS color for days that contain events.',
       },
     },
-    specialBorderField(),
     textStyleField('hdgStyle', 'Heading typography', {
       colorTheme: 'green',
       fontFamily: 'cinzel',
