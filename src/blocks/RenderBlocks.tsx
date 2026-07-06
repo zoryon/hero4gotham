@@ -196,12 +196,13 @@ export const RenderBlocks: React.FC<{
                 : wrapperClassName
               const hasDetachedTornCards =
                 blockType === 'tornCards' && block.cardGap && block.cardGap !== 'none'
-              const blockLayout = hasDetachedTornCards
-                ? {
-                    ...block.layout,
-                    scribbleBorder: false,
-                  }
-                : block.layout
+              const blockLayout =
+                hasDetachedTornCards || blockType === 'eventCalendar'
+                  ? {
+                      ...block.layout,
+                      scribbleBorder: false,
+                    }
+                  : block.layout
 
               if (blockType === 'upcomingEvents') {
                 const nextBlock = blocks[index + 1]

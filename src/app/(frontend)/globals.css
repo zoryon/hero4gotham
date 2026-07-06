@@ -1735,6 +1735,10 @@
     container-type: inline-size;
   }
 
+  .event-calendar-card-border {
+    --vintage-border-width: 12px;
+  }
+
   .event-calendar-legend {
     border-top: 1px solid color-mix(in srgb, var(--theme-text-secondary) 28%, transparent);
     padding-top: 0.55rem;

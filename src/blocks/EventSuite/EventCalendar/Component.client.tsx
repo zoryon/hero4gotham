@@ -27,6 +27,7 @@ type Props = {
   initialYear: number
   markerColor?: null | string
   monStyle?: EventSuiteTextStyle | null
+  specialBorder?: boolean | null
 }
 
 type CalendarCell = {
@@ -100,6 +101,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   initialYear,
   markerColor,
   monStyle,
+  specialBorder,
 }) => {
   const [monthDate, setMonthDate] = React.useState(() => new Date(initialYear, initialMonth, 1))
   const [eventMarkers, setEventMarkers] = React.useState(initialEventMarkers)
@@ -182,181 +184,189 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] overflow-hidden sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
+        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
+        specialBorder && 'event-calendar-card-border scribble-border',
       )}
     >
-      <div className="relative z-10 grid min-w-0 gap-2 p-2 sm:gap-3 sm:p-3 min-[680px]:max-xl:h-full min-[680px]:max-xl:content-center">
-        <div
-          className={cn(
-            'inline-flex max-w-full items-center justify-center bg-contain bg-center bg-no-repeat px-4 py-2 text-center sm:w-fit sm:px-5',
-            headingBackgroundImage && 'min-w-36',
-          )}
-          style={{ backgroundImage: resolveMediaBackground(headingBackgroundImage) }}
-        >
-          <h2
-            className={cn(getEventSuiteTextClassName(hdgStyle, 'black'), 'text-center')}
-            style={{
-              ...getEventSuiteTextStyle(hdgStyle, {
-                fontFamily: 'cinzel',
-                fontSizeDesktop: 13,
-                fontSizeMobile: 12,
-                fontWeight: 'black',
-                lineHeight: 1,
-              }),
-              transformOrigin: 'center',
-            }}
-          >
-            {heading}
-          </h2>
-        </div>
-
-        <div className="grid min-w-0 grid-cols-[1.75rem_1.75rem_minmax(0,1fr)_1.75rem_1.75rem] items-center gap-1">
-          <button
-            aria-label="Anno precedente"
-            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
-            onClick={() => moveCalendar(-12)}
-            type="button"
-          >
-            <ChevronsLeft aria-hidden className="h-4 w-4" strokeWidth={2.3} />
-          </button>
-          <button
-            aria-label="Mese precedente"
-            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
-            onClick={() => moveCalendar(-1)}
-            type="button"
-          >
-            <ChevronLeft aria-hidden className="h-4 w-4" strokeWidth={2.3} />
-          </button>
+      <div
+        className={cn(
+          'relative z-10 h-full w-full overflow-hidden min-[680px]:max-xl:content-center',
+          specialBorder ? 'p-4 sm:p-5' : 'p-2 sm:p-3',
+        )}
+      >
+        <div className="relative z-10 grid min-w-0 gap-2 sm:gap-3 min-[680px]:max-xl:h-full min-[680px]:max-xl:content-center">
           <div
-            aria-live="polite"
-            className={cn(getEventSuiteTextClassName(monStyle, 'black'), 'min-w-0 text-center')}
-            style={{
-              ...getEventSuiteTextStyle(monStyle, {
-                fontFamily: 'cinzel',
-                fontSizeDesktop: 12,
-                fontSizeMobile: 12,
-                fontWeight: 'black',
-                lineHeight: 1,
-              }),
-              transformOrigin: 'center',
-              width: '100%',
-            }}
+            className={cn(
+              'inline-flex max-w-full items-center justify-center bg-contain bg-center bg-no-repeat px-4 py-2 text-center sm:w-fit sm:px-5',
+              headingBackgroundImage && 'min-w-36',
+            )}
+            style={{ backgroundImage: resolveMediaBackground(headingBackgroundImage) }}
           >
-            {monthLabel}
-          </div>
-          <button
-            aria-label="Mese successivo"
-            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
-            onClick={() => moveCalendar(1)}
-            type="button"
-          >
-            <ChevronRight aria-hidden className="h-4 w-4" strokeWidth={2.3} />
-          </button>
-          <button
-            aria-label="Anno successivo"
-            className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
-            onClick={() => moveCalendar(12)}
-            type="button"
-          >
-            <ChevronsRight aria-hidden className="h-4 w-4" strokeWidth={2.3} />
-          </button>
-        </div>
-
-        <div className="event-calendar-layout grid min-w-0 gap-2 sm:gap-3">
-          <div className="grid min-w-0 grid-cols-7 gap-0.5 sm:gap-1">
-            {weekdays.map((weekday, index) => (
-              <div
-                className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
-                key={`${weekday}-${index}`}
-              >
-                <span className={dayTextClassName} style={dayTextStyle}>
-                  {weekday}
-                </span>
-              </div>
-            ))}
-            {cells.map((cell) => {
-              const markerActivities = cell.day ? eventMarkersByDay.get(cell.day) || [] : []
-
-              return (
-                <div
-                  aria-hidden={!cell.day}
-                  className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
-                  key={cell.key}
-                >
-                  {cell.day ? (
-                    <span
-                      className={cn(dayTextClassName, 'relative z-10')}
-                      style={{
-                        ...dayTextStyle,
-                        color:
-                          isCurrentMonth && cell.day === today.getDate()
-                            ? 'var(--theme-text-green)'
-                            : dayTextStyle.color,
-                      }}
-                    >
-                      {cell.day}
-                    </span>
-                  ) : null}
-                  {markerActivities.slice(0, 4).map((activity, index) => (
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute z-0 rounded-full"
-                      key={`${activity.id}-${index}`}
-                      style={{
-                        border: `1px solid ${resolveMarkerColor(activity.color)}`,
-                        inset: 2 + index * 3,
-                      }}
-                    />
-                  ))}
-                </div>
-              )
-            })}
-          </div>
-
-          <div className="event-calendar-legend min-w-0">
-            <div
-              className={cn(
-                getEventSuiteTextClassName(monStyle, 'black'),
-                'event-calendar-legend-title min-w-0',
-              )}
+            <h2
+              className={cn(getEventSuiteTextClassName(hdgStyle, 'black'), 'text-center')}
               style={{
-                ...getEventSuiteTextStyle(monStyle, {
+                ...getEventSuiteTextStyle(hdgStyle, {
                   fontFamily: 'cinzel',
-                  fontSizeDesktop: 10,
-                  fontSizeMobile: 10,
+                  fontSizeDesktop: 13,
+                  fontSizeMobile: 12,
                   fontWeight: 'black',
                   lineHeight: 1,
                 }),
-                transformOrigin: 'left center',
+                transformOrigin: 'center',
               }}
             >
-              Legenda
+              {heading}
+            </h2>
+          </div>
+
+          <div className="grid min-w-0 grid-cols-[1.75rem_1.75rem_minmax(0,1fr)_1.75rem_1.75rem] items-center gap-1">
+            <button
+              aria-label="Anno precedente"
+              className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+              onClick={() => moveCalendar(-12)}
+              type="button"
+            >
+              <ChevronsLeft aria-hidden className="h-4 w-4" strokeWidth={2.3} />
+            </button>
+            <button
+              aria-label="Mese precedente"
+              className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+              onClick={() => moveCalendar(-1)}
+              type="button"
+            >
+              <ChevronLeft aria-hidden className="h-4 w-4" strokeWidth={2.3} />
+            </button>
+            <div
+              aria-live="polite"
+              className={cn(getEventSuiteTextClassName(monStyle, 'black'), 'min-w-0 text-center')}
+              style={{
+                ...getEventSuiteTextStyle(monStyle, {
+                  fontFamily: 'cinzel',
+                  fontSizeDesktop: 12,
+                  fontSizeMobile: 12,
+                  fontWeight: 'black',
+                  lineHeight: 1,
+                }),
+                transformOrigin: 'center',
+                width: '100%',
+              }}
+            >
+              {monthLabel}
             </div>
-            {legendItems.length ? (
-              <ul className="mt-2 grid min-w-0 gap-1.5">
-                {legendItems.map((item) => (
-                  <li
-                    className="grid min-w-0 grid-cols-[0.75rem_minmax(0,1fr)] items-center gap-2"
-                    key={item.id}
+            <button
+              aria-label="Mese successivo"
+              className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+              onClick={() => moveCalendar(1)}
+              type="button"
+            >
+              <ChevronRight aria-hidden className="h-4 w-4" strokeWidth={2.3} />
+            </button>
+            <button
+              aria-label="Anno successivo"
+              className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
+              onClick={() => moveCalendar(12)}
+              type="button"
+            >
+              <ChevronsRight aria-hidden className="h-4 w-4" strokeWidth={2.3} />
+            </button>
+          </div>
+
+          <div className="event-calendar-layout grid min-w-0 gap-2 sm:gap-3">
+            <div className="grid min-w-0 grid-cols-7 gap-0.5 sm:gap-1">
+              {weekdays.map((weekday, index) => (
+                <div
+                  className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
+                  key={`${weekday}-${index}`}
+                >
+                  <span className={dayTextClassName} style={dayTextStyle}>
+                    {weekday}
+                  </span>
+                </div>
+              ))}
+              {cells.map((cell) => {
+                const markerActivities = cell.day ? eventMarkersByDay.get(cell.day) || [] : []
+
+                return (
+                  <div
+                    aria-hidden={!cell.day}
+                    className="relative grid aspect-[1.18/1] min-w-0 place-items-center text-center sm:aspect-square"
+                    key={cell.key}
                   >
-                    <span
-                      aria-hidden
-                      className="h-2.5 w-2.5 rounded-full"
-                      style={{
-                        backgroundColor: item.color,
-                        boxShadow: `0 0 0 1px ${item.color}`,
-                      }}
-                    />
-                    <span
-                      className={cn(dayTextClassName, 'min-w-0 truncate')}
-                      style={legendTextStyle}
+                    {cell.day ? (
+                      <span
+                        className={cn(dayTextClassName, 'relative z-10')}
+                        style={{
+                          ...dayTextStyle,
+                          color:
+                            isCurrentMonth && cell.day === today.getDate()
+                              ? 'var(--theme-text-green)'
+                              : dayTextStyle.color,
+                        }}
+                      >
+                        {cell.day}
+                      </span>
+                    ) : null}
+                    {markerActivities.slice(0, 4).map((activity, index) => (
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute z-0 rounded-full"
+                        key={`${activity.id}-${index}`}
+                        style={{
+                          border: `1px solid ${resolveMarkerColor(activity.color)}`,
+                          inset: 2 + index * 3,
+                        }}
+                      />
+                    ))}
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="event-calendar-legend min-w-0">
+              <div
+                className={cn(
+                  getEventSuiteTextClassName(monStyle, 'black'),
+                  'event-calendar-legend-title min-w-0',
+                )}
+                style={{
+                  ...getEventSuiteTextStyle(monStyle, {
+                    fontFamily: 'cinzel',
+                    fontSizeDesktop: 10,
+                    fontSizeMobile: 10,
+                    fontWeight: 'black',
+                    lineHeight: 1,
+                  }),
+                  transformOrigin: 'left center',
+                }}
+              >
+                Legenda
+              </div>
+              {legendItems.length ? (
+                <ul className="mt-2 grid min-w-0 gap-1.5">
+                  {legendItems.map((item) => (
+                    <li
+                      className="grid min-w-0 grid-cols-[0.75rem_minmax(0,1fr)] items-center gap-2"
+                      key={item.id}
                     >
-                      {item.label}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+                      <span
+                        aria-hidden
+                        className="h-2.5 w-2.5 rounded-full"
+                        style={{
+                          backgroundColor: item.color,
+                          boxShadow: `0 0 0 1px ${item.color}`,
+                        }}
+                      />
+                      <span
+                        className={cn(dayTextClassName, 'min-w-0 truncate')}
+                        style={legendTextStyle}
+                      >
+                        {item.label}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { type EventSuiteMedia, type EventSuiteTextStyle } from '@/blocks/EventSuite/shared'
 import { EventCalendarClient } from '@/blocks/EventSuite/EventCalendar/Component.client'
+import type { BlockLayoutSettings } from '@/fields/blockLayout'
 import {
   getEventCalendarLegendItems,
   getEventCalendarMarkers,
@@ -15,6 +16,7 @@ type Props = {
   markerColor?: null | string
   monthOffset?: null | number
   monStyle?: EventSuiteTextStyle | null
+  layout?: BlockLayoutSettings | null
 }
 
 export const EventCalendarBlock = async ({
@@ -25,6 +27,7 @@ export const EventCalendarBlock = async ({
   markerColor,
   monthOffset = 0,
   monStyle,
+  layout,
 }: Props) => {
   const safeMonthOffset =
     typeof monthOffset === 'number' && Number.isFinite(monthOffset) ? monthOffset : 0
@@ -50,6 +53,7 @@ export const EventCalendarBlock = async ({
       initialYear={initialYear}
       markerColor={markerColor}
       monStyle={monStyle}
+      specialBorder={layout?.scribbleBorder}
     />
   )
 }
