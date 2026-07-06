@@ -91,9 +91,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {hasHero ? <RenderHero {...hero} /> : null}
       <SiteBackgroundFrame
-        fallbackSettings={legacyBackgroundSettings}
+        fallbackSettings={legacyBackgroundSettings ?? siteBackground}
         isFirstPageBlock={!hasHero}
-        settings={siteBackground}
+        settings={page}
       >
         <RenderBlocks
           blocks={renderLayout}

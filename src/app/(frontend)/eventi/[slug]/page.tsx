@@ -83,7 +83,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     <article>
       <PayloadRedirects disableNotFound url={url} />
 
-      <SiteBackgroundFrame isFirstPageBlock settings={siteBackground}>
+      <SiteBackgroundFrame fallbackSettings={siteBackground} isFirstPageBlock settings={event}>
         <header className="event-detail-hero">
           <div className="container relative z-10 mt-8 lg:mt-18 flex min-h-[inherit] items-center pb-3">
             <div className="event-detail-hero__copy max-w-4xl pb-1">

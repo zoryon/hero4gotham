@@ -213,6 +213,31 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Opzionale. Se vuoto usa l'immagine desktop.
+   */
+  bgTab?: (number | null) | Media;
+  /**
+   * Opzionale. Se vuoto usa l'immagine tablet o desktop.
+   */
+  bgMob?: (number | null) | Media;
+  /**
+   * Higher values reduce compression artifacts. Use 95-100 for piena-screen textured backgrounds.
+   */
+  imageQuality?: number | null;
+  imagePositionMobile?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionTablet?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionDesktop?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
+  width?: ('full' | 'contained') | null;
+  padding?: ('small' | 'medium' | 'large') | null;
   layout: (
     | ActivitiesDetailGridBlock
     | ActivityChoiceCtaBlock
@@ -1926,6 +1951,31 @@ export interface Event {
    * Banner speciale opzionale usato nella pagina dettaglio evento, tra testo hero e barra informazioni evento.
    */
   banner?: (number | null) | Media;
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Opzionale. Se vuoto usa l'immagine desktop.
+   */
+  bgTab?: (number | null) | Media;
+  /**
+   * Opzionale. Se vuoto usa l'immagine tablet o desktop.
+   */
+  bgMob?: (number | null) | Media;
+  /**
+   * Higher values reduce compression artifacts. Use 95-100 for piena-screen textured backgrounds.
+   */
+  imageQuality?: number | null;
+  imagePositionMobile?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionTablet?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionDesktop?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
+  width?: ('full' | 'contained') | null;
+  padding?: ('small' | 'medium' | 'large') | null;
   /**
    * Breve riepilogo usato nelle card evento, nelle anteprime e in alto nella pagina evento.
    */
@@ -3704,6 +3754,16 @@ export interface PagesSelect<T extends boolean = true> {
             };
         media?: T;
       };
+  backgroundImage?: T;
+  bgTab?: T;
+  bgMob?: T;
+  imageQuality?: T;
+  imagePositionMobile?: T;
+  imagePositionTablet?: T;
+  imagePositionDesktop?: T;
+  overlay?: T;
+  width?: T;
+  padding?: T;
   layout?:
     | T
     | {
@@ -6157,6 +6217,16 @@ export interface EventsSelect<T extends boolean = true> {
         id?: T;
       };
   banner?: T;
+  backgroundImage?: T;
+  bgTab?: T;
+  bgMob?: T;
+  imageQuality?: T;
+  imagePositionMobile?: T;
+  imagePositionTablet?: T;
+  imagePositionDesktop?: T;
+  overlay?: T;
+  width?: T;
+  padding?: T;
   description?: T;
   longDescription?: T;
   timeline?:
@@ -6852,6 +6922,31 @@ export interface PrivacyPolicy {
     };
     [k: string]: unknown;
   };
+  backgroundImage?: (number | null) | Media;
+  /**
+   * Opzionale. Se vuoto usa l'immagine desktop.
+   */
+  bgTab?: (number | null) | Media;
+  /**
+   * Opzionale. Se vuoto usa l'immagine tablet o desktop.
+   */
+  bgMob?: (number | null) | Media;
+  /**
+   * Higher values reduce compression artifacts. Use 95-100 for piena-screen textured backgrounds.
+   */
+  imageQuality?: number | null;
+  imagePositionMobile?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionTablet?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  imagePositionDesktop?:
+    | ('center' | 'top' | 'bottom' | 'left' | 'right' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight')
+    | null;
+  overlay?: ('none' | 'light' | 'medium' | 'strong') | null;
+  width?: ('full' | 'contained') | null;
+  padding?: ('small' | 'medium' | 'large') | null;
   metaTitle?: string | null;
   metaDescription?: string | null;
   updatedAt?: string | null;
@@ -7031,6 +7126,16 @@ export interface PrivacyPolicySelect<T extends boolean = true> {
   intro?: T;
   lastUpdatedLabel?: T;
   content?: T;
+  backgroundImage?: T;
+  bgTab?: T;
+  bgMob?: T;
+  imageQuality?: T;
+  imagePositionMobile?: T;
+  imagePositionTablet?: T;
+  imagePositionDesktop?: T;
+  overlay?: T;
+  width?: T;
+  padding?: T;
   metaTitle?: T;
   metaDescription?: T;
   updatedAt?: T;

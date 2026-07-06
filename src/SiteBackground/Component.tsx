@@ -38,21 +38,18 @@ const backgroundImageSizes = {
   tablet: '(min-width: 768px) and (max-width: 1023px) 100vw, 1px',
 } as const
 
-export type SiteBackgroundSettings = Partial<
-  Pick<
-    SiteBackgroundGlobal,
-    | 'backgroundImage'
-    | 'bgMob'
-    | 'bgTab'
-    | 'imagePositionDesktop'
-    | 'imagePositionMobile'
-    | 'imagePositionTablet'
-    | 'imageQuality'
-    | 'overlay'
-    | 'padding'
-    | 'width'
-  >
->
+export type SiteBackgroundSettings = {
+  backgroundImage?: SiteBackgroundGlobal['backgroundImage'] | null
+  bgMob?: SiteBackgroundGlobal['bgMob'] | null
+  bgTab?: SiteBackgroundGlobal['bgTab'] | null
+  imagePositionDesktop?: SiteBackgroundGlobal['imagePositionDesktop'] | null
+  imagePositionMobile?: SiteBackgroundGlobal['imagePositionMobile'] | null
+  imagePositionTablet?: SiteBackgroundGlobal['imagePositionTablet'] | null
+  imageQuality?: SiteBackgroundGlobal['imageQuality'] | null
+  overlay?: SiteBackgroundGlobal['overlay'] | null
+  padding?: SiteBackgroundGlobal['padding'] | null
+  width?: SiteBackgroundGlobal['width'] | null
+}
 
 type BackgroundImageResource = MediaDocument | number | null | undefined
 
