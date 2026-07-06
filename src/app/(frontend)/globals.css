@@ -1585,6 +1585,17 @@
     inset: 0;
   }
 
+  .event-page-board__list-frame {
+    --event-list-border-bleed: calc(15px * 0.7);
+
+    padding: var(--event-list-border-bleed);
+  }
+
+  .event-page-board__list-frame .event-list-heading {
+    left: 0.5rem;
+    top: calc(var(--event-list-border-bleed) * -1);
+  }
+
   .event-list-link-border {
     --vintage-border-width: 9px;
   }
@@ -1671,6 +1682,69 @@
     will-change: scroll-position;
   }
 
+  .event-list-paginated .event-list-scroll {
+    transition: opacity 160ms ease;
+  }
+
+  .event-list-pagination {
+    align-items: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    margin-top: 0;
+    min-height: 3.25rem;
+    min-width: 0;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .event-list-pagination-button {
+    align-items: center;
+    color: var(--theme-text-green);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 900;
+    gap: 0.25rem;
+    min-height: 2rem;
+    padding: 0.35rem 0.55rem;
+    text-transform: uppercase;
+    transition:
+      color 160ms ease,
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  .event-list-pagination-button:first-child {
+    justify-self: start;
+  }
+
+  .event-list-pagination-button:last-child {
+    justify-self: end;
+  }
+
+  .event-list-pagination-button:hover:not(:disabled) {
+    color: var(--theme-text-primary);
+    transform: translateY(-1px);
+  }
+
+  .event-list-pagination-button:focus-visible {
+    outline: 1px solid var(--theme-text-green);
+    outline-offset: 2px;
+  }
+
+  .event-list-pagination-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.32;
+  }
+
+  .event-list-pagination-status {
+    color: var(--theme-text-secondary);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
   .event-list-scroll::-webkit-scrollbar {
     background: transparent;
     width: 0.55rem;
@@ -1737,6 +1811,18 @@
 
   .event-calendar-card-border {
     --vintage-border-width: 12px;
+  }
+
+  @media (width >= 80rem) {
+    .event-page-board__right .event-calendar-card {
+      height: 100%;
+      max-width: none;
+    }
+
+    .event-page-board__right .event-calendar-card > div {
+      align-content: center;
+      display: grid;
+    }
   }
 
   .event-calendar-legend {

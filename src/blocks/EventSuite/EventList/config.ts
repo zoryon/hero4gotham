@@ -204,14 +204,6 @@ export const EventList: Block = {
       required: true,
     },
     {
-      name: 'maxEvents',
-      type: 'number',
-      defaultValue: 30,
-      label: 'Maximum upcoming events to load',
-      min: 3,
-      max: 100,
-    },
-    {
       name: 'rowHeight',
       type: 'number',
       defaultValue: 112,

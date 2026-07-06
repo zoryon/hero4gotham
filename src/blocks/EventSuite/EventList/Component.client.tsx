@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import { MapPin } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react'
 import {
   formatEventDateParts,
   getEventDisplayImage,
@@ -43,9 +43,11 @@ type Props = {
   hdgStyle?: EventSuiteTextStyle | null
   initialHasNextPage?: boolean
   initialNextPage?: null | number
+  initialTotalPages?: number
   lnkStyle?: EventSuiteTextStyle | null
-  maxEvents?: null | number
   monthStyle?: EventSuiteTextStyle | null
+  pageSize?: number
+  paginationMode?: boolean
   rowHeight?: null | number
   timeStyle?: EventSuiteTextStyle | null
   ttlStyle?: EventSuiteTextStyle | null
@@ -62,6 +64,7 @@ type EventListPageResponse = {
   events?: EventSuiteItem[]
   hasNextPage?: boolean
   nextPage?: null | number
+  totalPages?: number
 }
 
 const batchSize = 4
@@ -81,9 +84,11 @@ export const EventListClient: React.FC<Props> = ({
   hdgStyle,
   initialHasNextPage = false,
   initialNextPage = null,
+  initialTotalPages = 1,
   lnkStyle,
-  maxEvents = 30,
   monthStyle,
+  pageSize = batchSize,
+  paginationMode = false,
   rowHeight = 112,
   timeStyle,
   ttlStyle,
@@ -95,6 +100,8 @@ export const EventListClient: React.FC<Props> = ({
   const [hasNextPage, setHasNextPage] = useState(initialHasNextPage)
   const [isLoading, setIsLoading] = useState(false)
   const [nextPage, setNextPage] = useState(initialNextPage)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(initialTotalPages)
   const [hasScrolled, setHasScrolled] = useState(false)
   const { activityId, date, query, venue } = useEventFilters()
   const debouncedQuery = useDebounce(query, 250)
@@ -105,7 +112,7 @@ export const EventListClient: React.FC<Props> = ({
   const safeRowHeight = Math.max(rowHeight || 112, 1)
   const emptyStateStyle = emptyStateTypography?.[0]?.style
   const yearStyle = yearTypography?.[0]?.style
-  const shouldScroll = eventItems.length >= batchSize || hasNextPage
+  const shouldScroll = !paginationMode && (eventItems.length >= pageSize || hasNextPage)
   const penultimateEventIndex = eventItems.length > 1 ? eventItems.length - 2 : -1
   const activeFilters = React.useMemo<EventFilterParams>(
     () =>
@@ -122,9 +129,11 @@ export const EventListClient: React.FC<Props> = ({
     setEventItems(events)
     setHasNextPage(initialHasNextPage)
     setNextPage(initialNextPage)
+    setCurrentPage(1)
+    setTotalPages(initialTotalPages)
     setHasScrolled(false)
     loadingPageRef.current = false
-  }, [events, initialHasNextPage, initialNextPage])
+  }, [events, initialHasNextPage, initialNextPage, initialTotalPages])
 
   const loadNextPage = useCallback(async () => {
     if (!hasNextPage || isLoading || loadingPageRef.current || !nextPage) return
@@ -134,8 +143,8 @@ export const EventListClient: React.FC<Props> = ({
 
     try {
       const params = new URLSearchParams({
-        maxEvents: String(maxEvents || 30),
         page: String(nextPage),
+        pageSize: String(pageSize),
       })
       appendEventFilterSearchParams(params, activeFilters)
       const response = await fetch(`/api/event-list?${params.toString()}`, {
@@ -160,6 +169,7 @@ export const EventListClient: React.FC<Props> = ({
       })
       setHasNextPage(Boolean(data.hasNextPage))
       setNextPage(data.nextPage || null)
+      setTotalPages(data.totalPages || 1)
     } catch {
       setHasNextPage(false)
       setNextPage(null)
@@ -167,7 +177,44 @@ export const EventListClient: React.FC<Props> = ({
       loadingPageRef.current = false
       setIsLoading(false)
     }
-  }, [activeFilters, hasNextPage, isLoading, maxEvents, nextPage])
+  }, [activeFilters, hasNextPage, isLoading, nextPage, pageSize])
+
+  const loadPage = useCallback(
+    async (page: number) => {
+      if (isLoading || loadingPageRef.current || page < 1 || page > totalPages) return
+
+      loadingPageRef.current = true
+      setIsLoading(true)
+
+      try {
+        const params = new URLSearchParams({
+          page: String(page),
+          pageSize: String(pageSize),
+        })
+        appendEventFilterSearchParams(params, activeFilters)
+        const response = await fetch(`/api/event-list?${params.toString()}`, {
+          headers: {
+            Accept: 'application/json',
+          },
+        })
+
+        if (!response.ok) throw new Error(`Unable to load event page ${page}`)
+
+        const data = (await response.json()) as EventListPageResponse
+
+        setEventItems(data.events || [])
+        setHasNextPage(Boolean(data.hasNextPage))
+        setNextPage(data.nextPage || null)
+        setCurrentPage(page)
+        setTotalPages(data.totalPages || 1)
+        scrollerRef.current?.scrollTo({ top: 0 })
+      } finally {
+        loadingPageRef.current = false
+        setIsLoading(false)
+      }
+    },
+    [activeFilters, isLoading, pageSize, totalPages],
+  )
 
   useEffect(() => {
     if (!hasMountedRef.current) {
@@ -177,8 +224,8 @@ export const EventListClient: React.FC<Props> = ({
 
     const controller = new AbortController()
     const params = new URLSearchParams({
-      maxEvents: String(maxEvents || 30),
       page: '1',
+      pageSize: String(pageSize),
     })
     appendEventFilterSearchParams(params, activeFilters)
 
@@ -198,12 +245,16 @@ export const EventListClient: React.FC<Props> = ({
         setEventItems(data.events || [])
         setHasNextPage(Boolean(data.hasNextPage))
         setNextPage(data.nextPage || null)
+        setCurrentPage(1)
+        setTotalPages(data.totalPages || 1)
       })
       .catch(() => {
         if (!controller.signal.aborted) {
           setEventItems([])
           setHasNextPage(false)
           setNextPage(null)
+          setCurrentPage(1)
+          setTotalPages(1)
         }
       })
       .finally(() => {
@@ -214,13 +265,13 @@ export const EventListClient: React.FC<Props> = ({
       })
 
     return () => controller.abort()
-  }, [activeFilters, maxEvents])
+  }, [activeFilters, pageSize])
 
   useEffect(() => {
     const root = scrollerRef.current
     const target = penultimateEventRef.current
 
-    if (!root || !target || !hasNextPage || isLoading || !hasScrolled) return
+    if (paginationMode || !root || !target || !hasNextPage || isLoading || !hasScrolled) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -237,13 +288,23 @@ export const EventListClient: React.FC<Props> = ({
     observer.observe(target)
 
     return () => observer.disconnect()
-  }, [eventItems.length, hasNextPage, hasScrolled, isLoading, loadNextPage])
+  }, [eventItems.length, hasNextPage, hasScrolled, isLoading, loadNextPage, paginationMode])
 
   return (
-    <section className="relative isolate w-full">
-      <div className="relative min-w-0 overflow-visible">
+    <section
+      className={cn(
+        'relative isolate w-full',
+        paginationMode && 'event-list-paginated h-full',
+      )}
+    >
+      <div
+        className={cn(
+          'relative min-w-0 overflow-visible',
+          paginationMode && 'event-list-pagination-frame flex h-full flex-col',
+        )}
+      >
         <div
-          className="absolute left-5 top-2 z-30 inline-flex min-h-10 w-fit min-w-44 -translate-y-1/2 items-center justify-center bg-center bg-no-repeat px-7 py-3 md:min-h-11 md:px-8"
+          className="event-list-heading absolute left-5 top-0 z-30 inline-flex min-h-10 w-fit min-w-44 -translate-y-[82%] items-center justify-center bg-center bg-no-repeat px-7 py-3 md:min-h-11 md:px-8"
           style={{
             backgroundImage: resolveMediaBackground(headingBackgroundImage),
             backgroundSize: headingBackgroundImage ? '100% 100%' : undefined,
@@ -263,7 +324,7 @@ export const EventListClient: React.FC<Props> = ({
           </h2>
         </div>
 
-        <div className="relative min-w-0">
+        <div className={cn('relative min-w-0', paginationMode && 'flex flex-1 flex-col')}>
           <div
             ref={scrollerRef}
             className={cn(
@@ -280,7 +341,9 @@ export const EventListClient: React.FC<Props> = ({
                     maxHeight: safeRowHeight * visibleRows + borderBleed * 2,
                     padding: borderBleed,
                   }
-                : undefined
+                : paginationMode && eventItems.length
+                  ? { minHeight: safeRowHeight * visibleRows }
+                  : undefined
             }
           >
             {eventItems.map((event, index) => {
@@ -292,11 +355,15 @@ export const EventListClient: React.FC<Props> = ({
               const hasPassed = new Date(event.startsAt).getTime() < Date.now()
               const passedContentClassName = hasPassed ? 'opacity-70' : undefined
 
-              return (
-                <article
-                  className="relative grid min-w-0 grid-cols-[5.1rem_minmax(0,1fr)] gap-0 py-0"
-                  key={event.id}
-                  ref={index === penultimateEventIndex ? penultimateEventRef : undefined}
+                return (
+                  <article
+                    className="relative grid min-w-0 grid-cols-[5.1rem_minmax(0,1fr)] gap-0 py-0"
+                    key={event.id}
+                    ref={
+                      !paginationMode && index === penultimateEventIndex
+                        ? penultimateEventRef
+                        : undefined
+                    }
                   style={{
                     borderBottom: dividerColor ? `1px solid ${dividerColor}` : undefined,
                     minHeight: safeRowHeight,
@@ -322,7 +389,12 @@ export const EventListClient: React.FC<Props> = ({
                       PASSATO
                     </span>
                   ) : null}
-                  <div className="scribble-border event-list-cell-border vintage-surface grid content-center justify-items-center px-2 py-3 text-center">
+                  <div
+                    className={cn(
+                      'event-list-cell-border vintage-surface grid content-center justify-items-center px-2 py-3 text-center',
+                      'scribble-border',
+                    )}
+                  >
                     <div
                       className={cn(
                         getEventSuiteTextClassName(ddyStyle, 'black'),
@@ -390,7 +462,12 @@ export const EventListClient: React.FC<Props> = ({
                     </div>
                   </div>
 
-                  <div className="scribble-border event-list-cell-border vintage-surface event-list-info-surface relative grid min-w-0 grid-cols-1 gap-0 overflow-visible p-0 md:grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)]">
+                  <div
+                    className={cn(
+                      'event-list-cell-border vintage-surface event-list-info-surface relative grid min-w-0 grid-cols-1 gap-0 overflow-visible p-0 md:grid-cols-[minmax(15rem,1fr)_minmax(12rem,0.82fr)]',
+                      'scribble-border',
+                    )}
+                  >
                     <div className={cn('grid min-w-0 content-center px-4 py-3', passedContentClassName)}>
                       <h3
                         className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
@@ -515,7 +592,13 @@ export const EventListClient: React.FC<Props> = ({
             })}
           </div>
           {!eventItems.length ? (
-            <div className="scribble-border grid min-h-32 place-items-center px-6 py-10 text-center">
+            <div
+              className={cn(
+                'grid min-h-32 flex-1 place-items-center px-6 py-10 text-center',
+                'scribble-border',
+              )}
+              style={paginationMode ? { minHeight: safeRowHeight * visibleRows } : undefined}
+            >
               <span
                 className={getEventSuiteTextClassName(emptyStateStyle, 'black')}
                 style={getEventSuiteTextStyle(emptyStateStyle, {
@@ -531,6 +614,36 @@ export const EventListClient: React.FC<Props> = ({
             </div>
           ) : null}
         </div>
+        {paginationMode ? (
+          <nav
+            aria-label="Paginazione eventi"
+            className="event-list-cell-border event-list-pagination scribble-border vintage-surface"
+          >
+            <button
+              aria-label="Pagina precedente"
+              className="event-list-pagination-button"
+              disabled={currentPage <= 1 || isLoading}
+              onClick={() => void loadPage(currentPage - 1)}
+              type="button"
+            >
+              <ChevronLeft aria-hidden className="size-4" />
+              Precedente
+            </button>
+            <span aria-live="polite" className="event-list-pagination-status">
+              Pagina {currentPage} di {totalPages}
+            </span>
+            <button
+              aria-label="Pagina successiva"
+              className="event-list-pagination-button"
+              disabled={currentPage >= totalPages || isLoading}
+              onClick={() => void loadPage(currentPage + 1)}
+              type="button"
+            >
+              Successiva
+              <ChevronRight aria-hidden className="size-4" />
+            </button>
+          </nav>
+        ) : null}
       </div>
     </section>
   )

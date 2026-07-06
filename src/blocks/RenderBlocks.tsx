@@ -134,20 +134,16 @@ const getCmsEventPageParts = (
     return null
   }
 
-  const featuredBlock = leftColumn.blocks.find((child) => child?.blockType === 'featuredEvent')
   const filterBlock = leftColumn.blocks.find((child) => child?.blockType === 'eventFilters')
   const eventListBlock = leftColumn.blocks.find((child) => child?.blockType === 'eventList')
   const calendarBlock = rightColumn.blocks.find((child) => child?.blockType === 'eventCalendar')
 
-  if (!featuredBlock || !eventListBlock || !calendarBlock) return null
+  if (!filterBlock || !eventListBlock || !calendarBlock) return null
 
   return {
     calendarBlock,
     eventListBlock,
     filterBlock,
-    featuredBlock,
-    leftColumn,
-    rightColumn,
   }
 }
 
@@ -240,31 +236,53 @@ export const RenderBlocks: React.FC<{
               if (blockType === 'flexbox') {
                 const cmsEventPageParts = getCmsEventPageParts(block)
 
-                if (cmsEventPageParts?.filterBlock) {
-                  const FlexboxBlockToRender =
-                    blockComponents.flexbox as React.ComponentType<RenderableBlockProps>
+                if (cmsEventPageParts) {
+                  const EventFiltersBlockToRender =
+                    blockComponents.eventFilters as React.ComponentType<RenderableBlockProps>
+                  const EventListBlockToRender = blockComponents.eventList as unknown as React.ComponentType<
+                    RenderableBlockProps & { pageSize?: number; paginationMode?: boolean }
+                  >
+                  const EventCalendarBlockToRender =
+                    blockComponents.eventCalendar as React.ComponentType<RenderableBlockProps>
 
                   return (
                     <div
                       className={cn(
                         getBlockLayoutClasses(block.layout, blockWrapperClassName),
-                        'grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)]',
+                        'event-page-board grid min-w-0 grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,2.15fr)_minmax(18rem,0.85fr)] xl:items-stretch',
                         index === firstRenderableIndex && 'mt-0',
                         index === lastRenderableIndex && 'mb-0',
                       )}
                       key={index}
                     >
-                      <div className="min-w-0">
-                        <FlexboxBlockToRender
-                          {...cmsEventPageParts.leftColumn}
-                          disableInnerContainer
-                          isFirstPageBlock={index === firstRenderableIndex}
-                        />
+                      <div className="event-page-board__left flex min-w-0 flex-col gap-5 xl:h-full">
+                        <div
+                          className={cn(
+                            'm-0 min-w-0',
+                            cmsEventPageParts.filterBlock.layout?.scribbleBorder &&
+                              'scribble-border',
+                          )}
+                        >
+                          <EventFiltersBlockToRender
+                            {...cmsEventPageParts.filterBlock}
+                            disableInnerContainer
+                            isFirstPageBlock={index === firstRenderableIndex}
+                          />
+                        </div>
+                        <div className="event-page-board__list-frame m-0 min-w-0 xl:flex xl:flex-1">
+                          <EventListBlockToRender
+                            {...cmsEventPageParts.eventListBlock}
+                            disableInnerContainer
+                            isFirstPageBlock={false}
+                            pageSize={3}
+                            paginationMode
+                          />
+                        </div>
                       </div>
 
-                      <div className="min-w-0 xl:sticky xl:top-[calc(var(--header-height,92px)+1.25rem)]">
-                        <FlexboxBlockToRender
-                          {...cmsEventPageParts.rightColumn}
+                      <div className="event-page-board__right min-w-0 xl:h-full xl:sticky xl:top-[calc(var(--header-height,92px)+1.25rem)]">
+                        <EventCalendarBlockToRender
+                          {...cmsEventPageParts.calendarBlock}
                           disableInnerContainer
                           isFirstPageBlock={false}
                         />

@@ -1467,7 +1467,6 @@ export interface EventListBlock {
   headingBackgroundImage?: (number | null) | Media;
   eventLinkFallbackLabel: string;
   emptyStateLabel: string;
-  maxEvents?: number | null;
   rowHeight?: number | null;
   /**
    * Colore CSS opzionale. Lascia vuoto per non mostrare il divisore.
@@ -4637,7 +4636,6 @@ export interface EventListBlockSelect<T extends boolean = true> {
   headingBackgroundImage?: T;
   eventLinkFallbackLabel?: T;
   emptyStateLabel?: T;
-  maxEvents?: T;
   rowHeight?: T;
   dividerColor?: T;
   hdgStyle?:

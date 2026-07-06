@@ -10,47 +10,40 @@ export type EventListPage = {
   events: EventSuiteItem[]
   hasNextPage: boolean
   nextPage: number | null
+  totalPages: number
 }
 
 export const getEventListPage = async ({
   filters,
-  maxEvents,
   page,
+  pageSize = eventListPageSize,
 }: {
   filters?: EventFilterParams
-  maxEvents: number
   page: number
+  pageSize?: number
 }): Promise<EventListPage> => {
-  const safeMaxEvents = Math.max(Math.min(maxEvents || eventListPageSize, 100), 1)
   const safePage = Math.max(page || 1, 1)
-  const alreadyRequested = (safePage - 1) * eventListPageSize
-
-  if (alreadyRequested >= safeMaxEvents) {
-    return {
-      events: [],
-      hasNextPage: false,
-      nextPage: null,
-    }
-  }
+  const safePageSize = Math.max(Math.min(pageSize || eventListPageSize, 12), 1)
 
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
     collection: 'events',
     depth: 1,
-    limit: safeMaxEvents < eventListPageSize ? safeMaxEvents : eventListPageSize,
+    limit: safePageSize,
     page: safePage,
     select: eventSuiteSelect,
     sort: '-startsAt',
     where: buildEventWhere(filters, { futureOnlyWhenUnfiltered: true }),
   })
-  const remainingEvents = safeMaxEvents - alreadyRequested
-  const events = (result.docs as EventSuiteItem[]).slice(0, remainingEvents)
-  const canRequestMore = safePage * eventListPageSize < safeMaxEvents
+  const events = result.docs as EventSuiteItem[]
+  const totalPages = Math.max(Math.ceil(result.totalDocs / safePageSize), 1)
+  const hasNextPage = safePage < totalPages
 
   return {
     events,
-    hasNextPage: Boolean(result.hasNextPage && canRequestMore),
-    nextPage: result.hasNextPage && canRequestMore ? result.nextPage || safePage + 1 : null,
+    hasNextPage,
+    nextPage: hasNextPage ? safePage + 1 : null,
+    totalPages,
   }
 }

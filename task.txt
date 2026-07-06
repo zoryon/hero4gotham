@@ -1,15 +1,5 @@
 Task di modifica sito web
 
---- DA FAR PRESENTE
-Privacy e regolamento
-
-* Integrare nel Regolamento e nell’Informativa Privacy una clausola che specifichi che, accettando l’iscrizione, si autorizza anche l’utilizzo di foto e video realizzati durante gli eventi dell’associazione.
-* Eliminare l’opzione cliccabile separata relativa a foto e video, includendo tale consenso direttamente nell’accettazione del Regolamento e della Privacy.
-
-
-
--------------------------------------
-
 Form di richiesta
 
 * Aggiungere una sezione dedicata con:

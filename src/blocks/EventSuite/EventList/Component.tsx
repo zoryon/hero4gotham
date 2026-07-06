@@ -4,22 +4,20 @@ import { EventListClient } from '@/blocks/EventSuite/EventList/Component.client'
 import { getEventListPage } from '@/blocks/EventSuite/EventList/queries'
 import { unstable_cache } from 'next/cache'
 
-type Props = React.ComponentProps<typeof EventListClient> & {
-  maxEvents?: null | number
-}
+type Props = React.ComponentProps<typeof EventListClient>
 
 const getEvents = unstable_cache(
-  async (maxEvents: number) => getEventListPage({ maxEvents, page: 1 }),
-  ['event-list-upcoming-page-v2'],
+  async (pageSize: number) => getEventListPage({ page: 1, pageSize }),
+  ['event-list-upcoming-page-v3'],
   {
     revalidate: 300,
     tags: ['events'],
   },
 )
 
-export const EventListBlock = async ({ maxEvents = 30, ...props }: Props) => {
-  const limit = Math.min(Math.max(maxEvents || 30, 3), 100)
-  const initialPage = await getEvents(limit)
+export const EventListBlock = async ({ pageSize = 4, ...props }: Props) => {
+  const safePageSize = Math.max(Math.min(pageSize, 12), 1)
+  const initialPage = await getEvents(safePageSize)
 
   return (
     <EventListClient
@@ -27,7 +25,8 @@ export const EventListBlock = async ({ maxEvents = 30, ...props }: Props) => {
       events={initialPage.events}
       initialHasNextPage={initialPage.hasNextPage}
       initialNextPage={initialPage.nextPage}
-      maxEvents={limit}
+      initialTotalPages={initialPage.totalPages}
+      pageSize={safePageSize}
     />
   )
 }
