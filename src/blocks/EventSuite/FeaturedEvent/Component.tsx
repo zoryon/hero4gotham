@@ -103,13 +103,22 @@ export const FeaturedEventBlock = async ({
     eventSource === 'manual'
       ? await getManualFeaturedEvent(manualEvent)
       : await getNextFeaturedEvent()
-
-  if (!event) return null
-
-  const dateParts = formatEventDateParts(event.startsAt)
-  const displayImage = backgroundImage || getEventDisplayImage(event)
-  const eventPrimaryLink = getEventPrimaryLink(event)
-  const eventTypeLabel = getEventTypeLabel(event.activity)
+  const hasEvent = Boolean(event)
+  const dateParts = hasEvent ? formatEventDateParts(event.startsAt) : null
+  const displayImage = hasEvent ? backgroundImage || getEventDisplayImage(event) : backgroundImage
+  const eventPrimaryLink = hasEvent
+    ? getEventPrimaryLink(event)
+    : {
+        label: linkFallbackLabel || 'Vai agli eventi',
+        type: 'custom' as const,
+        url: '/eventi',
+      }
+  const eventTypeLabel = hasEvent ? getEventTypeLabel(event.activity) : null
+  const displayTitle = hasEvent ? event.title : 'Nessun evento imminente'
+  const displayDate = hasEvent && dateParts ? `${dateParts.day} ${dateParts.month} ${event.timeLabel || dateParts.time}` : 'Prossimamente'
+  const displayDescription = hasEvent
+    ? event.description
+    : 'Non ci sono eventi imminenti al momento. Torna a trovarci presto.'
 
   return (
     <aside
@@ -166,7 +175,7 @@ export const FeaturedEventBlock = async ({
               lineHeight: 0.95,
             })}
           >
-            {event.title}
+            {displayTitle}
           </h3>
           <div
             className={cn(getEventSuiteTextClassName(dtStyle, 'black'), 'mt-1')}
@@ -178,7 +187,7 @@ export const FeaturedEventBlock = async ({
               lineHeight: 1,
             })}
           >
-            {dateParts.day} {dateParts.month} {event.timeLabel || dateParts.time}
+            {displayDate}
           </div>
           {eventTypeLabel ? (
             <div
@@ -194,7 +203,7 @@ export const FeaturedEventBlock = async ({
               {eventTypeLabel}
             </div>
           ) : null}
-          {event.description ? (
+          {displayDescription ? (
             <p
               className={cn(getEventSuiteTextClassName(descStyle, 'regular'), 'line-clamp-3 block')}
               style={getEventSuiteTextStyle(descStyle, {
@@ -205,7 +214,7 @@ export const FeaturedEventBlock = async ({
                 lineHeight: 1.35,
               })}
             >
-              {event.description}
+              {displayDescription}
             </p>
           ) : null}
           <CMSLink
@@ -214,7 +223,7 @@ export const FeaturedEventBlock = async ({
               getEventSuiteTextClassName(lnkStyle, 'black'),
               'mt-1 inline-flex min-h-9 w-fit min-w-36 items-center justify-center bg-center bg-no-repeat px-7 py-2.5',
             )}
-            label="Scopri di più"
+            label={hasEvent ? 'Scopri di più' : 'Vai agli eventi'}
             style={{
               ...getEventSuiteTextStyle(lnkStyle, {
                 fontFamily: 'cinzel',
