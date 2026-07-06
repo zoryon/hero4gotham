@@ -241,7 +241,7 @@ export const EventListClient: React.FC<Props> = ({
 
   return (
     <section className="relative isolate w-full">
-      <div className="relative min-w-0 overflow-visible p-2">
+      <div className="relative min-w-0 overflow-visible">
         <div
           className="absolute left-5 top-2 z-30 inline-flex min-h-10 w-fit min-w-44 -translate-y-1/2 items-center justify-center bg-center bg-no-repeat px-7 py-3 md:min-h-11 md:px-8"
           style={{
@@ -515,7 +515,7 @@ export const EventListClient: React.FC<Props> = ({
             })}
           </div>
           {!eventItems.length ? (
-            <div className="scribble-border mx-1 grid min-h-32 place-items-center px-6 py-10 text-center">
+            <div className="scribble-border grid min-h-32 place-items-center px-6 py-10 text-center">
               <span
                 className={getEventSuiteTextClassName(emptyStateStyle, 'black')}
                 style={getEventSuiteTextStyle(emptyStateStyle, {
