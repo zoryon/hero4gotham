@@ -70,6 +70,15 @@ type EventListPageResponse = {
 const batchSize = 4
 const visibleRows = 3
 const borderBleed = 11
+const eventDescriptionMaxCharacters = 75
+
+const truncateEventDescription = (description: string) => {
+  const characters = Array.from(description)
+
+  if (characters.length <= eventDescriptionMaxCharacters) return description
+
+  return `${characters.slice(0, eventDescriptionMaxCharacters).join('').trimEnd()}...`
+}
 
 export const EventListClient: React.FC<Props> = ({
   ddyStyle,
@@ -103,6 +112,7 @@ export const EventListClient: React.FC<Props> = ({
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(initialTotalPages)
   const [hasScrolled, setHasScrolled] = useState(false)
+  const [paginationFrameHeight, setPaginationFrameHeight] = useState<null | number>(null)
   const { activityId, date, query, venue } = useEventFilters()
   const debouncedQuery = useDebounce(query, 250)
   const loadingPageRef = useRef(false)
@@ -290,6 +300,27 @@ export const EventListClient: React.FC<Props> = ({
     return () => observer.disconnect()
   }, [eventItems.length, hasNextPage, hasScrolled, isLoading, loadNextPage, paginationMode])
 
+  useEffect(() => {
+    const frame = scrollerRef.current
+
+    if (!paginationMode || !frame || eventItems.length < pageSize) return
+
+    const updatePaginationFrameHeight = () => {
+      const nextHeight = Math.ceil(frame.getBoundingClientRect().height)
+
+      setPaginationFrameHeight((currentHeight) =>
+        currentHeight === nextHeight ? currentHeight : nextHeight,
+      )
+    }
+
+    updatePaginationFrameHeight()
+
+    const observer = new ResizeObserver(updatePaginationFrameHeight)
+    observer.observe(frame)
+
+    return () => observer.disconnect()
+  }, [eventItems.length, pageSize, paginationMode])
+
   return (
     <section
       className={cn(
@@ -341,8 +372,8 @@ export const EventListClient: React.FC<Props> = ({
                     maxHeight: safeRowHeight * visibleRows + borderBleed * 2,
                     padding: borderBleed,
                   }
-                : paginationMode && eventItems.length
-                  ? { minHeight: safeRowHeight * visibleRows }
+                : paginationMode && eventItems.length > 0 && eventItems.length < pageSize
+                  ? { minHeight: paginationFrameHeight || safeRowHeight * visibleRows }
                   : undefined
             }
           >
@@ -357,7 +388,7 @@ export const EventListClient: React.FC<Props> = ({
 
                 return (
                   <article
-                    className="relative grid min-w-0 grid-cols-[5.1rem_minmax(0,1fr)] gap-0 py-0"
+                    className="relative grid min-w-0 grid-cols-[6rem_minmax(0,1fr)] gap-0 py-0"
                     key={event.id}
                     ref={
                       !paginationMode && index === penultimateEventIndex
@@ -512,7 +543,7 @@ export const EventListClient: React.FC<Props> = ({
                             lineHeight: 1.3,
                           })}
                         >
-                          {event.description}
+                          {truncateEventDescription(event.description)}
                         </p>
                       ) : null}
                       <div className="mt-4 flex min-w-0 flex-wrap items-center gap-x-10 gap-y-2">
@@ -559,7 +590,7 @@ export const EventListClient: React.FC<Props> = ({
                       </div>
                     </div>
 
-                    <div className="event-list-image-surface-fade relative hidden min-h-full overflow-hidden md:block">
+                    <div className="event-list-image-surface-fade relative hidden overflow-hidden md:block">
                       {displayImage && typeof displayImage === 'object' ? (
                         <Media
                           fill
