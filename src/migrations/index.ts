@@ -57,6 +57,7 @@ import * as migration_20260524_090000_activity_calendar_colors from './20260524_
 import * as migration_20260524_103000_event_proposal_cta_block from './20260524_103000_event_proposal_cta_block'
 import * as migration_20260707_120000_pin_event_and_remove_time_label from './20260707_120000_pin_event_and_remove_time_label'
 import * as migration_20260707_130000_event_gallery_album_cover from './20260707_130000_event_gallery_album_cover'
+import * as migration_20260707_140000_event_gallery_banner from './20260707_140000_event_gallery_banner'
 
 export const migrations = [
   {
@@ -353,5 +354,10 @@ export const migrations = [
     up: migration_20260707_130000_event_gallery_album_cover.up,
     down: migration_20260707_130000_event_gallery_album_cover.down,
     name: '20260707_130000_event_gallery_album_cover',
+  },
+  {
+    up: migration_20260707_140000_event_gallery_banner.up,
+    down: migration_20260707_140000_event_gallery_banner.down,
+    name: '20260707_140000_event_gallery_banner',
   },
 ]

@@ -105,6 +105,7 @@ export const EventGalleryClient: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [columnCount, setColumnCount] = useState(safeDesktopColumns)
   const [galleryWidth, setGalleryWidth] = useState(0)
+  const albumScrollPositionRef = useRef(0)
   const galleryRef = useRef<HTMLDivElement | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
   const { activityId, date, query, venue } = useEventFilters()
@@ -240,6 +241,7 @@ export const EventGalleryClient: React.FC<Props> = ({
   }, [activeFilters, fetchAlbumPage])
 
   const openAlbum = async (album: EventGalleryAlbum) => {
+    albumScrollPositionRef.current = window.scrollY
     setSelectedAlbum(album)
     setPhotoItems([])
     setPhotoHasNextPage(false)
@@ -263,6 +265,19 @@ export const EventGalleryClient: React.FC<Props> = ({
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const returnToEvents = () => {
+    setSelectedAlbum(null)
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        window.scrollTo({
+          behavior: 'smooth',
+          top: albumScrollPositionRef.current,
+        })
+      })
+    })
   }
 
   const loadNextPage = async () => {
@@ -340,7 +355,7 @@ export const EventGalleryClient: React.FC<Props> = ({
               getEventSuiteTextClassName(btnStyle, 'black'),
               'inline-flex min-h-12 cursor-pointer items-center justify-center bg-center bg-no-repeat px-8 py-4',
             )}
-            onClick={() => setSelectedAlbum(null)}
+            onClick={returnToEvents}
             style={buttonStyle}
             type="button"
           >

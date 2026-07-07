@@ -31,7 +31,6 @@ export const Events: CollectionConfig<'events'> = {
     title: true,
     timeline: true,
     audience: true,
-    banner: true,
     usefulInfo: true,
     venue: true,
     venueAddress: true,
@@ -82,18 +81,26 @@ export const Events: CollectionConfig<'events'> = {
       required: true,
       admin: {
         description:
-          "Foto dell'evento. Aggiungi almeno una foto e, se vuoi, scegline una come copertina dell'album. Se non selezioni una copertina, verrà usata la prima foto.",
+          "Foto dell'evento. Puoi scegliere una copertina per l'album e un banner per la pagina evento. Se non selezioni una copertina o un banner, verrà usata la prima foto.",
         initCollapsed: true,
       },
       validate: (value) => {
         if (!Array.isArray(value)) return true
 
-        return value.filter(
+        const coverCount = value.filter(
           (photo) =>
             photo && typeof photo === 'object' && 'isCover' in photo && photo.isCover === true,
-        ).length <= 1
-          ? true
-          : "Puoi selezionare una sola foto come copertina dell'album."
+        ).length
+        const bannerCount = value.filter(
+          (photo) =>
+            photo && typeof photo === 'object' && 'isBanner' in photo && photo.isBanner === true,
+        ).length
+
+        if (coverCount > 1) return "Puoi selezionare una sola foto come copertina dell'album."
+        if (bannerCount > 1)
+          return 'Puoi selezionare una sola foto come banner della pagina evento.'
+
+        return true
       },
       fields: [
         {
@@ -117,7 +124,20 @@ export const Events: CollectionConfig<'events'> = {
             description:
               'Facoltativa. Selezionando questa foto, ogni altra copertina scelta verrà deselezionata automaticamente.',
             components: {
-              Field: '@/components/AlbumCoverField#AlbumCoverField',
+              Field: '@/components/ExclusiveGalleryCheckboxField#ExclusiveGalleryCheckboxField',
+            },
+          },
+        },
+        {
+          name: 'isBanner',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Usa come banner della pagina evento',
+          admin: {
+            description:
+              'Facoltativo. Selezionando questa foto, ogni altro banner scelto verrà deselezionato automaticamente. La copertina dell’album non verrà modificata.',
+            components: {
+              Field: '@/components/ExclusiveGalleryCheckboxField#ExclusiveGalleryCheckboxField',
             },
           },
         },
@@ -126,16 +146,6 @@ export const Events: CollectionConfig<'events'> = {
         plural: 'Foto',
         singular: 'Foto',
       },
-    },
-    {
-      name: 'banner',
-      type: 'upload',
-      admin: {
-        description:
-          'Optional special banner used on the generated event detail page, between the hero text and event info bar.',
-      },
-      label: 'Banner',
-      relationTo: 'media',
     },
     {
       type: 'collapsible',

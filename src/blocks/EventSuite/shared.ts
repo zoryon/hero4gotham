@@ -83,13 +83,13 @@ export type EventSuiteItem = {
     | number
     | null
   audience?: null | string
-  banner?: EventSuiteMedia | number | null
   description?: null | string
   gallery?:
     | {
         caption?: null | string
         id?: null | string
         image?: EventSuiteMedia | number | null
+        isBanner?: boolean | null
         isCover?: boolean | null
       }[]
     | null
@@ -105,11 +105,11 @@ export type EventSuiteItem = {
 export const eventSuiteSelect = {
   activity: true,
   audience: true,
-  banner: true,
   description: true,
   gallery: {
     caption: true,
     image: true,
+    isBanner: true,
     isCover: true,
   },
   startsAt: true,

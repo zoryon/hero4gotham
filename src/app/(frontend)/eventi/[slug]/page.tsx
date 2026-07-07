@@ -64,6 +64,20 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     (item) => item.firstName || item.lastName,
   )
   const usefulInfoItems = (event.usefulInfo || []).filter((item) => item.title || item.description)
+  const selectedBannerGalleryItem = event.gallery.find(
+    (item) => item.isBanner && typeof item.image === 'object',
+  )
+  const bannerGalleryItem =
+    selectedBannerGalleryItem || event.gallery.find((item) => typeof item.image === 'object')
+  const bannerGalleryItemIndex = bannerGalleryItem ? event.gallery.indexOf(bannerGalleryItem) : -1
+  const bannerGalleryItemId =
+    bannerGalleryItem && typeof bannerGalleryItem.image === 'object'
+      ? bannerGalleryItem.id || `${bannerGalleryItem.image.id}-${bannerGalleryItemIndex}`
+      : null
+  const bannerImage =
+    bannerGalleryItem && typeof bannerGalleryItem.image === 'object'
+      ? bannerGalleryItem.image
+      : null
   const galleryImages = event.gallery.flatMap((item, index): EventDetailGalleryPhoto[] =>
     typeof item.image === 'object'
       ? [
@@ -75,8 +89,9 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         ]
       : [],
   )
-  const galleryPreviewImages = galleryImages.slice(1)
-  const fallbackBannerImage = galleryImages[0]?.image
+  const galleryPreviewImages = bannerGalleryItemId
+    ? galleryImages.filter((item) => item.id !== bannerGalleryItemId)
+    : galleryImages.slice(1)
   const visibleRelatedEvents = relatedEvents.filter((relatedEvent) => relatedEvent.slug)
 
   return (
@@ -115,28 +130,22 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         <div className="container pb-16 pt-2">
           <section className="event-detail-banner scribble-border mb-5 md:mb-6">
             <div className="relative aspect-[16/7] min-h-[10rem] md:aspect-[21/6] md:min-h-0">
-              {event.banner && typeof event.banner === 'object' ? (
-                <Media
-                  fill
-                  imgClassName="object-cover object-center"
-                  pictureClassName="absolute inset-0"
-                  priority
-                  resource={event.banner}
-                  size="(max-width: 1536px) calc(100vw - 2rem), 1312px"
-                />
-              ) : fallbackBannerImage ? (
+              {bannerImage ? (
                 <>
                   <Media
                     fill
                     imgClassName="object-cover object-center"
                     pictureClassName="absolute inset-0"
-                    resource={fallbackBannerImage}
+                    priority
+                    resource={bannerImage}
                     size="(max-width: 1536px) calc(100vw - 2rem), 1312px"
                   />
-                  <div
-                    aria-hidden
-                    className="event-detail-banner__fallback-shade absolute inset-0"
-                  />
+                  {!selectedBannerGalleryItem ? (
+                    <div
+                      aria-hidden
+                      className="event-detail-banner__fallback-shade absolute inset-0"
+                    />
+                  ) : null}
                 </>
               ) : (
                 <div className="event-detail-banner__placeholder absolute inset-0" />

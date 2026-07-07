@@ -1938,7 +1938,7 @@ export interface Event {
   activity?: (number | null) | Activity;
   startsAt: string;
   /**
-   * Foto dell'evento. Aggiungi almeno una foto e, se vuoi, scegline una come copertina dell'album. Se non selezioni una copertina, verrà usata la prima foto.
+   * Foto dell'evento. Puoi scegliere una copertina per l'album e un banner per la pagina evento. Se non selezioni una copertina o un banner, verrà usata la prima foto.
    */
   gallery: {
     image: number | Media;
@@ -1947,12 +1947,12 @@ export interface Event {
      * Facoltativa. Selezionando questa foto, ogni altra copertina scelta verrà deselezionata automaticamente.
      */
     isCover?: boolean | null;
+    /**
+     * Facoltativo. Selezionando questa foto, ogni altro banner scelto verrà deselezionato automaticamente. La copertina dell’album non verrà modificata.
+     */
+    isBanner?: boolean | null;
     id?: string | null;
   }[];
-  /**
-   * Banner speciale opzionale usato nella pagina dettaglio evento, tra testo hero e barra informazioni evento.
-   */
-  banner?: (number | null) | Media;
   backgroundImage?: (number | null) | Media;
   /**
    * Opzionale. Se vuoto usa l'immagine desktop.
@@ -6207,9 +6207,9 @@ export interface EventsSelect<T extends boolean = true> {
         image?: T;
         caption?: T;
         isCover?: T;
+        isBanner?: T;
         id?: T;
       };
-  banner?: T;
   backgroundImage?: T;
   bgTab?: T;
   bgMob?: T;

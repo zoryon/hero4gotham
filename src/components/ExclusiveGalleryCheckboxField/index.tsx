@@ -7,7 +7,7 @@ import { useCallback } from 'react'
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
-export const AlbumCoverField: CheckboxFieldClientComponent = (props) => {
+export const ExclusiveGalleryCheckboxField: CheckboxFieldClientComponent = (props) => {
   const [fields, dispatchFields] = useAllFormFields()
   const { onChange, path } = props
 
@@ -18,12 +18,18 @@ export const AlbumCoverField: CheckboxFieldClientComponent = (props) => {
       if (!isSelected) return
 
       const pathParts = path.split('.')
+      const fieldName = pathParts.at(-1)
       pathParts.splice(-2)
       const galleryPath = pathParts.join('.')
-      const coverPathPattern = new RegExp(`^${escapeRegExp(galleryPath)}\\.\\d+\\.isCover$`)
+
+      if (!fieldName) return
+
+      const fieldPathPattern = new RegExp(
+        `^${escapeRegExp(galleryPath)}\\.\\d+\\.${escapeRegExp(fieldName)}$`,
+      )
 
       Object.keys(fields).forEach((fieldPath) => {
-        if (fieldPath === path || !coverPathPattern.test(fieldPath)) return
+        if (fieldPath === path || !fieldPathPattern.test(fieldPath)) return
         if (fields[fieldPath]?.value !== true) return
 
         dispatchFields({
