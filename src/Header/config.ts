@@ -1,4 +1,4 @@
-import type { Field, GlobalConfig } from 'payload'
+import type { GlobalConfig, GroupField } from 'payload'
 
 import {
   typographyFontFamilyOptions,
@@ -8,7 +8,12 @@ import {
 import { textTransformOptions } from '@/fields/uiOptions'
 import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import {
+  adminFieldOnly,
+  adminOrEventsManager,
+  adminOrEventsManagerField,
+  hideFromNonAdminOrEventsManagers,
+} from '@/access/roles'
 
 const socialPlatformOptions = [
   {
@@ -41,7 +46,7 @@ const headerTypographyField = (
     textTransform: string
     verticalScale: string
   },
-): Field => ({
+): GroupField => ({
   name,
   type: 'group',
   label,
@@ -138,10 +143,10 @@ export const Header: GlobalConfig = {
   slug: 'header',
   access: {
     read: () => true,
-    update: adminOnly,
+    update: adminOrEventsManager,
   },
   admin: {
-    hidden: hideFromNonAdmins,
+    hidden: hideFromNonAdminOrEventsManagers,
   },
   fields: [
     {
@@ -155,6 +160,9 @@ export const Header: GlobalConfig = {
               type: 'upload',
               relationTo: 'media',
               label: 'Logo mark',
+              access: {
+                update: adminFieldOnly,
+              },
             },
             // {
             //   type: 'row',
@@ -190,6 +198,9 @@ export const Header: GlobalConfig = {
             {
               name: 'navItems',
               type: 'array',
+              access: {
+                update: adminFieldOnly,
+              },
               fields: [
                 link({
                   appearances: false,
@@ -211,6 +222,9 @@ export const Header: GlobalConfig = {
             {
               name: 'socialItems',
               type: 'array',
+              access: {
+                update: adminOrEventsManagerField,
+              },
               maxRows: 6,
               admin: {
                 initCollapsed: true,
@@ -261,6 +275,9 @@ export const Header: GlobalConfig = {
                 {
                   name: 'textColor',
                   type: 'text',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: '#f4f0dc',
                   admin: {
                     width: '33%',
@@ -269,6 +286,9 @@ export const Header: GlobalConfig = {
                 {
                   name: 'accentColor',
                   type: 'text',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: '#a6bd17',
                   admin: {
                     width: '33%',
@@ -277,6 +297,9 @@ export const Header: GlobalConfig = {
                 {
                   name: 'backgroundColor',
                   type: 'text',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: 'transparent',
                   admin: {
                     width: '34%',
@@ -290,6 +313,9 @@ export const Header: GlobalConfig = {
                 {
                   name: 'maxWidth',
                   type: 'number',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: 1240,
                   min: 320,
                   max: 2200,
@@ -300,6 +326,9 @@ export const Header: GlobalConfig = {
                 {
                   name: 'height',
                   type: 'number',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: 92,
                   min: 56,
                   max: 180,
@@ -310,6 +339,9 @@ export const Header: GlobalConfig = {
                 {
                   name: 'logoWidth',
                   type: 'number',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: 82,
                   min: 24,
                   max: 220,
@@ -351,24 +383,34 @@ export const Header: GlobalConfig = {
             //   textTransform: 'uppercase',
             //   verticalScale: 'normal',
             // }),
-            headerTypographyField('navTypography', 'Navigation typography', {
-              fontFamily: 'cinzel',
-              fontSize: 14,
-              fontWeight: 'black',
-              letterSpacing: 0.03,
-              lineHeight: 1,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }),
-            headerTypographyField('socialTypography', 'Social icon/text typography', {
-              fontFamily: 'sans',
-              fontSize: 18,
-              fontWeight: 'black',
-              letterSpacing: 0,
-              lineHeight: 1,
-              textTransform: 'normal',
-              verticalScale: 'normal',
-            }),
+            {
+              ...headerTypographyField('navTypography', 'Navigation typography', {
+                fontFamily: 'cinzel',
+                fontSize: 14,
+                fontWeight: 'black',
+                letterSpacing: 0.03,
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                verticalScale: 'normal',
+              }),
+              access: {
+                update: adminFieldOnly,
+              },
+            },
+            {
+              ...headerTypographyField('socialTypography', 'Social icon/text typography', {
+                fontFamily: 'sans',
+                fontSize: 18,
+                fontWeight: 'black',
+                letterSpacing: 0,
+                lineHeight: 1,
+                textTransform: 'normal',
+                verticalScale: 'normal',
+              }),
+              access: {
+                update: adminFieldOnly,
+              },
+            },
           ],
         },
       ],

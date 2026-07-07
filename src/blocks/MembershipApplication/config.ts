@@ -148,12 +148,6 @@ export const MembershipApplication: Block = {
           ],
         },
         {
-          name: 'ibanLabel',
-          type: 'text',
-          defaultValue: 'IBAN / Coordinate bancarie *',
-          required: true,
-        },
-        {
           name: 'requestTypeLabel',
           type: 'text',
           defaultValue: 'Tipo di richiesta *',

@@ -1,6 +1,11 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import {
+  adminFieldOnly,
+  adminOrEventsManager,
+  adminOrEventsManagerField,
+  hideFromNonAdminOrEventsManagers,
+} from '@/access/roles'
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
@@ -8,10 +13,10 @@ export const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
     read: () => true,
-    update: adminOnly,
+    update: adminOrEventsManager,
   },
   admin: {
-    hidden: hideFromNonAdmins,
+    hidden: hideFromNonAdminOrEventsManagers,
   },
   fields: [
     {
@@ -26,6 +31,9 @@ export const Footer: GlobalConfig = {
                 {
                   name: 'eyebrow',
                   type: 'text',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: 'ASSOCIAZIONE CULTURALE',
                   admin: {
                     width: '50%',
@@ -34,6 +42,9 @@ export const Footer: GlobalConfig = {
                 {
                   name: 'brandName',
                   type: 'text',
+                  access: {
+                    update: adminFieldOnly,
+                  },
                   defaultValue: 'IL SORRISO STORTO',
                   required: true,
                   admin: {
@@ -45,12 +56,18 @@ export const Footer: GlobalConfig = {
             {
               name: 'description',
               type: 'textarea',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue:
                 'Un luogo storto al punto giusto per arte, incontri, giochi e idee fuori asse.',
             },
             {
               name: 'legalNote',
               type: 'text',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue: 'Associazione culturale. Tutti i diritti riservati.',
             },
           ],
@@ -61,6 +78,9 @@ export const Footer: GlobalConfig = {
             {
               name: 'navItems',
               type: 'array',
+              access: {
+                update: adminOrEventsManagerField,
+              },
               fields: [
                 link({
                   appearances: false,
@@ -85,6 +105,9 @@ export const Footer: GlobalConfig = {
             {
               name: 'legalLinks',
               type: 'array',
+              access: {
+                update: adminOrEventsManagerField,
+              },
               fields: [
                 link({
                   appearances: false,

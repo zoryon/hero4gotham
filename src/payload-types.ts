@@ -2592,7 +2592,6 @@ export interface MembershipApplicationBlock {
   residenceAddressLabel: string;
   emailLabel: string;
   phoneLabel: string;
-  ibanLabel: string;
   requestTypeLabel: string;
   motivationLabel: string;
   interestAreasLabel: string;
@@ -5565,7 +5564,6 @@ export interface MembershipApplicationBlockSelect<T extends boolean = true> {
   residenceAddressLabel?: T;
   emailLabel?: T;
   phoneLabel?: T;
-  ibanLabel?: T;
   requestTypeLabel?: T;
   motivationLabel?: T;
   interestAreasLabel?: T;

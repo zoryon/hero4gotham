@@ -47,7 +47,6 @@ type Props = {
   heading?: null | string
   headingBackgroundImage?: EventSuiteMedia | number | null
   headingStyle?: EventSuiteTextStyle | null
-  ibanLabel?: null | string
   interestAreasLabel?: null | string
   introStyle?: EventSuiteTextStyle | null
   introText?: null | string
@@ -110,7 +109,6 @@ const initialFormState = {
   birthPlace: '',
   email: '',
   firstName: '',
-  iban: '',
   interestAreas: '',
   lastName: '',
   motivation: '',
@@ -153,7 +151,6 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   heading = "Domanda di ammissione all'associazione",
   headingBackgroundImage,
   headingStyle,
-  ibanLabel = 'IBAN / Coordinate bancarie *',
   interestAreasLabel = 'Aree di interesse *',
   introStyle,
   introText = 'Compila la candidatura con i tuoi dati. Ti ricontatteremo dopo averla ricevuta.',
@@ -769,15 +766,6 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     label: requiredLabel(phoneLabel, 'Telefono'),
                     name: 'phone',
                     type: 'tel',
-                  })}
-                  {renderTextField({
-                    autoComplete: 'off',
-                    inputMode: 'text',
-                    label: requiredLabel(ibanLabel, 'IBAN / Coordinate bancarie'),
-                    maxLength: 42,
-                    name: 'iban',
-                    pattern: '[A-Za-z]{2}[0-9]{2}[A-Za-z0-9 ]{11,38}',
-                    spellCheck: false,
                   })}
                   {renderIdentityUploads()}
                 </div>

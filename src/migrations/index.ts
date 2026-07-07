@@ -61,6 +61,7 @@ import * as migration_20260707_140000_event_gallery_banner from './20260707_1400
 import * as migration_20260707_150000_membership_application_iban from './20260707_150000_membership_application_iban'
 import * as migration_20260707_160000_cms_variables from './20260707_160000_cms_variables'
 import * as migration_20260707_170000_protected_media_folders from './20260707_170000_protected_media_folders'
+import * as migration_20260707_180000_remove_membership_application_iban from './20260707_180000_remove_membership_application_iban'
 
 export const migrations = [
   {
@@ -377,5 +378,10 @@ export const migrations = [
     up: migration_20260707_170000_protected_media_folders.up,
     down: migration_20260707_170000_protected_media_folders.down,
     name: '20260707_170000_protected_media_folders',
+  },
+  {
+    up: migration_20260707_180000_remove_membership_application_iban.up,
+    down: migration_20260707_180000_remove_membership_application_iban.down,
+    name: '20260707_180000_remove_membership_application_iban',
   },
 ]

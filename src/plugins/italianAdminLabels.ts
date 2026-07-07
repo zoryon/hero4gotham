@@ -69,7 +69,6 @@ const entityLabels: Record<string, EntityLabels> = {
 const fieldNameTranslations: Record<string, string> = {
   alt: 'Testo alternativo',
   applicationTitle: 'Titolo candidatura',
-  ibanLabel: 'Etichetta IBAN / coordinate bancarie',
   artistsAndGuests: 'Artisti e ospiti',
   audience: 'Pubblico',
   authors: 'Autori',

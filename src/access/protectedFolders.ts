@@ -15,6 +15,7 @@ type FolderRecord = {
 }
 
 const protectedFolderIDsContextKey = 'protectedFolderIDsForEventsManagers'
+const protectedMediaIDsContextKey = 'protectedMediaIDsForEventsManagers'
 
 const getRole = (user: unknown): AppRole => {
   if (!user || typeof user !== 'object' || !('role' in user)) return null
@@ -90,20 +91,45 @@ const folderIsNotProtected = (protectedIDs: (number | string)[]): Where => ({
   },
 })
 
-const mediaIsNotInProtectedFolder = (protectedIDs: (number | string)[]): Where => ({
-  or: [
-    {
-      folder: {
-        exists: false,
+const getProtectedMediaIDs = async (
+  req: PayloadRequest,
+  protectedFolderIDs: (number | string)[],
+): Promise<(number | string)[]> => {
+  const context = req.context as Record<string, unknown>
+  const cached = context[protectedMediaIDsContextKey]
+
+  if (cached instanceof Promise) return cached as Promise<(number | string)[]>
+  if (Array.isArray(cached)) return cached as (number | string)[]
+
+  const query = (async () => {
+    const result = await req.payload.find({
+      collection: 'media',
+      depth: 0,
+      overrideAccess: true,
+      pagination: false,
+      req,
+      where: {
+        folder: {
+          in: protectedFolderIDs,
+        },
       },
-    },
-    {
-      folder: {
-        not_in: protectedIDs,
-      },
-    },
-  ],
-})
+    })
+    const ids = result.docs.map((media) => media.id)
+    context[protectedMediaIDsContextKey] = ids
+    return ids
+  })()
+
+  context[protectedMediaIDsContextKey] = query
+  return query
+}
+
+const mediaIsVisibleToCurrentUser = async (req: PayloadRequest): Promise<Where | true> => {
+  const protectedFolderIDs = await getProtectedFolderIDs(req)
+  if (!protectedFolderIDs.length) return true
+
+  const protectedMediaIDs = await getProtectedMediaIDs(req, protectedFolderIDs)
+  return protectedMediaIDs.length ? folderIsNotProtected(protectedMediaIDs) : true
+}
 
 export const foldersVisibleToCurrentUser: Access = async ({ req }) => {
   const role = getRole(req.user)
@@ -118,8 +144,7 @@ export const mediaVisibleToCurrentUser: Access = async ({ req }) => {
   const role = getRole(req.user)
   if (role !== 'eventsManager') return true
 
-  const protectedIDs = await getProtectedFolderIDs(req)
-  return protectedIDs.length ? mediaIsNotInProtectedFolder(protectedIDs) : true
+  return mediaIsVisibleToCurrentUser(req)
 }
 
 export const mediaEditableByCurrentUser: Access = async ({ req }) => {
@@ -127,8 +152,7 @@ export const mediaEditableByCurrentUser: Access = async ({ req }) => {
   if (role === 'admin') return true
   if (role !== 'eventsManager') return false
 
-  const protectedIDs = await getProtectedFolderIDs(req)
-  return protectedIDs.length ? mediaIsNotInProtectedFolder(protectedIDs) : true
+  return mediaIsVisibleToCurrentUser(req)
 }
 
 export const protectedFolderFieldAccess: FieldAccess = ({ req }) => getRole(req.user) === 'admin'

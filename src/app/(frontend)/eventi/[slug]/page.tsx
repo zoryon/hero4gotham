@@ -6,7 +6,6 @@ import { SiteBackgroundFrame } from '@/SiteBackground/Component'
 import type { Event as EventDocument, Media as MediaDocument } from '@/payload-types'
 import {
   formatEventDateParts,
-  getEventDisplayImage,
   getEventTypeLabel,
 } from '@/blocks/EventSuite/shared'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
@@ -14,10 +13,9 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
-import { ArrowLeft, ArrowRight, CalendarDays, Clock, Info, MapPin, UsersRound } from 'lucide-react'
+import { ArrowLeft, CalendarDays, Clock, Info, MapPin, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { cache, type ReactNode } from 'react'
-import { EventDetailGallery, type EventDetailGalleryPhoto } from './EventDetailGallery.client'
 import { getPayload } from 'payload'
 
 export async function generateStaticParams() {
@@ -49,10 +47,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
   if (!event) return <PayloadRedirects url={url} />
 
-  const [siteBackground, relatedEvents] = await Promise.all([
-    getCachedGlobal('siteBackground', 1)().catch(() => null),
-    queryRelatedEvents({ eventId: event.id }),
-  ])
+  const siteBackground = await getCachedGlobal('siteBackground', 1)().catch(() => null)
   const dateParts = formatEventDateParts(event.startsAt)
   const fullMonth = new Intl.DateTimeFormat('it-IT', { month: 'long' })
     .format(new Date(event.startsAt))
@@ -69,30 +64,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
   )
   const bannerGalleryItem =
     selectedBannerGalleryItem || event.gallery.find((item) => typeof item.image === 'object')
-  const bannerGalleryItemIndex = bannerGalleryItem ? event.gallery.indexOf(bannerGalleryItem) : -1
-  const bannerGalleryItemId =
-    bannerGalleryItem && typeof bannerGalleryItem.image === 'object'
-      ? bannerGalleryItem.id || `${bannerGalleryItem.image.id}-${bannerGalleryItemIndex}`
-      : null
   const bannerImage =
     bannerGalleryItem && typeof bannerGalleryItem.image === 'object'
       ? bannerGalleryItem.image
       : null
-  const galleryImages = event.gallery.flatMap((item, index): EventDetailGalleryPhoto[] =>
-    typeof item.image === 'object'
-      ? [
-          {
-            caption: item.caption,
-            id: item.id || `${item.image.id}-${index}`,
-            image: item.image,
-          },
-        ]
-      : [],
-  )
-  const galleryPreviewImages = bannerGalleryItemId
-    ? galleryImages.filter((item) => item.id !== bannerGalleryItemId)
-    : galleryImages.slice(1)
-  const visibleRelatedEvents = relatedEvents.filter((relatedEvent) => relatedEvent.slug)
 
   return (
     <article>
@@ -277,31 +252,6 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             </section>
           ) : null}
 
-          {galleryPreviewImages.length > 0 ? (
-            <section className="mt-12">
-              <h2 className="font-rye-western text-2xl uppercase text-[var(--theme-text-green)]">
-                Galleria
-              </h2>
-              <div className="mt-6">
-                <EventDetailGallery photos={galleryPreviewImages} />
-              </div>
-            </section>
-          ) : null}
-
-          {visibleRelatedEvents.length > 0 ? (
-            <section className="event-detail-section mt-16">
-              <SectionHeading
-                eyebrow="Continua a curiosare"
-                title="Altri eventi"
-                titleClassName="font-rye-western text-[var(--theme-text-green)]"
-              />
-              <div className="mt-6 grid max-w-5xl gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {visibleRelatedEvents.map((relatedEvent) => (
-                  <RelatedEventCard event={relatedEvent} key={relatedEvent.id} />
-                ))}
-              </div>
-            </section>
-          ) : null}
         </div>
       </SiteBackgroundFrame>
     </article>
@@ -353,26 +303,6 @@ const queryEventBySlug = cache(async ({ slug }: { slug: string }) => {
   })
 
   return result.docs?.[0] || null
-})
-
-const queryRelatedEvents = cache(async ({ eventId }: { eventId: number }) => {
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'events',
-    depth: 1,
-    limit: 3,
-    overrideAccess: false,
-    pagination: false,
-    sort: '-startsAt',
-    where: {
-      id: {
-        not_equals: eventId,
-      },
-    },
-  })
-
-  return (result.docs as EventDocument[]) || []
 })
 
 const getAbsoluteMediaUrl = (image: MediaDocument) => {
@@ -451,61 +381,6 @@ const UsefulInfoIcon = ({ icon }: { icon?: EventUsefulInfoItem['icon'] }) => (
     )}
   </span>
 )
-
-const RelatedEventCard = ({ event }: { event: EventDocument }) => {
-  const dateParts = formatEventDateParts(event.startsAt)
-  const displayImage = getEventDisplayImage(event)
-  const eventTypeLabel = getEventTypeLabel(event.activity)
-  const href = event.slug ? `/eventi/${encodeURIComponent(event.slug)}` : '/eventi'
-
-  return (
-    <article className="event-detail-related-card scribble-border vintage-surface min-w-0">
-      <Link
-        aria-label={`Apri evento ${event.title}`}
-        className="event-detail-related-card__media relative block aspect-[16/9] overflow-hidden"
-        href={href}
-      >
-        {displayImage && typeof displayImage === 'object' ? (
-          <Media
-            fill
-            imgClassName="object-cover object-center transition duration-300 hover:scale-[1.03]"
-            pictureClassName="event-detail-related-card__picture absolute inset-0"
-            resource={displayImage}
-            size="(max-width: 767px) 100vw, 22rem"
-          />
-        ) : null}
-      </Link>
-      <div className="grid gap-2.5 px-4 py-4">
-        <div className="font-rye-western flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.6rem] uppercase leading-none">
-          <span className="text-[var(--theme-text-green)]">
-            {dateParts.day} {dateParts.month} {dateParts.time}
-          </span>
-          {eventTypeLabel ? (
-            <span className="text-[var(--theme-text-purple)]">{eventTypeLabel}</span>
-          ) : null}
-        </div>
-        <h3 className="font-rye-western text-lg uppercase leading-[0.95] text-[var(--theme-text-secondary)]">
-          {event.title}
-        </h3>
-        {event.description ? (
-          <p className="line-clamp-2 text-xs font-medium leading-5 text-[var(--theme-text-primary)]">
-            {event.description}
-          </p>
-        ) : null}
-        <Link
-          className={cn(
-            'mt-1 inline-flex w-fit items-center gap-2 font-cinzel text-xs font-black uppercase leading-none text-[var(--theme-text-green)]',
-            'underline decoration-[var(--theme-text-green)]/55 underline-offset-4 transition hover:text-[var(--theme-text-accent)]',
-          )}
-          href={href}
-        >
-          Scopri evento
-          <ArrowRight aria-hidden className="h-4 w-4" />
-        </Link>
-      </div>
-    </article>
-  )
-}
 
 const EventInfoItem = ({
   icon,
