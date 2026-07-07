@@ -59,7 +59,7 @@ const activitySelect = {
 const containerWidthClasses = {
   contained: 'container',
   full: 'w-full',
-  wide: 'mx-auto w-full max-w-[92rem] px-4 md:px-8',
+  wide: 'mx-auto w-full max-w-[84rem] px-4 md:px-8',
 }
 
 const getMedia = (media: MediaDocument | number | null | undefined) =>
@@ -578,21 +578,13 @@ export const ActivitiesDetailGridBlock = async ({
 
   if (!cards.length) return null
   const headingImage = getMedia(headingBannerImage)
-  const hasFeaturedRow = cards.length > 1 && desktopColumns >= 2
-  const featuredCards = hasFeaturedRow ? cards.slice(0, 2) : []
-  const gridCards = hasFeaturedRow ? cards.slice(2) : cards
-  const renderedMobileRows = hasFeaturedRow
-    ? getRowsForCardCount(gridCards.length, mobileColumns)
-    : mobileRows
-  const renderedTabletRows = hasFeaturedRow
-    ? getRowsForCardCount(gridCards.length, tabletColumns)
-    : tabletRows
-  const renderedLaptopRows = hasFeaturedRow
-    ? getRowsForCardCount(gridCards.length, laptopColumns)
-    : laptopRows
-  const renderedDesktopRows = hasFeaturedRow
-    ? getRowsForCardCount(gridCards.length, desktopColumns)
-    : desktopRows
+  const cardRows = Array.from({ length: Math.ceil(cards.length / 2) }, (_, rowIndex) =>
+    cards.slice(rowIndex * 2, rowIndex * 2 + 2),
+  )
+  const renderedMobileRows = getRowsForCardCount(cards.length, mobileColumns)
+  const renderedTabletRows = getRowsForCardCount(cards.length, tabletColumns)
+  const renderedLaptopRows = getRowsForCardCount(cards.length, laptopColumns)
+  const renderedDesktopRows = getRowsForCardCount(cards.length, desktopColumns)
   const renderCard = (activity: ActivityCardData, index: number) => (
     <ActivityCard
       activity={activity}
@@ -670,19 +662,26 @@ export const ActivitiesDetailGridBlock = async ({
           } as React.CSSProperties
         }
       >
-        {featuredCards.length ? (
-          <div className="activity-detail-feature-row">
-            {featuredCards.map((activity, index) => renderCard(activity, index))}
-          </div>
-        ) : null}
+        {cardRows.map((rowCards, rowIndex) => {
+          const isOddRow = rowIndex % 2 === 0
+          const useFeaturedLayout = isOddRow && rowCards.length > 1 && desktopColumns >= 2
 
-        {gridCards.length ? (
-          <div className="activity-detail-grid grid">
-            {gridCards.map((activity, index) =>
-              renderCard(activity, index + featuredCards.length),
-            )}
-          </div>
-        ) : null}
+          return (
+            <div
+              className={
+                useFeaturedLayout
+                  ? 'activity-detail-feature-row'
+                  : 'activity-detail-grid grid'
+              }
+              key={`activity-row-${rowIndex}`}
+              style={{ gridTemplateRows: 'none' }}
+            >
+              {rowCards.map((activity, cardIndex) =>
+                renderCard(activity, rowIndex * 2 + cardIndex),
+              )}
+            </div>
+          )
+        })}
       </div>
     </section>
   )
