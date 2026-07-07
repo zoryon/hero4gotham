@@ -24,7 +24,7 @@ export const EventGalleryBlock = async ({ photosPerPage = 9, ...props }: Props) 
       {...props}
       initialHasNextPage={initialPage.hasNextPage}
       initialNextPage={initialPage.nextPage}
-      photos={initialPage.photos}
+      albums={initialPage.albums}
       photosPerPage={safePhotosPerPage}
     />
   )

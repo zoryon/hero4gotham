@@ -90,6 +90,7 @@ export type EventSuiteItem = {
         caption?: null | string
         id?: null | string
         image?: EventSuiteMedia | number | null
+        isCover?: boolean | null
       }[]
     | null
   id: number | string
@@ -109,6 +110,7 @@ export const eventSuiteSelect = {
   gallery: {
     caption: true,
     image: true,
+    isCover: true,
   },
   startsAt: true,
   slug: true,

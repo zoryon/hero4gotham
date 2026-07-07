@@ -1938,11 +1938,15 @@ export interface Event {
   activity?: (number | null) | Activity;
   startsAt: string;
   /**
-   * Evento photos. Aggiungi at least one photo. The first immagine is used anywhere the evento scheda needs a single immagine.
+   * Evento photos. Aggiungi at least one photo and optionally mark one as the album cover. If none is marked, the first photo is used.
    */
   gallery: {
     image: number | Media;
     caption?: string | null;
+    /**
+     * Opzionale. Select only one photo; if none is selected, the first photo becomes the cover.
+     */
+    isCover?: boolean | null;
     id?: string | null;
   }[];
   /**
@@ -6202,6 +6206,7 @@ export interface EventsSelect<T extends boolean = true> {
     | {
         image?: T;
         caption?: T;
+        isCover?: T;
         id?: T;
       };
   banner?: T;

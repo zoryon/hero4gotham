@@ -11,7 +11,7 @@ export const EventGallery: Block = {
       name: 'photosPerPage',
       type: 'number',
       defaultValue: 9,
-      label: 'Photos per load',
+      label: 'Albums / photos per load',
       min: 1,
       max: 24,
     },
@@ -76,7 +76,7 @@ export const EventGallery: Block = {
       label: 'Empty state label',
       required: true,
     },
-    textStyleField('ttlStyle', 'Photo title typography', {
+    textStyleField('ttlStyle', 'Album title typography', {
       colorTheme: 'primary',
       fontFamily: 'cinzel',
       fontSizeDesktop: 22,
@@ -84,7 +84,7 @@ export const EventGallery: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
-    textStyleField('dtStyle', 'Photo date typography', {
+    textStyleField('dtStyle', 'Album date typography', {
       colorTheme: 'green',
       fontFamily: 'cinzel',
       fontSizeDesktop: 12,

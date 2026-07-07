@@ -82,8 +82,18 @@ export const Events: CollectionConfig<'events'> = {
       required: true,
       admin: {
         description:
-          'Event photos. Add at least one photo. The first image is used anywhere the event card needs a single image.',
+          'Event photos. Add at least one photo and optionally mark one as the album cover. If none is marked, the first photo is used.',
         initCollapsed: true,
+      },
+      validate: (value) => {
+        if (!Array.isArray(value)) return true
+
+        return value.filter(
+          (photo) =>
+            photo && typeof photo === 'object' && 'isCover' in photo && photo.isCover === true,
+        ).length <= 1
+          ? true
+          : 'Only one photo can be selected as the album cover.'
       },
       fields: [
         {
@@ -96,6 +106,16 @@ export const Events: CollectionConfig<'events'> = {
         {
           name: 'caption',
           type: 'text',
+        },
+        {
+          name: 'isCover',
+          type: 'checkbox',
+          defaultValue: false,
+          label: 'Usa come cover album',
+          admin: {
+            description:
+              'Optional. Select only one photo; if none is selected, the first photo becomes the cover.',
+          },
         },
       ],
       labels: {
