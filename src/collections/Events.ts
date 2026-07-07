@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { adminOrEventsManager } from '@/access/roles'
 import { slugField } from 'payload'
+import { enforceSinglePinnedEvent } from './Events/hooks/enforceSinglePinnedEvent'
 import { revalidateDelete, revalidateEvent } from './Events/hooks/revalidateEvent'
 
 export const Events: CollectionConfig<'events'> = {
@@ -13,7 +14,7 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'activity', 'startsAt', 'timeLabel', 'venue', 'updatedAt'],
+    defaultColumns: ['title', 'pinned', 'slug', 'activity', 'startsAt', 'venue', 'updatedAt'],
     group: 'Content',
     preview: (data) => (data?.slug ? `/eventi/${data.slug as string}` : null),
     useAsTitle: 'title',
@@ -24,9 +25,9 @@ export const Events: CollectionConfig<'events'> = {
     longDescription: true,
     gallery: true,
     artistsAndGuests: true,
+    pinned: true,
     startsAt: true,
     slug: true,
-    timeLabel: true,
     title: true,
     timeline: true,
     audience: true,
@@ -40,6 +41,18 @@ export const Events: CollectionConfig<'events'> = {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'pinned',
+      type: 'checkbox',
+      admin: {
+        description:
+          "Porta questo evento alla prima posizione dell'elenco eventi. Attivandolo, l'eventuale evento già fissato verrà sostituito.",
+        position: 'sidebar',
+      },
+      defaultValue: false,
+      index: true,
+      label: 'Fissa in cima',
     },
     {
       name: 'activity',
@@ -61,15 +74,6 @@ export const Events: CollectionConfig<'events'> = {
       },
       label: 'Event date',
       required: true,
-    },
-    {
-      name: 'timeLabel',
-      type: 'text',
-      admin: {
-        description:
-          'Optional display time. If empty, the frontend formats the time from Event date.',
-      },
-      label: 'Display time',
     },
     {
       name: 'gallery',
@@ -404,5 +408,6 @@ export const Events: CollectionConfig<'events'> = {
   hooks: {
     afterChange: [revalidateEvent],
     afterDelete: [revalidateDelete],
+    beforeChange: [enforceSinglePinnedEvent],
   },
 }

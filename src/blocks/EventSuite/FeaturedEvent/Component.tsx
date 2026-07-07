@@ -116,7 +116,7 @@ export const FeaturedEventBlock = async ({
   const displayImage = hasEvent ? backgroundImage || getEventDisplayImage(event) : backgroundImage
   const displayTitle = hasEvent ? event.title : 'Nessun evento imminente'
   const displayDate = hasEvent
-    ? `${formatEventDateParts(event.startsAt).day} ${formatEventDateParts(event.startsAt).month} ${event.timeLabel || formatEventDateParts(event.startsAt).time}`
+    ? `${formatEventDateParts(event.startsAt).day} ${formatEventDateParts(event.startsAt).month} ${formatEventDateParts(event.startsAt).time}`
     : 'Prossimamente'
   const displayDescription = hasEvent
     ? event.description

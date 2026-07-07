@@ -65,9 +65,8 @@ const getResponsiveColumnCount = ({
 
 const getGalleryDateLabel = (photo: EventGalleryPhoto) => {
   const dateParts = formatEventDateParts(photo.startsAt)
-  const time = photo.dateLabel || dateParts.time
 
-  return `${dateParts.day} ${dateParts.month} ${time}`
+  return `${dateParts.day} ${dateParts.month} ${dateParts.time}`
 }
 
 export const EventGalleryClient: React.FC<Props> = ({

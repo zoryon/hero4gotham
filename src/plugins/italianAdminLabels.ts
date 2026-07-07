@@ -252,7 +252,6 @@ const exactTranslations: Record<string, string> = {
   'Desktop size (px)': 'Dimensione desktop (px)',
   Direction: 'Direzione',
   'Display order': 'Ordine di visualizzazione',
-  'Display time': 'Orario visualizzato',
   'Display venue': 'Luogo visualizzato',
   'Divider color': 'Colore divisore',
   'Document to link to': 'Documento da collegare',
@@ -624,8 +623,6 @@ const descriptionTranslations: Record<string, string> = {
     'Colore CSS opzionale per i giorni che contengono eventi.',
   'Optional CSS color. Leave empty for no visible divider.':
     'Colore CSS opzionale. Lascia vuoto per non mostrare il divisore.',
-  'Optional display time. If empty, the frontend formats the time from Event date.':
-    'Orario visualizzato opzionale. Se vuoto, il frontend lo ricava dalla data evento.',
   'Optional longer text shown in the event detail page.':
     'Testo piu lungo opzionale mostrato nella pagina dettaglio evento.',
   'Optional override for this card. If empty, the selected event gallery image is used.':

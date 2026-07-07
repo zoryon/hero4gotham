@@ -93,9 +93,9 @@ export type EventSuiteItem = {
       }[]
     | null
   id: number | string
+  pinned?: boolean | null
   slug?: null | string
   startsAt: string
-  timeLabel?: null | string
   title: string
   venue?: null | string
   venueAddress?: null | string
@@ -112,7 +112,6 @@ export const eventSuiteSelect = {
   },
   startsAt: true,
   slug: true,
-  timeLabel: true,
   title: true,
   venue: true,
   venueAddress: true,

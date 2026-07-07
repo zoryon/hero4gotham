@@ -55,6 +55,7 @@ import * as migration_20260522_092800_split_upcoming_events_cta from './20260522
 import * as migration_20260522_103000_torn_cards_card_gap from './20260522_103000_torn_cards_card_gap'
 import * as migration_20260524_090000_activity_calendar_colors from './20260524_090000_activity_calendar_colors'
 import * as migration_20260524_103000_event_proposal_cta_block from './20260524_103000_event_proposal_cta_block'
+import * as migration_20260707_120000_pin_event_and_remove_time_label from './20260707_120000_pin_event_and_remove_time_label'
 
 export const migrations = [
   {
@@ -341,5 +342,10 @@ export const migrations = [
     up: migration_20260524_103000_event_proposal_cta_block.up,
     down: migration_20260524_103000_event_proposal_cta_block.down,
     name: '20260524_103000_event_proposal_cta_block',
+  },
+  {
+    up: migration_20260707_120000_pin_event_and_remove_time_label.up,
+    down: migration_20260707_120000_pin_event_and_remove_time_label.down,
+    name: '20260707_120000_pin_event_and_remove_time_label',
   },
 ]

@@ -44,7 +44,6 @@ const eventSelect = {
   description: true,
   startsAt: true,
   slug: true,
-  timeLabel: true,
   title: true,
   venue: true,
   venueAddress: true,
@@ -52,7 +51,7 @@ const eventSelect = {
 
 type UpcomingEventData = Pick<
   EventDocument,
-  'description' | 'id' | 'slug' | 'startsAt' | 'timeLabel' | 'title' | 'venue' | 'venueAddress'
+  'description' | 'id' | 'slug' | 'startsAt' | 'title' | 'venue' | 'venueAddress'
 >
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
@@ -145,8 +144,8 @@ const truncateAtNextWord = (value: null | string | undefined, maxCharacters?: nu
   return `${text.slice(0, limit + nextSpaceIndex).trimEnd()}...`
 }
 
-const formatEventTime = (event: Pick<UpcomingEventData, 'startsAt' | 'timeLabel'>) =>
-  event.timeLabel || `ore ${eventTimeFormatter.format(new Date(event.startsAt))}`
+const formatEventTime = (event: Pick<UpcomingEventData, 'startsAt'>) =>
+  `ore ${eventTimeFormatter.format(new Date(event.startsAt))}`
 
 const isEventDocument = (
   event: EventDocument | number | null | undefined,

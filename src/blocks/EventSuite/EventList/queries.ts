@@ -32,8 +32,11 @@ export const getEventListPage = async ({
     depth: 1,
     limit: safePageSize,
     page: safePage,
-    select: eventSuiteSelect,
-    sort: '-startsAt',
+    select: {
+      ...eventSuiteSelect,
+      pinned: true,
+    },
+    sort: ['-pinned', '-startsAt'],
     where: buildEventWhere(filters, { futureOnlyWhenUnfiltered: true }),
   })
   const events = result.docs as EventSuiteItem[]

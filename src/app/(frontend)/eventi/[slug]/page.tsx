@@ -154,7 +154,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             <EventInfoItem
               icon={<Clock aria-hidden className="h-7 w-7" />}
               label="Orario"
-              primary={event.timeLabel || dateParts.time}
+              primary={dateParts.time}
             />
             <EventInfoItem
               icon={<MapPin aria-hidden className="h-7 w-7" />}
@@ -469,7 +469,7 @@ const RelatedEventCard = ({ event }: { event: EventDocument }) => {
       <div className="grid gap-2.5 px-4 py-4">
         <div className="font-rye-western flex flex-wrap items-center gap-x-3 gap-y-2 text-[0.6rem] uppercase leading-none">
           <span className="text-[var(--theme-text-green)]">
-            {dateParts.day} {dateParts.month} {event.timeLabel || dateParts.time}
+            {dateParts.day} {dateParts.month} {dateParts.time}
           </span>
           {eventTypeLabel ? (
             <span className="text-[var(--theme-text-purple)]">{eventTypeLabel}</span>

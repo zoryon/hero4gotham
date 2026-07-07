@@ -8,7 +8,7 @@ type Props = React.ComponentProps<typeof EventListClient>
 
 const getEvents = unstable_cache(
   async (pageSize: number) => getEventListPage({ page: 1, pageSize }),
-  ['event-list-upcoming-page-v3'],
+  ['event-list-upcoming-page-v4'],
   {
     revalidate: 300,
     tags: ['events'],

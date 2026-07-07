@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MapPin, Pin } from 'lucide-react'
 import {
   formatEventDateParts,
   getEventDisplayImage,
@@ -379,7 +379,7 @@ export const EventListClient: React.FC<Props> = ({
           >
             {eventItems.map((event, index) => {
               const dateParts = formatEventDateParts(event.startsAt)
-              const displayTime = event.timeLabel || dateParts.time
+              const displayTime = dateParts.time
               const displayImage = getEventDisplayImage(event)
               const eventPrimaryLink = getEventPrimaryLink(event)
               const eventTypeLabel = getEventTypeLabel(event.activity)
@@ -500,18 +500,34 @@ export const EventListClient: React.FC<Props> = ({
                     )}
                   >
                     <div className={cn('grid min-w-0 content-center px-4 py-3', passedContentClassName)}>
-                      <h3
-                        className={cn(getEventSuiteTextClassName(ttlStyle, 'black'), 'block')}
-                        style={getEventSuiteTextStyle(ttlStyle, {
-                          fontFamily: 'cinzel',
-                          fontSizeDesktop: 19,
-                          fontSizeMobile: 16,
-                          fontWeight: 'black',
-                          lineHeight: 1.1,
-                        })}
-                      >
-                        {event.title}
-                      </h3>
+                      <div className="flex min-w-0 items-center gap-2">
+                        {event.pinned ? (
+                          <span
+                            aria-label="Evento fissato in cima"
+                            className="inline-flex shrink-0 items-center gap-1.5 bg-[var(--theme-text-green)] px-2 py-1 font-rye-western text-[0.58rem] uppercase leading-none text-[#202028] shadow-[0_2px_0_rgb(0_0_0_/_0.35)]"
+                            role="img"
+                            title="Evento fissato in cima"
+                          >
+                            <Pin aria-hidden className="size-3.5" strokeWidth={2.8} />
+                            In evidenza
+                          </span>
+                        ) : null}
+                        <h3
+                          className={cn(
+                            getEventSuiteTextClassName(ttlStyle, 'black'),
+                            'block min-w-0 flex-1',
+                          )}
+                          style={getEventSuiteTextStyle(ttlStyle, {
+                            fontFamily: 'cinzel',
+                            fontSizeDesktop: 19,
+                            fontSizeMobile: 16,
+                            fontWeight: 'black',
+                            lineHeight: 1.1,
+                          })}
+                        >
+                          {event.title}
+                        </h3>
+                      </div>
                       {eventTypeLabel ? (
                         <div
                           className={cn(

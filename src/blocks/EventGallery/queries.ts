@@ -7,7 +7,6 @@ import { getPayload } from 'payload'
 export const eventGalleryDefaultPageSize = 9
 
 export type EventGalleryPhoto = {
-  dateLabel?: null | string
   eventId: number | string
   id: string
   image: EventSuiteMedia
@@ -49,7 +48,6 @@ const flattenEventGalleryPhotos = (events: EventSuiteItem[]): EventGalleryPhoto[
 
       return [
         {
-          dateLabel: event.timeLabel,
           eventId: event.id,
           id: `${event.id}-${item.id || image.id || index}`,
           image: getGalleryMedia(image),
@@ -85,7 +83,6 @@ const findEventsGalleryPage = async ({
           image: true,
         },
         startsAt: true,
-        timeLabel: true,
         title: true,
       },
       sort: 'startsAt',

@@ -1929,14 +1929,14 @@ export interface Event {
   id: number;
   title: string;
   /**
+   * Porta questo evento alla prima posizione dell'elenco eventi. Attivandolo, l'eventuale evento già fissato verrà sostituito.
+   */
+  pinned?: boolean | null;
+  /**
    * Attivita used by the evento filtri.
    */
   activity?: (number | null) | Activity;
   startsAt: string;
-  /**
-   * Orario visualizzato opzionale. Se vuoto, il frontend lo ricava dalla data evento.
-   */
-  timeLabel?: string | null;
   /**
    * Evento photos. Aggiungi at least one photo. The first immagine is used anywhere the evento scheda needs a single immagine.
    */
@@ -6194,9 +6194,9 @@ export interface ActivitiesSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  pinned?: T;
   activity?: T;
   startsAt?: T;
-  timeLabel?: T;
   gallery?:
     | T
     | {
