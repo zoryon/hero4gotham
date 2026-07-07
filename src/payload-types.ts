@@ -71,6 +71,7 @@ export interface Config {
     posts: Post;
     activities: Activity;
     events: Event;
+    variables: Variable;
     media: Media;
     categories: Category;
     users: User;
@@ -95,6 +96,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    variables: VariablesSelect<false> | VariablesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -454,6 +456,10 @@ export interface FolderInterface {
     totalDocs?: number;
   };
   folderType?: 'media'[] | null;
+  /**
+   * Se attiva, i gestori eventi non vedranno questa cartella, le sottocartelle e i media contenuti.
+   */
+  protectedFromEventsManagers?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2586,6 +2592,7 @@ export interface MembershipApplicationBlock {
   residenceAddressLabel: string;
   emailLabel: string;
   phoneLabel: string;
+  ibanLabel: string;
   requestTypeLabel: string;
   motivationLabel: string;
   interestAreasLabel: string;
@@ -3344,7 +3351,13 @@ export interface TornCardsBlock {
   items: {
     image?: (number | null) | Media;
     imageSize?: ('sm' | 'md' | 'lg') | null;
+    /**
+     * Puoi usare variabili CMS, per esempio {{quota_annuale}}.
+     */
     title: string;
+    /**
+     * Puoi usare variabili CMS, per esempio {{quota_annuale}}.
+     */
     description?: string | null;
     /**
      * Aggiunge il bordo vintage opzionale a questa singola scheda.
@@ -3443,6 +3456,28 @@ export interface TornCardsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'tornCards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "variables".
+ */
+export interface Variable {
+  id: number;
+  /**
+   * Attiva per modificare nome, tipo o valore. Dopo il salvataggio i campi verranno bloccati di nuovo.
+   */
+  unlockEditing?: boolean | null;
+  /**
+   * Usa lettere minuscole, numeri e underscore. Esempio: quota_annuale. Nel testo scrivi {{quota_annuale}}.
+   */
+  name: string;
+  type: 'text' | 'number' | 'date' | 'boolean';
+  /**
+   * Per le data usa AAAA-MM-GG. Per Sì / No usa sì, no, true, false, 1 oppure 0.
+   */
+  value: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3649,6 +3684,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'events';
         value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'variables';
+        value: number | Variable;
       } | null)
     | ({
         relationTo: 'media';
@@ -5526,6 +5565,7 @@ export interface MembershipApplicationBlockSelect<T extends boolean = true> {
   residenceAddressLabel?: T;
   emailLabel?: T;
   phoneLabel?: T;
+  ibanLabel?: T;
   requestTypeLabel?: T;
   motivationLabel?: T;
   interestAreasLabel?: T;
@@ -6257,6 +6297,18 @@ export interface EventsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "variables_select".
+ */
+export interface VariablesSelect<T extends boolean = true> {
+  unlockEditing?: T;
+  name?: T;
+  type?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -6633,6 +6685,7 @@ export interface PayloadFoldersSelect<T extends boolean = true> {
   folder?: T;
   documentsAndFolders?: T;
   folderType?: T;
+  protectedFromEventsManagers?: T;
   updatedAt?: T;
   createdAt?: T;
 }

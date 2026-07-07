@@ -477,11 +477,17 @@ export const TornCards: Block = {
           type: 'text',
           label: 'Title',
           required: true,
+          admin: {
+            description: 'Puoi usare variabili CMS, per esempio {{quota_annuale}}.',
+          },
         },
         {
           name: 'description',
           type: 'textarea',
           label: 'Description',
+          admin: {
+            description: 'Puoi usare variabili CMS, per esempio {{quota_annuale}}.',
+          },
         },
         {
           name: 'scribbleBorder',

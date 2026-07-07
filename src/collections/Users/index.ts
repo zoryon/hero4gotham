@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { adminOnly, adminOrEventsManager, canAccessAdmin } from '@/access/roles'
+import { adminOnly, canAccessAdmin, hideFromNonAdmins } from '@/access/roles'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -8,11 +8,12 @@ export const Users: CollectionConfig = {
     admin: canAccessAdmin,
     create: adminOnly,
     delete: adminOnly,
-    read: adminOrEventsManager,
+    read: adminOnly,
     update: adminOnly,
   },
   admin: {
     defaultColumns: ['name', 'email'],
+    hidden: hideFromNonAdmins,
     useAsTitle: 'name',
   },
   auth: true,

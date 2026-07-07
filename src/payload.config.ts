@@ -14,6 +14,7 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { PrivacyPolicy } from './PrivacyPolicy/config'
 import { Users } from './collections/Users'
+import { Variables } from './collections/Variables'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { MembershipDocuments } from './MembershipDocuments/config'
@@ -22,6 +23,7 @@ import { ThemeColors } from './ThemeColors/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { protectedFolderCollectionOverride } from './access/protectedFolders'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -68,6 +70,9 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
+  folders: {
+    collectionOverrides: [protectedFolderCollectionOverride],
+  },
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
@@ -97,7 +102,7 @@ export default buildConfig({
       secure: process.env.SMTP_SECURE === 'true',
     },
   }),
-  collections: [Pages, Posts, Activities, Events, Media, Categories, Users],
+  collections: [Pages, Posts, Activities, Events, Variables, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ThemeColors, SiteBackground, MembershipDocuments, PrivacyPolicy],
   i18n: {

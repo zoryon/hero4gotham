@@ -1,8 +1,0 @@
-Task di modifica sito web
-
-Form di richiesta
-
-* Aggiungere una sezione dedicata con:
-    * IBAN
-    * Coordinate bancarie
-* Inserire un’intestazione dedicata per la sezione Offerte e Iscrizione, in modo da rendere più chiara la struttura del form.

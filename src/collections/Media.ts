@@ -8,8 +8,12 @@ import {
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { anyone } from '../access/anyone'
 import { adminOnly, adminOrEventsManager } from '@/access/roles'
+import {
+  mediaEditableByCurrentUser,
+  mediaVisibleToCurrentUser,
+  preventProtectedFolderAssignment,
+} from '@/access/protectedFolders'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,8 +24,8 @@ export const Media: CollectionConfig = {
   access: {
     create: adminOrEventsManager,
     delete: adminOnly,
-    read: anyone,
-    update: adminOrEventsManager,
+    read: mediaVisibleToCurrentUser,
+    update: mediaEditableByCurrentUser,
   },
   admin: {
     hidden: ({ user }) => !user,
@@ -42,6 +46,9 @@ export const Media: CollectionConfig = {
       }),
     },
   ],
+  hooks: {
+    beforeValidate: [preventProtectedFolderAssignment],
+  },
   upload: {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),

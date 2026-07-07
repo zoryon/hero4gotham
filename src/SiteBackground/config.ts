@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminOrEventsManager } from '@/access/roles'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { revalidateSiteBackground } from './hooks/revalidateSiteBackground'
 
 const imagePositionOptions = [
@@ -47,7 +47,10 @@ export const SiteBackground: GlobalConfig = {
   label: 'Site Background',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {

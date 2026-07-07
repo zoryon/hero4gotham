@@ -28,6 +28,26 @@ const getString = (value: unknown, maxLength = MAX_FIELD_LENGTH) =>
 
 const getFormBoolean = (value: unknown) => value === true || value === 'true'
 
+const normalizeIBAN = (value: unknown) => getString(value).replace(/\s+/g, '').toUpperCase()
+
+const isValidIBAN = (value: string) => {
+  if (!/^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/.test(value)) return false
+
+  const rearranged = `${value.slice(4)}${value.slice(0, 4)}`
+  const numericValue = Array.from(rearranged)
+    .map((character) =>
+      /[A-Z]/.test(character) ? String(character.charCodeAt(0) - 55) : character,
+    )
+    .join('')
+  let remainder = 0
+
+  for (const digit of numericValue) {
+    remainder = (remainder * 10 + Number(digit)) % 97
+  }
+
+  return remainder === 1
+}
+
 const sanitizeFilename = (value: string) => value.replace(/[^\w.\-]+/g, '_').slice(0, 120)
 
 const getDocumentFiles = (formData: FormData, key: DocumentFileKey) =>
@@ -74,6 +94,7 @@ export async function POST(request: Request) {
     birthPlace: getString(body.birthPlace),
     email: getString(body.email),
     firstName: getString(body.firstName),
+    iban: normalizeIBAN(body.iban),
     interestAreas: getString(body.interestAreas, MAX_MESSAGE_LENGTH),
     lastName: getString(body.lastName),
     motivation: getString(body.motivation, MAX_MESSAGE_LENGTH),
@@ -103,6 +124,7 @@ export async function POST(request: Request) {
     !fields.residenceAddress ||
     !fields.email ||
     !fields.phone ||
+    !isValidIBAN(fields.iban) ||
     !fields.requestType ||
     !fields.interestAreas ||
     !fields.motivation ||
@@ -171,6 +193,7 @@ export async function POST(request: Request) {
         <tr><td><strong>Indirizzo di residenza</strong></td><td>${escaped.residenceAddress}</td></tr>
         <tr><td><strong>Email</strong></td><td>${escaped.email}</td></tr>
         <tr><td><strong>Telefono</strong></td><td>${escaped.phone || '-'}</td></tr>
+        <tr><td><strong>IBAN / Coordinate bancarie</strong></td><td>${escaped.iban}</td></tr>
       </table>
       <h3>Documenti allegati</h3>
       <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
@@ -206,6 +229,7 @@ export async function POST(request: Request) {
       `Indirizzo di residenza: ${fields.residenceAddress}`,
       `Email: ${fields.email}`,
       `Telefono: ${fields.phone || '-'}`,
+      `IBAN / Coordinate bancarie: ${fields.iban}`,
       '',
       'Documenti allegati',
       ...documentFileEntries.map(

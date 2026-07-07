@@ -5,7 +5,7 @@ import type {
   CollectionConfig,
 } from 'payload'
 
-import { adminOrEventsManager } from '@/access/roles'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { revalidateTag } from 'next/cache'
 
 export const activityColorPalette = [
@@ -103,14 +103,15 @@ const enforceActivitiesLimit: CollectionBeforeValidateHook = async ({ data, oper
 export const Activities: CollectionConfig<'activities'> = {
   slug: 'activities',
   access: {
-    create: adminOrEventsManager,
-    delete: adminOrEventsManager,
+    create: adminOnly,
+    delete: adminOnly,
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
   },
   admin: {
     defaultColumns: ['title', 'shortName', 'color', 'order', 'updatedAt'],
     group: 'Content',
+    hidden: hideFromNonAdmins,
     useAsTitle: 'title',
   },
   defaultPopulate: {

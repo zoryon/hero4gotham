@@ -35,6 +35,7 @@ import { UpcomingEventsBlock } from '@/blocks/UpcomingEvents/Component'
 import { UpcomingEventsCtaBlock } from '@/blocks/UpcomingEventsCta/Component'
 import { EventFiltersProvider } from '@/providers/EventFilters'
 import { cn } from '@/utilities/ui'
+import { resolveCmsVariables } from '@/utilities/cmsVariables'
 
 const blockComponents = {
   activitiesDetailGrid: ActivitiesDetailGridBlock,
@@ -152,12 +153,15 @@ type RenderableBlockProps = Page['layout'][0] & {
   isFirstPageBlock?: boolean
 }
 
-export const RenderBlocks: React.FC<{
+type RenderBlocksProps = {
   blocks: (Page['layout'][0] & { layout?: BlockLayoutSettings | null })[]
   markFirstBlock?: boolean
   wrapperClassName?: string
-}> = (props) => {
-  const { blocks, markFirstBlock = false, wrapperClassName = 'my-16' } = props
+}
+
+export const RenderBlocks = async (props: RenderBlocksProps) => {
+  const { blocks: unresolvedBlocks, markFirstBlock = false, wrapperClassName = 'my-16' } = props
+  const blocks = await resolveCmsVariables(unresolvedBlocks)
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
   const lastRenderableIndex = hasBlocks
@@ -239,9 +243,10 @@ export const RenderBlocks: React.FC<{
                 if (cmsEventPageParts) {
                   const EventFiltersBlockToRender =
                     blockComponents.eventFilters as React.ComponentType<RenderableBlockProps>
-                  const EventListBlockToRender = blockComponents.eventList as unknown as React.ComponentType<
-                    RenderableBlockProps & { pageSize?: number; paginationMode?: boolean }
-                  >
+                  const EventListBlockToRender =
+                    blockComponents.eventList as unknown as React.ComponentType<
+                      RenderableBlockProps & { pageSize?: number; paginationMode?: boolean }
+                    >
                   const EventCalendarBlockToRender =
                     blockComponents.eventCalendar as React.ComponentType<RenderableBlockProps>
 

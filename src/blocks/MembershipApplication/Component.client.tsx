@@ -47,6 +47,7 @@ type Props = {
   heading?: null | string
   headingBackgroundImage?: EventSuiteMedia | number | null
   headingStyle?: EventSuiteTextStyle | null
+  ibanLabel?: null | string
   interestAreasLabel?: null | string
   introStyle?: EventSuiteTextStyle | null
   introText?: null | string
@@ -109,6 +110,7 @@ const initialFormState = {
   birthPlace: '',
   email: '',
   firstName: '',
+  iban: '',
   interestAreas: '',
   lastName: '',
   motivation: '',
@@ -151,6 +153,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   heading = "Domanda di ammissione all'associazione",
   headingBackgroundImage,
   headingStyle,
+  ibanLabel = 'IBAN / Coordinate bancarie *',
   interestAreasLabel = 'Aree di interesse *',
   introStyle,
   introText = 'Compila la candidatura con i tuoi dati. Ti ricontatteremo dopo averla ricevuta.',
@@ -181,12 +184,9 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [feedback, setFeedback] = useState('')
   const [pendingDownload, setPendingDownload] = useState<PendingDownload | null>(null)
-  const [documentFiles, setDocumentFiles] = useState<Record<DocumentFileKey, File[]>>(
-    emptyDocumentFiles,
-  )
-  const [activeDateField, setActiveDateField] = useState<keyof typeof initialFormState | null>(
-    null,
-  )
+  const [documentFiles, setDocumentFiles] =
+    useState<Record<DocumentFileKey, File[]>>(emptyDocumentFiles)
+  const [activeDateField, setActiveDateField] = useState<keyof typeof initialFormState | null>(null)
   const cancelDownloadButtonRef = useRef<HTMLButtonElement>(null)
   const documentInputRefs = useRef<Record<DocumentFileKey, HTMLInputElement | null>>({
     identityDocument: null,
@@ -206,7 +206,8 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   useEffect(() => {
     if (!pendingDownload) return
 
-    const previousFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    const previousFocusedElement =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setPendingDownload(null)
@@ -250,8 +251,10 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
     fontWeight: 'regular',
     lineHeight: 1.3,
   })
-  const getTriggerLinkUrl = (enabled: boolean | null | undefined, url: null | string | undefined) =>
-    enabled && url ? url : ''
+  const getTriggerLinkUrl = (
+    enabled: boolean | null | undefined,
+    url: null | string | undefined,
+  ) => (enabled && url ? url : '')
   const sectionTitleClassName = getEventSuiteTextClassName(sectionTitleStyle, 'black')
   const sectionTitleTextStyle = getEventSuiteTextStyle(sectionTitleStyle, {
     fontFamily: 'cinzel',
@@ -399,15 +402,23 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
 
   const renderTextField = ({
     autoComplete,
+    inputMode,
     label,
+    maxLength,
     name,
+    pattern,
     required = true,
+    spellCheck,
     type = 'text',
   }: {
     autoComplete?: string
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
     label: null | string | undefined
+    maxLength?: number
     name: keyof typeof initialFormState
+    pattern?: string
     required?: boolean
+    spellCheck?: boolean
     type?: string
   }) => {
     const isDateField = type === 'date'
@@ -424,6 +435,8 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
         <input
           autoComplete={autoComplete}
           className={cn('contact-message-input', fieldClassName)}
+          inputMode={inputMode}
+          maxLength={maxLength}
           name={name}
           onBlur={() => {
             if (isDateField && !formState[name]) {
@@ -437,7 +450,9 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
             }
           }}
           placeholder={label || name}
+          pattern={pattern}
           required={required}
+          spellCheck={spellCheck}
           style={fieldTextStyle}
           type={inputType}
           value={String(formState[name])}
@@ -478,7 +493,9 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
             <Upload aria-hidden className="size-3.5" />
           </span>
           <span className="membership-application-upload-copy">
-            <span className="membership-application-upload-label">{documentFileLabels[name]} *</span>
+            <span className="membership-application-upload-label">
+              {documentFileLabels[name]} *
+            </span>
             <span className="membership-application-upload-hint">
               Foto fronte retro, max {maxDocumentFilesPerDocument} foto da{' '}
               {maxDocumentFileSizeLabel}
@@ -492,10 +509,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
         {files.length ? (
           <div className="membership-application-upload-selected">
             <div className="membership-application-upload-selected-info">
-              <CheckCircle2
-                aria-hidden
-                className="membership-application-upload-selected-icon"
-              />
+              <CheckCircle2 aria-hidden className="membership-application-upload-selected-icon" />
               <span className="membership-application-upload-selected-copy">
                 <span className="membership-application-upload-selected-count">
                   {selectedCountLabel}
@@ -755,6 +769,15 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     label: requiredLabel(phoneLabel, 'Telefono'),
                     name: 'phone',
                     type: 'tel',
+                  })}
+                  {renderTextField({
+                    autoComplete: 'off',
+                    inputMode: 'text',
+                    label: requiredLabel(ibanLabel, 'IBAN / Coordinate bancarie'),
+                    maxLength: 42,
+                    name: 'iban',
+                    pattern: '[A-Za-z]{2}[0-9]{2}[A-Za-z0-9 ]{11,38}',
+                    spellCheck: false,
                   })}
                   {renderIdentityUploads()}
                 </div>

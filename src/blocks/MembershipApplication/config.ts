@@ -148,6 +148,12 @@ export const MembershipApplication: Block = {
           ],
         },
         {
+          name: 'ibanLabel',
+          type: 'text',
+          defaultValue: 'IBAN / Coordinate bancarie *',
+          required: true,
+        },
+        {
           name: 'requestTypeLabel',
           type: 'text',
           defaultValue: 'Tipo di richiesta *',
@@ -204,7 +210,8 @@ export const MembershipApplication: Block = {
           type: 'text',
           label: 'Statute declaration trigger link URL',
           admin: {
-            condition: (_, siblingData) => Boolean(siblingData?.enableStatuteDeclarationTriggerLink),
+            condition: (_, siblingData) =>
+              Boolean(siblingData?.enableStatuteDeclarationTriggerLink),
           },
         },
         {
@@ -224,7 +231,8 @@ export const MembershipApplication: Block = {
           type: 'text',
           label: 'Purpose declaration trigger link URL',
           admin: {
-            condition: (_, siblingData) => Boolean(siblingData?.enablePurposeDeclarationTriggerLink),
+            condition: (_, siblingData) =>
+              Boolean(siblingData?.enablePurposeDeclarationTriggerLink),
           },
         },
         {
