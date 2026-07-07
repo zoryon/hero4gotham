@@ -1938,13 +1938,13 @@ export interface Event {
   activity?: (number | null) | Activity;
   startsAt: string;
   /**
-   * Evento photos. Aggiungi at least one photo and optionally mark one as the album cover. If none is marked, the first photo is used.
+   * Foto dell'evento. Aggiungi almeno una foto e, se vuoi, scegline una come copertina dell'album. Se non selezioni una copertina, verrà usata la prima foto.
    */
   gallery: {
     image: number | Media;
     caption?: string | null;
     /**
-     * Opzionale. Select only one photo; if none is selected, the first photo becomes the cover.
+     * Facoltativa. Selezionando questa foto, ogni altra copertina scelta verrà deselezionata automaticamente.
      */
     isCover?: boolean | null;
     id?: string | null;

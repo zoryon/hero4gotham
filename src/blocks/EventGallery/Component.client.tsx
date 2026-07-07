@@ -106,6 +106,7 @@ export const EventGalleryClient: React.FC<Props> = ({
   const [columnCount, setColumnCount] = useState(safeDesktopColumns)
   const [galleryWidth, setGalleryWidth] = useState(0)
   const galleryRef = useRef<HTMLDivElement | null>(null)
+  const sectionRef = useRef<HTMLElement | null>(null)
   const { activityId, date, query, venue } = useEventFilters()
   const debouncedQuery = useDebounce(query, 250)
   const hasMountedRef = useRef(false)
@@ -245,6 +246,13 @@ export const EventGalleryClient: React.FC<Props> = ({
     setPhotoNextPage(null)
     setIsLoading(true)
 
+    window.requestAnimationFrame(() => {
+      sectionRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    })
+
     try {
       const data = await fetchPhotoPage(album.eventId, 1)
       setPhotoItems(data.photos || [])
@@ -321,7 +329,10 @@ export const EventGalleryClient: React.FC<Props> = ({
   }
 
   return (
-    <section className="w-full px-3 sm:px-0">
+    <section
+      className="w-full scroll-mt-[calc(var(--header-height,92px)+1rem)] px-[15px]"
+      ref={sectionRef}
+    >
       {selectedAlbum ? (
         <div className="mb-8 flex justify-start">
           <button
@@ -333,7 +344,7 @@ export const EventGalleryClient: React.FC<Props> = ({
             style={buttonStyle}
             type="button"
           >
-            ← Torna agli album
+            ← Torna agli eventi
           </button>
         </div>
       ) : null}

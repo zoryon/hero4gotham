@@ -11,7 +11,7 @@ export const EventGallery: Block = {
       name: 'photosPerPage',
       type: 'number',
       defaultValue: 9,
-      label: 'Albums / photos per load',
+      label: 'Album / foto per caricamento',
       min: 1,
       max: 24,
     },
@@ -22,7 +22,7 @@ export const EventGallery: Block = {
           name: 'mobileColumns',
           type: 'number',
           defaultValue: 1,
-          label: 'Mobile columns',
+          label: 'Colonne su mobile',
           min: 1,
           max: 2,
           admin: {
@@ -33,7 +33,7 @@ export const EventGallery: Block = {
           name: 'tabletColumns',
           type: 'number',
           defaultValue: 2,
-          label: 'Tablet columns',
+          label: 'Colonne su tablet',
           min: 1,
           max: 3,
           admin: {
@@ -44,7 +44,7 @@ export const EventGallery: Block = {
           name: 'desktopColumns',
           type: 'number',
           defaultValue: 4,
-          label: 'Desktop columns',
+          label: 'Colonne su desktop',
           min: 1,
           max: 6,
           admin: {
@@ -57,7 +57,7 @@ export const EventGallery: Block = {
       name: 'gap',
       type: 'number',
       defaultValue: 18,
-      label: 'Gallery gap (px)',
+      label: 'Spazio tra gli elementi (px)',
       min: 0,
       max: 80,
     },
@@ -65,18 +65,18 @@ export const EventGallery: Block = {
       name: 'loadMoreLabel',
       type: 'text',
       defaultValue: 'Carica altre foto',
-      label: 'Load more label',
+      label: 'Testo del pulsante “Carica altre foto”',
       required: true,
     },
-    labelImageField('loadMoreBackgroundImage', 'Load more background image'),
+    labelImageField('loadMoreBackgroundImage', 'Sfondo del pulsante “Carica altre foto”'),
     {
       name: 'emptyStateLabel',
       type: 'text',
       defaultValue: 'Nessuna foto trovata',
-      label: 'Empty state label',
+      label: 'Messaggio quando non ci sono foto',
       required: true,
     },
-    textStyleField('ttlStyle', 'Album title typography', {
+    textStyleField('ttlStyle', "Stile del titolo dell'album", {
       colorTheme: 'primary',
       fontFamily: 'cinzel',
       fontSizeDesktop: 22,
@@ -84,7 +84,7 @@ export const EventGallery: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
-    textStyleField('dtStyle', 'Album date typography', {
+    textStyleField('dtStyle', "Stile della data dell'album", {
       colorTheme: 'green',
       fontFamily: 'cinzel',
       fontSizeDesktop: 12,
@@ -92,7 +92,7 @@ export const EventGallery: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
-    textStyleField('btnStyle', 'Load more typography', {
+    textStyleField('btnStyle', 'Stile del pulsante di caricamento', {
       colorTheme: 'green',
       fontFamily: 'cinzel',
       fontSizeDesktop: 13,
@@ -100,7 +100,7 @@ export const EventGallery: Block = {
       fontWeight: 'black',
       textTransform: 'uppercase',
     }),
-    textStyleField('emptyStateStyle', 'Empty state typography', {
+    textStyleField('emptyStateStyle', 'Stile del messaggio senza risultati', {
       colorTheme: 'primary',
       fontFamily: 'cinzel',
       fontSizeDesktop: 16,
@@ -110,7 +110,7 @@ export const EventGallery: Block = {
     }),
   ],
   labels: {
-    plural: 'Event Galleries',
-    singular: 'Event Gallery',
+    plural: 'Gallerie eventi',
+    singular: 'Galleria eventi',
   },
 }

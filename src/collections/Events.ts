@@ -82,7 +82,7 @@ export const Events: CollectionConfig<'events'> = {
       required: true,
       admin: {
         description:
-          'Event photos. Add at least one photo and optionally mark one as the album cover. If none is marked, the first photo is used.',
+          "Foto dell'evento. Aggiungi almeno una foto e, se vuoi, scegline una come copertina dell'album. Se non selezioni una copertina, verrà usata la prima foto.",
         initCollapsed: true,
       },
       validate: (value) => {
@@ -93,34 +93,38 @@ export const Events: CollectionConfig<'events'> = {
             photo && typeof photo === 'object' && 'isCover' in photo && photo.isCover === true,
         ).length <= 1
           ? true
-          : 'Only one photo can be selected as the album cover.'
+          : "Puoi selezionare una sola foto come copertina dell'album."
       },
       fields: [
         {
           name: 'image',
           type: 'upload',
-          label: 'Photo',
+          label: 'Foto',
           relationTo: 'media',
           required: true,
         },
         {
           name: 'caption',
           type: 'text',
+          label: 'Didascalia',
         },
         {
           name: 'isCover',
           type: 'checkbox',
           defaultValue: false,
-          label: 'Usa come cover album',
+          label: "Usa come copertina dell'album",
           admin: {
             description:
-              'Optional. Select only one photo; if none is selected, the first photo becomes the cover.',
+              'Facoltativa. Selezionando questa foto, ogni altra copertina scelta verrà deselezionata automaticamente.',
+            components: {
+              Field: '@/components/AlbumCoverField#AlbumCoverField',
+            },
           },
         },
       ],
       labels: {
-        plural: 'Photos',
-        singular: 'Photo',
+        plural: 'Foto',
+        singular: 'Foto',
       },
     },
     {
