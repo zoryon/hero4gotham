@@ -184,7 +184,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   return (
     <aside
       className={cn(
-        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-[min(92vw,23rem)] sm:max-w-[min(82vw,26rem)] min-[680px]:max-xl:h-full min-[680px]:max-xl:max-w-[min(100%,28rem)] min-[680px]:max-xl:mx-auto',
+        'event-calendar-card vintage-surface relative mx-auto w-full min-w-0 max-w-none min-[680px]:max-xl:h-full xl:max-w-[26rem]',
         specialBorder && 'event-calendar-card-border scribble-border',
       )}
     >

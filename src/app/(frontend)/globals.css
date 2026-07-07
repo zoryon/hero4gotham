@@ -1845,6 +1845,20 @@
     }
   }
 
+  @media (width < 36rem) {
+    .event-calendar-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .event-calendar-legend {
+      align-self: auto;
+      border-left: 0;
+      border-top: 1px solid color-mix(in srgb, var(--theme-text-secondary) 28%, transparent);
+      padding-left: 0;
+      padding-top: 0.55rem;
+    }
+  }
+
   .event-gallery-card {
     --vintage-border-width: 15px;
 
