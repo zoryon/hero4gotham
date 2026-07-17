@@ -2,6 +2,8 @@ import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
+import { getEventCalendarDateParts } from './date'
+
 export type EventCalendarActivityMarker = {
   color?: null | string
   id: number | string
@@ -36,8 +38,10 @@ type CalendarActivityResult = {
 }
 
 const getMonthRange = (year: number, monthIndex: number) => ({
-  end: new Date(year, monthIndex + 1, 1),
-  start: new Date(year, monthIndex, 1),
+  // Include the UTC dates on either side, then filter in Europe/Rome below.
+  // This keeps events around midnight and DST boundaries in the correct month.
+  end: new Date(Date.UTC(year, monthIndex + 1, 2)),
+  start: new Date(Date.UTC(year, monthIndex, 0)),
 })
 
 const getActivityMarker = (activity: CalendarEventActivity): EventCalendarActivityMarker => {
@@ -82,7 +86,11 @@ export const getEventCalendarMarkers = unstable_cache(
     const dayMarkers = new Map<number, Map<string, EventCalendarActivityMarker>>()
 
     for (const event of result.docs as CalendarEventResult[]) {
-      const day = new Date(event.startsAt).getDate()
+      const eventDate = getEventCalendarDateParts(event.startsAt)
+
+      if (eventDate.year !== year || eventDate.month !== monthIndex + 1) continue
+
+      const day = eventDate.day
       const activityMarker = getActivityMarker(event.activity || null)
       const activityKey = String(activityMarker.id)
       const activities = dayMarkers.get(day) || new Map<string, EventCalendarActivityMarker>()
@@ -98,7 +106,7 @@ export const getEventCalendarMarkers = unstable_cache(
       }))
       .sort((a, b) => a.day - b.day)
   },
-  ['event-calendar-markers-v2'],
+  ['event-calendar-markers-v3'],
   {
     revalidate: 300,
     tags: ['events', 'activities'],
