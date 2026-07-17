@@ -57,7 +57,12 @@ const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
-const renderLineBreaks = (text: string, lineBreaks?: TornCardItem['descBreaks'] | null) => {
+const renderLineBreaks = (
+  text: string,
+  lineBreaks?: TornCardItem['descBreaks'] | null,
+  sourceText = text,
+  offset = 0,
+) => {
   const insertions = new Map<number, number>()
 
   lineBreaks?.forEach(({ word, occurrences, breaks }) => {
@@ -70,12 +75,15 @@ const renderLineBreaks = (text: string, lineBreaks?: TornCardItem['descBreaks'] 
     const matcher = new RegExp(escapeRegExp(needle), 'gi')
     let applied = 0
 
-    for (const match of text.matchAll(matcher)) {
+    for (const match of sourceText.matchAll(matcher)) {
       if (match.index == null) continue
       if (matchLimit > 0 && applied >= matchLimit) break
 
       const insertAt = match.index + match[0].length
-      insertions.set(insertAt, Math.max(insertions.get(insertAt) ?? 0, breakCount))
+      if (insertAt > offset && insertAt <= offset + text.length) {
+        const localInsertAt = insertAt - offset
+        insertions.set(localInsertAt, Math.max(insertions.get(localInsertAt) ?? 0, breakCount))
+      }
       applied += 1
     }
   })
@@ -102,6 +110,57 @@ const renderLineBreaks = (text: string, lineBreaks?: TornCardItem['descBreaks'] 
   nodes.push(text.slice(chunkStart))
 
   return <span className="whitespace-pre-line">{nodes}</span>
+}
+
+const getDescriptionLinkHref = (item: TornCardItem) => {
+  const value = item.descriptionLinkValue?.trim()
+
+  if (!value) return null
+
+  switch (item.descriptionLinkType) {
+    case 'email':
+      return `mailto:${value}`
+    case 'phone': {
+      const phone = value.replace(/[^\d+]/g, '').replace(/(?!^)\+/g, '')
+      return phone ? `tel:${phone}` : null
+    }
+    case 'whatsapp': {
+      const phone = value.replace(/\D/g, '')
+      return phone ? `https://wa.me/${phone}` : null
+    }
+    default:
+      return null
+  }
+}
+
+const renderDescription = (item: TornCardItem) => {
+  const text = item.description
+  const linkText = item.descriptionLinkText?.trim()
+  const href = getDescriptionLinkHref(item)
+
+  if (!text || !linkText || !href) return renderLineBreaks(text || '', item.descBreaks)
+
+  const linkStart = text.toLocaleLowerCase('it').indexOf(linkText.toLocaleLowerCase('it'))
+
+  if (linkStart < 0) return renderLineBreaks(text, item.descBreaks)
+
+  const linkEnd = linkStart + linkText.length
+  const external = item.descriptionLinkType === 'whatsapp'
+
+  return (
+    <span className="whitespace-pre-line">
+      {renderLineBreaks(text.slice(0, linkStart), item.descBreaks, text)}
+      <a
+        className="underline decoration-current underline-offset-2 transition-opacity hover:opacity-75"
+        href={href}
+        rel={external ? 'noopener noreferrer' : undefined}
+        target={external ? '_blank' : undefined}
+      >
+        {renderLineBreaks(text.slice(linkStart, linkEnd), item.descBreaks, text, linkStart)}
+      </a>
+      {renderLineBreaks(text.slice(linkEnd), item.descBreaks, text, linkEnd)}
+    </span>
+  )
 }
 
 const getSpacingValue = (value: keyof typeof spacingValues | null | undefined) =>
@@ -307,7 +366,7 @@ const TornCard: React.FC<{
               marginTop: getSpacingValue(item.titleDescriptionGap || 'xs'),
             }}
           >
-            {renderLineBreaks(item.description, item.descBreaks)}
+            {renderDescription(item)}
           </p>
         ) : null}
       </div>

@@ -396,7 +396,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
                     <>
                       {' '}
                       <a
-                        className="form-declaration-trigger-link"
+                        className="form-declaration-trigger-link form-declaration-trigger-link--new-line"
                         href={privacyTriggerLinkUrl || undefined}
                         onClick={(event) => event.stopPropagation()}
                         rel="noreferrer"

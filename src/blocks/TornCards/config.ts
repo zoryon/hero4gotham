@@ -490,6 +490,56 @@ export const TornCards: Block = {
           },
         },
         {
+          type: 'collapsible',
+          label: 'Collegamento nella descrizione',
+          admin: {
+            initCollapsed: true,
+          },
+          fields: [
+            {
+              name: 'descriptionLinkText',
+              type: 'text',
+              label: 'Testo cliccabile',
+              admin: {
+                description:
+                  'Scrivi una parola o una frase presente nella descrizione. Verrà collegata la prima occorrenza.',
+              },
+            },
+            {
+              name: 'descriptionLinkType',
+              type: 'select',
+              label: 'Applicazione',
+              options: [
+                {
+                  label: 'WhatsApp',
+                  value: 'whatsapp',
+                },
+                {
+                  label: 'Email',
+                  value: 'email',
+                },
+                {
+                  label: 'Telefono',
+                  value: 'phone',
+                },
+              ],
+              admin: {
+                condition: (_, siblingData) => Boolean(siblingData?.descriptionLinkText),
+              },
+            },
+            {
+              name: 'descriptionLinkValue',
+              type: 'text',
+              label: 'Recapito',
+              admin: {
+                condition: (_, siblingData) => Boolean(siblingData?.descriptionLinkType),
+                description:
+                  'Per WhatsApp e Telefono inserisci il numero completo di prefisso internazionale; per Email inserisci l’indirizzo email.',
+              },
+            },
+          ],
+        },
+        {
           name: 'scribbleBorder',
           type: 'checkbox',
           defaultValue: false,

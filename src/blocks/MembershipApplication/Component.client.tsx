@@ -583,7 +583,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
             <a
               className={cn(
                 'form-declaration-trigger-link',
-                triggerLinkOnNewLine && 'membership-application-privacy-link',
+                triggerLinkOnNewLine && 'form-declaration-trigger-link--new-line',
               )}
               href={triggerLinkUrl}
               onClick={(event) => event.stopPropagation()}

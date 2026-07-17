@@ -3359,6 +3359,15 @@ export interface TornCardsBlock {
      */
     description?: string | null;
     /**
+     * Scrivi una parola o una frase presente nella descrizione. Verrà collegata la prima occorrenza.
+     */
+    descriptionLinkText?: string | null;
+    descriptionLinkType?: ('whatsapp' | 'email' | 'phone') | null;
+    /**
+     * Per WhatsApp e Telefono inserisci il numero completo di prefisso internazionale; per Email inserisci l’indirizzo email.
+     */
+    descriptionLinkValue?: string | null;
+    /**
      * Aggiunge il bordo vintage opzionale a questa singola scheda.
      */
     scribbleBorder?: boolean | null;
@@ -6077,6 +6086,9 @@ export interface TornCardsBlockSelect<T extends boolean = true> {
         imageSize?: T;
         title?: T;
         description?: T;
+        descriptionLinkText?: T;
+        descriptionLinkType?: T;
+        descriptionLinkValue?: T;
         scribbleBorder?: T;
         imageTitleGap?: T;
         titleDescriptionGap?: T;
