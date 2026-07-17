@@ -57,6 +57,14 @@ const getPopulatedGallery = (event: EventSuiteItem) =>
     return image ? [{ ...item, image, index }] : []
   })
 
+const hasGalleryPhotosBeyondArtwork = (event: EventSuiteItem) => {
+  const gallery = getPopulatedGallery(event)
+  const coverItem = gallery.find((item) => item.isCover) || gallery[0]
+  const bannerItem = gallery.find((item) => item.isBanner) || gallery[0]
+
+  return gallery.some((item) => item !== coverItem && item !== bannerItem)
+}
+
 const toAlbum = (event: EventSuiteItem): EventGalleryAlbum | null => {
   const gallery = getPopulatedGallery(event)
   const coverItem = gallery.find((item) => item.isCover) || gallery[0]
@@ -98,14 +106,15 @@ export const getEventGalleryPage = async ({
 }): Promise<EventGalleryAlbumPage> => {
   const payload = await getPayload({ config: configPromise })
   const safePage = Math.max(page || 1, 1)
+  const safePageSize = getSafePageSize(photosPerPage)
   const result = await payload.find({
     collection: 'events',
     depth: 1,
-    limit: getSafePageSize(photosPerPage),
-    page: safePage,
+    pagination: false,
     select: {
       gallery: {
         image: true,
+        isBanner: true,
         isCover: true,
       },
       startsAt: true,
@@ -114,14 +123,20 @@ export const getEventGalleryPage = async ({
     sort: 'startsAt',
     where: buildEventWhere(filters),
   })
+  const albums = (result.docs as EventSuiteItem[]).flatMap((event) => {
+    if (!hasGalleryPhotosBeyondArtwork(event)) return []
+
+    const album = toAlbum(event)
+    return album ? [album] : []
+  })
+  const start = (safePage - 1) * safePageSize
+  const end = start + safePageSize
+  const hasNextPage = end < albums.length
 
   return {
-    albums: (result.docs as EventSuiteItem[]).flatMap((event) => {
-      const album = toAlbum(event)
-      return album ? [album] : []
-    }),
-    hasNextPage: result.hasNextPage,
-    nextPage: result.hasNextPage ? safePage + 1 : null,
+    albums: albums.slice(start, end),
+    hasNextPage,
+    nextPage: hasNextPage ? safePage + 1 : null,
   }
 }
 
