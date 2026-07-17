@@ -39,6 +39,9 @@ type Args = {
   }>
 }
 
+const addSoftHyphensToLongWords = (text: string) =>
+  text.replace(/\p{L}{12,}/gu, (word) => word.replace(/(.{6})(?=.{3})/gu, '$1\u00AD'))
+
 export default async function EventPage({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
@@ -90,8 +93,11 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                   {eventTypeLabel}
                 </p>
               ) : null}
-              <h1 className="font-rye-western mt-4 max-w-4xl text-5xl uppercase leading-[0.88] text-[var(--theme-text-secondary)] md:text-7xl lg:text-8xl">
-                {event.title}
+              <h1
+                aria-label={event.title}
+                className="font-rye-western mt-4 max-w-4xl text-5xl uppercase leading-[0.88] text-[var(--theme-text-secondary)] md:text-7xl lg:text-8xl"
+              >
+                <span aria-hidden>{addSoftHyphensToLongWords(event.title)}</span>
               </h1>
               {event.description ? (
                 <p className="mt-5 max-w-3xl text-sm font-semibold leading-6 text-white md:text-base md:leading-7">

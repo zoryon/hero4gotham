@@ -489,6 +489,13 @@
     position: relative;
   }
 
+  .event-detail-hero__copy h1 {
+    hyphenate-character: '-';
+    hyphens: manual;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
   .event-detail-hero__copy::before {
     background: radial-gradient(
       ellipse at 32% 50%,
