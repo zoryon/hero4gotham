@@ -189,6 +189,29 @@ const getColumnAwareImagePosition = (
 const getRowsForCardCount = (cardCount: number, columns: number) =>
   Math.max(1, Math.ceil(cardCount / Math.max(columns, 1)))
 
+const activityDescriptionMaxCharacters = 80
+
+const truncateActivityDescription = (description: string) => {
+  const characters = Array.from(description)
+
+  if (characters.length <= activityDescriptionMaxCharacters) return description
+
+  return `${characters.slice(0, activityDescriptionMaxCharacters).join('').trimEnd()}...`
+}
+
+const getActivityTitleFitStyle = (title: string): React.CSSProperties | undefined => {
+  const longestWordLength = title
+    .split(/\s+/)
+    .reduce((longest, word) => Math.max(longest, Array.from(word).length), 0)
+
+  if (longestWordLength < 13) return undefined
+
+  return {
+    fontSize: 'clamp(13px, 1.35vw, 18px)',
+    letterSpacing: '0.06em',
+  }
+}
+
 const StyledText: React.FC<{
   as?: 'h2' | 'h3' | 'p' | 'span'
   children: React.ReactNode
@@ -207,9 +230,19 @@ const StyledText: React.FC<{
     verticalScale: keyof typeof typographyVerticalScaleValues
   }
   prefix: string
+  preventInternalWordBreak?: boolean
   style?: React.CSSProperties
   styleConfig: TextStyle | null | undefined
-}> = ({ as: Tag = 'span', children, className, fallback, prefix, style, styleConfig }) => {
+}> = ({
+  as: Tag = 'span',
+  children,
+  className,
+  fallback,
+  prefix,
+  preventInternalWordBreak = false,
+  style,
+  styleConfig,
+}) => {
   const textTransform = styleConfig?.textTransform || fallback.textTransform
   const formattedChildren =
     typeof children === 'string' ? formatTextTransform(children, textTransform) : children
@@ -243,6 +276,14 @@ const StyledText: React.FC<{
           },
           prefix,
         ),
+        ...(preventInternalWordBreak
+          ? {
+              hyphens: 'none',
+              overflowWrap: 'normal',
+              textWrap: 'balance',
+              wordBreak: 'normal',
+            }
+          : {}),
         ...style,
       }}
     >
@@ -355,7 +396,9 @@ const ActivityCard: React.FC<{
           textTransform: 'uppercase',
           verticalScale: 'normal',
         }}
+        preventInternalWordBreak
         prefix={`activity-detail-${index}-title`}
+        style={getActivityTitleFitStyle(activity.title)}
         styleConfig={activity.titleStyle || sharedTitleStyle}
       >
         {activity.title}
@@ -364,7 +407,7 @@ const ActivityCard: React.FC<{
       {activity.description ? (
         <StyledText
           as="p"
-          className="activity-detail-card__description whitespace-pre-line"
+          className="whitespace-pre-line"
           fallback={{
             color: '#f7f0df',
             fontFamily: 'geistSans',
@@ -381,20 +424,22 @@ const ActivityCard: React.FC<{
           prefix={`activity-detail-${index}-description`}
           styleConfig={activity.descriptionStyle || sharedDescriptionStyle}
         >
-          {activity.description}
+          <span className="activity-detail-card__description-full-mobile">
+            {activity.description}
+          </span>
+          <span className="activity-detail-card__description-short">
+            {truncateActivityDescription(activity.description)}
+          </span>
         </StyledText>
       ) : null}
 
       {activity.details?.length ? (
-        <div className="activity-detail-card__details mt-4 flex flex-wrap gap-x-5 gap-y-2">
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
           {activity.details.map((detail, detailIndex) => {
             const icon = getMedia(detail.icon)
 
             return (
-              <div
-                className="activity-detail-card__detail flex items-center gap-1.5"
-                key={detail.id || detailIndex}
-              >
+              <div className="flex items-center gap-1.5" key={detail.id || detailIndex}>
                 {icon ? (
                   <span className="relative inline-flex size-4 shrink-0">
                     <Media
