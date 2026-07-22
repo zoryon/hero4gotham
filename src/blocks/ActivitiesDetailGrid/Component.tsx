@@ -364,7 +364,7 @@ const ActivityCard: React.FC<{
       {activity.description ? (
         <StyledText
           as="p"
-          className="whitespace-pre-line"
+          className="activity-detail-card__description whitespace-pre-line"
           fallback={{
             color: '#f7f0df',
             fontFamily: 'geistSans',
@@ -386,12 +386,15 @@ const ActivityCard: React.FC<{
       ) : null}
 
       {activity.details?.length ? (
-        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+        <div className="activity-detail-card__details mt-4 flex flex-wrap gap-x-5 gap-y-2">
           {activity.details.map((detail, detailIndex) => {
             const icon = getMedia(detail.icon)
 
             return (
-              <div className="flex items-center gap-1.5" key={detail.id || detailIndex}>
+              <div
+                className="activity-detail-card__detail flex items-center gap-1.5"
+                key={detail.id || detailIndex}
+              >
                 {icon ? (
                   <span className="relative inline-flex size-4 shrink-0">
                     <Media

@@ -3452,6 +3452,37 @@
     );
   }
 
+  @media (width < 80rem) {
+    .activity-detail-card__description {
+      display: -webkit-box !important;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      white-space: normal !important;
+    }
+
+    .activity-detail-card__details {
+      margin-top: 0.75rem;
+      row-gap: 0.4rem;
+    }
+
+    .activity-detail-card__detail:nth-child(n + 3) {
+      display: none;
+    }
+  }
+
+  @media (width < 36rem) {
+    .activity-detail-card__description {
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+    }
+
+    .activity-detail-card__detail:nth-child(n + 2) {
+      display: none;
+    }
+  }
+
   .torn-grid--generated {
     /* Kept as a compatibility class for existing rendered markup. */
   }

@@ -501,17 +501,6 @@ export const EventListClient: React.FC<Props> = ({
                   >
                     <div className={cn('grid min-w-0 content-center px-4 py-3', passedContentClassName)}>
                       <div className="flex min-w-0 items-center gap-2">
-                        {event.pinned ? (
-                          <span
-                            aria-label="Evento fissato in cima"
-                            className="inline-flex shrink-0 items-center gap-1.5 bg-[var(--theme-text-green)] px-2 py-1 font-rye-western text-[0.58rem] uppercase leading-none text-[#202028] shadow-[0_2px_0_rgb(0_0_0_/_0.35)]"
-                            role="img"
-                            title="Evento fissato in cima"
-                          >
-                            <Pin aria-hidden className="size-3.5" strokeWidth={2.8} />
-                            In evidenza
-                          </span>
-                        ) : null}
                         <h3
                           className={cn(
                             getEventSuiteTextClassName(ttlStyle, 'black'),
@@ -528,21 +517,36 @@ export const EventListClient: React.FC<Props> = ({
                           {event.title}
                         </h3>
                       </div>
-                      {eventTypeLabel ? (
-                        <div
-                          className={cn(
-                            getEventSuiteTextClassName(typStyle, 'black'),
-                            'mt-4 block w-fit',
-                          )}
-                          style={getEventSuiteTextStyle(typStyle, {
-                            fontFamily: 'cinzel',
-                            fontSizeDesktop: 11,
-                            fontSizeMobile: 10,
-                            fontWeight: 'black',
-                            lineHeight: 1,
-                          })}
-                        >
-                          {eventTypeLabel}
+                      {event.pinned || eventTypeLabel ? (
+                        <div className="mt-4 flex min-w-0 flex-wrap items-center gap-2">
+                          {event.pinned ? (
+                            <span
+                              aria-label="Evento fissato in cima"
+                              className="inline-flex shrink-0 items-center gap-1.5 bg-[var(--theme-text-green)] px-2 py-1 font-rye-western text-[0.58rem] uppercase leading-none text-[#202028] shadow-[0_2px_0_rgb(0_0_0_/_0.35)]"
+                              role="img"
+                              title="Evento fissato in cima"
+                            >
+                              <Pin aria-hidden className="size-3.5" strokeWidth={2.8} />
+                              In evidenza
+                            </span>
+                          ) : null}
+                          {eventTypeLabel ? (
+                            <span
+                              className={cn(
+                                getEventSuiteTextClassName(typStyle, 'black'),
+                                'block w-fit',
+                              )}
+                              style={getEventSuiteTextStyle(typStyle, {
+                                fontFamily: 'cinzel',
+                                fontSizeDesktop: 11,
+                                fontSizeMobile: 10,
+                                fontWeight: 'black',
+                                lineHeight: 1,
+                              })}
+                            >
+                              {eventTypeLabel}
+                            </span>
+                          ) : null}
                         </div>
                       ) : null}
                       {event.description ? (
