@@ -36,6 +36,7 @@ import { withBlockLayoutFields } from '@/fields/blockLayout'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
+import { normalizeLatestVersions } from '../../hooks/normalizeLatestVersions'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
@@ -328,7 +329,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePage],
+    afterChange: [normalizeLatestVersions('pages'), revalidatePage],
     beforeChange: [populatePublishedAt],
     afterDelete: [revalidateDelete],
   },

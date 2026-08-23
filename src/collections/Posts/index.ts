@@ -17,6 +17,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { normalizeLatestVersions } from '../../hooks/normalizeLatestVersions'
 
 import {
   MetaDescriptionField,
@@ -218,7 +219,7 @@ export const Posts: CollectionConfig<'posts'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
+    afterChange: [normalizeLatestVersions('posts'), revalidatePost],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },
