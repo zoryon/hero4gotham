@@ -296,6 +296,7 @@ const ActivityCard: React.FC<{
   activity: ActivityCardData
   dividerColor?: string | null
   fadeSize: number
+  imageDarkness: number
   index: number
   panelBackgroundColor?: string | null
   contentPadding: number
@@ -308,6 +309,7 @@ const ActivityCard: React.FC<{
   contentPadding,
   dividerColor,
   fadeSize,
+  imageDarkness,
   index,
   panelBackgroundColor,
   sharedCtaStyle,
@@ -322,6 +324,8 @@ const ActivityCard: React.FC<{
   const ctaBannerImage = getMedia(activity.ctaImage)
   const textPadding = `${contentPadding}px`
   const surfaceFadeSize = Math.max(24, Math.min(fadeSize || 44, 72))
+  const darknessOpacity = Math.min(Math.max(imageDarkness, 0), 90) / 100
+  const darknessOpacityAtTop = darknessOpacity * 0.72
 
   const imageNode = hasImage ? (
     <div
@@ -330,20 +334,22 @@ const ActivityCard: React.FC<{
         `activity-detail-card__media--${imagePosition}`,
         !imageFirst && (imagePosition === 'right' ? 'md:order-2' : 'order-2'),
       )}
-      style={{
-        borderColor: dividerColor || undefined,
-        borderStyle: dividerColor ? 'solid' : undefined,
-        borderWidth:
-          dividerColor && imagePosition === 'left'
-            ? '0 1px 0 0'
-            : dividerColor && imagePosition === 'right'
-              ? '0 0 0 1px'
-              : dividerColor && imagePosition === 'top'
-                ? '0 0 1px 0'
-                : dividerColor
-                  ? '1px 0 0 0'
-                  : undefined,
-      } as React.CSSProperties}
+      style={
+        {
+          borderColor: dividerColor || undefined,
+          borderStyle: dividerColor ? 'solid' : undefined,
+          borderWidth:
+            dividerColor && imagePosition === 'left'
+              ? '0 1px 0 0'
+              : dividerColor && imagePosition === 'right'
+                ? '0 0 0 1px'
+                : dividerColor && imagePosition === 'top'
+                  ? '0 0 1px 0'
+                  : dividerColor
+                    ? '1px 0 0 0'
+                    : undefined,
+        } as React.CSSProperties
+      }
     >
       <Media
         fill
@@ -357,8 +363,7 @@ const ActivityCard: React.FC<{
         className="pointer-events-none absolute inset-0"
         style={{
           WebkitMaskImage: getImageMask(imagePosition, fadeSize),
-          background: 'currentColor',
-          color: 'transparent',
+          background: `linear-gradient(180deg, rgba(0, 0, 0, ${darknessOpacityAtTop}), rgba(0, 0, 0, ${darknessOpacity}))`,
           maskImage: getImageMask(imagePosition, fadeSize),
         }}
       />
@@ -374,11 +379,13 @@ const ActivityCard: React.FC<{
           : 'activity-detail-card__content--full',
         !imageFirst && 'order-1',
       )}
-      style={{
-        '--activity-detail-surface-fade-size': `${surfaceFadeSize}px`,
-        backgroundColor: panelBackgroundColor || 'transparent',
-        padding: textPadding,
-      } as React.CSSProperties}
+      style={
+        {
+          '--activity-detail-surface-fade-size': `${surfaceFadeSize}px`,
+          backgroundColor: panelBackgroundColor || 'transparent',
+          padding: textPadding,
+        } as React.CSSProperties
+      }
     >
       <StyledText
         as="h3"
@@ -585,6 +592,7 @@ export const ActivitiesDetailGridBlock = async ({
   headingPaddingX = 34,
   headingPaddingY = 8,
   headingStyle,
+  imageDarkness = 25,
   imageFadeSize = 44,
   panelBg,
   responsive,
@@ -610,6 +618,7 @@ export const ActivitiesDetailGridBlock = async ({
   const compactCellMinHeight = Math.min(resolvedCellMinHeight, 170)
   const responsiveCellHeight = `clamp(${compactCellMinHeight}px, 13vw, ${resolvedCellMinHeight}px)`
   const resolvedGridGap = Math.max(gridGap ?? 0, 0)
+  const resolvedImageDarkness = Math.min(Math.max(imageDarkness ?? 25, 0), 90)
   const automaticActivities = source === 'automatic' ? await getAutomaticActivities(fetchLimit) : []
   const cards: ActivityCardData[] =
     source === 'automatic'
@@ -639,6 +648,7 @@ export const ActivitiesDetailGridBlock = async ({
       contentPadding={contentPadding ?? 22}
       dividerColor={dividerColor}
       fadeSize={imageFadeSize ?? 44}
+      imageDarkness={resolvedImageDarkness}
       index={index}
       key={activity.id || index}
       panelBackgroundColor={panelBg}
@@ -717,9 +727,7 @@ export const ActivitiesDetailGridBlock = async ({
           return (
             <div
               className={
-                useFeaturedLayout
-                  ? 'activity-detail-feature-row'
-                  : 'activity-detail-grid grid'
+                useFeaturedLayout ? 'activity-detail-feature-row' : 'activity-detail-grid grid'
               }
               key={`activity-row-${rowIndex}`}
               style={{ gridTemplateRows: 'none' }}

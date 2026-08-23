@@ -659,6 +659,10 @@ export interface ActivitiesDetailGridBlock {
    * Creates the soft blend where immagine and contenuto meet. No sfondo colore is added.
    */
   imageFadeSize?: number | null;
+  /**
+   * 0 mantiene le immagini originali. Valori piu alti aggiungono una sfumatura scura piu intensa.
+   */
+  imageDarkness?: number | null;
   gridGap?: number | null;
   titleStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
@@ -3998,6 +4002,7 @@ export interface ActivitiesDetailGridBlockSelect<T extends boolean = true> {
   cellMinHeight?: T;
   contentPadding?: T;
   imageFadeSize?: T;
+  imageDarkness?: T;
   gridGap?: T;
   titleStyle?:
     | T

@@ -64,6 +64,7 @@ import * as migration_20260707_170000_protected_media_folders from './20260707_1
 import * as migration_20260707_180000_remove_membership_application_iban from './20260707_180000_remove_membership_application_iban'
 import * as migration_20260717_210000_torn_card_description_links from './20260717_210000_torn_card_description_links'
 import * as migration_20260823_200000_normalize_latest_versions from './20260823_200000_normalize_latest_versions'
+import * as migration_20260823_210000_activity_detail_image_darkness from './20260823_210000_activity_detail_image_darkness'
 
 export const migrations = [
   {
@@ -395,5 +396,10 @@ export const migrations = [
     up: migration_20260823_200000_normalize_latest_versions.up,
     down: migration_20260823_200000_normalize_latest_versions.down,
     name: '20260823_200000_normalize_latest_versions',
+  },
+  {
+    up: migration_20260823_210000_activity_detail_image_darkness.up,
+    down: migration_20260823_210000_activity_detail_image_darkness.down,
+    name: '20260823_210000_activity_detail_image_darkness',
   },
 ]

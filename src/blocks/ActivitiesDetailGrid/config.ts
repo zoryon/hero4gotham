@@ -585,7 +585,8 @@ export const ActivitiesDetailGrid: Block = {
                   min: 1,
                   max: 8,
                   admin: {
-                    description: 'Caps automatic fetches. The collection itself is also limited to 8.',
+                    description:
+                      'Caps automatic fetches. The collection itself is also limited to 8.',
                     step: 1,
                     width: '25%',
                   },
@@ -604,7 +605,7 @@ export const ActivitiesDetailGrid: Block = {
                   max: 600,
                   admin: {
                     step: 1,
-                    width: '25%',
+                    width: '20%',
                   },
                 },
                 {
@@ -616,7 +617,7 @@ export const ActivitiesDetailGrid: Block = {
                   max: 120,
                   admin: {
                     step: 1,
-                    width: '25%',
+                    width: '20%',
                   },
                 },
                 {
@@ -630,7 +631,21 @@ export const ActivitiesDetailGrid: Block = {
                     description:
                       'Creates the soft blend where image and content meet. No background color is added.',
                     step: 1,
-                    width: '25%',
+                    width: '20%',
+                  },
+                },
+                {
+                  name: 'imageDarkness',
+                  type: 'number',
+                  defaultValue: 25,
+                  label: 'Image darkness (%)',
+                  min: 0,
+                  max: 90,
+                  admin: {
+                    description:
+                      '0 keeps the original images. Higher values add a stronger softly graduated dark overlay.',
+                    step: 1,
+                    width: '20%',
                   },
                 },
                 {
@@ -642,7 +657,7 @@ export const ActivitiesDetailGrid: Block = {
                   max: 80,
                   admin: {
                     step: 1,
-                    width: '25%',
+                    width: '20%',
                   },
                 },
               ],

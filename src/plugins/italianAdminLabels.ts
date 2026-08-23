@@ -350,6 +350,7 @@ const exactTranslations: Record<string, string> = {
   'Icon text color': 'Colore testo icona',
   'Image above title': 'Immagine sopra il titolo',
   'Image area (%)': 'Area immagine (%)',
+  'Image darkness (%)': 'Scurezza immagini (%)',
   'Image fade size (px)': 'Dimensione sfumatura immagine (px)',
   'Image position': 'Posizione immagine',
   'Image quality': 'Qualita immagine',
@@ -615,6 +616,8 @@ const descriptionTranslations: Record<string, string> = {
     'Luogo visualizzato nelle liste eventi e nei filtri.',
   'Image used by the optional Scribble border / cornice vintage style.':
     'Immagine usata dal bordo disegnato opzionale / stile cornice vintage.',
+  '0 keeps the original images. Higher values add a stronger softly graduated dark overlay.':
+    '0 mantiene le immagini originali. Valori piu alti aggiungono una sfumatura scura piu intensa.',
   'Leave empty for no hard-coded divider color.':
     'Lascia vuoto per non impostare un colore divisore fisso.',
   'Lower numbers appear first in automatic activity blocks.':
