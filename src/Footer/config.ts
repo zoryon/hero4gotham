@@ -106,7 +106,7 @@ export const Footer: GlobalConfig = {
               name: 'legalLinks',
               type: 'array',
               access: {
-                update: adminOrEventsManagerField,
+                update: adminFieldOnly,
               },
               fields: [
                 link({
