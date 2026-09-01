@@ -47,11 +47,16 @@ const presetBackgrounds = {
     'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,calc(var(--backdrop-opacity) * 0.72)) 16%, rgba(0,0,0,var(--backdrop-opacity)) 50%, rgba(0,0,0,calc(var(--backdrop-opacity) * 0.72)) 84%, rgba(0,0,0,0) 100%)',
 }
 
-export const TextBackdropBlock: React.FC<TextBackdropBlockProps> = ({
+type TextBackdropComponentProps = TextBackdropBlockProps & {
+  isFirstPageBlock?: boolean
+}
+
+export const TextBackdropBlock: React.FC<TextBackdropComponentProps> = ({
   align = 'left',
   blocks,
   customMaxWidth,
   intensity = 'strong',
+  isFirstPageBlock = false,
   manualMargin,
   offsetX = 0,
   offsetY = 0,
@@ -93,10 +98,16 @@ export const TextBackdropBlock: React.FC<TextBackdropBlockProps> = ({
   } as React.CSSProperties
 
   return (
-    <section className={cn(width === 'container' ? undefined : 'container')}>
+    <section
+      className={cn(
+        width === 'container' ? undefined : 'container',
+        isFirstPageBlock && 'page-hero-text-backdrop',
+      )}
+    >
       <div
         className={cn(
           'relative isolate overflow-visible',
+          isFirstPageBlock && 'page-hero-text-backdrop__panel',
           widthClasses[width ?? 'content'],
           alignClasses[align ?? 'left'],
           paddingClasses[padding ?? 'medium'],
@@ -130,6 +141,7 @@ export const TextBackdropBlock: React.FC<TextBackdropBlockProps> = ({
 
         <RenderBlocks
           blocks={blocks as TextBackdropChild[]}
+          disableTextBlockContainers
           wrapperClassName="my-2 first:mt-0 last:mb-0"
         />
       </div>

@@ -16,6 +16,7 @@ import { cn } from '@/utilities/ui'
 
 export type TitleProps = {
   className?: string
+  disableInnerContainer?: boolean
   title?: string
   align?: 'left' | 'center'
   fontSize?: TypographyFontSize | null
@@ -98,6 +99,7 @@ const renderTitle = (title: string, lineBreaks?: TitleProps['lineBreaks']) => {
 
 export const TitleBlock: React.FC<TitleProps> = ({
   className,
+  disableInnerContainer = false,
   title = 'Benvenuti nel nostro caos',
   align = 'center',
   fontSize = 'hero',
@@ -114,7 +116,7 @@ export const TitleBlock: React.FC<TitleProps> = ({
   const titleLetterSpacing = '0.04em'
 
   return (
-    <section className={cn('container', className)}>
+    <section className={cn(!disableInnerContainer && 'container', className)}>
       <div className="relative isolate overflow-visible">
         <div className={cn('relative z-10', isCentered ? 'text-center' : 'text-left')}>
           <h2

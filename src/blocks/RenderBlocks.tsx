@@ -155,12 +155,18 @@ type RenderableBlockProps = Page['layout'][0] & {
 
 type RenderBlocksProps = {
   blocks: (Page['layout'][0] & { layout?: BlockLayoutSettings | null })[]
+  disableTextBlockContainers?: boolean
   markFirstBlock?: boolean
   wrapperClassName?: string
 }
 
 export const RenderBlocks = async (props: RenderBlocksProps) => {
-  const { blocks: unresolvedBlocks, markFirstBlock = false, wrapperClassName = 'my-16' } = props
+  const {
+    blocks: unresolvedBlocks,
+    disableTextBlockContainers = false,
+    markFirstBlock = false,
+    wrapperClassName = 'my-16',
+  } = props
   const blocks = await resolveCmsVariables(unresolvedBlocks)
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
@@ -427,7 +433,11 @@ export const RenderBlocks = async (props: RenderBlocksProps) => {
                 >
                   <BlockToRender
                     {...block}
-                    disableInnerContainer
+                    disableInnerContainer={
+                      blockType === 'title' || blockType === 'subtitle'
+                        ? disableTextBlockContainers
+                        : true
+                    }
                     isFirstPageBlock={index === firstRenderableIndex}
                   />
                 </div>

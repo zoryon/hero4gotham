@@ -30,6 +30,7 @@ const letterSpacingValues = {
 
 export type SubtitleProps = {
   className?: string
+  disableInnerContainer?: boolean
   text?: string
   align?: 'left' | 'center'
   fontSize?: TypographySubtitleFontSize | null
@@ -105,6 +106,7 @@ const renderSubtitle = (text: string, lineBreaks?: SubtitleProps['lineBreaks']) 
 
 export const SubtitleBlock: React.FC<SubtitleProps> = ({
   className,
+  disableInnerContainer = false,
   text = 'Nel nostro caos',
   align = 'center',
   fontSize = 'base',
@@ -137,7 +139,13 @@ export const SubtitleBlock: React.FC<SubtitleProps> = ({
   const resolvedLetterSpacing = letterSpacing ?? 'wide'
 
   return (
-    <section className={cn('container', isCentered ? 'text-center' : 'text-left', className)}>
+    <section
+      className={cn(
+        !disableInnerContainer && 'container',
+        isCentered ? 'text-center' : 'text-left',
+        className,
+      )}
+    >
       <p
         className={cn(
           'max-w-full break-words leading-snug origin-center',

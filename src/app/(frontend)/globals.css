@@ -89,6 +89,16 @@
 }
 
 @layer components {
+  @media (width < 48rem) {
+    .page-hero-text-backdrop {
+      padding-inline: 0.5rem;
+    }
+
+    .page-hero-text-backdrop > .page-hero-text-backdrop__panel {
+      padding-inline: 0;
+    }
+  }
+
   .site-header {
     background: transparent;
     color: var(--header-text);
