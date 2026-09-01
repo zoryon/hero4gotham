@@ -440,7 +440,7 @@ export const TornCardsBlock: React.FC<TornCardsComponentProps> = ({
   const usesLayoutWidth = Boolean(layout?.scribbleBorder || hasExplicitLayoutSize)
   const containerClassName = usesLayoutWidth
     ? hasBleedingCardBorders
-      ? 'torn-cards-block--layout-width-with-card-bleed'
+      ? 'torn-cards-block--layout-width-with-card-bleed mx-2 md:mx-[calc(var(--vintage-border-width,15px)*0.75)]'
       : 'w-full'
     : containerWidthClasses[containerWidth || 'wide']
 

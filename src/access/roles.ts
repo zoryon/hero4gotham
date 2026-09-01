@@ -3,6 +3,7 @@ import type { Access, AccessArgs, FieldAccess } from 'payload'
 type Role = 'admin' | 'eventsManager'
 
 type RoleUser = {
+  id?: number | string
   role?: Role | null
 }
 
@@ -27,6 +28,17 @@ export const isAdminOrEventsManager = ({ req: { user } }: AccessArgs): boolean =
 export const adminOnly: Access = (args) => isAdmin(args)
 
 export const adminOrEventsManager: Access = (args) => isAdminOrEventsManager(args)
+
+export const adminOrSelf: Access = ({ req: { user } }) => {
+  if (getRole(user) === 'admin') return true
+  if (!user || typeof user !== 'object' || !('id' in user)) return false
+
+  return {
+    id: {
+      equals: (user as RoleUser).id,
+    },
+  }
+}
 
 export const adminFieldOnly: FieldAccess = ({ req: { user } }) => getRole(user) === 'admin'
 
