@@ -65,6 +65,7 @@ import * as migration_20260707_180000_remove_membership_application_iban from '.
 import * as migration_20260717_210000_torn_card_description_links from './20260717_210000_torn_card_description_links'
 import * as migration_20260823_200000_normalize_latest_versions from './20260823_200000_normalize_latest_versions'
 import * as migration_20260823_210000_activity_detail_image_darkness from './20260823_210000_activity_detail_image_darkness'
+import * as migration_20260901_193000_remove_payload_metadata_branding from './20260901_193000_remove_payload_metadata_branding'
 
 export const migrations = [
   {
@@ -401,5 +402,10 @@ export const migrations = [
     up: migration_20260823_210000_activity_detail_image_darkness.up,
     down: migration_20260823_210000_activity_detail_image_darkness.down,
     name: '20260823_210000_activity_detail_image_darkness',
+  },
+  {
+    up: migration_20260901_193000_remove_payload_metadata_branding.up,
+    down: migration_20260901_193000_remove_payload_metadata_branding.down,
+    name: '20260901_193000_remove_payload_metadata_branding',
   },
 ]

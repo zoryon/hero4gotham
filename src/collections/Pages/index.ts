@@ -33,6 +33,7 @@ import { ThreePanelShowcase } from '../../blocks/ThreePanelShowcase/config'
 import { UpcomingEvents } from '../../blocks/UpcomingEvents/config'
 import { UpcomingEventsCta } from '@/blocks/UpcomingEventsCta/config'
 import { withBlockLayoutFields } from '@/fields/blockLayout'
+import { siteMetaTitleField } from '@/fields/siteMetaTitle'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -43,7 +44,6 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import {
   MetaDescriptionField,
   MetaImageField,
-  MetaTitleField,
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
@@ -299,9 +299,7 @@ export const Pages: CollectionConfig<'pages'> = {
               descriptionPath: 'meta.description',
               imagePath: 'meta.image',
             }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
+            siteMetaTitleField(),
             MetaImageField({
               relationTo: 'media',
             }),

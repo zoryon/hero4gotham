@@ -1,4 +1,5 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
+import { DEFAULT_META_DESCRIPTION } from '@/utilities/siteMetadata'
 
 // Used for pre-seeded content so that the homepage is not empty
 export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
@@ -19,7 +20,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: 'Payload Website Template',
+                text: 'Hero 4 Gotham',
                 version: 1,
               },
             ],
@@ -80,8 +81,8 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
     },
   },
   meta: {
-    description: 'An open-source website built with Payload and Next.js.',
-    title: 'Payload Website Template',
+    description: DEFAULT_META_DESCRIPTION,
+    title: 'Hero 4 Gotham',
   },
   title: 'Home',
   layout: [],

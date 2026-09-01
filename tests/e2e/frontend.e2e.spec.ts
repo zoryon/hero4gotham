@@ -1,17 +1,20 @@
-import { test, expect, Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Frontend', () => {
-  let page: Page
-
-  test.beforeAll(async ({ browser }, testInfo) => {
-    const context = await browser.newContext()
-    page = await context.newPage()
-  })
-
-  test('can load homepage', async ({ page }) => {
+  test('exposes Hero 4 Gotham metadata without template branding', async ({ page }) => {
     await page.goto('http://localhost:3000')
-    await expect(page).toHaveTitle(/Payload Website Template/)
-    const heading = page.locator('h1').first()
-    await expect(heading).toHaveText('Payload Website Template')
+
+    const title = await page.title()
+
+    expect(title).not.toContain('Payload Website Template')
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      'content',
+      title,
+    )
+    await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute(
+      'content',
+      'Hero 4 Gotham',
+    )
+    await expect(page.locator('meta[name="twitter:creator"]')).toHaveCount(0)
   })
 })

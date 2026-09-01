@@ -18,11 +18,11 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { normalizeLatestVersions } from '../../hooks/normalizeLatestVersions'
+import { siteMetaTitleField } from '@/fields/siteMetaTitle'
 
 import {
   MetaDescriptionField,
   MetaImageField,
-  MetaTitleField,
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
@@ -143,9 +143,7 @@ export const Posts: CollectionConfig<'posts'> = {
               descriptionPath: 'meta.description',
               imagePath: 'meta.image',
             }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
+            siteMetaTitleField(),
             MetaImageField({
               relationTo: 'media',
             }),
