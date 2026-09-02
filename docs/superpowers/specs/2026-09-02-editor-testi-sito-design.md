@@ -4,7 +4,7 @@
 
 Fornire agli utenti con ruolo `eventsManager` una pagina dedicata nel CMS dalla quale possano modificare e pubblicare tutto il testo visibile sul sito senza poter cambiare layout, colori, immagini, URL, formattazione o struttura dei contenuti.
 
-La stessa pagina sarà disponibile anche agli amministratori. Le normali aree amministrative continueranno a funzionare come oggi e i relativi permessi non verranno ampliati implicitamente.
+La stessa pagina sarà disponibile anche agli amministratori. Le schermate complete di Pagine, Header, Footer e Privacy rimarranno accessibili soltanto agli admin. Il gestore eventi conserverà invece le normali schermate e i permessi necessari per gestire gli eventi.
 
 ## Ambito editoriale
 
@@ -114,7 +114,8 @@ La risposta di lettura contiene soltanto i valori necessari alla UI. Informazion
 ## Compatibilità con il CMS esistente
 
 - Gli admin conservano le schermate complete per modificare layout e configurazione.
-- I gestori eventi conservano i permessi che possiedono già sulle altre collezioni; questa funzionalità non li riduce né li estende oltre l'editor testuale dedicato.
+- Le schermate complete di Pagine, Header, Footer e Privacy diventano admin-only, così il gestore non può aggirare le limitazioni dell'editor testuale.
+- I gestori eventi conservano i permessi operativi che possiedono sulla collezione Eventi e sulle risorse necessarie a gestirla; l'editor testuale non amplia tali permessi.
 - Le versioni delle pagine rimangono abilitate. Il pulsante della vista dedicata salva direttamente una versione pubblicata, come richiesto.
 - Gli hook di revalidation esistenti continuano a invalidare pagine e cache. La Global dei testi statici avrà un hook equivalente.
 - I tipi Payload e l'import map dell'admin vengono rigenerati dopo le modifiche allo schema e alla custom view.
