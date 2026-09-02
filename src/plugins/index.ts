@@ -15,6 +15,7 @@ import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getSiteTitle } from '@/utilities/siteMetadata'
 import { italianAdminLabelsPlugin } from './italianAdminLabels'
+import { siteTextCatalogPlugin } from '@/siteText/catalog'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return getSiteTitle(doc?.title)
@@ -125,4 +126,5 @@ export const plugins: Plugin[] = [
     },
   }),
   italianAdminLabelsPlugin,
+  siteTextCatalogPlugin,
 ]
