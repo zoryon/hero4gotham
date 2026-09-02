@@ -11,12 +11,14 @@ import type {
 type DataRecord = Record<string, unknown>
 
 type InternalControl = SiteTextControl & {
+  fromDefault: boolean
   path: SiteTextPath
 }
 
 type TraversableField = Field & {
   blocks?: Block[]
   custom?: Record<string, unknown>
+  defaultValue?: unknown
   fields?: Field[]
   label?: unknown
   name?: string
@@ -66,10 +68,15 @@ const setAtPath = (value: unknown, path: SiteTextPath, nextValue: string) => {
 
   let current = value
 
-  for (const segment of path.slice(0, -1)) {
+  for (const [index, segment] of path.slice(0, -1).entries()) {
+    const nextSegment = path[index + 1]
+
     if (Array.isArray(current) && typeof segment === 'number') {
       current = current[segment]
     } else if (isRecord(current) && typeof segment === 'string') {
+      if (current[segment] === undefined && typeof nextSegment === 'string') {
+        current[segment] = {}
+      }
       current = current[segment]
     } else {
       throw new Error('Struttura del testo non valida')
@@ -101,16 +108,19 @@ const simpleControl = (
   options: SiteTextFieldOptions,
   control: SiteTextControlType,
 ): InternalControl | null => {
-  if (typeof value !== 'string') return null
+  const fromDefault = typeof value !== 'string' && typeof field.defaultValue === 'string'
+  const resolvedValue = typeof value === 'string' ? value : field.defaultValue
+  if (typeof resolvedValue !== 'string') return null
 
   return {
     ...options,
     control,
+    fromDefault,
     id: pathID(idPath),
     label: fieldLabel(field, options),
     path,
     required: field.required === true,
-    value,
+    value: resolvedValue,
   }
 }
 
@@ -153,7 +163,12 @@ const collectFields = (
     const fieldValue = data[field.name]
 
     if (field.type === 'group' && Array.isArray(field.fields)) {
-      return collectFields(field.fields, fieldValue, fieldPath, fieldIDPath)
+      return collectFields(
+        field.fields,
+        isRecord(fieldValue) ? fieldValue : {},
+        fieldPath,
+        fieldIDPath,
+      )
     }
 
     if (field.type === 'array' && Array.isArray(field.fields) && Array.isArray(fieldValue)) {
@@ -203,6 +218,7 @@ const collectFields = (
       return extractLexicalTextLeaves(fieldValue, fieldPath).map((leaf, index) => ({
         ...options,
         control: 'textarea' as const,
+        fromDefault: false,
         id: pathID([...fieldIDPath, ...leaf.path.slice(fieldPath.length)]),
         label: `${label} ${index + 1}`,
         path: leaf.path,
@@ -216,11 +232,13 @@ const collectFields = (
 }
 
 export const extractSiteTextControls = (fields: Field[], data: unknown): SiteTextControl[] =>
-  collectFields(fields, data).map(({ path: _path, ...control }) => control)
+  collectFields(fields, data).map(
+    ({ fromDefault: _fromDefault, path: _path, ...control }) => control,
+  )
 
 export const applySiteTextChanges = <T>(fields: Field[], data: T, changes: SiteTextChange[]): T => {
   const controls = collectFields(fields, data)
-  const allowed = new Map(controls.map((control) => [control.id, control.path]))
+  const allowed = new Map(controls.map((control) => [control.id, control]))
   const seen = new Set<string>()
   const updated = structuredClone(data)
 
@@ -228,13 +246,13 @@ export const applySiteTextChanges = <T>(fields: Field[], data: T, changes: SiteT
     if (seen.has(change.id)) throw new Error('Campo di testo duplicato')
     seen.add(change.id)
 
-    const path = allowed.get(change.id)
-    if (!path) throw new Error('Campo di testo non valido')
+    const control = allowed.get(change.id)
+    if (!control) throw new Error('Campo di testo non valido')
     if (typeof change.value !== 'string') throw new Error('Valore di testo non valido')
-    if (typeof getAtPath(updated, path) !== 'string')
+    if (typeof getAtPath(updated, control.path) !== 'string' && !control.fromDefault)
       throw new Error('Struttura del testo non valida')
 
-    setAtPath(updated, path, change.value)
+    setAtPath(updated, control.path, change.value)
   }
 
   return updated

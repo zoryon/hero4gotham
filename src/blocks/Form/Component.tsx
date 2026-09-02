@@ -10,6 +10,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import { fields } from './fields'
 import { getClientSideURL } from '@/utilities/getURL'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export type FormBlockType = {
   blockName?: string
@@ -24,6 +25,7 @@ export const FormBlock: React.FC<
     id?: string
   } & FormBlockType
 > = (props) => {
+  const copy = useSiteCopy()
   const {
     enableIntro,
     form: formFromProps,
@@ -82,7 +84,7 @@ export const FormBlock: React.FC<
             setIsLoading(false)
 
             setError({
-              message: res.errors?.[0]?.message || 'Errore interno del server',
+              message: res.errors?.[0]?.message || copy.forms.serverError,
               status: res.status,
             })
 
@@ -103,14 +105,14 @@ export const FormBlock: React.FC<
           console.warn(err)
           setIsLoading(false)
           setError({
-            message: 'Qualcosa e andato storto.',
+            message: copy.forms.genericError,
           })
         }
       }
 
       void submitForm()
     },
-    [router, formID, redirect, confirmationType],
+    [copy.forms.genericError, copy.forms.serverError, router, formID, redirect, confirmationType],
   )
 
   return (
@@ -123,7 +125,7 @@ export const FormBlock: React.FC<
           {!isLoading && hasSubmitted && confirmationType === 'message' && (
             <RichText data={confirmationMessage} />
           )}
-          {isLoading && !hasSubmitted && <p>Caricamento, attendi...</p>}
+          {isLoading && !hasSubmitted && <p>{copy.forms.loading}</p>}
           {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>

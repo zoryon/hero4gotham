@@ -25,6 +25,7 @@ import { Media } from '@/components/Media'
 import { useEventFilters } from '@/providers/EventFilters'
 import { useDebounce } from '@/utilities/useDebounce'
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 type Props = {
   albums: EventGalleryAlbum[]
@@ -78,18 +79,19 @@ export const EventGalleryClient: React.FC<Props> = ({
   btnStyle,
   desktopColumns,
   dtStyle,
-  emptyStateLabel = 'Nessuna foto trovata',
+  emptyStateLabel,
   emptyStateStyle,
   gap,
   initialHasNextPage = false,
   initialNextPage = null,
   loadMoreBackgroundImage,
-  loadMoreLabel = 'Carica altre foto',
+  loadMoreLabel,
   mobileColumns,
   photosPerPage = 9,
   tabletColumns,
   ttlStyle,
 }) => {
+  const copy = useSiteCopy()
   const safeMobileColumns = clampNumber(mobileColumns, 1, 1, 2)
   const safeTabletColumns = clampNumber(tabletColumns, 2, 1, 3)
   const safeDesktopColumns = clampNumber(desktopColumns, 4, 1, 6)
@@ -400,7 +402,7 @@ export const EventGalleryClient: React.FC<Props> = ({
               ))
             : albumItems.map((album, albumIndex) => (
                 <button
-                  aria-label={`Apri l'album ${album.title}`}
+                  aria-label={copy.accessibility.openAlbumNamed.replace('{title}', album.title)}
                   className="event-gallery-card scribble-border event-gallery-card-border group relative isolate h-full w-full min-w-0 cursor-pointer overflow-visible text-left"
                   key={album.eventId}
                   onClick={() => openAlbum(album)}
@@ -462,12 +464,12 @@ export const EventGalleryClient: React.FC<Props> = ({
               lineHeight: 1.15,
             })}
           >
-            {emptyStateLabel || 'Nessuna foto trovata'}
+            {emptyStateLabel || copy.eventDetail.galleryEmpty}
           </span>
         </div>
       ) : (
         <div aria-live="polite" className="min-h-32" role="status">
-          <span className="sr-only">Caricamento foto…</span>
+          <span className="sr-only">{copy.accessibility.loadingPhotos}</span>
         </div>
       )}
 
@@ -483,7 +485,9 @@ export const EventGalleryClient: React.FC<Props> = ({
             style={buttonStyle}
             type="button"
           >
-            {selectedAlbum ? loadMoreLabel || 'Carica altre foto' : 'Carica altri album'}
+            {selectedAlbum
+              ? loadMoreLabel || copy.eventDetail.galleryLoadMore
+              : copy.eventDetail.galleryLoadMoreAlbums}
           </button>
         </div>
       ) : null}

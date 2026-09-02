@@ -1,6 +1,7 @@
 'use client'
 
 import { useHeaderTheme } from '@/providers/HeaderTheme'
+import { useSiteCopy } from '@/providers/SiteCopy'
 import { Menu, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -196,6 +197,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const copy = useSiteCopy()
   const navItems = data?.navItems || []
   const socialItems = data?.socialItems || []
   // const eyebrowTextTransform = data?.eyebrowTypography?.textTransform
@@ -266,7 +268,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <button
           aria-controls="site-header-menu"
           aria-expanded={isMenuOpen}
-          aria-label={isMenuOpen ? 'Chiudi navigazione' : 'Apri navigazione'}
+          aria-label={
+            isMenuOpen ? copy.accessibility.closeNavigation : copy.accessibility.openNavigation
+          }
           className="site-header__menu-toggle"
           onClick={() => setIsMenuOpen((open) => !open)}
           type="button"
@@ -283,7 +287,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           id="site-header-menu"
         >
           <nav
-            aria-label="Primary navigation"
+            aria-label={copy.accessibility.primaryNavigation}
             className="site-header__nav"
             onClickCapture={(event) => {
               if (event.target instanceof Element && event.target.closest('a')) {
@@ -312,10 +316,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </nav>
 
           {socialItems.length ? (
-            <nav aria-label="Social links" className="site-header__social">
+            <nav aria-label={copy.accessibility.socialLinks} className="site-header__social">
               {socialItems.map((item, index) => (
                 <a
-                  aria-label={item.label || item.platform || 'Social'}
+                  aria-label={item.label || item.platform || copy.accessibility.socialFallback}
                   className={cn(
                     'site-header__social-link',
                     textTransformClass(socialTextTransform),

@@ -6,6 +6,7 @@ import { Check, ChevronDown, ChevronLeft, ChevronRight, Search } from 'lucide-re
 import type { EventFiltersBlock as EventFiltersBlockProps } from '@/payload-types'
 
 import { useEventFilters } from '@/providers/EventFilters'
+import { useSiteCopy } from '@/providers/SiteCopy'
 import { cn } from '@/utilities/ui'
 import {
   typographyFontFamilyStyles,
@@ -190,6 +191,7 @@ export const EventFiltersClient: React.FC<Props> = ({
   venueLabel = 'Luogo',
   venues,
 }) => {
+  const copy = useSiteCopy()
   const { activityId, date, query, setActivityId, setDate, setQuery, setVenue, venue } =
     useEventFilters()
   const filtersRef = React.useRef<HTMLElement>(null)
@@ -457,7 +459,7 @@ export const EventFiltersClient: React.FC<Props> = ({
             >
               <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-center border-b border-white/10 bg-[#242424]">
                 <button
-                  aria-label="Mese precedente"
+                  aria-label={copy.eventSuite.calendarPreviousMonth}
                   className="grid h-9 w-8 place-items-center bg-transparent outline-none transition hover:bg-[#303030] focus:bg-[#303030] focus:outline-none focus-visible:outline-none focus-visible:ring-0"
                   onClick={() => setCalendarMonth((current) => getNextMonth(current, -1))}
                   type="button"
@@ -472,7 +474,7 @@ export const EventFiltersClient: React.FC<Props> = ({
                   {monthDisplayFormatter.format(calendarMonth)}
                 </span>
                 <button
-                  aria-label="Mese successivo"
+                  aria-label={copy.eventSuite.calendarNextMonth}
                   className="grid h-9 w-8 place-items-center bg-transparent outline-none transition hover:bg-[#303030] focus:bg-[#303030] focus:outline-none focus-visible:outline-none focus-visible:ring-0"
                   onClick={() => setCalendarMonth((current) => getNextMonth(current, 1))}
                   type="button"

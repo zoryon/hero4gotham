@@ -7,12 +7,14 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { useSiteCopy } from '@/providers/SiteCopy'
 export const Number: React.FC<
   TextField & {
     errors: Partial<FieldErrorsImpl>
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  const copy = useSiteCopy()
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -20,7 +22,7 @@ export const Number: React.FC<
 
         {required && (
           <span className="required">
-            * <span className="sr-only">(obbligatorio)</span>
+            * <span className="sr-only">({copy.forms.requiredLabel})</span>
           </span>
         )}
       </Label>

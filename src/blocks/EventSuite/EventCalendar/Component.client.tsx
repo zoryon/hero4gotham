@@ -14,6 +14,7 @@ import type {
   EventCalendarDayMarker,
 } from '@/blocks/EventSuite/EventCalendar/queries'
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 type Props = {
@@ -103,6 +104,7 @@ export const EventCalendarClient: React.FC<Props> = ({
   monStyle,
   specialBorder,
 }) => {
+  const copy = useSiteCopy()
   const [monthDate, setMonthDate] = React.useState(() => new Date(initialYear, initialMonth, 1))
   const [eventMarkers, setEventMarkers] = React.useState(initialEventMarkers)
   const eventMarkersCache = React.useRef(
@@ -221,7 +223,7 @@ export const EventCalendarClient: React.FC<Props> = ({
 
           <div className="grid min-w-0 grid-cols-[1.75rem_1.75rem_minmax(0,1fr)_1.75rem_1.75rem] items-center gap-1">
             <button
-              aria-label="Anno precedente"
+              aria-label={copy.eventSuite.calendarPreviousYear}
               className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
               onClick={() => moveCalendar(-12)}
               type="button"
@@ -229,7 +231,7 @@ export const EventCalendarClient: React.FC<Props> = ({
               <ChevronsLeft aria-hidden className="h-4 w-4" strokeWidth={2.3} />
             </button>
             <button
-              aria-label="Mese precedente"
+              aria-label={copy.eventSuite.calendarPreviousMonth}
               className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
               onClick={() => moveCalendar(-1)}
               type="button"
@@ -254,7 +256,7 @@ export const EventCalendarClient: React.FC<Props> = ({
               {monthLabel}
             </div>
             <button
-              aria-label="Mese successivo"
+              aria-label={copy.eventSuite.calendarNextMonth}
               className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
               onClick={() => moveCalendar(1)}
               type="button"
@@ -262,7 +264,7 @@ export const EventCalendarClient: React.FC<Props> = ({
               <ChevronRight aria-hidden className="h-4 w-4" strokeWidth={2.3} />
             </button>
             <button
-              aria-label="Anno successivo"
+              aria-label={copy.eventSuite.calendarNextYear}
               className="grid aspect-square cursor-pointer place-items-center text-[var(--theme-text-secondary)] transition hover:text-[var(--theme-text-accent)] focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--theme-text-accent)]"
               onClick={() => moveCalendar(12)}
               type="button"

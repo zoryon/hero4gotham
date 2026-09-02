@@ -8,6 +8,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { getSiteCopy } from '@/utilities/siteCopy'
 
 export const revalidate = 600
 
@@ -19,6 +20,7 @@ type Args = {
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
+  const copy = await getSiteCopy()
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
@@ -44,7 +46,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
+          <h1>{copy.posts.title}</h1>
         </div>
       </div>
 
@@ -70,8 +72,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
+  const copy = await getSiteCopy()
   return {
-    title: `Articoli - Pagina ${pageNumber || ''} | Hero 4 Gotham`,
+    title: copy.seo.postsPageTitle.replace('{page}', pageNumber || ''),
   }
 }
 

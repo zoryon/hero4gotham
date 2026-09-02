@@ -3,61 +3,60 @@ import React from 'react'
 
 import { CMSLink } from '@/components/Link'
 import { CookiePreferencesLink } from './CookiePreferencesLink.client'
-
-const fallbackLegalLinks = [
-  {
-    openCookiePreferences: false,
-    link: {
-      label: 'Privacy Policy',
-      type: 'custom' as const,
-      url: '/privacy-policy',
-    },
-  },
-  {
-    openCookiePreferences: true,
-    link: {
-      label: 'Le tue preferenze relative alla privacy',
-      type: 'custom' as const,
-      url: '/preferenze-privacy',
-    },
-  },
-]
+import { getSiteCopy } from '@/utilities/siteCopy'
 
 const fallbackDescription =
   'Un luogo storto al punto giusto per arte, incontri, giochi e idee fuori asse.'
 
-const fallbackSocialLinks = [
-  {
-    openCookiePreferences: false,
-    link: {
-      label: 'Instagram',
-      newTab: true,
-      type: 'custom' as const,
-      url: 'https://instagram.com',
-    },
-  },
-  {
-    openCookiePreferences: false,
-    link: {
-      label: 'LinkedIn',
-      newTab: true,
-      type: 'custom' as const,
-      url: 'https://linkedin.com',
-    },
-  },
-  {
-    openCookiePreferences: false,
-    link: {
-      label: 'X(Twitter)',
-      newTab: true,
-      type: 'custom' as const,
-      url: 'https://x.com',
-    },
-  },
-]
-
 export async function Footer() {
-  const footerData = await getCachedGlobal('footer', 1)()
+  const [footerData, copy] = await Promise.all([getCachedGlobal('footer', 1)(), getSiteCopy()])
+  const fallbackLegalLinks = [
+    {
+      openCookiePreferences: false,
+      link: {
+        label: copy.footer.privacyPolicyLabel,
+        type: 'custom' as const,
+        url: '/privacy-policy',
+      },
+    },
+    {
+      openCookiePreferences: true,
+      link: {
+        label: copy.footer.privacyPreferencesLabel,
+        type: 'custom' as const,
+        url: '/preferenze-privacy',
+      },
+    },
+  ]
+  const fallbackSocialLinks = [
+    {
+      openCookiePreferences: false,
+      link: {
+        label: copy.footer.instagramLabel,
+        newTab: true,
+        type: 'custom' as const,
+        url: 'https://instagram.com',
+      },
+    },
+    {
+      openCookiePreferences: false,
+      link: {
+        label: copy.footer.linkedinLabel,
+        newTab: true,
+        type: 'custom' as const,
+        url: 'https://linkedin.com',
+      },
+    },
+    {
+      openCookiePreferences: false,
+      link: {
+        label: copy.footer.twitterLabel,
+        newTab: true,
+        type: 'custom' as const,
+        url: 'https://x.com',
+      },
+    },
+  ]
 
   const description = footerData?.description || fallbackDescription
   const navItems = footerData?.navItems?.length ? footerData.navItems : fallbackSocialLinks
@@ -79,8 +78,8 @@ export async function Footer() {
           </div>
 
           <div className="site-footer__columns">
-            <nav aria-label="Social" className="site-footer__link-group">
-              <p className="site-footer__group-title">Seguici</p>
+            <nav aria-label={copy.footer.socialNavigationLabel} className="site-footer__link-group">
+              <p className="site-footer__group-title">{copy.footer.socialTitle}</p>
               {navItems.map(({ link, openCookiePreferences }, i) => {
                 if (openCookiePreferences) {
                   return (
@@ -96,8 +95,8 @@ export async function Footer() {
               })}
             </nav>
 
-            <nav aria-label="Legal" className="site-footer__link-group">
-              <p className="site-footer__group-title">Informazioni</p>
+            <nav aria-label={copy.footer.legalNavigationLabel} className="site-footer__link-group">
+              <p className="site-footer__group-title">{copy.footer.informationTitle}</p>
               {legalLinks.map(({ link, openCookiePreferences }, i) => {
                 if (openCookiePreferences) {
                   return (

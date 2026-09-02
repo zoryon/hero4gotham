@@ -16,6 +16,7 @@ import {
   type EventSuiteTextStyle,
 } from '@/blocks/EventSuite/shared'
 import { cn } from '@/utilities/ui'
+import { getSiteCopy } from '@/utilities/siteCopy'
 import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
@@ -99,28 +100,26 @@ export const FeaturedEventBlock = async ({
   ttlStyle,
   typStyle,
 }: Props) => {
-  const event =
-    eventSource === 'manual'
-      ? await getManualFeaturedEvent(manualEvent)
-      : await getNextFeaturedEvent()
+  const [event, copy] = await Promise.all([
+    eventSource === 'manual' ? getManualFeaturedEvent(manualEvent) : getNextFeaturedEvent(),
+    getSiteCopy(),
+  ])
   const hasEvent = event !== null
 
   const eventPrimaryLink = hasEvent
     ? getEventPrimaryLink(event)
     : {
-        label: linkFallbackLabel || 'Vai agli eventi',
+        label: linkFallbackLabel || copy.eventSuite.featuredEventsLink,
         type: 'custom' as const,
         url: '/eventi',
       }
 
   const displayImage = hasEvent ? backgroundImage || getEventDisplayImage(event) : backgroundImage
-  const displayTitle = hasEvent ? event.title : 'Nessun evento imminente'
+  const displayTitle = hasEvent ? event.title : copy.eventSuite.featuredEmptyTitle
   const displayDate = hasEvent
     ? `${formatEventDateParts(event.startsAt).day} ${formatEventDateParts(event.startsAt).month} ${formatEventDateParts(event.startsAt).time}`
-    : 'Prossimamente'
-  const displayDescription = hasEvent
-    ? event.description
-    : 'Non ci sono eventi imminenti al momento. Torna a trovarci presto.'
+    : copy.eventSuite.featuredComingSoon
+  const displayDescription = hasEvent ? event.description : copy.eventSuite.featuredEmptyDescription
 
   return (
     <aside

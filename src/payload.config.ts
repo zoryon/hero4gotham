@@ -19,6 +19,7 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { MembershipDocuments } from './MembershipDocuments/config'
 import { SiteBackground } from './SiteBackground/config'
+import { SiteCopy } from './SiteCopy/config'
 import { ThemeColors } from './ThemeColors/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -104,7 +105,15 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Activities, Events, Variables, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, ThemeColors, SiteBackground, MembershipDocuments, PrivacyPolicy],
+  globals: [
+    Header,
+    Footer,
+    ThemeColors,
+    SiteBackground,
+    MembershipDocuments,
+    PrivacyPolicy,
+    SiteCopy,
+  ],
   i18n: {
     fallbackLanguage: 'it',
     supportedLanguages: { it: { ...italianTranslations } },

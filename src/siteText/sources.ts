@@ -39,6 +39,7 @@ export const siteTextSources: SiteTextSource[] = [
   },
   { area: 'Moduli', kind: 'collection', slug: 'forms', titleField: 'title' },
   { area: 'Privacy', kind: 'global', slug: 'privacyPolicy', title: 'Privacy Policy' },
+  { area: 'Elementi comuni', kind: 'global', slug: 'siteCopy', title: 'Testi comuni' },
 ]
 
 export const getSiteTextSource = (slug: string, kind: SiteTextSource['kind']) =>

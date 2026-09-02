@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 type CookieConsent = {
   analytics: boolean
@@ -65,6 +66,7 @@ function persistConsent(consent: CookieConsent) {
 }
 
 export function CookieConsentBanner() {
+  const copy = useSiteCopy()
   const [isOpen, setIsOpen] = useState(false)
   const [analytics, setAnalytics] = useState(false)
   const [marketing, setMarketing] = useState(false)
@@ -111,38 +113,33 @@ export function CookieConsentBanner() {
 
   return (
     <section
-      aria-label="Preferenze cookie"
+      aria-label={copy.cookie.dialogLabel}
       aria-modal="false"
       className="cookie-consent"
       role="dialog"
     >
       <div className="cookie-consent__panel">
         <div className="cookie-consent__copy">
-          <p className="cookie-consent__eyebrow">Preferenze cookie</p>
-          <h2 className="cookie-consent__title">Gestisci i cookie</h2>
-          <p className="cookie-consent__text">
-            Usiamo cookie tecnici necessari al funzionamento del sito. Con il tuo consenso
-            possiamo usare anche cookie analytics e marketing. Puoi accettare tutti i cookie,
-            rifiutare quelli non necessari o scegliere le categorie da abilitare. Puoi modificare
-            le preferenze in qualsiasi momento dal link nel footer.
-          </p>
+          <p className="cookie-consent__eyebrow">{copy.cookie.eyebrow}</p>
+          <h2 className="cookie-consent__title">{copy.cookie.title}</h2>
+          <p className="cookie-consent__text">{copy.cookie.description}</p>
           <a className="cookie-consent__policy-link" href="/privacy-policy#cookie-policy">
-            Leggi Privacy e Cookie Policy
+            {copy.cookie.policyLabel}
           </a>
         </div>
 
-        <div className="cookie-consent__choices" aria-label="Categorie cookie">
+        <div className="cookie-consent__choices" aria-label={copy.cookie.categoriesLabel}>
           <label className="cookie-consent__choice cookie-consent__choice--disabled">
             <span>
-              <strong>Necessari</strong>
-              <small>Sempre attivi</small>
+              <strong>{copy.cookie.necessaryLabel}</strong>
+              <small>{copy.cookie.necessaryDescription}</small>
             </span>
             <input checked disabled type="checkbox" />
           </label>
           <label className="cookie-consent__choice">
             <span>
-              <strong>Analytics</strong>
-              <small>Statistiche anonime e miglioramento del sito</small>
+              <strong>{copy.cookie.analyticsLabel}</strong>
+              <small>{copy.cookie.analyticsDescription}</small>
             </span>
             <input
               checked={analytics}
@@ -152,8 +149,8 @@ export function CookieConsentBanner() {
           </label>
           <label className="cookie-consent__choice">
             <span>
-              <strong>Marketing</strong>
-              <small>Contenuti e strumenti promozionali esterni</small>
+              <strong>{copy.cookie.marketingLabel}</strong>
+              <small>{copy.cookie.marketingDescription}</small>
             </span>
             <input
               checked={marketing}
@@ -169,21 +166,21 @@ export function CookieConsentBanner() {
             onClick={() => saveConsent({ analytics: false, marketing: false })}
             type="button"
           >
-            Rifiuta non necessari
+            {copy.cookie.rejectOptional}
           </button>
           <button
             className="cookie-consent__button"
             onClick={() => saveConsent({ analytics, marketing })}
             type="button"
           >
-            Salva preferenze
+            {copy.cookie.savePreferences}
           </button>
           <button
             className="cookie-consent__button cookie-consent__button--accent"
             onClick={() => saveConsent({ analytics: true, marketing: true })}
             type="button"
           >
-            Accetta tutto
+            {copy.cookie.acceptAll}
           </button>
         </div>
       </div>

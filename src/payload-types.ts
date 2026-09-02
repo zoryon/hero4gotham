@@ -122,6 +122,7 @@ export interface Config {
     siteBackground: SiteBackground;
     membershipDocuments: MembershipDocument;
     privacyPolicy: PrivacyPolicy;
+    siteCopy: SiteCopy;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -130,6 +131,7 @@ export interface Config {
     siteBackground: SiteBackgroundSelect<false> | SiteBackgroundSelect<true>;
     membershipDocuments: MembershipDocumentsSelect<false> | MembershipDocumentsSelect<true>;
     privacyPolicy: PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
+    siteCopy: SiteCopySelect<false> | SiteCopySelect<true>;
   };
   locale: null;
   widgets: {
@@ -7015,6 +7017,154 @@ export interface PrivacyPolicy {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "siteCopy".
+ */
+export interface SiteCopy {
+  id: number;
+  accessibility: {
+    closeNavigation: string;
+    downloadNamed: string;
+    loadingPhotos: string;
+    morePages: string;
+    openAlbumNamed: string;
+    openCallToAction: string;
+    openNavigation: string;
+    primaryNavigation: string;
+    removePhotosNamed: string;
+    replacePhotosNamed: string;
+    search: string;
+    socialFallback: string;
+    socialLinks: string;
+    scrollToTop: string;
+  };
+  common: {
+    loading: string;
+    undefinedValue: string;
+  };
+  cookie: {
+    acceptAll: string;
+    analyticsDescription: string;
+    analyticsLabel: string;
+    categoriesLabel: string;
+    description: string;
+    dialogLabel: string;
+    eyebrow: string;
+    marketingDescription: string;
+    marketingLabel: string;
+    necessaryDescription: string;
+    necessaryLabel: string;
+    policyLabel: string;
+    rejectOptional: string;
+    savePreferences: string;
+    title: string;
+  };
+  eventDetail: {
+    artistsEyebrow: string;
+    artistsTitle: string;
+    audienceLabel: string;
+    backLabel: string;
+    dateLabel: string;
+    descriptionTitle: string;
+    fallbackMetaTitle: string;
+    galleryLoadMore: string;
+    galleryLoadMoreAlbums: string;
+    galleryEmpty: string;
+    scheduleEyebrow: string;
+    scheduleTitle: string;
+    timeLabel: string;
+    usefulInfoEyebrow: string;
+    usefulInfoTitle: string;
+    venueLabel: string;
+  };
+  eventSuite: {
+    calendarNextMonth: string;
+    calendarNextYear: string;
+    calendarPreviousMonth: string;
+    calendarPreviousYear: string;
+    featuredComingSoon: string;
+    featuredEmptyDescription: string;
+    featuredEmptyTitle: string;
+    featuredEventsLink: string;
+    listNext: string;
+    listNextAriaLabel: string;
+    listPaginationLabel: string;
+    listPageStatus: string;
+    listPinnedEvent: string;
+    listPrevious: string;
+    listPreviousAriaLabel: string;
+  };
+  footer: {
+    informationTitle: string;
+    instagramLabel: string;
+    linkedinLabel: string;
+    privacyPolicyLabel: string;
+    privacyPreferencesLabel: string;
+    legalNavigationLabel: string;
+    socialNavigationLabel: string;
+    socialTitle: string;
+    twitterLabel: string;
+  };
+  forms: {
+    closeDownloadConfirmation: string;
+    contactDocumentsEyebrow: string;
+    genericError: string;
+    loading: string;
+    membershipDocumentsEyebrow: string;
+    requiredError: string;
+    requiredLabel: string;
+    serverError: string;
+  };
+  notFound: {
+    goHome: string;
+    message: string;
+  };
+  pagination: {
+    navigationLabel: string;
+    next: string;
+    nextAriaLabel: string;
+    previous: string;
+    previousAriaLabel: string;
+  };
+  posts: {
+    authorLabel: string;
+    datePublishedLabel: string;
+    missingImage: string;
+    title: string;
+    untitledCategory: string;
+    rangeEmpty: string;
+    rangeSummary: string;
+    pluralLabel: string;
+    singularLabel: string;
+  };
+  privacy: {
+    defaultSection: string;
+    eyebrow: string;
+    fallbackDescription: string;
+    fallbackTitle: string;
+    lastUpdatedFallback: string;
+    sectionLabel: string;
+    sectionsAriaLabel: string;
+    tableOfContentsAriaLabel: string;
+  };
+  search: {
+    empty: string;
+    placeholder: string;
+    submit: string;
+    title: string;
+  };
+  seo: {
+    defaultDescription: string;
+    eventFallbackTitle: string;
+    postsPageTitle: string;
+    postsTitle: string;
+    searchTitle: string;
+    siteName: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -7199,6 +7349,180 @@ export interface PrivacyPolicySelect<T extends boolean = true> {
   padding?: T;
   metaTitle?: T;
   metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "siteCopy_select".
+ */
+export interface SiteCopySelect<T extends boolean = true> {
+  accessibility?:
+    | T
+    | {
+        closeNavigation?: T;
+        downloadNamed?: T;
+        loadingPhotos?: T;
+        morePages?: T;
+        openAlbumNamed?: T;
+        openCallToAction?: T;
+        openNavigation?: T;
+        primaryNavigation?: T;
+        removePhotosNamed?: T;
+        replacePhotosNamed?: T;
+        search?: T;
+        socialFallback?: T;
+        socialLinks?: T;
+        scrollToTop?: T;
+      };
+  common?:
+    | T
+    | {
+        loading?: T;
+        undefinedValue?: T;
+      };
+  cookie?:
+    | T
+    | {
+        acceptAll?: T;
+        analyticsDescription?: T;
+        analyticsLabel?: T;
+        categoriesLabel?: T;
+        description?: T;
+        dialogLabel?: T;
+        eyebrow?: T;
+        marketingDescription?: T;
+        marketingLabel?: T;
+        necessaryDescription?: T;
+        necessaryLabel?: T;
+        policyLabel?: T;
+        rejectOptional?: T;
+        savePreferences?: T;
+        title?: T;
+      };
+  eventDetail?:
+    | T
+    | {
+        artistsEyebrow?: T;
+        artistsTitle?: T;
+        audienceLabel?: T;
+        backLabel?: T;
+        dateLabel?: T;
+        descriptionTitle?: T;
+        fallbackMetaTitle?: T;
+        galleryLoadMore?: T;
+        galleryLoadMoreAlbums?: T;
+        galleryEmpty?: T;
+        scheduleEyebrow?: T;
+        scheduleTitle?: T;
+        timeLabel?: T;
+        usefulInfoEyebrow?: T;
+        usefulInfoTitle?: T;
+        venueLabel?: T;
+      };
+  eventSuite?:
+    | T
+    | {
+        calendarNextMonth?: T;
+        calendarNextYear?: T;
+        calendarPreviousMonth?: T;
+        calendarPreviousYear?: T;
+        featuredComingSoon?: T;
+        featuredEmptyDescription?: T;
+        featuredEmptyTitle?: T;
+        featuredEventsLink?: T;
+        listNext?: T;
+        listNextAriaLabel?: T;
+        listPaginationLabel?: T;
+        listPageStatus?: T;
+        listPinnedEvent?: T;
+        listPrevious?: T;
+        listPreviousAriaLabel?: T;
+      };
+  footer?:
+    | T
+    | {
+        informationTitle?: T;
+        instagramLabel?: T;
+        linkedinLabel?: T;
+        privacyPolicyLabel?: T;
+        privacyPreferencesLabel?: T;
+        legalNavigationLabel?: T;
+        socialNavigationLabel?: T;
+        socialTitle?: T;
+        twitterLabel?: T;
+      };
+  forms?:
+    | T
+    | {
+        closeDownloadConfirmation?: T;
+        contactDocumentsEyebrow?: T;
+        genericError?: T;
+        loading?: T;
+        membershipDocumentsEyebrow?: T;
+        requiredError?: T;
+        requiredLabel?: T;
+        serverError?: T;
+      };
+  notFound?:
+    | T
+    | {
+        goHome?: T;
+        message?: T;
+      };
+  pagination?:
+    | T
+    | {
+        navigationLabel?: T;
+        next?: T;
+        nextAriaLabel?: T;
+        previous?: T;
+        previousAriaLabel?: T;
+      };
+  posts?:
+    | T
+    | {
+        authorLabel?: T;
+        datePublishedLabel?: T;
+        missingImage?: T;
+        title?: T;
+        untitledCategory?: T;
+        rangeEmpty?: T;
+        rangeSummary?: T;
+        pluralLabel?: T;
+        singularLabel?: T;
+      };
+  privacy?:
+    | T
+    | {
+        defaultSection?: T;
+        eyebrow?: T;
+        fallbackDescription?: T;
+        fallbackTitle?: T;
+        lastUpdatedFallback?: T;
+        sectionLabel?: T;
+        sectionsAriaLabel?: T;
+        tableOfContentsAriaLabel?: T;
+      };
+  search?:
+    | T
+    | {
+        empty?: T;
+        placeholder?: T;
+        submit?: T;
+        title?: T;
+      };
+  seo?:
+    | T
+    | {
+        defaultDescription?: T;
+        eventFallbackTitle?: T;
+        postsPageTitle?: T;
+        postsTitle?: T;
+        searchTitle?: T;
+        siteName?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

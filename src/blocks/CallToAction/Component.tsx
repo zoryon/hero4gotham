@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import type { CallToActionBlock as CTABlockProps } from '@/payload-types'
@@ -8,6 +10,7 @@ import { Media } from '@/components/Media'
 import { typographyFontFamilyStyles, typographyVerticalScaleValues } from '@/fields/typography'
 import { richTextTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export const CallToActionBlock: React.FC<CTABlockProps> = ({
   backgroundImage,
@@ -18,6 +21,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
   spacing,
   typography,
 }) => {
+  const copy = useSiteCopy()
   const hasBackgroundImage = Boolean(backgroundImage && typeof backgroundImage === 'object')
 
   const gapClasses = {
@@ -215,7 +219,7 @@ export const CallToActionBlock: React.FC<CTABlockProps> = ({
             label={undefined}
             newTab={blockLink.newTab}
           >
-            <span className="sr-only">Apri call to action</span>
+            <span className="sr-only">{copy.accessibility.openCallToAction}</span>
           </CMSLink>
         ) : null}
       </div>

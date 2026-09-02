@@ -5,6 +5,7 @@ import type { Media as MediaDocument } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { cn } from '@/utilities/ui'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export type EventDetailGalleryPhoto = {
   caption?: null | string
@@ -37,6 +38,7 @@ const getMediaRatio = (image: MediaDocument) => {
 }
 
 export const EventDetailGallery = ({ initialCount = 6, pageSize = 6, photos }: Props) => {
+  const copy = useSiteCopy()
   const safeInitialCount = clampNumber(initialCount, 6, 1, 18)
   const safePageSize = clampNumber(pageSize, 6, 1, 18)
   const safeGap = 18
@@ -156,7 +158,7 @@ export const EventDetailGallery = ({ initialCount = 6, pageSize = 6, photos }: P
             }
             type="button"
           >
-            Carica altre foto
+            {copy.eventDetail.galleryLoadMore}
           </button>
         </div>
       ) : null}

@@ -20,6 +20,7 @@ import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getSiteCopy } from '@/utilities/siteCopy'
 
 const rye = Rye({
   subsets: ['latin'],
@@ -29,6 +30,7 @@ const rye = Rye({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const siteCopy = await getSiteCopy()
   const themeColors = await getCachedGlobal('themeColors', 1)().catch(() => null)
   const textColors = themeColors?.text
   const backgroundColors = themeColors?.background
@@ -65,7 +67,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <InitTheme />
-        <Providers>
+        <Providers siteCopy={siteCopy}>
           <AdminBar
             adminBarProps={{
               preview: isEnabled,
@@ -83,10 +85,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = await getSiteCopy()
+
+  return {
+    description: copy.seo.defaultDescription,
+    metadataBase: new URL(getServerSideURL()),
+    openGraph: mergeOpenGraph({
+      description: copy.seo.defaultDescription,
+      siteName: copy.seo.siteName,
+      title: copy.seo.siteName,
+    }),
+    title: copy.seo.siteName,
+    twitter: {
+      card: 'summary_large_image',
+    },
+  }
 }

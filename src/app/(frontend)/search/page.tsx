@@ -7,6 +7,7 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
+import { getSiteCopy } from '@/utilities/siteCopy'
 
 type Args = {
   searchParams: Promise<{
@@ -15,6 +16,7 @@ type Args = {
 }
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
   const { q: query } = await searchParamsPromise
+  const copy = await getSiteCopy()
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -64,7 +66,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+          <h1 className="mb-8 lg:mb-16">{copy.search.title}</h1>
 
           <div className="max-w-[50rem] mx-auto">
             <Search />
@@ -75,14 +77,15 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {posts.totalDocs > 0 ? (
         <CollectionArchive posts={posts.docs as CardPostData[]} />
       ) : (
-        <div className="container">No results found.</div>
+        <div className="container">{copy.search.empty}</div>
       )}
     </div>
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = await getSiteCopy()
   return {
-    title: 'Ricerca | Hero 4 Gotham',
+    title: copy.seo.searchTitle,
   }
 }

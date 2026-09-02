@@ -197,4 +197,44 @@ describe('site text domain', () => {
       Object.fromEntries(before.map(({ id, value }) => [value, id])),
     )
   })
+
+  it('exposes schema defaults and persists a changed default into a missing field', () => {
+    const defaultedFields: Field[] = [
+      siteTextField(
+        { defaultValue: 'Testo predefinito', name: 'heading', type: 'text' },
+        { label: 'Titolo', section: 'Contenuto' },
+      ),
+    ]
+    const controls = extractSiteTextControls(defaultedFields, {})
+
+    expect(controls[0]?.value).toBe('Testo predefinito')
+    expect(
+      applySiteTextChanges(defaultedFields, {}, [
+        { id: controls[0]!.id, value: 'Testo personalizzato' },
+      ]),
+    ).toEqual({ heading: 'Testo personalizzato' })
+  })
+
+  it('exposes defaults inside a group that has not been stored yet', () => {
+    const groupedFields: Field[] = [
+      {
+        name: 'cookie',
+        type: 'group',
+        fields: [
+          siteTextField(
+            { defaultValue: 'Gestisci i cookie', name: 'title', type: 'text' },
+            { label: 'Titolo', section: 'Cookie' },
+          ),
+        ],
+      },
+    ]
+    const controls = extractSiteTextControls(groupedFields, {})
+
+    expect(controls[0]?.value).toBe('Gestisci i cookie')
+    expect(
+      applySiteTextChanges(groupedFields, {}, [
+        { id: controls[0]!.id, value: 'Preferenze cookie' },
+      ]),
+    ).toEqual({ cookie: { title: 'Preferenze cookie' } })
+  })
 })

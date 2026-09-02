@@ -9,6 +9,7 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export const Checkbox: React.FC<
   CheckboxField & {
@@ -16,6 +17,7 @@ export const Checkbox: React.FC<
     register: UseFormRegister<FieldValues>
   }
 > = ({ name, defaultValue, errors, label, register, required, width }) => {
+  const copy = useSiteCopy()
   const props = register(name, { required: required })
   const { setValue } = useFormContext()
 
@@ -33,7 +35,7 @@ export const Checkbox: React.FC<
         <Label htmlFor={name}>
           {required && (
             <span className="required">
-              * <span className="sr-only">(obbligatorio)</span>
+              * <span className="sr-only">({copy.forms.requiredLabel})</span>
             </span>
           )}
           {label}

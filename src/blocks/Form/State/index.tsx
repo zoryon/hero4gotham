@@ -14,6 +14,7 @@ import { Controller } from 'react-hook-form'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { useSiteCopy } from '@/providers/SiteCopy'
 import { stateOptions } from './options'
 
 export const State: React.FC<
@@ -22,13 +23,14 @@ export const State: React.FC<
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, required, width }) => {
+  const copy = useSiteCopy()
   return (
     <Width width={width}>
       <Label htmlFor={name}>
         {label}
         {required && (
           <span className="required">
-            * <span className="sr-only">(obbligatorio)</span>
+            * <span className="sr-only">({copy.forms.requiredLabel})</span>
           </span>
         )}
       </Label>

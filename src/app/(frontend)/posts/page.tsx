@@ -7,11 +7,13 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
+import { getSiteCopy } from '@/utilities/siteCopy'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
 
 export default async function Page() {
+  const copy = await getSiteCopy()
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -32,7 +34,7 @@ export default async function Page() {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
+          <h1>{copy.posts.title}</h1>
         </div>
       </div>
 
@@ -56,8 +58,9 @@ export default async function Page() {
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = await getSiteCopy()
   return {
-    title: 'Articoli | Hero 4 Gotham',
+    title: copy.seo.postsTitle,
   }
 }

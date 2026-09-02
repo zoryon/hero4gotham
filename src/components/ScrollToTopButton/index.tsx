@@ -4,8 +4,10 @@ import { ArrowUp } from 'lucide-react'
 import React from 'react'
 
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export const ScrollToTopButton: React.FC = () => {
+  const copy = useSiteCopy()
   const [isVisible, setIsVisible] = React.useState(false)
 
   React.useEffect(() => {
@@ -21,7 +23,7 @@ export const ScrollToTopButton: React.FC = () => {
 
   return (
     <button
-      aria-label="Torna in alto"
+      aria-label={copy.accessibility.scrollToTop}
       className={cn(
         'group fixed bottom-4 right-4 z-50 grid size-12 place-items-center transition duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--theme-text-accent)] md:bottom-6 md:right-6 md:size-14',
         isVisible

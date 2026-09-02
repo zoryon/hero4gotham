@@ -15,6 +15,7 @@ import {
 } from '@/fields/typography'
 import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
+import { getSiteCopy } from '@/utilities/siteCopy'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
@@ -179,7 +180,10 @@ export const SocialFollowCtaBlock = async ({
   title = 'SEGUICI O VIENI A TROVARCI',
   titleStyle,
 }: SocialFollowCtaBlockProps) => {
-  const primaryBackgroundMedia = await resolveMediaDocument(primaryBackgroundImage)
+  const [primaryBackgroundMedia, copy] = await Promise.all([
+    resolveMediaDocument(primaryBackgroundImage),
+    getSiteCopy(),
+  ])
   const visibleSocialItems = socialItems?.length ? socialItems : defaultSocialItems
 
   return (
@@ -253,13 +257,13 @@ export const SocialFollowCtaBlock = async ({
 
         <span aria-hidden className="social-follow-cta__divider" />
 
-        <nav aria-label="Social links" className="social-follow-cta__social">
+        <nav aria-label={copy.accessibility.socialLinks} className="social-follow-cta__social">
           {visibleSocialItems.map((item, index) => {
             const isEmail = item.platform === 'email'
 
             return (
               <a
-                aria-label={item.label || item.platform || 'Social'}
+                aria-label={item.label || item.platform || copy.accessibility.socialFallback}
                 className="social-follow-cta__social-link"
                 href={getSocialHref(item)}
                 key={item.id || `${item.platform}-${index}`}

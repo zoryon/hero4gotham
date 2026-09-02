@@ -1,4 +1,7 @@
+'use client'
+
 import React from 'react'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 const defaultLabels = {
   plural: 'Docs',
@@ -23,6 +26,7 @@ export const PageRange: React.FC<{
   limit?: number
   totalDocs?: number
 }> = (props) => {
+  const copy = useSiteCopy()
   const {
     className,
     collection,
@@ -40,18 +44,24 @@ export const PageRange: React.FC<{
 
   const { plural, singular } =
     collectionLabelsFromProps ||
-    (collection ? defaultCollectionLabels[collection] : undefined) ||
+    (collection === 'posts'
+      ? { plural: copy.posts.pluralLabel, singular: copy.posts.singularLabel }
+      : collection
+        ? defaultCollectionLabels[collection]
+        : undefined) ||
     defaultLabels ||
     {}
 
   return (
     <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
-      {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Search produced no results.'}
+      {(typeof totalDocs === 'undefined' || totalDocs === 0) && copy.posts.rangeEmpty}
       {typeof totalDocs !== 'undefined' &&
         totalDocs > 0 &&
-        `Showing ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ''} of ${totalDocs} ${
-          totalDocs > 1 ? plural : singular
-        }`}
+        copy.posts.rangeSummary
+          .replace('{start}', String(indexStart))
+          .replace('{end}', String(indexEnd))
+          .replace('{total}', String(totalDocs))
+          .replace('{label}', totalDocs > 1 ? plural || '' : singular || '')}
     </div>
   )
 }

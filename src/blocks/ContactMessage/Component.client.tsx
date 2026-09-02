@@ -13,6 +13,7 @@ import {
 } from '@/blocks/EventSuite/shared'
 import { Media } from '@/components/Media'
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 type Props = {
   backgroundImage?: EventSuiteMedia | number | null
@@ -90,6 +91,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
   submitStyle,
   successMessage = 'Messaggio inviato. Ti risponderemo presto.',
 }) => {
+  const copy = useSiteCopy()
   const [formState, setFormState] = useState(initialFormState)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [feedback, setFeedback] = useState('')
@@ -231,7 +233,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
               <FileText aria-hidden className="membership-application-document-icon" />
               <span className="membership-application-document-title font-semibold">{label}</span>
               <button
-                aria-label={`Scarica ${label}`}
+                aria-label={copy.accessibility.downloadNamed.replace('{label}', label)}
                 className="membership-application-document-download-button"
                 onClick={() => requestDownload(document.url, label)}
                 type="button"
@@ -470,7 +472,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
                 onClick={(event) => event.stopPropagation()}
               >
                 <button
-                  aria-label="Chiudi conferma download"
+                  aria-label={copy.forms.closeDownloadConfirmation}
                   className="membership-application-download-modal-close"
                   onClick={() => setPendingDownload(null)}
                   type="button"
@@ -483,7 +485,9 @@ export const ContactMessageBlock: React.FC<Props> = ({
                 </div>
 
                 <div className="membership-application-download-modal-content">
-                  <span className="membership-application-download-modal-eyebrow">Documenti</span>
+                  <span className="membership-application-download-modal-eyebrow">
+                    {copy.forms.contactDocumentsEyebrow}
+                  </span>
                   <h3
                     className="membership-application-download-modal-title font-black"
                     id="contact-download-modal-title"

@@ -7,6 +7,7 @@ import React from 'react'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export const Textarea: React.FC<
   TextField & {
@@ -15,6 +16,7 @@ export const Textarea: React.FC<
     rows?: number
   }
 > = ({ name, defaultValue, errors, label, register, required, rows = 3, width }) => {
+  const copy = useSiteCopy()
   return (
     <Width width={width}>
       <Label htmlFor={name}>
@@ -22,7 +24,7 @@ export const Textarea: React.FC<
 
         {required && (
           <span className="required">
-            * <span className="sr-only">(obbligatorio)</span>
+            * <span className="sr-only">({copy.forms.requiredLabel})</span>
           </span>
         )}
       </Label>

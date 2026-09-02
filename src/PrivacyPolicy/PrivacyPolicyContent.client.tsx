@@ -6,6 +6,7 @@ import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 type LexicalNode = NonNullable<DefaultTypedEditorState['root']['children']>[number]
 
@@ -45,9 +46,13 @@ const toEditorState = (source: DefaultTypedEditorState, children: LexicalNode[])
   },
 })
 
-const splitPrivacyContent = (content: DefaultTypedEditorState): PrivacySection[] => {
+const splitPrivacyContent = (
+  content: DefaultTypedEditorState,
+  defaultSection: string,
+  sectionLabel: string,
+): PrivacySection[] => {
   const sections: PrivacySection[] = []
-  let currentTitle = 'Introduzione'
+  let currentTitle = defaultSection
   let currentChildren: LexicalNode[] = []
 
   const pushSection = () => {
@@ -64,7 +69,7 @@ const splitPrivacyContent = (content: DefaultTypedEditorState): PrivacySection[]
   content.root.children.forEach((node) => {
     if (isSectionHeading(node)) {
       pushSection()
-      currentTitle = getNodeText(node) || `Sezione ${sections.length + 1}`
+      currentTitle = getNodeText(node) || `${sectionLabel} ${sections.length + 1}`
       currentChildren = [node]
       return
     }
@@ -77,8 +82,14 @@ const splitPrivacyContent = (content: DefaultTypedEditorState): PrivacySection[]
   return sections
 }
 
-export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }> = ({ content }) => {
-  const sections = useMemo(() => splitPrivacyContent(content), [content])
+export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }> = ({
+  content,
+}) => {
+  const copy = useSiteCopy()
+  const sections = useMemo(
+    () => splitPrivacyContent(content, copy.privacy.defaultSection, copy.privacy.sectionLabel),
+    [content, copy.privacy.defaultSection, copy.privacy.sectionLabel],
+  )
   const [activeSectionId, setActiveSectionId] = useState(() => sections[0]?.id || '')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const mobileMenuId = useId()
@@ -114,7 +125,7 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
   return (
     <div className="privacy-policy-layout">
       <div className="privacy-policy-mobile-nav">
-        <span className="privacy-policy-section-label">Sezione</span>
+        <span className="privacy-policy-section-label">{copy.privacy.sectionLabel}</span>
         <button
           aria-controls={mobileMenuId}
           aria-expanded={isMobileMenuOpen}
@@ -131,7 +142,7 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
             className="privacy-policy-section-menu"
             id={mobileMenuId}
             role="listbox"
-            aria-label="Sezioni privacy policy"
+            aria-label={copy.privacy.sectionsAriaLabel}
           >
             {sections.map((section) => (
               <button
@@ -152,7 +163,7 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
         ) : null}
       </div>
 
-      <aside className="privacy-policy-nav" aria-label="Indice privacy policy">
+      <aside className="privacy-policy-nav" aria-label={copy.privacy.tableOfContentsAriaLabel}>
         {sections.map((section) => (
           <button
             className={cn(
@@ -172,7 +183,9 @@ export const PrivacyPolicyContent: React.FC<{ content: DefaultTypedEditorState }
         className="privacy-policy-content"
         data={activeSection.content}
         enableGutter={false}
-        id={activeSection.title.toLowerCase().includes('cookie') ? 'cookie-policy' : activeSection.id}
+        id={
+          activeSection.title.toLowerCase().includes('cookie') ? 'cookie-policy' : activeSection.id
+        }
       />
     </div>
   )

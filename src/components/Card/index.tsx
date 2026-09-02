@@ -7,6 +7,7 @@ import React, { Fragment } from 'react'
 import type { Post } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
@@ -18,6 +19,7 @@ export const Card: React.FC<{
   showCategories?: boolean
   title?: string
 }> = React.memo((props) => {
+  const copy = useSiteCopy()
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
@@ -38,7 +40,7 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
+        {!metaImage && <div className="">{copy.posts.missingImage}</div>}
         {metaImage && typeof metaImage !== 'string' && (
           <Media resource={metaImage} size="(max-width: 768px) 100vw, 33vw" />
         )}
@@ -50,7 +52,7 @@ export const Card: React.FC<{
               if (typeof category === 'object') {
                 const { title: titleFromCategory } = category
 
-                const categoryTitle = titleFromCategory || 'Untitled category'
+                const categoryTitle = titleFromCategory || copy.posts.untitledCategory
 
                 const isLast = index === categories.length - 1
 

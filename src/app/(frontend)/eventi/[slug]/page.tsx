@@ -4,10 +4,7 @@ import { Media } from '@/components/Media'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { SiteBackgroundFrame } from '@/SiteBackground/Component'
 import type { Event as EventDocument, Media as MediaDocument } from '@/payload-types'
-import {
-  formatEventDateParts,
-  getEventTypeLabel,
-} from '@/blocks/EventSuite/shared'
+import { formatEventDateParts, getEventTypeLabel } from '@/blocks/EventSuite/shared'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getCachedGlobal } from '@/utilities/getGlobals'
@@ -17,6 +14,7 @@ import { ArrowLeft, CalendarDays, Clock, Info, MapPin, UsersRound } from 'lucide
 import Link from 'next/link'
 import { cache, type ReactNode } from 'react'
 import { getPayload } from 'payload'
+import { getSiteCopy } from '@/utilities/siteCopy'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -50,7 +48,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
   if (!event) return <PayloadRedirects url={url} />
 
-  const siteBackground = await getCachedGlobal('siteBackground', 1)().catch(() => null)
+  const [siteBackground, copy] = await Promise.all([
+    getCachedGlobal('siteBackground', 1)().catch(() => null),
+    getSiteCopy(),
+  ])
   const dateParts = formatEventDateParts(event.startsAt)
   const fullMonth = new Intl.DateTimeFormat('it-IT', { month: 'long' })
     .format(new Date(event.startsAt))
@@ -85,7 +86,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
                 href="/eventi"
               >
                 <ArrowLeft aria-hidden className="h-4 w-4" />
-                Eventi
+                {copy.eventDetail.backLabel}
               </Link>
 
               {eventTypeLabel ? (
@@ -136,33 +137,37 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
           <aside className="event-detail-info-bar scribble-border vintage-surface grid gap-0 p-5 md:grid-cols-2 xl:grid-cols-4">
             <EventInfoItem
+              fallback={copy.common.undefinedValue}
               icon={<CalendarDays aria-hidden className="h-7 w-7" />}
-              label="Data"
+              label={copy.eventDetail.dateLabel}
               primary={`${dateParts.day} ${fullMonth} ${dateParts.year}`}
               secondary={dateParts.weekday}
             />
             <EventInfoItem
+              fallback={copy.common.undefinedValue}
               icon={<Clock aria-hidden className="h-7 w-7" />}
-              label="Orario"
+              label={copy.eventDetail.timeLabel}
               primary={dateParts.time}
             />
             <EventInfoItem
+              fallback={copy.common.undefinedValue}
               icon={<MapPin aria-hidden className="h-7 w-7" />}
-              label="Luogo"
+              label={copy.eventDetail.venueLabel}
               primary={event.venue}
               secondary={event.venueAddress}
             />
             <EventInfoItem
+              fallback={copy.common.undefinedValue}
               icon={<UsersRound aria-hidden className="h-7 w-7" />}
-              label="Pubblico"
-              primary={event.audience || 'Da definire'}
+              label={copy.eventDetail.audienceLabel}
+              primary={event.audience || copy.common.undefinedValue}
             />
           </aside>
 
           {longDescription ? (
             <section className="event-detail-section mt-12 max-w-4xl">
               <SectionHeading
-                title="Descrizione"
+                title={copy.eventDetail.descriptionTitle}
                 titleClassName="font-rye-western text-[var(--theme-text-green)]"
               />
               <p className="mt-5 whitespace-pre-line text-base font-medium leading-8 text-[var(--theme-text-primary)] md:text-lg md:leading-9">
@@ -174,8 +179,8 @@ export default async function EventPage({ params: paramsPromise }: Args) {
           {timelineItems.length > 0 ? (
             <section className="event-detail-section mt-14">
               <SectionHeading
-                eyebrow="Programma"
-                title="La scaletta"
+                eyebrow={copy.eventDetail.scheduleEyebrow}
+                title={copy.eventDetail.scheduleTitle}
                 titleClassName="font-rye-western text-[var(--theme-text-green)]"
               />
               <ol className="event-detail-timeline mt-6 max-w-4xl">
@@ -206,7 +211,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
           {artistsAndGuests.length > 0 ? (
             <section className="event-detail-section mt-14">
-              <SectionHeading eyebrow="Sul palco" title="Artisti ed ospiti" />
+              <SectionHeading
+                eyebrow={copy.eventDetail.artistsEyebrow}
+                title={copy.eventDetail.artistsTitle}
+              />
               <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {artistsAndGuests.map((person, index) => (
                   <article
@@ -232,7 +240,10 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
           {usefulInfoItems.length > 0 ? (
             <section className="event-detail-section mt-14">
-              <SectionHeading eyebrow="Prima di venire" title="Informazioni utili" />
+              <SectionHeading
+                eyebrow={copy.eventDetail.usefulInfoEyebrow}
+                title={copy.eventDetail.usefulInfoTitle}
+              />
               <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {usefulInfoItems.map((item, index) => (
                   <article
@@ -257,7 +268,6 @@ export default async function EventPage({ params: paramsPromise }: Args) {
               </div>
             </section>
           ) : null}
-
         </div>
       </SiteBackgroundFrame>
     </article>
@@ -267,18 +277,18 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const event = await queryEventBySlug({ slug: decodedSlug })
+  const [event, copy] = await Promise.all([queryEventBySlug({ slug: decodedSlug }), getSiteCopy()])
 
   if (!event) {
     return {
-      title: 'Evento | Hero 4 Gotham',
+      title: copy.seo.eventFallbackTitle,
     }
   }
 
   const image = event.gallery.find((item) => typeof item.image === 'object')?.image
   const imageUrl =
     image && typeof image === 'object' ? getAbsoluteMediaUrl(image as MediaDocument) : undefined
-  const title = `${event.title} | Hero 4 Gotham`
+  const title = `${event.title} | ${copy.seo.siteName}`
 
   return {
     description: event.description,
@@ -389,11 +399,13 @@ const UsefulInfoIcon = ({ icon }: { icon?: EventUsefulInfoItem['icon'] }) => (
 )
 
 const EventInfoItem = ({
+  fallback,
   icon,
   label,
   primary,
   secondary,
 }: {
+  fallback: string
   icon: ReactNode
   label: string
   primary?: null | string
@@ -406,7 +418,7 @@ const EventInfoItem = ({
         {label}
       </span>
       <span className="mt-1.5 block truncate font-cinzel text-sm font-black uppercase leading-none text-[var(--theme-text-secondary)]">
-        {primary || 'Da definire'}
+        {primary || fallback}
       </span>
       {secondary ? (
         <span className="mt-1.5 block truncate font-cinzel text-[0.58rem] font-black uppercase leading-none text-[var(--theme-text-primary)]">

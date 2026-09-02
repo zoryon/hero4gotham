@@ -129,4 +129,25 @@ describe('site text catalog', () => {
     )
     expect(JSON.stringify(controls)).not.toContain('99')
   })
+
+  it('registers editable static frontend copy without exposing a generic update screen', async () => {
+    const config = await configPromise
+    const siteCopy = config.globals.find(({ slug }) => String(slug) === 'siteCopy')
+
+    expect(siteCopy).toBeDefined()
+    expect(siteCopy?.admin?.hidden).toBeTypeOf('function')
+
+    const controls = extractSiteTextControls(siteCopy?.fields || [], {
+      cookie: {
+        title: 'Gestisci i cookie',
+      },
+      seo: {
+        siteName: 'Hero 4 Gotham',
+      },
+    })
+
+    expect(controls.map(({ value }) => value)).toEqual(
+      expect.arrayContaining(['Gestisci i cookie', 'Hero 4 Gotham']),
+    )
+  })
 })

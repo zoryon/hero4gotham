@@ -13,6 +13,7 @@ import {
 } from '@/blocks/EventSuite/shared'
 import { Media } from '@/components/Media'
 import { cn } from '@/utilities/ui'
+import { useSiteCopy } from '@/providers/SiteCopy'
 
 type RequestTypeOption = {
   id?: null | string
@@ -177,6 +178,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   truthDeclarationLabel = 'Dichiaro che i dati inseriti sono veritieri. *',
   truthDeclarationTriggerLinkUrl,
 }) => {
+  const copy = useSiteCopy()
   const [formState, setFormState] = useState(initialFormState)
   const [submitState, setSubmitState] = useState<SubmitState>('idle')
   const [feedback, setFeedback] = useState('')
@@ -516,7 +518,10 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
             </div>
             <div className="membership-application-upload-actions">
               <button
-                aria-label={`Sostituisci le foto per ${documentFileLabels[name]}`}
+                aria-label={copy.accessibility.replacePhotosNamed.replace(
+                  '{label}',
+                  documentFileLabels[name],
+                )}
                 className="membership-application-upload-action membership-application-upload-action--replace"
                 disabled={submitState === 'sending'}
                 onClick={() => replaceDocumentFiles(name)}
@@ -526,7 +531,10 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 Sostituisci
               </button>
               <button
-                aria-label={`Rimuovi le foto per ${documentFileLabels[name]}`}
+                aria-label={copy.accessibility.removePhotosNamed.replace(
+                  '{label}',
+                  documentFileLabels[name],
+                )}
                 className="membership-application-upload-action membership-application-upload-action--remove"
                 disabled={submitState === 'sending'}
                 onClick={() => clearDocumentFiles(name)}
@@ -637,7 +645,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
               <FileText aria-hidden className="membership-application-document-icon" />
               <span className="membership-application-document-title font-semibold">{label}</span>
               <button
-                aria-label={`Scarica ${label}`}
+                aria-label={copy.accessibility.downloadNamed.replace('{label}', label)}
                 className="membership-application-document-download-button"
                 onClick={() => requestDownload(document.url, label)}
                 type="button"
@@ -924,7 +932,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 onClick={(event) => event.stopPropagation()}
               >
                 <button
-                  aria-label="Chiudi conferma download"
+                  aria-label={copy.forms.closeDownloadConfirmation}
                   className="membership-application-download-modal-close"
                   onClick={() => setPendingDownload(null)}
                   type="button"
@@ -937,7 +945,9 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 </div>
 
                 <div className="membership-application-download-modal-content">
-                  <span className="membership-application-download-modal-eyebrow">Area soci</span>
+                  <span className="membership-application-download-modal-eyebrow">
+                    {copy.forms.membershipDocumentsEyebrow}
+                  </span>
                   <h3
                     className={cn(
                       sectionTitleClassName,

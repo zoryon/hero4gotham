@@ -23,6 +23,7 @@ import {
   type EventFilterParams,
 } from '@/blocks/EventSuite/filters'
 import { useEventFilters } from '@/providers/EventFilters'
+import { useSiteCopy } from '@/providers/SiteCopy'
 import { useDebounce } from '@/utilities/useDebounce'
 import { cn } from '@/utilities/ui'
 
@@ -105,6 +106,7 @@ export const EventListClient: React.FC<Props> = ({
   weekdayStyle,
   yearTypography,
 }) => {
+  const copy = useSiteCopy()
   const [eventItems, setEventItems] = useState(events)
   const [hasNextPage, setHasNextPage] = useState(initialHasNextPage)
   const [isLoading, setIsLoading] = useState(false)
@@ -323,10 +325,7 @@ export const EventListClient: React.FC<Props> = ({
 
   return (
     <section
-      className={cn(
-        'relative isolate w-full',
-        paginationMode && 'event-list-paginated h-full',
-      )}
+      className={cn('relative isolate w-full', paginationMode && 'event-list-paginated h-full')}
     >
       <div
         className={cn(
@@ -386,15 +385,15 @@ export const EventListClient: React.FC<Props> = ({
               const hasPassed = new Date(event.startsAt).getTime() < Date.now()
               const passedContentClassName = hasPassed ? 'opacity-70' : undefined
 
-                return (
-                  <article
-                    className="relative grid min-w-0 grid-cols-[6rem_minmax(0,1fr)] gap-0 py-0"
-                    key={event.id}
-                    ref={
-                      !paginationMode && index === penultimateEventIndex
-                        ? penultimateEventRef
-                        : undefined
-                    }
+              return (
+                <article
+                  className="relative grid min-w-0 grid-cols-[6rem_minmax(0,1fr)] gap-0 py-0"
+                  key={event.id}
+                  ref={
+                    !paginationMode && index === penultimateEventIndex
+                      ? penultimateEventRef
+                      : undefined
+                  }
                   style={{
                     borderBottom: dividerColor ? `1px solid ${dividerColor}` : undefined,
                     minHeight: safeRowHeight,
@@ -441,7 +440,12 @@ export const EventListClient: React.FC<Props> = ({
                     >
                       {dateParts.day}
                     </div>
-                    <div className={cn('grid justify-items-center leading-none', passedContentClassName)}>
+                    <div
+                      className={cn(
+                        'grid justify-items-center leading-none',
+                        passedContentClassName,
+                      )}
+                    >
                       <span
                         className={getEventSuiteTextClassName(monthStyle, 'black')}
                         style={getEventSuiteTextStyle(monthStyle, {
@@ -499,7 +503,12 @@ export const EventListClient: React.FC<Props> = ({
                       'scribble-border',
                     )}
                   >
-                    <div className={cn('grid min-w-0 content-center px-4 py-3', passedContentClassName)}>
+                    <div
+                      className={cn(
+                        'grid min-w-0 content-center px-4 py-3',
+                        passedContentClassName,
+                      )}
+                    >
                       <div className="flex min-w-0 items-center gap-2">
                         <h3
                           className={cn(
@@ -521,10 +530,10 @@ export const EventListClient: React.FC<Props> = ({
                         <div className="mt-4 flex min-w-0 flex-wrap items-center gap-2">
                           {event.pinned ? (
                             <span
-                              aria-label="Evento fissato in cima"
+                              aria-label={copy.eventSuite.listPinnedEvent}
                               className="inline-flex shrink-0 items-center gap-1.5 bg-[var(--theme-text-green)] px-2 py-1 font-rye-western text-[0.58rem] uppercase leading-none text-[#202028] shadow-[0_2px_0_rgb(0_0_0_/_0.35)]"
                               role="img"
-                              title="Evento fissato in cima"
+                              title={copy.eventSuite.listPinnedEvent}
                             >
                               <Pin aria-hidden className="size-3.5" strokeWidth={2.8} />
                               In evidenza
@@ -667,30 +676,32 @@ export const EventListClient: React.FC<Props> = ({
         </div>
         {paginationMode ? (
           <nav
-            aria-label="Paginazione eventi"
+            aria-label={copy.eventSuite.listPaginationLabel}
             className="event-list-cell-border event-list-pagination scribble-border vintage-surface"
           >
             <button
-              aria-label="Pagina precedente"
+              aria-label={copy.eventSuite.listPreviousAriaLabel}
               className="event-list-pagination-button"
               disabled={currentPage <= 1 || isLoading}
               onClick={() => void loadPage(currentPage - 1)}
               type="button"
             >
               <ChevronLeft aria-hidden className="size-4" />
-              Precedente
+              {copy.eventSuite.listPrevious}
             </button>
             <span aria-live="polite" className="event-list-pagination-status">
-              Pagina {currentPage} di {totalPages}
+              {copy.eventSuite.listPageStatus
+                .replace('{page}', String(currentPage))
+                .replace('{total}', String(totalPages))}
             </span>
             <button
-              aria-label="Pagina successiva"
+              aria-label={copy.eventSuite.listNextAriaLabel}
               className="event-list-pagination-button"
               disabled={currentPage >= totalPages || isLoading}
               onClick={() => void loadPage(currentPage + 1)}
               type="button"
             >
-              Successiva
+              {copy.eventSuite.listNext}
               <ChevronRight aria-hidden className="size-4" />
             </button>
           </nav>

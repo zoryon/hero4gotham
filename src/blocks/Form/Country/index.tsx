@@ -14,6 +14,7 @@ import { Controller } from 'react-hook-form'
 
 import { Error } from '../Error'
 import { Width } from '../Width'
+import { useSiteCopy } from '@/providers/SiteCopy'
 import { countryOptions } from './options'
 
 const countryDisplayNames =
@@ -25,6 +26,7 @@ export const Country: React.FC<
     errors: Partial<FieldErrorsImpl>
   }
 > = ({ name, control, errors, label, required, width }) => {
+  const copy = useSiteCopy()
   return (
     <Width width={width}>
       <Label className="" htmlFor={name}>
@@ -32,7 +34,7 @@ export const Country: React.FC<
 
         {required && (
           <span className="required">
-            * <span className="sr-only">(obbligatorio)</span>
+            * <span className="sr-only">({copy.forms.requiredLabel})</span>
           </span>
         )}
       </Label>
