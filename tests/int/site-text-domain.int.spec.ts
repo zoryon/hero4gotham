@@ -1,6 +1,10 @@
 import type { Field } from 'payload'
 
-import { applySiteTextChanges, extractSiteTextControls } from '@/siteText/traverse'
+import {
+  applySiteTextChanges,
+  buildSiteTextPatch,
+  extractSiteTextControls,
+} from '@/siteText/traverse'
 import { siteTextField } from '@/siteText/field'
 import { describe, expect, it } from 'vitest'
 
@@ -69,6 +73,23 @@ describe('site text domain', () => {
       title: 'Dopo',
     })
     expect(original.title).toBe('Prima')
+  })
+
+  it('builds a minimal top-level patch without returning unexposed fields', () => {
+    const original = {
+      id: 42,
+      image: 12,
+      textColor: '#ffffff',
+      title: 'Titolo originale',
+      updatedAt: '2026-09-02T10:00:00.000Z',
+    }
+    const [title] = extractSiteTextControls(fields, original)
+
+    expect(buildSiteTextPatch(fields, original, [{ id: title.id, value: 'Titolo nuovo' }])).toEqual(
+      {
+        title: 'Titolo nuovo',
+      },
+    )
   })
 
   it('rejects ids that are not present in the current catalog', () => {

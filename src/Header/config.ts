@@ -10,9 +10,9 @@ import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
 import {
   adminFieldOnly,
-  adminOrEventsManager,
+  adminOnly,
   adminOrEventsManagerField,
-  hideFromNonAdminOrEventsManagers,
+  hideFromNonAdmins,
 } from '@/access/roles'
 
 const socialPlatformOptions = [
@@ -143,10 +143,10 @@ export const Header: GlobalConfig = {
   slug: 'header',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
   },
   admin: {
-    hidden: hideFromNonAdminOrEventsManagers,
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {

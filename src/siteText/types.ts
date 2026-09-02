@@ -22,3 +22,11 @@ export type SiteTextDocument = {
   title: string
   version: string
 }
+
+export type SiteTextDocumentSummary = Omit<SiteTextDocument, 'controls'>
+
+export type SaveSiteTextDocumentInput = {
+  changes: SiteTextChange[]
+  sourceID: string
+  version: string
+}

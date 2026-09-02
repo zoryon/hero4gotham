@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminOrEventsManager } from '@/access/roles'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { revalidateMembershipDocuments } from './hooks/revalidateMembershipDocuments'
 
 export const MembershipDocuments: GlobalConfig = {
@@ -8,7 +8,10 @@ export const MembershipDocuments: GlobalConfig = {
   label: 'Documenti',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {
@@ -18,8 +21,7 @@ export const MembershipDocuments: GlobalConfig = {
         components: {
           RowLabel: '@/MembershipDocuments/RowLabel#RowLabel',
         },
-        description:
-          'Documenti scaricabili mostrati nei form selezionati.',
+        description: 'Documenti scaricabili mostrati nei form selezionati.',
         initCollapsed: true,
       },
       fields: [

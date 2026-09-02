@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminOrEventsManager } from '@/access/roles'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { defaultPrivacyPolicyContent } from './defaultContent'
 import { revalidatePrivacyPolicy } from './hooks/revalidatePrivacyPolicy'
 
@@ -9,7 +9,10 @@ export const PrivacyPolicy: GlobalConfig = {
   label: 'Privacy Policy',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
+  },
+  admin: {
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {

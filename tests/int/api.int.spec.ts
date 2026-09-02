@@ -3,8 +3,15 @@
 import { getPayload, Payload } from 'payload'
 import config from '@/payload.config'
 import type { User } from '@/payload-types'
+import { readSiteTextDocument, saveSiteTextDocument } from '@/siteText/service'
 
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
+
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+  revalidateTag: vi.fn(),
+  unstable_cache: (callback: unknown) => callback,
+}))
 
 let payload: Payload
 let adminUser: User
@@ -190,5 +197,61 @@ describe('API', () => {
     })
 
     expect(updatedAccount.name).toBe('Altro gestore aggiornato')
+  })
+
+  it('publishes page text for a manager while preserving structure and generic access rules', async () => {
+    const page = await payload.create({
+      collection: 'pages',
+      data: {
+        _status: 'draft',
+        hero: { type: 'none' },
+        layout: [{ blockType: 'content', columns: [] }],
+        slug: `site-text-test-${runID}`,
+        title: 'Titolo originale',
+      },
+      draft: true,
+    })
+
+    try {
+      const before = await payload.findByID({ collection: 'pages', depth: 0, id: page.id })
+      const document = await readSiteTextDocument(
+        payload,
+        eventsManager,
+        `collection:pages:${page.id}`,
+      )
+      const title = document.controls.find((control) => control.value === 'Titolo originale')
+
+      expect(title).toBeDefined()
+      await saveSiteTextDocument(payload, eventsManager, {
+        changes: [{ id: title!.id, value: 'Titolo pubblicato' }],
+        sourceID: document.sourceID,
+        version: document.version,
+      })
+
+      const after = await payload.findByID({ collection: 'pages', depth: 0, id: page.id })
+      expect(after).toMatchObject({
+        _status: 'published',
+        slug: before.slug,
+        title: 'Titolo pubblicato',
+      })
+      expect(after.hero).toEqual(before.hero)
+      expect(after.layout).toEqual(before.layout)
+
+      await expect(
+        payload.update({
+          collection: 'pages',
+          data: { title: 'Tentativo generico' },
+          id: page.id,
+          overrideAccess: false,
+          user: eventsManager,
+        }),
+      ).rejects.toThrow()
+    } finally {
+      await payload.delete({
+        collection: 'pages',
+        context: { disableRevalidate: true },
+        id: page.id,
+      })
+    }
   })
 })

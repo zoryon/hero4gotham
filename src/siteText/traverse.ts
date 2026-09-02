@@ -257,3 +257,21 @@ export const applySiteTextChanges = <T>(fields: Field[], data: T, changes: SiteT
 
   return updated
 }
+
+export const buildSiteTextPatch = (
+  fields: Field[],
+  data: unknown,
+  changes: SiteTextChange[],
+): DataRecord => {
+  const controls = new Map(collectFields(fields, data).map((control) => [control.id, control]))
+  const updated = applySiteTextChanges(fields, data, changes)
+  const patch: DataRecord = {}
+
+  for (const change of changes) {
+    const topLevelField = controls.get(change.id)?.path[0]
+    if (typeof topLevelField !== 'string') throw new Error('Campo di testo non valido')
+    patch[topLevelField] = getAtPath(updated, [topLevelField])
+  }
+
+  return patch
+}
