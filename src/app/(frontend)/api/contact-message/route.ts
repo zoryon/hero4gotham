@@ -1,4 +1,6 @@
 import configPromise from '@payload-config'
+import { checkSubmissionRateLimit, isMeaningfulSubmission } from '@/utilities/formProtection'
+import { buildContactEmail } from '@/utilities/inboundEmail'
 import { getPayload } from 'payload'
 
 export const dynamic = 'force-dynamic'
@@ -6,18 +8,22 @@ export const dynamic = 'force-dynamic'
 const MAX_FIELD_LENGTH = 300
 const MAX_MESSAGE_LENGTH = 4000
 
-const escapeHTML = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-
 const getString = (value: unknown, maxLength = MAX_FIELD_LENGTH) =>
   typeof value === 'string' ? value.trim().slice(0, maxLength) : ''
 
 export async function POST(request: Request) {
+  const rateLimit = checkSubmissionRateLimit(request)
+
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { message: 'Too many requests. Please try again later.' },
+      {
+        headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) },
+        status: 429,
+      },
+    )
+  }
+
   let body: Record<string, unknown>
 
   try {
@@ -41,6 +47,10 @@ export async function POST(request: Request) {
     return Response.json({ message: 'Missing required fields.' }, { status: 400 })
   }
 
+  if (!isMeaningfulSubmission(message)) {
+    return Response.json({ message: 'Invalid submission.' }, { status: 400 })
+  }
+
   const recipient =
     process.env.CONTACT_MESSAGE_TO || process.env.SMTP_TO || process.env.SMTP_FROM_ADDRESS
 
@@ -49,33 +59,19 @@ export async function POST(request: Request) {
   }
 
   const payload = await getPayload({ config: configPromise })
-  const escaped = {
-    email: escapeHTML(email),
-    message: escapeHTML(message).replace(/\n/g, '<br />'),
-    name: escapeHTML(name),
-    subject: escapeHTML(subject),
-  }
+  const emailContent = buildContactEmail({
+    email,
+    message,
+    name,
+    subject,
+    title: emailSubjectPrefix,
+  })
 
   await payload.sendEmail({
-    html: `
-      <h2>${escapeHTML(emailSubjectPrefix)}</h2>
-      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
-        <tr><td><strong>Nome</strong></td><td>${escaped.name}</td></tr>
-        <tr><td><strong>Email</strong></td><td>${escaped.email}</td></tr>
-        <tr><td><strong>Oggetto</strong></td><td>${escaped.subject}</td></tr>
-      </table>
-      <p>${escaped.message}</p>
-    `,
+    html: emailContent.html,
     replyTo: email,
     subject: `${emailSubjectPrefix}: ${subject}`,
-    text: [
-      `${emailSubjectPrefix}`,
-      `Nome: ${name}`,
-      `Email: ${email}`,
-      `Oggetto: ${subject}`,
-      '',
-      message,
-    ].join('\n'),
+    text: emailContent.text,
     to: recipient,
   })
 

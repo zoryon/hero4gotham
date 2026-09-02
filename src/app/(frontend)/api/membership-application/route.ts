@@ -1,4 +1,6 @@
 import configPromise from '@payload-config'
+import { checkSubmissionRateLimit, isMeaningfulSubmission } from '@/utilities/formProtection'
+import { buildMembershipEmail } from '@/utilities/inboundEmail'
 import { getPayload } from 'payload'
 
 export const dynamic = 'force-dynamic'
@@ -15,14 +17,6 @@ const documentFileLabels: Record<DocumentFileKey, string> = {
   taxCodeDocument: 'Codice fiscale',
 }
 
-const escapeHTML = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-
 const getString = (value: unknown, maxLength = MAX_FIELD_LENGTH) =>
   typeof value === 'string' ? value.trim().slice(0, maxLength) : ''
 
@@ -36,10 +30,19 @@ const getDocumentFiles = (formData: FormData, key: DocumentFileKey) =>
     .filter((value): value is File => value instanceof File && value.size > 0)
     .slice(0, 3)
 
-const formatFileList = (files: File[]) =>
-  files.length ? files.map((file) => escapeHTML(file.name)).join('<br />') : '-'
-
 export async function POST(request: Request) {
+  const rateLimit = checkSubmissionRateLimit(request)
+
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { message: 'Too many requests. Please try again later.' },
+      {
+        headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) },
+        status: 429,
+      },
+    )
+  }
+
   let body: Record<string, unknown>
   let documentFiles: Record<DocumentFileKey, File[]>
 
@@ -116,6 +119,10 @@ export async function POST(request: Request) {
     return Response.json({ message: 'Missing required fields.' }, { status: 400 })
   }
 
+  if (!isMeaningfulSubmission(fields.motivation)) {
+    return Response.json({ message: 'Invalid submission.' }, { status: 400 })
+  }
+
   const totalDocumentSize = uploadedDocumentFiles.reduce((total, { file }) => total + file.size, 0)
   const invalidDocumentFile = uploadedDocumentFiles.find(
     ({ file }) => file.size > MAX_DOCUMENT_FILE_SIZE || !file.type.startsWith('image/'),
@@ -136,20 +143,17 @@ export async function POST(request: Request) {
   }
 
   const payload = await getPayload({ config: configPromise })
-  const escaped = Object.fromEntries(
-    Object.entries(fields).map(([key, value]) => [key, escapeHTML(value).replace(/\n/g, '<br />')]),
-  ) as Record<keyof typeof fields, string>
-
-  const declarationRows = [
-    ['Statuto e regolamento', declarations.statuteDeclaration],
-    ['Finalita associative', declarations.purposeDeclaration],
-    ['Dati veritieri', declarations.truthDeclaration],
-    ['Privacy', declarations.privacyDeclaration],
-  ]
-  const documentRows = documentFileEntries.map(
-    ([key, files]) =>
-      `<tr><td><strong>${escapeHTML(documentFileLabels[key])}</strong></td><td>${formatFileList(files)}</td></tr>`,
-  )
+  const emailContent = buildMembershipEmail({
+    declarations,
+    documents: uploadedDocumentFiles.map(({ file, key }) => ({
+      label: documentFileLabels[key],
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    })),
+    fields,
+    title: emailSubjectPrefix,
+  })
   const attachments = await Promise.all(
     uploadedDocumentFiles.map(async ({ file, index, key }) => ({
       content: Buffer.from(await file.arrayBuffer()),
@@ -160,68 +164,10 @@ export async function POST(request: Request) {
 
   await payload.sendEmail({
     attachments,
-    html: `
-      <h2>${escapeHTML(emailSubjectPrefix)}</h2>
-      <h3>Dati personali</h3>
-      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
-        <tr><td><strong>Nome</strong></td><td>${escaped.firstName}</td></tr>
-        <tr><td><strong>Cognome</strong></td><td>${escaped.lastName}</td></tr>
-        <tr><td><strong>Data di nascita</strong></td><td>${escaped.birthDate}</td></tr>
-        <tr><td><strong>Luogo di nascita</strong></td><td>${escaped.birthPlace}</td></tr>
-        <tr><td><strong>Indirizzo di residenza</strong></td><td>${escaped.residenceAddress}</td></tr>
-        <tr><td><strong>Email</strong></td><td>${escaped.email}</td></tr>
-        <tr><td><strong>Telefono</strong></td><td>${escaped.phone || '-'}</td></tr>
-      </table>
-      <h3>Documenti allegati</h3>
-      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
-        ${documentRows.join('')}
-      </table>
-      <h3>Candidatura</h3>
-      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
-        <tr><td><strong>Tipo di richiesta</strong></td><td>${escaped.requestType}</td></tr>
-        <tr><td><strong>Aree di interesse</strong></td><td>${escaped.interestAreas || '-'}</td></tr>
-      </table>
-      <p><strong>Motivazione</strong></p>
-      <p>${escaped.motivation}</p>
-      <h3>Dichiarazioni</h3>
-      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse">
-        ${declarationRows
-          .map(
-            ([label, value]) =>
-              `<tr><td><strong>${escapeHTML(String(label))}</strong></td><td>${value ? 'Si' : 'No'}</td></tr>`,
-          )
-          .join('')}
-      </table>
-    `,
+    html: emailContent.html,
     replyTo: fields.email,
     subject: `${emailSubjectPrefix}: ${fields.firstName} ${fields.lastName}`,
-    text: [
-      emailSubjectPrefix,
-      '',
-      'Dati personali',
-      `Nome: ${fields.firstName}`,
-      `Cognome: ${fields.lastName}`,
-      `Data di nascita: ${fields.birthDate}`,
-      `Luogo di nascita: ${fields.birthPlace}`,
-      `Indirizzo di residenza: ${fields.residenceAddress}`,
-      `Email: ${fields.email}`,
-      `Telefono: ${fields.phone || '-'}`,
-      '',
-      'Documenti allegati',
-      ...documentFileEntries.map(
-        ([key, files]) =>
-          `${documentFileLabels[key]}: ${files.length ? files.map((file) => file.name).join(', ') : '-'}`,
-      ),
-      '',
-      'Candidatura',
-      `Tipo di richiesta: ${fields.requestType}`,
-      `Aree di interesse: ${fields.interestAreas || '-'}`,
-      '',
-      fields.motivation,
-      '',
-      'Dichiarazioni',
-      ...declarationRows.map(([label, value]) => `${label}: ${value ? 'Si' : 'No'}`),
-    ].join('\n'),
+    text: emailContent.text,
     to: recipient,
   })
 
