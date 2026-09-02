@@ -1,4 +1,4 @@
-import type { Access, AccessArgs, FieldAccess } from 'payload'
+import type { Access, AccessArgs, Condition, FieldAccess } from 'payload'
 
 type Role = 'admin' | 'eventsManager'
 
@@ -61,6 +61,9 @@ export const canAccessAdmin = ({ req: { user } }: { req: { user?: unknown } }): 
 }
 
 export const hideFromNonAdmins = ({ user }: { user?: unknown }) => getRole(user) !== 'admin'
+
+export const showToAdmins: Condition = (_data, _siblingData, { user }) =>
+  getRole(user) === 'admin'
 
 export const hideFromNonAdminOrEventsManagers = ({ user }: { user?: unknown }) => {
   const role = getRole(user)

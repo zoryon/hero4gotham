@@ -6,6 +6,7 @@ import {
   adminOrSelf,
   canAccessAdmin,
   hideFromNonAdmins,
+  showToAdmins,
 } from '@/access/roles'
 
 export const Users: CollectionConfig = {
@@ -30,6 +31,9 @@ export const Users: CollectionConfig = {
       access: {
         create: adminFieldOnly,
         update: adminFieldOnly,
+      },
+      admin: {
+        condition: showToAdmins,
       },
       defaultValue: 'admin',
       options: [
