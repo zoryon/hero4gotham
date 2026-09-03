@@ -226,10 +226,9 @@ export function SiteTextEditor({ initialIndex }: Props) {
     }
 
     const click = (event: Event) => {
-      const target =
-        event.target instanceof Element
-          ? event.target.closest<HTMLElement>('[data-h4g-field-id]')
-          : null
+      const clicked = event.target
+      if (!clicked || !('closest' in clicked) || typeof clicked.closest !== 'function') return
+      const target = (clicked as Element).closest<HTMLElement>('[data-h4g-field-id]')
       if (!target?.dataset.h4gFieldId) return
       event.preventDefault()
       event.stopPropagation()
