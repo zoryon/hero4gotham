@@ -94,6 +94,7 @@ export type EventSuiteItem = {
       }[]
     | null
   id: number | string
+  endsAt?: null | string
   pinned?: boolean | null
   slug?: null | string
   startsAt: string
@@ -113,6 +114,7 @@ export const eventSuiteSelect = {
     isCover: true,
   },
   startsAt: true,
+  endsAt: true,
   slug: true,
   title: true,
   venue: true,
@@ -366,28 +368,3 @@ export const getEventSuiteTextClassName = (
     getRecordValue(typographyFontWeightClasses, style?.fontWeight, fallbackWeight),
     getRecordValue(typographyLetterSpacingClasses, style?.letterSpacing, 'tight'),
   ].join(' ')
-
-export const formatEventDateParts = (value: string) => {
-  const date = new Date(value)
-  const parts = new Intl.DateTimeFormat('it-IT', {
-    day: '2-digit',
-    month: 'short',
-  }).formatToParts(date)
-
-  return {
-    day: parts.find((part) => part.type === 'day')?.value || '',
-    month: (parts.find((part) => part.type === 'month')?.value || '')
-      .replace('.', '')
-      .toUpperCase(),
-    time: new Intl.DateTimeFormat('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(date),
-    weekday: new Intl.DateTimeFormat('it-IT', {
-      weekday: 'long',
-    })
-      .format(date)
-      .toUpperCase(),
-    year: String(date.getFullYear()),
-  }
-}

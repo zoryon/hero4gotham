@@ -4,13 +4,14 @@ import { Media } from '@/components/Media'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import { SiteBackgroundFrame } from '@/SiteBackground/Component'
 import type { Event as EventDocument, Media as MediaDocument } from '@/payload-types'
-import { formatEventDateParts, getEventTypeLabel } from '@/blocks/EventSuite/shared'
+import { getEventTypeLabel } from '@/blocks/EventSuite/shared'
+import { formatEventDateRange } from '@/blocks/EventSuite/eventDates'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { getServerSideURL } from '@/utilities/getURL'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
-import { ArrowLeft, CalendarDays, Clock, Info, MapPin, UsersRound } from 'lucide-react'
+import { ArrowLeft, CalendarDays, Info, MapPin, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { cache, type ReactNode } from 'react'
 import { getPayload } from 'payload'
@@ -52,10 +53,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     getCachedGlobal('siteBackground', 1)().catch(() => null),
     getSiteCopy(),
   ])
-  const dateParts = formatEventDateParts(event.startsAt)
-  const fullMonth = new Intl.DateTimeFormat('it-IT', { month: 'long' })
-    .format(new Date(event.startsAt))
-    .toUpperCase()
+  const dateRange = formatEventDateRange(event.startsAt, event.endsAt)
   const eventTypeLabel = getEventTypeLabel(event.activity)
   const longDescription = event.longDescription?.trim()
   const timelineItems = (event.timeline || []).filter((item) => item.time && item.title)
@@ -135,19 +133,13 @@ export default async function EventPage({ params: paramsPromise }: Args) {
             </div>
           </section>
 
-          <aside className="event-detail-info-bar scribble-border vintage-surface grid gap-0 p-5 md:grid-cols-2 xl:grid-cols-4">
+          <aside className="event-detail-info-bar scribble-border vintage-surface grid gap-0 p-5 md:grid-cols-3">
             <EventInfoItem
               fallback={copy.common.undefinedValue}
               icon={<CalendarDays aria-hidden className="h-7 w-7" />}
               label={copy.eventDetail.dateLabel}
-              primary={`${dateParts.day} ${fullMonth} ${dateParts.year}`}
-              secondary={dateParts.weekday}
-            />
-            <EventInfoItem
-              fallback={copy.common.undefinedValue}
-              icon={<Clock aria-hidden className="h-7 w-7" />}
-              label={copy.eventDetail.timeLabel}
-              primary={dateParts.time}
+              primary={dateRange.long.toLocaleUpperCase('it-IT')}
+              secondary={dateRange.weekday}
             />
             <EventInfoItem
               fallback={copy.common.undefinedValue}

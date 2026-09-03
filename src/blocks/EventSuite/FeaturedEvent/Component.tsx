@@ -4,7 +4,6 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import {
   eventSuiteSelect,
-  formatEventDateParts,
   getEventDisplayImage,
   getEventPrimaryLink,
   getEventTypeLabel,
@@ -15,6 +14,8 @@ import {
   type EventSuiteMedia,
   type EventSuiteTextStyle,
 } from '@/blocks/EventSuite/shared'
+import { formatEventDateRange } from '@/blocks/EventSuite/eventDates'
+import { buildEventWhere } from '@/blocks/EventSuite/eventWhere'
 import { cn } from '@/utilities/ui'
 import { getSiteCopy } from '@/utilities/siteCopy'
 import configPromise from '@payload-config'
@@ -41,9 +42,6 @@ type Props = {
 const getNextFeaturedEvent = unstable_cache(
   async (): Promise<EventSuiteItem | null> => {
     const payload = await getPayload({ config: configPromise })
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
-
     const result = await payload.find({
       collection: 'events',
       depth: 1,
@@ -51,11 +49,7 @@ const getNextFeaturedEvent = unstable_cache(
       pagination: false,
       select: eventSuiteSelect,
       sort: 'startsAt',
-      where: {
-        startsAt: {
-          greater_than_equal: now.toISOString(),
-        },
-      },
+      where: buildEventWhere(undefined, { futureOnlyWhenUnfiltered: true }),
     })
 
     return (result.docs[0] as EventSuiteItem | undefined) || null
@@ -117,7 +111,7 @@ export const FeaturedEventBlock = async ({
   const displayImage = hasEvent ? backgroundImage || getEventDisplayImage(event) : backgroundImage
   const displayTitle = hasEvent ? event.title : copy.eventSuite.featuredEmptyTitle
   const displayDate = hasEvent
-    ? `${formatEventDateParts(event.startsAt).day} ${formatEventDateParts(event.startsAt).month} ${formatEventDateParts(event.startsAt).time}`
+    ? formatEventDateRange(event.startsAt, event.endsAt).short
     : copy.eventSuite.featuredComingSoon
   const displayDescription = hasEvent ? event.description : copy.eventSuite.featuredEmptyDescription
 

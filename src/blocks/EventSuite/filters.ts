@@ -1,3 +1,5 @@
+import { getZonedDateStart } from './eventDates'
+
 export type EventFilterParams = {
   activityId?: 'all' | number | string | null
   date?: string | null
@@ -63,8 +65,8 @@ export const getDateRangeFromFilterValue = (value: string | null | undefined) =>
   if (!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null
 
   const [year, month, day] = value.split('-').map(Number)
-  const start = new Date(year, month - 1, day)
-  const end = new Date(year, month - 1, day + 1)
+  const start = getZonedDateStart(year, month - 1, day)
+  const end = getZonedDateStart(year, month - 1, day + 1)
 
   if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return null
 

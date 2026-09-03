@@ -6,7 +6,6 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import { ChevronLeft, ChevronRight, MapPin, Pin } from 'lucide-react'
 import {
-  formatEventDateParts,
   getEventDisplayImage,
   getEventPrimaryLink,
   getEventTypeLabel,
@@ -17,6 +16,7 @@ import {
   type EventSuiteMedia,
   type EventSuiteTextStyle,
 } from '@/blocks/EventSuite/shared'
+import { formatEventDateRange, isEventPast } from '@/blocks/EventSuite/eventDates'
 import {
   appendEventFilterSearchParams,
   normalizeEventFilterParams,
@@ -50,7 +50,6 @@ type Props = {
   pageSize?: number
   paginationMode?: boolean
   rowHeight?: null | number
-  timeStyle?: EventSuiteTextStyle | null
   ttlStyle?: EventSuiteTextStyle | null
   typStyle?: EventSuiteTextStyle | null
   weekdayStyle?: EventSuiteTextStyle | null
@@ -100,7 +99,6 @@ export const EventListClient: React.FC<Props> = ({
   pageSize = batchSize,
   paginationMode = false,
   rowHeight = 112,
-  timeStyle,
   ttlStyle,
   typStyle,
   weekdayStyle,
@@ -377,12 +375,11 @@ export const EventListClient: React.FC<Props> = ({
             }
           >
             {eventItems.map((event, index) => {
-              const dateParts = formatEventDateParts(event.startsAt)
-              const displayTime = dateParts.time
+              const dateParts = formatEventDateRange(event.startsAt, event.endsAt)
               const displayImage = getEventDisplayImage(event)
               const eventPrimaryLink = getEventPrimaryLink(event)
               const eventTypeLabel = getEventTypeLabel(event.activity)
-              const hasPassed = new Date(event.startsAt).getTime() < Date.now()
+              const hasPassed = isEventPast(event.startsAt, event.endsAt)
               const passedContentClassName = hasPassed ? 'opacity-70' : undefined
 
               return (
@@ -481,18 +478,6 @@ export const EventListClient: React.FC<Props> = ({
                         })}
                       >
                         {dateParts.weekday}
-                      </span>
-                      <span
-                        className={cn(getEventSuiteTextClassName(timeStyle, 'black'), 'mt-2')}
-                        style={getEventSuiteTextStyle(timeStyle, {
-                          fontFamily: 'cinzel',
-                          fontSizeDesktop: 15,
-                          fontSizeMobile: 13,
-                          fontWeight: 'black',
-                          lineHeight: 1.05,
-                        })}
-                      >
-                        {displayTime}
                       </span>
                     </div>
                   </div>

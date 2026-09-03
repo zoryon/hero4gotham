@@ -245,11 +245,6 @@ export const EventList: Block = {
       fontSizeDesktop: 13,
       fontSizeMobile: 10,
     }),
-    datePartTextStyleField('timeStyle', 'Date time typography', {
-      colorTheme: 'primary',
-      fontSizeDesktop: 13,
-      fontSizeMobile: 10,
-    }),
     textStyleField('ttlStyle', 'Event title typography', {
       colorTheme: 'secondary',
       fontFamily: 'cinzel',

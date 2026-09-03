@@ -8,6 +8,7 @@ export const eventGalleryDefaultPageSize = 9
 
 export type EventGalleryAlbum = {
   cover: EventSuiteMedia
+  endsAt?: null | string
   eventId: number | string
   ratio: number
   startsAt: string
@@ -75,6 +76,7 @@ const toAlbum = (event: EventSuiteItem): EventGalleryAlbum | null => {
 
   return {
     cover,
+    endsAt: event.endsAt,
     eventId: event.id,
     ratio: getMediaRatio(coverItem.image),
     startsAt: event.startsAt,
@@ -117,6 +119,7 @@ export const getEventGalleryPage = async ({
         isBanner: true,
         isCover: true,
       },
+      endsAt: true,
       startsAt: true,
       title: true,
     },

@@ -9,6 +9,8 @@ import type {
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import { getEventPrimaryLink } from '@/blocks/EventSuite/shared'
+import { formatEventDateRange } from '@/blocks/EventSuite/eventDates'
+import { buildEventWhere } from '@/blocks/EventSuite/eventWhere'
 import {
   typographyFontFamilyStyles,
   typographyFontSizeClasses,
@@ -20,7 +22,7 @@ import {
 import { getMediaUrl } from '@/utilities/getMediaUrl'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
-import { Clock, MapPin } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
@@ -30,18 +32,9 @@ const extendedSubtitleFontSizeClasses = {
   ...typographySubtitleFontSizeClasses,
 }
 
-const eventDateFormatter = new Intl.DateTimeFormat('it-IT', {
-  day: '2-digit',
-  month: 'short',
-})
-
-const eventTimeFormatter = new Intl.DateTimeFormat('it-IT', {
-  hour: '2-digit',
-  minute: '2-digit',
-})
-
 const eventSelect = {
   description: true,
+  endsAt: true,
   startsAt: true,
   slug: true,
   title: true,
@@ -51,7 +44,14 @@ const eventSelect = {
 
 type UpcomingEventData = Pick<
   EventDocument,
-  'description' | 'id' | 'slug' | 'startsAt' | 'title' | 'venue' | 'venueAddress'
+  | 'description'
+  | 'endsAt'
+  | 'id'
+  | 'slug'
+  | 'startsAt'
+  | 'title'
+  | 'venue'
+  | 'venueAddress'
 >
 
 const resolveBackgroundImage = (image: MediaDocument | number | null | undefined) => {
@@ -120,17 +120,6 @@ const getTextStyle = ({
   transformOrigin: 'top left',
 })
 
-const formatEventDate = (value: string) => {
-  const parts = eventDateFormatter.formatToParts(new Date(value))
-  const day = parts.find((part) => part.type === 'day')?.value || ''
-  const month = parts.find((part) => part.type === 'month')?.value || ''
-
-  return {
-    day,
-    month: month.replace('.', '').toUpperCase(),
-  }
-}
-
 const truncateAtNextWord = (value: null | string | undefined, maxCharacters?: null | number) => {
   const text = value?.trim().replace(/\s+/g, ' ') || ''
   const limit = Math.floor(maxCharacters || 0)
@@ -143,9 +132,6 @@ const truncateAtNextWord = (value: null | string | undefined, maxCharacters?: nu
 
   return `${text.slice(0, limit + nextSpaceIndex).trimEnd()}...`
 }
-
-const formatEventTime = (event: Pick<UpcomingEventData, 'startsAt'>) =>
-  `ore ${eventTimeFormatter.format(new Date(event.startsAt))}`
 
 const isEventDocument = (
   event: EventDocument | number | null | undefined,
@@ -186,9 +172,6 @@ const getManualEvents = async (
 const getAutomaticEvents = unstable_cache(
   async (): Promise<UpcomingEventData[]> => {
     const payload = await getPayload({ config: configPromise })
-    const now = new Date()
-    now.setHours(0, 0, 0, 0)
-
     const upcoming = await payload.find({
       collection: 'events',
       depth: 1,
@@ -196,11 +179,7 @@ const getAutomaticEvents = unstable_cache(
       pagination: false,
       select: eventSelect,
       sort: 'startsAt',
-      where: {
-        startsAt: {
-          greater_than_equal: now.toISOString(),
-        },
-      },
+      where: buildEventWhere(undefined, { futureOnlyWhenUnfiltered: true }),
     })
 
     if (upcoming.docs.length) return upcoming.docs as UpcomingEventData[]
@@ -216,7 +195,7 @@ const getAutomaticEvents = unstable_cache(
 
     return latest.docs as UpcomingEventData[]
   },
-  ['upcoming-events-automatic'],
+  ['upcoming-events-automatic-v2'],
   {
     revalidate: 300,
     tags: ['events'],
@@ -334,13 +313,13 @@ export const UpcomingEventsBlock = async ({
               <div className="upcoming-events-event-card-border scribble-border vintage-surface relative w-full divide-y divide-[#7b5a2f]/35 px-5 py-4 shadow-[0_18px_40px_rgb(0_0_0_/_0.28)] md:px-6 md:py-5 xl:px-7 xl:py-5">
                 {eventItems.length ? (
                   eventItems.map((event) => {
-                    const formattedDate = formatEventDate(event.startsAt)
+                    const formattedDate = formatEventDateRange(event.startsAt, event.endsAt)
                     const eventPrimaryLink = getEventPrimaryLink(event)
                     const eventVenue = event.venue?.trim()
 
                     return (
                       <article
-                        className="grid grid-cols-[4rem_minmax(0,1fr)] items-start gap-3 py-3 first:pt-0 last:pb-0 md:grid-cols-[4.45rem_minmax(0,1fr)] xl:gap-4"
+                        className="grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-3 first:pt-0 last:pb-0 xl:gap-4"
                         key={event.id}
                       >
                         <div className="grid justify-self-start text-left uppercase leading-none">
@@ -378,7 +357,7 @@ export const UpcomingEventsBlock = async ({
                             {formattedDate.month}
                           </div>
                           <div
-                            className="mt-3 inline-flex items-center gap-1 text-[0.62rem] font-semibold normal-case leading-none tracking-[0.02em]"
+                            className="mt-2 text-[0.62rem] font-semibold leading-none tracking-[0.04em]"
                             style={{
                               color: eventTextColor || '#d7d0d3',
                               fontFamily: getRecordValue(
@@ -388,13 +367,7 @@ export const UpcomingEventsBlock = async ({
                               ),
                             }}
                           >
-                            <Clock
-                              aria-hidden
-                              className="h-3 w-3 shrink-0"
-                              style={{ color: eventLinkColor || '#a3e635' }}
-                              strokeWidth={2.5}
-                            />
-                            <span>{formatEventTime(event)}</span>
+                            {formattedDate.year}
                           </div>
                         </div>
 

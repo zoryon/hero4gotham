@@ -4,6 +4,7 @@ import { adminOrEventsManager } from '@/access/roles'
 import { slugField } from 'payload'
 import { enforceSinglePinnedEvent } from './Events/hooks/enforceSinglePinnedEvent'
 import { revalidateDelete, revalidateEvent } from './Events/hooks/revalidateEvent'
+import { validateEventEndDate } from '@/blocks/EventSuite/eventDates'
 
 export const Events: CollectionConfig<'events'> = {
   slug: 'events',
@@ -14,7 +15,7 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'pinned', 'slug', 'activity', 'startsAt', 'venue', 'updatedAt'],
+    defaultColumns: ['title', 'pinned', 'slug', 'activity', 'startsAt', 'endsAt', 'venue', 'updatedAt'],
     description: 'Crea e aggiorna gli eventi pubblicati sul sito.',
     group: 'Contenuti',
     preview: (data) => (data?.slug ? `/eventi/${data.slug as string}` : null),
@@ -28,6 +29,7 @@ export const Events: CollectionConfig<'events'> = {
     artistsAndGuests: true,
     pinned: true,
     startsAt: true,
+    endsAt: true,
     slug: true,
     title: true,
     timeline: true,
@@ -69,11 +71,27 @@ export const Events: CollectionConfig<'events'> = {
       index: true,
       admin: {
         date: {
-          pickerAppearance: 'dayAndTime',
+          displayFormat: 'dd/MM/yyyy',
+          pickerAppearance: 'dayOnly',
         },
+        description: "Primo giorno dell'evento.",
       },
-      label: 'Data e ora',
+      label: 'Data di inizio',
       required: true,
+    },
+    {
+      name: 'endsAt',
+      type: 'date',
+      index: true,
+      admin: {
+        date: {
+          displayFormat: 'dd/MM/yyyy',
+          pickerAppearance: 'dayOnly',
+        },
+        description: "Facoltativa. Lasciala vuota se l'evento dura un solo giorno.",
+      },
+      label: 'Data di fine',
+      validate: validateEventEndDate,
     },
     {
       name: 'gallery',

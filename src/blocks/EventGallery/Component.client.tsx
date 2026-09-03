@@ -14,13 +14,13 @@ import {
   type EventFilterParams,
 } from '@/blocks/EventSuite/filters'
 import {
-  formatEventDateParts,
   getEventSuiteTextClassName,
   getEventSuiteTextStyle,
   resolveMediaBackground,
   type EventSuiteMedia,
   type EventSuiteTextStyle,
 } from '@/blocks/EventSuite/shared'
+import { formatEventDateRange } from '@/blocks/EventSuite/eventDates'
 import { Media } from '@/components/Media'
 import { useEventFilters } from '@/providers/EventFilters'
 import { useDebounce } from '@/utilities/useDebounce'
@@ -69,9 +69,7 @@ const getResponsiveColumnCount = ({
 }
 
 const getGalleryDateLabel = (album: EventGalleryAlbum) => {
-  const dateParts = formatEventDateParts(album.startsAt)
-
-  return `${dateParts.day} ${dateParts.month} ${dateParts.time}`
+  return formatEventDateRange(album.startsAt, album.endsAt).short
 }
 
 export const EventGalleryClient: React.FC<Props> = ({

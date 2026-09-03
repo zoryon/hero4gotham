@@ -2,7 +2,7 @@ import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
-import { getEventCalendarDateParts } from './date'
+import { getEventDaysInMonth } from '../eventDates'
 
 export type EventCalendarActivityMarker = {
   color?: null | string
@@ -27,6 +27,7 @@ type CalendarEventActivity =
 
 type CalendarEventResult = {
   activity?: CalendarEventActivity
+  endsAt?: null | string
   startsAt: string
 }
 
@@ -72,31 +73,40 @@ export const getEventCalendarMarkers = unstable_cache(
       pagination: false,
       select: {
         activity: true,
+        endsAt: true,
         startsAt: true,
       },
       sort: 'startsAt',
       where: {
-        startsAt: {
-          greater_than_equal: start.toISOString(),
-          less_than: end.toISOString(),
-        },
+        and: [
+          { startsAt: { less_than: end.toISOString() } },
+          {
+            or: [
+              { endsAt: { greater_than_equal: start.toISOString() } },
+              {
+                and: [
+                  { endsAt: { exists: false } },
+                  { startsAt: { greater_than_equal: start.toISOString() } },
+                ],
+              },
+            ],
+          },
+        ],
       },
     })
 
     const dayMarkers = new Map<number, Map<string, EventCalendarActivityMarker>>()
 
     for (const event of result.docs as CalendarEventResult[]) {
-      const eventDate = getEventCalendarDateParts(event.startsAt)
-
-      if (eventDate.year !== year || eventDate.month !== monthIndex + 1) continue
-
-      const day = eventDate.day
       const activityMarker = getActivityMarker(event.activity || null)
       const activityKey = String(activityMarker.id)
-      const activities = dayMarkers.get(day) || new Map<string, EventCalendarActivityMarker>()
 
-      activities.set(activityKey, activityMarker)
-      dayMarkers.set(day, activities)
+      for (const day of getEventDaysInMonth(event.startsAt, event.endsAt, year, monthIndex)) {
+        const activities = dayMarkers.get(day) || new Map<string, EventCalendarActivityMarker>()
+
+        activities.set(activityKey, activityMarker)
+        dayMarkers.set(day, activities)
+      }
     }
 
     return Array.from(dayMarkers.entries())
@@ -106,7 +116,7 @@ export const getEventCalendarMarkers = unstable_cache(
       }))
       .sort((a, b) => a.day - b.day)
   },
-  ['event-calendar-markers-v3'],
+  ['event-calendar-markers-v4'],
   {
     revalidate: 300,
     tags: ['events', 'activities'],

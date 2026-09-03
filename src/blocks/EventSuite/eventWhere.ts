@@ -4,6 +4,7 @@ import {
 } from '@/blocks/EventSuite/filters'
 import type { EventFilterParams } from '@/blocks/EventSuite/filters'
 import type { Where } from 'payload'
+import { getEventDayStart } from './eventDates'
 
 type BuildEventWhereOptions = {
   futureOnlyWhenUnfiltered?: boolean
@@ -27,19 +28,36 @@ export const buildEventWhere = (
   const selectedDateRange = getDateRangeFromFilterValue(normalizedFilters.date)
 
   if (options.futureOnlyWhenUnfiltered && !hasActiveFilters(normalizedFilters)) {
+    const today = getEventDayStart(options.now || new Date()).toISOString()
     clauses.push({
-      startsAt: {
-        greater_than_equal: (options.now || new Date()).toISOString(),
-      },
+      or: [
+        { endsAt: { greater_than_equal: today } },
+        {
+          and: [
+            { endsAt: { exists: false } },
+            { startsAt: { greater_than_equal: today } },
+          ],
+        },
+      ],
     })
   }
 
   if (selectedDateRange) {
     clauses.push({
-      startsAt: {
-        greater_than_equal: selectedDateRange.start.toISOString(),
-        less_than: selectedDateRange.end.toISOString(),
-      },
+      and: [
+        { startsAt: { less_than: selectedDateRange.end.toISOString() } },
+        {
+          or: [
+            { endsAt: { greater_than_equal: selectedDateRange.start.toISOString() } },
+            {
+              and: [
+                { endsAt: { exists: false } },
+                { startsAt: { greater_than_equal: selectedDateRange.start.toISOString() } },
+              ],
+            },
+          ],
+        },
+      ],
     })
   }
 

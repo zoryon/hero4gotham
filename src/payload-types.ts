@@ -1537,12 +1537,6 @@ export interface EventListBlock {
     verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
     colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
   };
-  timeStyle?: {
-    fontSizeMobile?: number | null;
-    fontSizeDesktop?: number | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    colorTheme?: ('primary' | 'secondary' | 'muted' | 'accent' | 'green' | 'purple') | null;
-  };
   ttlStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
@@ -1934,6 +1928,8 @@ export interface FeaturedEventBlock {
   blockType: 'featuredEvent';
 }
 /**
+ * Crea e aggiorna gli eventi pubblicati sul sito.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
@@ -1948,7 +1944,14 @@ export interface Event {
    * Attivita used by the evento filtri.
    */
   activity?: (number | null) | Activity;
+  /**
+   * Primo giorno dell'evento.
+   */
   startsAt: string;
+  /**
+   * Facoltativa. Lasciala vuota se l'evento dura un solo giorno.
+   */
+  endsAt?: string | null;
   /**
    * Foto dell'evento. Puoi scegliere una copertina per l'album e un banner per la pagina evento. Se non selezioni una copertina o un banner, verrà usata la prima foto.
    */
@@ -2053,6 +2056,8 @@ export interface Event {
   createdAt: string;
 }
 /**
+ * Categorie utilizzate per organizzare e filtrare gli eventi.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "activities".
  */
@@ -4753,14 +4758,6 @@ export interface EventListBlockSelect<T extends boolean = true> {
         verticalScale?: T;
         colorTheme?: T;
       };
-  timeStyle?:
-    | T
-    | {
-        fontSizeMobile?: T;
-        fontSizeDesktop?: T;
-        verticalScale?: T;
-        colorTheme?: T;
-      };
   ttlStyle?:
     | T
     | {
@@ -6258,6 +6255,7 @@ export interface EventsSelect<T extends boolean = true> {
   pinned?: T;
   activity?: T;
   startsAt?: T;
+  endsAt?: T;
   gallery?:
     | T
     | {
