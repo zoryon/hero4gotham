@@ -5,7 +5,11 @@ import type {
   CollectionConfig,
 } from 'payload'
 
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import {
+  adminOnly,
+  adminOrEventsManager,
+  hideFromNonAdminOrEventsManagers,
+} from '@/access/roles'
 import { revalidateTag } from 'next/cache'
 
 export const activityColorPalette = [
@@ -106,13 +110,13 @@ export const Activities: CollectionConfig<'activities'> = {
     create: adminOnly,
     delete: adminOnly,
     read: () => true,
-    update: adminOnly,
+    update: adminOrEventsManager,
   },
   admin: {
     defaultColumns: ['title', 'shortName', 'color', 'order', 'updatedAt'],
     description: 'Categorie utilizzate per organizzare e filtrare gli eventi.',
     group: 'Struttura e design',
-    hidden: hideFromNonAdmins,
+    hidden: hideFromNonAdminOrEventsManagers,
     useAsTitle: 'title',
   },
   defaultPopulate: {

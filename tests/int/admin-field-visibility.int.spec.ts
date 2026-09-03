@@ -4,6 +4,7 @@ import { Footer } from '@/Footer/config'
 import { Header } from '@/Header/config'
 import { MembershipDocuments } from '@/MembershipDocuments/config'
 import { PrivacyPolicy } from '@/PrivacyPolicy/config'
+import { Activities } from '@/collections/Activities'
 import { Users } from '@/collections/Users'
 import type { Field } from 'payload'
 import { describe, expect, it } from 'vitest'
@@ -95,12 +96,24 @@ describe('events manager admin field visibility', () => {
     ['Header', Header],
     ['Footer', Footer],
     ['Privacy Policy', PrivacyPolicy],
-    ['Documenti', MembershipDocuments],
-  ] as const)('reserves the %s global editor for administrators', async (_label, global) => {
-    expect(globalIsVisible(global, 'eventsManager')).toBe(false)
-    expect(await canUpdateGlobal(global, 'eventsManager')).toBe(false)
+  ] as const)('allows events managers to update the %s global', async (_label, global) => {
+    expect(globalIsVisible(global, 'eventsManager')).toBe(true)
+    expect(await canUpdateGlobal(global, 'eventsManager')).toBe(true)
     expect(globalIsVisible(global, 'admin')).toBe(true)
     expect(await canUpdateGlobal(global, 'admin')).toBe(true)
+  })
+
+  it('keeps membership documents reserved for administrators', async () => {
+    expect(globalIsVisible(MembershipDocuments, 'eventsManager')).toBe(false)
+    expect(await canUpdateGlobal(MembershipDocuments, 'eventsManager')).toBe(false)
+  })
+
+  it('allows events managers to view and update existing activities', async () => {
+    const hidden = Activities.admin?.hidden
+    const update = Activities.access?.update
+
+    expect(typeof hidden === 'function' ? hidden({ user: { role: 'eventsManager' } } as never) : true).toBe(false)
+    expect(typeof update === 'function' ? await update({ req: { user: { role: 'eventsManager' } } } as never) : false).toBe(true)
   })
 
   it.each(['Sfondo', 'SEO'])('hides the Privacy Policy %s tab from events managers', (label) => {

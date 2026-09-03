@@ -3,8 +3,8 @@ import type { GlobalConfig } from 'payload'
 import {
   adminFieldOnly,
   adminOrEventsManagerField,
-  adminOnly,
-  hideFromNonAdmins,
+  adminOrEventsManager,
+  hideFromNonAdminOrEventsManagers,
   showToAdmins,
 } from '@/access/roles'
 import { link } from '@/fields/link'
@@ -14,11 +14,11 @@ export const Footer: GlobalConfig = {
   slug: 'footer',
   access: {
     read: () => true,
-    update: adminOnly,
+    update: adminOrEventsManager,
   },
   admin: {
     group: 'Struttura e design',
-    hidden: hideFromNonAdmins,
+    hidden: hideFromNonAdminOrEventsManagers,
   },
   fields: [
     {

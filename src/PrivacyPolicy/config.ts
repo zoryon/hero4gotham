@@ -1,6 +1,11 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminFieldOnly, adminOnly, hideFromNonAdmins, showToAdmins } from '@/access/roles'
+import {
+  adminFieldOnly,
+  adminOrEventsManager,
+  hideFromNonAdminOrEventsManagers,
+  showToAdmins,
+} from '@/access/roles'
 import { defaultPrivacyPolicyContent } from './defaultContent'
 import { revalidatePrivacyPolicy } from './hooks/revalidatePrivacyPolicy'
 
@@ -9,11 +14,11 @@ export const PrivacyPolicy: GlobalConfig = {
   label: 'Privacy Policy',
   access: {
     read: () => true,
-    update: adminOnly,
+    update: adminOrEventsManager,
   },
   admin: {
     group: 'Struttura e design',
-    hidden: hideFromNonAdmins,
+    hidden: hideFromNonAdminOrEventsManagers,
   },
   fields: [
     {

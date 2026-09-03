@@ -11,8 +11,8 @@ import { revalidateHeader } from './hooks/revalidateHeader'
 import {
   adminFieldOnly,
   adminOrEventsManagerField,
-  adminOnly,
-  hideFromNonAdmins,
+  adminOrEventsManager,
+  hideFromNonAdminOrEventsManagers,
   showToAdmins,
 } from '@/access/roles'
 
@@ -144,11 +144,11 @@ export const Header: GlobalConfig = {
   slug: 'header',
   access: {
     read: () => true,
-    update: adminOnly,
+    update: adminOrEventsManager,
   },
   admin: {
     group: 'Struttura e design',
-    hidden: hideFromNonAdmins,
+    hidden: hideFromNonAdminOrEventsManagers,
   },
   fields: [
     {
