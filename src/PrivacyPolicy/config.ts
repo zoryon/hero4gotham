@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import { adminFieldOnly, adminOnly, hideFromNonAdmins, showToAdmins } from '@/access/roles'
 import { defaultPrivacyPolicyContent } from './defaultContent'
 import { revalidatePrivacyPolicy } from './hooks/revalidatePrivacyPolicy'
 
@@ -49,16 +49,25 @@ export const PrivacyPolicy: GlobalConfig = {
         },
         {
           label: 'Background',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             {
               name: 'backgroundImage',
               type: 'upload',
+              access: {
+                update: adminFieldOnly,
+              },
               label: 'Desktop background image',
               relationTo: 'media',
             },
             {
               name: 'bgTab',
               type: 'upload',
+              access: {
+                update: adminFieldOnly,
+              },
               label: 'Tablet background image',
               relationTo: 'media',
               admin: {
@@ -68,6 +77,9 @@ export const PrivacyPolicy: GlobalConfig = {
             {
               name: 'bgMob',
               type: 'upload',
+              access: {
+                update: adminFieldOnly,
+              },
               label: 'Mobile background image',
               relationTo: 'media',
               admin: {
@@ -87,6 +99,9 @@ export const PrivacyPolicy: GlobalConfig = {
                     {
                       name: 'imageQuality',
                       type: 'number',
+                      access: {
+                        update: adminFieldOnly,
+                      },
                       defaultValue: 95,
                       label: 'Image quality',
                       min: 75,
@@ -101,6 +116,9 @@ export const PrivacyPolicy: GlobalConfig = {
                     {
                       name: 'imagePositionMobile',
                       type: 'select',
+                      access: {
+                        update: adminFieldOnly,
+                      },
                       defaultValue: 'center',
                       label: 'Mobile position',
                       options: [
@@ -121,6 +139,9 @@ export const PrivacyPolicy: GlobalConfig = {
                     {
                       name: 'imagePositionTablet',
                       type: 'select',
+                      access: {
+                        update: adminFieldOnly,
+                      },
                       defaultValue: 'center',
                       label: 'Tablet position',
                       options: [
@@ -141,6 +162,9 @@ export const PrivacyPolicy: GlobalConfig = {
                     {
                       name: 'imagePositionDesktop',
                       type: 'select',
+                      access: {
+                        update: adminFieldOnly,
+                      },
                       defaultValue: 'center',
                       label: 'Desktop position',
                       options: [
@@ -165,6 +189,9 @@ export const PrivacyPolicy: GlobalConfig = {
             {
               name: 'overlay',
               type: 'select',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue: 'medium',
               options: [
                 { label: 'None', value: 'none' },
@@ -176,6 +203,9 @@ export const PrivacyPolicy: GlobalConfig = {
             {
               name: 'width',
               type: 'select',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue: 'full',
               options: [
                 { label: 'Full width', value: 'full' },
@@ -185,6 +215,9 @@ export const PrivacyPolicy: GlobalConfig = {
             {
               name: 'padding',
               type: 'select',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue: 'medium',
               options: [
                 { label: 'Small', value: 'small' },
@@ -196,15 +229,24 @@ export const PrivacyPolicy: GlobalConfig = {
         },
         {
           label: 'SEO',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             {
               name: 'metaTitle',
               type: 'text',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue: 'Privacy Policy | Hero 4 Gotham',
             },
             {
               name: 'metaDescription',
               type: 'textarea',
+              access: {
+                update: adminFieldOnly,
+              },
               defaultValue:
                 'Informativa privacy del sito Hero 4 Gotham sul trattamento dei dati personali, moduli di contatto, candidature, documenti, cookie e diritti GDPR.',
             },

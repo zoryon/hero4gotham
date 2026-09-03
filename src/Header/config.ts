@@ -13,6 +13,7 @@ import {
   adminOnly,
   adminOrEventsManagerField,
   hideFromNonAdmins,
+  showToAdmins,
 } from '@/access/roles'
 
 const socialPlatformOptions = [
@@ -154,6 +155,9 @@ export const Header: GlobalConfig = {
       tabs: [
         {
           label: 'Brand',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             {
               name: 'logo',
@@ -194,6 +198,9 @@ export const Header: GlobalConfig = {
         },
         {
           label: 'Navigation',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             {
               name: 'navItems',
@@ -268,6 +275,9 @@ export const Header: GlobalConfig = {
         },
         {
           label: 'Style',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             {
               type: 'row',
@@ -355,6 +365,9 @@ export const Header: GlobalConfig = {
         },
         {
           label: 'Typography',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             // headerTypographyField('eyebrowTypography', 'Eyebrow typography', {
             //   fontFamily: 'cinzel',

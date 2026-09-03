@@ -5,6 +5,7 @@ import {
   adminOnly,
   adminOrEventsManagerField,
   hideFromNonAdmins,
+  showToAdmins,
 } from '@/access/roles'
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
@@ -24,6 +25,9 @@ export const Footer: GlobalConfig = {
       tabs: [
         {
           label: 'Content',
+          admin: {
+            condition: showToAdmins,
+          },
           fields: [
             {
               type: 'row',
@@ -122,6 +126,7 @@ export const Footer: GlobalConfig = {
               label: 'Legal links',
               maxRows: 4,
               admin: {
+                condition: showToAdmins,
                 description:
                   'Use custom URLs now, then switch to internal pages after creating the legal pages.',
                 initCollapsed: true,
