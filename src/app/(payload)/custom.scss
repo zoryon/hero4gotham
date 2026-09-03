@@ -1,8 +1,8 @@
 /* Hero 4 Gotham — Editorial Control Room */
 :root {
   --h4g-admin-accent: #b7d52a;
-  --h4g-admin-panel: #151715;
-  --h4g-admin-radius: 11px;
+  --h4g-admin-panel: #141614;
+  --h4g-admin-radius: 4px;
 }
 
 html[data-theme='dark'] {
@@ -32,8 +32,8 @@ body {
 }
 
 .nav__scroll {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .nav-group__toggle {
@@ -45,7 +45,7 @@ body {
 }
 
 .nav__link {
-  border-radius: 8px;
+  border-radius: 3px;
   margin: 2px 0;
   min-height: 36px;
   padding: 7px 10px;
@@ -69,16 +69,10 @@ body {
 }
 
 .btn {
-  border-radius: 8px;
+  border-radius: 4px;
   font-weight: 700;
   min-height: 38px;
-  transition:
-    opacity 0.14s ease,
-    transform 0.14s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-  }
+  transition: opacity 0.14s ease;
   &--style-primary {
     background: var(--h4g-admin-accent);
     border-color: var(--h4g-admin-accent);
@@ -90,18 +84,18 @@ body {
 .global-edit,
 .collection-edit {
   h1 {
-    font-size: clamp(30px, 3.3vw, 48px);
-    letter-spacing: -0.045em;
-    line-height: 1.02;
+    font-size: clamp(28px, 3vw, 38px);
+    letter-spacing: -0.035em;
+    line-height: 1.08;
   }
 }
 
 .list-controls {
-  background: var(--theme-elevation-50);
-  border: 1px solid var(--theme-elevation-150);
-  border-radius: var(--h4g-admin-radius);
-  margin-bottom: 22px;
-  padding: 8px;
+  background: transparent;
+  border-bottom: 1px solid var(--theme-elevation-150);
+  border-radius: 0;
+  margin-bottom: 18px;
+  padding: 0 0 10px;
 }
 
 .table {
@@ -129,8 +123,7 @@ body {
 }
 
 .doc-controls {
-  background: rgba(13, 14, 13, 0.92);
-  backdrop-filter: blur(12px);
+  background: var(--theme-bg);
   border-bottom: 1px solid var(--theme-elevation-150);
 }
 
@@ -146,10 +139,10 @@ body {
 
 .tabs-field__tabs {
   border-bottom-color: var(--theme-elevation-150);
-  gap: 5px;
+  gap: 12px;
 }
 .tabs-field__tab-button {
-  border-radius: 7px 7px 0 0;
+  border-radius: 0;
   font-weight: 700;
   padding-left: 14px;
   padding-right: 14px;
@@ -178,7 +171,7 @@ input,
 textarea,
 select,
 .react-select__control {
-  border-radius: 8px !important;
+  border-radius: 4px !important;
 }
 
 .field-label {
@@ -202,7 +195,7 @@ select,
 }
 .array-field__row,
 .blocks-field__row {
-  border-radius: 9px;
+  border-radius: 4px;
   overflow: hidden;
 }
 

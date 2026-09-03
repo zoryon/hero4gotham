@@ -12,9 +12,9 @@
 
   &__link {
     align-items: center;
-    background: linear-gradient(135deg, rgba(183, 213, 42, 0.15), rgba(183, 213, 42, 0.04));
-    border: 1px solid rgba(183, 213, 42, 0.3);
-    border-radius: 9px;
+    background: rgba(183, 213, 42, 0.07);
+    border-left: 2px solid #b7d52a;
+    border-radius: 3px;
     display: flex !important;
     gap: 9px;
     min-height: 42px;
@@ -48,10 +48,10 @@
     background: #121312;
     border-bottom: 1px solid #2a2d29;
     display: grid;
-    gap: 22px;
+    gap: 18px;
     grid-template-columns: minmax(260px, 1fr) auto minmax(380px, 1fr);
-    min-height: 70px;
-    padding: 11px 18px;
+    min-height: 58px;
+    padding: 9px 16px;
   }
 
   &__title {
@@ -71,7 +71,7 @@
     select {
       background: #1b1d1a;
       border: 1px solid #343833;
-      border-radius: 8px;
+      border-radius: 4px;
       color: #fff;
       max-width: 370px;
       min-width: 0;
@@ -82,9 +82,9 @@
 
   &__devices {
     align-items: center;
-    background: #090a09;
+    background: transparent;
     border: 1px solid #292c28;
-    border-radius: 9px;
+    border-radius: 4px;
     display: flex;
     gap: 3px;
     padding: 3px;
@@ -93,7 +93,7 @@
       align-items: center;
       background: transparent;
       border: 0;
-      border-radius: 6px;
+      border-radius: 3px;
       color: #828780;
       cursor: pointer;
       display: flex;
@@ -135,7 +135,7 @@
   &__save {
     background: var(--editor-accent);
     border: 0;
-    border-radius: 8px;
+    border-radius: 4px;
     color: #10130a;
     cursor: pointer;
     font-size: 12px !important;
@@ -154,11 +154,11 @@
     max-width: 560px;
     padding: 10px 16px;
     position: fixed;
-    top: 78px;
+    top: 66px;
     transform: translateX(-50%);
     z-index: 20;
-    border-radius: 8px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.34);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
     font-size: 13px;
     align-items: center;
     display: flex;
@@ -168,7 +168,7 @@
   &__notice button {
     background: currentColor;
     border: 0;
-    border-radius: 6px;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 11px;
     font-weight: 800;
@@ -191,7 +191,7 @@
   &__workspace {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 400px;
-    height: calc(100% - 70px);
+    height: calc(100% - 58px);
   }
 
   &__mobile-switch {
@@ -215,15 +215,15 @@
   &__frame-shell iframe {
     background: #fff;
     border: 0;
-    border-radius: 8px;
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+    border-radius: 3px;
+    box-shadow: none;
     height: 100%;
     width: 100%;
   }
   &__frame-shell--mobile iframe,
   &__frame-shell--tablet iframe {
-    border: 7px solid #242724;
-    border-radius: 16px;
+    border: 1px solid #343834;
+    border-radius: 4px;
   }
   &__preview-loading,
   &__preview-empty {
@@ -292,7 +292,7 @@
   &__active-field textarea {
     background: #0c0d0c;
     border: 1px solid #3b3f3a;
-    border-radius: 8px;
+    border-radius: 4px;
     color: #fff;
     line-height: 1.5;
     padding: 11px 12px;
@@ -343,7 +343,7 @@
     align-items: center;
     background: #0d0e0d;
     border: 1px solid #30332f;
-    border-radius: 8px;
+    border-radius: 4px;
     color: #747970;
     display: flex;
     gap: 8px;
@@ -379,7 +379,7 @@
   }
   &__section-list summary span {
     background: #292c28;
-    border-radius: 20px;
+    border-radius: 2px;
     color: #969b93;
     font-size: 9px;
     padding: 3px 7px;
@@ -392,7 +392,7 @@
   &__section-list button {
     background: transparent;
     border: 1px solid transparent;
-    border-radius: 7px;
+    border-radius: 3px;
     color: #e8eae5;
     cursor: pointer;
     display: flex;
@@ -475,7 +475,7 @@
       align-items: center;
       background: transparent;
       border: 0;
-      border-radius: 7px;
+      border-radius: 3px;
       color: #8f948c;
       display: flex;
       font-weight: 700;
