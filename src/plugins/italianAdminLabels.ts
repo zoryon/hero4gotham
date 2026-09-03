@@ -8,7 +8,7 @@ type EntityLabels = {
 type MutableRecord = Record<string, unknown>
 
 const entityLabels: Record<string, EntityLabels> = {
-  activities: { plural: 'Attivita', singular: 'Attivita' },
+  activities: { plural: 'Attività', singular: 'Attività' },
   activitiesDetailGrid: {
     plural: 'Griglie dettagli attivita',
     singular: 'Griglia dettagli attivita',
