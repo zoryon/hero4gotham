@@ -52,6 +52,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
   const [conflict, setConflict] = useState(false)
   const [notice, setNotice] = useState<Notice>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const activeFieldRef = useRef<HTMLDivElement>(null)
   const mappedNodes = useRef(new Map<string, Text[]>())
   const frameCleanup = useRef<null | (() => void)>(null)
   const loadSequence = useRef(0)
@@ -159,21 +160,18 @@ export function SiteTextEditor({ initialIndex }: Props) {
     return () => window.document.removeEventListener('click', warnLinkNavigation, true)
   }, [dirty])
 
-  useEffect(() => {
-    const receiveSelection = (event: MessageEvent) => {
-      if (
-        event.origin !== window.location.origin ||
-        event.source !== iframeRef.current?.contentWindow
-      )
-        return
-      const payload = event.data as { fieldID?: unknown; type?: unknown }
-      if (payload?.type !== 'h4g:select-field' || typeof payload.fieldID !== 'string') return
-      if (!document?.controls.some((control) => control.id === payload.fieldID)) return
-      setSelectedID(payload.fieldID)
-    }
-    window.addEventListener('message', receiveSelection)
-    return () => window.removeEventListener('message', receiveSelection)
-  }, [document])
+  const activateControl = (fieldID: string) => {
+    if (!document?.controls.some((control) => control.id === fieldID)) return
+
+    setSelectedID(fieldID)
+    setMobilePane('editor')
+    window.setTimeout(() => {
+      activeFieldRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      activeFieldRef.current
+        ?.querySelector<HTMLInputElement | HTMLTextAreaElement>('input, textarea')
+        ?.focus()
+    }, 0)
+  }
 
   const preparePreview = () => {
     frameCleanup.current?.()
@@ -239,10 +237,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
         .querySelectorAll('[data-h4g-selected]')
         .forEach((element) => element.removeAttribute('data-h4g-selected'))
       target.dataset.h4gSelected = 'true'
-      frameWindow.parent.postMessage(
-        { fieldID: target.dataset.h4gFieldId, type: 'h4g:select-field' },
-        frameWindow.location.origin,
-      )
+      activateControl(target.dataset.h4gFieldId)
     }
     frameDocument.addEventListener('click', click, true)
     frameCleanup.current = () => {
@@ -259,7 +254,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
   }
 
   const selectControl = (control: SiteTextControl) => {
-    setSelectedID(control.id)
+    activateControl(control.id)
     const nodes = mappedNodes.current.get(control.id) || []
     const frameDocument = iframeRef.current?.contentDocument
     frameDocument
@@ -449,7 +444,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
           </div>
 
           {selectedControl ? (
-            <div className="site-text-editor__active-field">
+            <div className="site-text-editor__active-field" ref={activeFieldRef}>
               <label htmlFor="visual-editor-active-field">
                 {selectedControl.label || 'Testo selezionato'}
                 {selectedControl.required ? ' *' : ''}
