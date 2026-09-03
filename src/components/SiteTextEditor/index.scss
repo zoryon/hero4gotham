@@ -27,11 +27,15 @@
   }
 }
 
+body:has(.site-text-editor) .app-header {
+  display: none;
+}
+
 .site-text-editor {
   --editor-accent: #b7d52a;
   background: #0d0e0d;
   color: #f5f5ef;
-  height: calc(100vh - 58px);
+  height: 100vh;
   margin: calc(var(--gutter-h) * -1);
   min-height: 720px;
   overflow: hidden;
@@ -479,7 +483,7 @@
   .site-text-editor {
     height: auto;
     margin: calc(var(--gutter-h) * -1);
-    min-height: calc(100vh - 58px);
+    min-height: 100vh;
     overflow: visible;
     &__topbar {
       align-items: stretch;
