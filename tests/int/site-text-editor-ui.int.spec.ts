@@ -6,7 +6,13 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 const index: SiteTextDocumentSummary[] = [
-  { area: 'Pagine', sourceID: 'collection:pages:1', title: 'Home', version: 'v1' },
+  {
+    area: 'Pagine',
+    previewPath: '/',
+    sourceID: 'collection:pages:1',
+    title: 'Home',
+    version: 'v1',
+  },
 ]
 
 const siteDocument: SiteTextDocument = {
@@ -29,17 +35,14 @@ const siteDocument: SiteTextDocument = {
       value: 'Testo lungo',
     },
   ],
+  previewPath: '/',
   sourceID: 'collection:pages:1',
   title: 'Home',
   version: 'v1',
 }
 
 const selectHome = async () => {
-  fireEvent.change(screen.getByLabelText('Area'), { target: { value: 'Pagine' } })
-  fireEvent.change(screen.getByLabelText('Contenuto'), {
-    target: { value: 'collection:pages:1' },
-  })
-  await screen.findByRole('textbox', { name: 'Titolo' })
+  await screen.findByRole('textbox', { name: /Titolo/ })
 }
 
 afterEach(() => {
@@ -48,7 +51,7 @@ afterEach(() => {
 })
 
 describe('site text editor', () => {
-  it('renders compact selectors, sections, and text-only controls', async () => {
+  it('renders the visual preview and text-only editing panel', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async () => Response.json({ document: siteDocument })),
@@ -57,9 +60,11 @@ describe('site text editor', () => {
 
     await selectHome()
 
-    expect((screen.getByRole('button', { name: 'Salva' }) as HTMLButtonElement).disabled).toBe(true)
-    expect(document.body.contains(screen.getByRole('textbox', { name: 'Titolo' }))).toBe(true)
-    expect(document.body.contains(screen.getByRole('textbox', { name: 'Descrizione' }))).toBe(true)
+    expect(
+      (screen.getByRole('button', { name: 'Salva e pubblica' }) as HTMLButtonElement).disabled,
+    ).toBe(true)
+    expect(document.body.contains(screen.getByRole('textbox', { name: /Titolo/ }))).toBe(true)
+    expect(screen.getByTitle('Anteprima Home')).toBeDefined()
     expect(screen.queryByLabelText(/colore/i)).toBeNull()
     expect(screen.queryByLabelText(/immagine/i)).toBeNull()
   })
@@ -78,7 +83,7 @@ describe('site text editor', () => {
     render(React.createElement(SiteTextEditor, { initialIndex: index }))
     await selectHome()
 
-    fireEvent.change(screen.getByRole('textbox', { name: 'Titolo' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: /Titolo/ }), {
       target: { value: 'Titolo nuovo' },
     })
     const unload = new Event('beforeunload', { cancelable: true })
@@ -92,7 +97,7 @@ describe('site text editor', () => {
     expect(fireEvent.click(sidebarLink)).toBe(false)
     sidebarLink.remove()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Salva' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Salva e pubblica' }))
     await screen.findByText('Testi pubblicati.')
 
     const patchCall = fetchMock.mock.calls.find(([, init]) => init?.method === 'PATCH')
@@ -102,9 +107,9 @@ describe('site text editor', () => {
       version: 'v1',
     })
     await waitFor(() =>
-      expect((screen.getByRole('button', { name: 'Salva' }) as HTMLButtonElement).disabled).toBe(
-        true,
-      ),
+      expect(
+        (screen.getByRole('button', { name: 'Salva e pubblica' }) as HTMLButtonElement).disabled,
+      ).toBe(true),
     )
   })
 
@@ -114,12 +119,12 @@ describe('site text editor', () => {
     render(React.createElement(SiteTextEditor, { initialIndex: index }))
     await selectHome()
 
-    fireEvent.change(screen.getByRole('textbox', { name: 'Titolo' }), {
+    fireEvent.change(screen.getByRole('textbox', { name: /Titolo/ }), {
       target: { value: '   ' },
     })
-    fireEvent.click(screen.getByRole('button', { name: 'Salva' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Salva e pubblica' }))
 
-    expect(screen.getByRole('textbox', { name: 'Titolo' }).getAttribute('aria-invalid')).toBe(
+    expect(screen.getByRole('textbox', { name: /Titolo/ }).getAttribute('aria-invalid')).toBe(
       'true',
     )
     expect(await screen.findByText('Questo testo è obbligatorio.')).toBeDefined()

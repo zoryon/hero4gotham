@@ -18,6 +18,7 @@ export type SiteTextChange = Pick<SiteTextControl, 'id' | 'value'>
 export type SiteTextDocument = {
   area: string
   controls: SiteTextControl[]
+  previewPath: string
   sourceID: string
   title: string
   version: string

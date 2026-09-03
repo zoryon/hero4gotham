@@ -1,6 +1,7 @@
 'use client'
 
 import { Link, useAuth, useConfig } from '@payloadcms/ui'
+import { PanelsTopLeft } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { formatAdminURL } from 'payload/shared'
 
@@ -13,12 +14,12 @@ export default function SiteTextNavLink() {
   const pathname = usePathname()
   if (user?.role !== 'admin' && user?.role !== 'eventsManager') return null
 
-  const href = formatAdminURL({ adminRoute: config.routes.admin, path: '/testi-del-sito' })
+  const href = formatAdminURL({ adminRoute: config.routes.admin, path: '/modifica-sito' })
   const active = pathname === href
 
   return (
     <div className="site-text-nav">
-      <div className="site-text-nav__label">Pagine</div>
+      <div className="site-text-nav__label">Sito</div>
       <Link
         className="nav__link site-text-nav__link"
         href={href}
@@ -26,7 +27,8 @@ export default function SiteTextNavLink() {
         prefetch={false}
       >
         {active ? <div className="nav__link-indicator" /> : null}
-        <span className="nav__link-label">Modifica testi del sito</span>
+        <PanelsTopLeft aria-hidden="true" size={17} />
+        <span className="nav__link-label">Modifica il sito</span>
       </Link>
     </div>
   )

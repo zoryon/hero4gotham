@@ -5,7 +5,7 @@ import type {
   CollectionConfig,
 } from 'payload'
 
-import { adminOrEventsManager } from '@/access/roles'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { revalidatePath, revalidateTag } from 'next/cache'
 
 const lockedTextField = '@/components/LockedVariableFields#LockedVariableTextField'
@@ -41,14 +41,15 @@ const isValidDate = (value: string) => {
 export const Variables: CollectionConfig = {
   slug: 'variables',
   access: {
-    create: adminOrEventsManager,
-    delete: adminOrEventsManager,
+    create: adminOnly,
+    delete: adminOnly,
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
   },
   admin: {
     defaultColumns: ['name', 'type', 'value', 'updatedAt'],
-    group: 'Content',
+    group: 'Amministrazione',
+    hidden: hideFromNonAdmins,
     useAsTitle: 'name',
   },
   fields: [

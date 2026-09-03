@@ -1,0 +1,221 @@
+/* Hero 4 Gotham — Editorial Control Room */
+:root {
+  --h4g-admin-accent: #b7d52a;
+  --h4g-admin-panel: #151715;
+  --h4g-admin-radius: 11px;
+}
+
+html[data-theme='dark'] {
+  --theme-bg: #0d0e0d;
+  --theme-input-bg: #111310;
+  --theme-elevation-0: #0d0e0d;
+  --theme-elevation-50: #151715;
+  --theme-elevation-100: #1b1e1a;
+  --theme-elevation-150: #292c28;
+  --theme-elevation-200: #323630;
+  --theme-elevation-250: #3b4039;
+  --theme-success-500: #b7d52a;
+}
+
+body {
+  background: var(--theme-bg);
+  letter-spacing: -0.005em;
+}
+
+.template-default__wrap {
+  max-width: 1440px;
+}
+
+.nav {
+  background: #101210;
+  border-right: 1px solid var(--theme-elevation-150);
+}
+
+.nav__scroll {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.nav-group__toggle {
+  color: var(--theme-elevation-500);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.nav__link {
+  border-radius: 8px;
+  margin: 2px 0;
+  min-height: 36px;
+  padding: 7px 10px;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease;
+
+  &:hover {
+    background: var(--theme-elevation-100);
+  }
+  &--active {
+    background: rgba(183, 213, 42, 0.1);
+    color: var(--h4g-admin-accent);
+  }
+}
+
+.nav__link-indicator {
+  background: var(--h4g-admin-accent);
+  border-radius: 2px;
+  width: 3px;
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 700;
+  min-height: 38px;
+  transition:
+    opacity 0.14s ease,
+    transform 0.14s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+  &--style-primary {
+    background: var(--h4g-admin-accent);
+    border-color: var(--h4g-admin-accent);
+    color: #11140b;
+  }
+}
+
+.collection-list,
+.global-edit,
+.collection-edit {
+  h1 {
+    font-size: clamp(30px, 3.3vw, 48px);
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+  }
+}
+
+.list-controls {
+  background: var(--theme-elevation-50);
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--h4g-admin-radius);
+  margin-bottom: 22px;
+  padding: 8px;
+}
+
+.table {
+  background: var(--theme-elevation-50);
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--h4g-admin-radius);
+  overflow: hidden;
+}
+
+.table thead {
+  background: var(--theme-elevation-100);
+}
+.table th {
+  color: var(--theme-elevation-500);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.table tbody tr {
+  transition: background 0.12s ease;
+}
+.table tbody tr:hover {
+  background: rgba(183, 213, 42, 0.045);
+}
+
+.doc-controls {
+  background: rgba(13, 14, 13, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--theme-elevation-150);
+}
+
+.document-fields__edit,
+.document-fields__sidebar {
+  .field-type,
+  .collapsible,
+  .array-field,
+  .blocks-field {
+    border-radius: var(--h4g-admin-radius);
+  }
+}
+
+.tabs-field__tabs {
+  border-bottom-color: var(--theme-elevation-150);
+  gap: 5px;
+}
+.tabs-field__tab-button {
+  border-radius: 7px 7px 0 0;
+  font-weight: 700;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.tabs-field__tab-button--active {
+  color: var(--h4g-admin-accent);
+}
+
+.collapsible {
+  border: 1px solid var(--theme-elevation-150);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.collapsible__toggle {
+  background: var(--theme-elevation-50);
+  font-weight: 700;
+  min-height: 48px;
+}
+.collapsible__content {
+  background: rgba(255, 255, 255, 0.012);
+  padding-bottom: 16px;
+}
+
+input,
+textarea,
+select,
+.react-select__control {
+  border-radius: 8px !important;
+}
+
+.field-label {
+  font-weight: 700;
+}
+.field-description {
+  color: var(--theme-elevation-500);
+  line-height: 1.45;
+}
+
+.upload-field__dropzone,
+.file-field__upload {
+  background: var(--theme-elevation-50);
+  border: 1px dashed var(--theme-elevation-250);
+  border-radius: var(--h4g-admin-radius);
+}
+
+.array-field__header,
+.blocks-field__header {
+  align-items: center;
+}
+.array-field__row,
+.blocks-field__row {
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .template-default__wrap {
+    padding-left: var(--gutter-h);
+    padding-right: var(--gutter-h);
+  }
+  .collection-list,
+  .global-edit,
+  .collection-edit {
+    h1 {
+      font-size: 31px;
+    }
+  }
+}

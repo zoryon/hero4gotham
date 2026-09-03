@@ -85,12 +85,14 @@ describe('site text service', () => {
     await expect(listSiteTextDocuments(payload, manager)).resolves.toEqual([
       {
         area: 'Elementi comuni',
+        previewPath: '/',
         sourceID: 'global:siteCopy',
         title: 'Testi comuni',
         version: '2026-09-02T09:00:00.000Z',
       },
       {
         area: 'Pagine',
+        previewPath: '/',
         sourceID: 'collection:pages:7',
         title: 'Pagina originale',
         version: '2026-09-02T10:00:00.000Z',

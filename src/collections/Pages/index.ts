@@ -65,6 +65,7 @@ export const Pages: CollectionConfig<'pages'> = {
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
+    group: 'Struttura e design',
     hidden: hideFromNonAdmins,
     livePreview: {
       url: ({ data, req }) =>
@@ -82,6 +83,10 @@ export const Pages: CollectionConfig<'pages'> = {
       }),
     useAsTitle: 'title',
   },
+  labels: {
+    plural: 'Pagine',
+    singular: 'Pagina',
+  },
   fields: [
     {
       name: 'title',
@@ -96,18 +101,18 @@ export const Pages: CollectionConfig<'pages'> = {
           label: 'Hero',
         },
         {
-          label: 'Background',
+          label: 'Sfondo',
           fields: [
             {
               name: 'backgroundImage',
               type: 'upload',
-              label: 'Desktop background image',
+              label: 'Immagine desktop',
               relationTo: 'media',
             },
             {
               name: 'bgTab',
               type: 'upload',
-              label: 'Tablet background image',
+              label: 'Immagine tablet',
               relationTo: 'media',
               admin: {
                 description: 'Optional. Falls back to the desktop image if empty.',
@@ -116,7 +121,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'bgMob',
               type: 'upload',
-              label: 'Mobile background image',
+              label: 'Immagine mobile',
               relationTo: 'media',
               admin: {
                 description: 'Optional. Falls back to the tablet or desktop image if empty.',
@@ -288,7 +293,7 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'Contenuto',
         },
         {
           name: 'meta',

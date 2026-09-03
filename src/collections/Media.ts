@@ -28,6 +28,7 @@ export const Media: CollectionConfig = {
     update: mediaEditableByCurrentUser,
   },
   admin: {
+    group: 'Contenuti',
     hidden: ({ user }) => !user,
   },
   fields: [
@@ -87,5 +88,9 @@ export const Media: CollectionConfig = {
         crop: 'center',
       },
     ],
+  },
+  labels: {
+    plural: 'Media',
+    singular: 'File',
   },
 }

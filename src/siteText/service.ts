@@ -103,6 +103,15 @@ const titleOf = (source: SiteTextSource, data: DataRecord) => {
   return typeof title === 'string' && title.trim() ? title : `Documento ${String(data.id)}`
 }
 
+const previewPathOf = (source: SiteTextSource, data: DataRecord) => {
+  if (source.kind === 'collection' && source.slug === 'pages') {
+    const slug = typeof data.slug === 'string' ? data.slug.trim() : ''
+    return slug && slug !== 'home' ? `/${slug}` : '/'
+  }
+
+  return '/'
+}
+
 const accessOptions = (source: SiteTextSource, user: SiteTextUser) =>
   source.kind === 'collection' && source.respectAccess
     ? { overrideAccess: false, user }
@@ -154,6 +163,7 @@ const loadDocument = async (
 const presentDocument = ({ data, fields, source }: LoadedDocument): SiteTextDocument => ({
   area: source.area,
   controls: extractSiteTextControls(fields, data),
+  previewPath: previewPathOf(source, data),
   sourceID: sourceIDFor(source, data.id),
   title: titleOf(source, data),
   version: versionOf(data),
@@ -176,6 +186,7 @@ export const listSiteTextDocuments = async (
       if (!isRecord(data)) continue
       summaries.push({
         area: source.area,
+        previewPath: previewPathOf(source, data),
         sourceID: sourceIDFor(source),
         title: source.title,
         version: versionOf(data),
@@ -188,7 +199,7 @@ export const listSiteTextDocuments = async (
       depth: 0,
       limit: 500,
       pagination: false,
-      select: { [source.titleField]: true, updatedAt: true },
+      select: { [source.titleField]: true, slug: true, updatedAt: true },
       sort: source.titleField,
       ...accessOptions(source, user),
     } as never)
@@ -198,6 +209,7 @@ export const listSiteTextDocuments = async (
       if (!isRecord(data)) continue
       summaries.push({
         area: source.area,
+        previewPath: previewPathOf(source, data),
         sourceID: sourceIDFor(source, data.id),
         title: titleOf(source, data),
         version: versionOf(data),

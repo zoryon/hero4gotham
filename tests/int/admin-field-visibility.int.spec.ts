@@ -96,20 +96,19 @@ describe('events manager admin field visibility', () => {
     ['Footer', Footer],
     ['Privacy Policy', PrivacyPolicy],
     ['Documenti', MembershipDocuments],
-  ] as const)('keeps the %s global accessible to events managers', async (_label, global) => {
-    expect(globalIsVisible(global, 'eventsManager')).toBe(true)
-    expect(await canUpdateGlobal(global, 'eventsManager')).toBe(true)
+  ] as const)('reserves the %s global editor for administrators', async (_label, global) => {
+    expect(globalIsVisible(global, 'eventsManager')).toBe(false)
+    expect(await canUpdateGlobal(global, 'eventsManager')).toBe(false)
+    expect(globalIsVisible(global, 'admin')).toBe(true)
+    expect(await canUpdateGlobal(global, 'admin')).toBe(true)
   })
 
-  it.each(['Background', 'SEO'])(
-    'hides the Privacy Policy %s tab from events managers',
-    (label) => {
-      const tab = getTab(PrivacyPolicy.fields, label)
+  it.each(['Sfondo', 'SEO'])('hides the Privacy Policy %s tab from events managers', (label) => {
+    const tab = getTab(PrivacyPolicy.fields, label)
 
-      expect(isVisible(tab, 'eventsManager')).toBe(false)
-      expect(isVisible(tab, 'admin')).toBe(true)
-    },
-  )
+    expect(isVisible(tab, 'eventsManager')).toBe(false)
+    expect(isVisible(tab, 'admin')).toBe(true)
+  })
 
   it.each([
     'backgroundImage',

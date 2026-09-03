@@ -39,10 +39,13 @@ export default buildConfig({
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
       views: {
+        dashboard: {
+          Component: '@/components/AdminDashboard/View',
+        },
         siteTexts: {
           Component: '@/components/SiteTextEditor/View',
           exact: true,
-          path: '/testi-del-sito',
+          path: '/modifica-sito',
         },
       },
     },

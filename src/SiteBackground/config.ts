@@ -44,26 +44,27 @@ const imagePositionOptions = [
 
 export const SiteBackground: GlobalConfig = {
   slug: 'siteBackground',
-  label: 'Site Background',
+  label: 'Sfondo del sito',
   access: {
     read: () => true,
     update: adminOnly,
   },
   admin: {
+    group: 'Struttura e design',
     hidden: hideFromNonAdmins,
   },
   fields: [
     {
       name: 'backgroundImage',
       type: 'upload',
-      label: 'Desktop background image',
+      label: 'Immagine desktop',
       relationTo: 'media',
       required: true,
     },
     {
       name: 'bgTab',
       type: 'upload',
-      label: 'Tablet background image',
+      label: 'Immagine tablet',
       relationTo: 'media',
       admin: {
         description: 'Optional. Falls back to the desktop image if empty.',
@@ -72,7 +73,7 @@ export const SiteBackground: GlobalConfig = {
     {
       name: 'bgMob',
       type: 'upload',
-      label: 'Mobile background image',
+      label: 'Immagine mobile',
       relationTo: 'media',
       admin: {
         description: 'Optional. Falls back to the tablet or desktop image if empty.',
@@ -80,7 +81,7 @@ export const SiteBackground: GlobalConfig = {
     },
     {
       type: 'collapsible',
-      label: 'Background image rendering',
+      label: 'Visualizzazione dello sfondo',
       admin: {
         initCollapsed: true,
       },

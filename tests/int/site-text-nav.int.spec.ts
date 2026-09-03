@@ -22,12 +22,12 @@ vi.mock('next/navigation', () => ({
 afterEach(cleanup)
 
 describe('site text navigation', () => {
-  it('shows the editor as an explicit Pages action', () => {
+  it('shows the visual editor as the primary site action', () => {
     render(React.createElement(SiteTextNavLink))
 
-    expect(screen.getByText('Pagine')).toBeDefined()
-    expect(screen.getByRole('link', { name: 'Modifica testi del sito' }).getAttribute('href')).toBe(
-      '/control-room-h4g/testi-del-sito',
+    expect(screen.getByText('Sito')).toBeDefined()
+    expect(screen.getByRole('link', { name: 'Modifica il sito' }).getAttribute('href')).toBe(
+      '/control-room-h4g/modifica-sito',
     )
   })
 })

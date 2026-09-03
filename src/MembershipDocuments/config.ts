@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminOrEventsManager } from '@/access/roles'
+import { adminOnly, hideFromNonAdmins } from '@/access/roles'
 import { revalidateMembershipDocuments } from './hooks/revalidateMembershipDocuments'
 
 export const MembershipDocuments: GlobalConfig = {
@@ -8,7 +8,11 @@ export const MembershipDocuments: GlobalConfig = {
   label: 'Documenti',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
+  },
+  admin: {
+    group: 'Struttura e design',
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {

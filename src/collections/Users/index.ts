@@ -20,6 +20,7 @@ export const Users: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['name', 'email'],
+    group: 'Amministrazione',
     hidden: hideFromNonAdmins,
     useAsTitle: 'name',
   },

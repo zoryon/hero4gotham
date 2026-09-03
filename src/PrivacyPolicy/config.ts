@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { adminFieldOnly, adminOrEventsManager, showToAdmins } from '@/access/roles'
+import { adminFieldOnly, adminOnly, hideFromNonAdmins, showToAdmins } from '@/access/roles'
 import { defaultPrivacyPolicyContent } from './defaultContent'
 import { revalidatePrivacyPolicy } from './hooks/revalidatePrivacyPolicy'
 
@@ -9,14 +9,18 @@ export const PrivacyPolicy: GlobalConfig = {
   label: 'Privacy Policy',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
+  },
+  admin: {
+    group: 'Struttura e design',
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {
       type: 'tabs',
       tabs: [
         {
-          label: 'Content',
+          label: 'Contenuto',
           fields: [
             {
               name: 'title',
@@ -45,7 +49,7 @@ export const PrivacyPolicy: GlobalConfig = {
           ],
         },
         {
-          label: 'Background',
+          label: 'Sfondo',
           admin: {
             condition: showToAdmins,
           },

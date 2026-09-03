@@ -15,7 +15,8 @@ export const Events: CollectionConfig<'events'> = {
   },
   admin: {
     defaultColumns: ['title', 'pinned', 'slug', 'activity', 'startsAt', 'venue', 'updatedAt'],
-    group: 'Content',
+    description: 'Crea e aggiorna gli eventi pubblicati sul sito.',
+    group: 'Contenuti',
     preview: (data) => (data?.slug ? `/eventi/${data.slug as string}` : null),
     useAsTitle: 'title',
   },
@@ -59,7 +60,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Activity used by the event filters.',
       },
-      label: 'Event type',
+      label: 'Attività',
       relationTo: 'activities',
     },
     {
@@ -71,7 +72,7 @@ export const Events: CollectionConfig<'events'> = {
           pickerAppearance: 'dayAndTime',
         },
       },
-      label: 'Event date',
+      label: 'Data e ora',
       required: true,
     },
     {
@@ -149,7 +150,7 @@ export const Events: CollectionConfig<'events'> = {
     },
     {
       type: 'collapsible',
-      label: 'Background',
+      label: 'Sfondo della pagina',
       admin: {
         initCollapsed: true,
       },
@@ -157,13 +158,13 @@ export const Events: CollectionConfig<'events'> = {
         {
           name: 'backgroundImage',
           type: 'upload',
-          label: 'Desktop background image',
+          label: 'Immagine desktop',
           relationTo: 'media',
         },
         {
           name: 'bgTab',
           type: 'upload',
-          label: 'Tablet background image',
+          label: 'Immagine tablet',
           relationTo: 'media',
           admin: {
             description: 'Optional. Falls back to the desktop image if empty.',
@@ -172,7 +173,7 @@ export const Events: CollectionConfig<'events'> = {
         {
           name: 'bgMob',
           type: 'upload',
-          label: 'Mobile background image',
+          label: 'Immagine mobile',
           relationTo: 'media',
           admin: {
             description: 'Optional. Falls back to the tablet or desktop image if empty.',
@@ -333,7 +334,7 @@ export const Events: CollectionConfig<'events'> = {
           label: 'Descrizione',
         },
       ],
-      label: 'Timestamps / programma',
+      label: 'Programma',
       labels: {
         plural: 'Timestamps',
         singular: 'Timestamp',
@@ -417,7 +418,7 @@ export const Events: CollectionConfig<'events'> = {
         description: 'Display venue used by event lists and filters.',
       },
       index: true,
-      label: 'Display venue',
+      label: 'Luogo',
       validate: (value: unknown) =>
         typeof value === 'string' && value.trim().length > 0 ? true : 'Venue is required.',
     },
@@ -427,7 +428,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Venue address shown on the generated event detail page.',
       },
-      label: 'Venue address',
+      label: 'Indirizzo',
     },
     {
       name: 'audience',
@@ -435,7 +436,7 @@ export const Events: CollectionConfig<'events'> = {
       admin: {
         description: 'Public/audience label shown on the generated event detail page.',
       },
-      label: 'Audience',
+      label: 'Pubblico',
     },
     slugField(),
   ],
@@ -443,5 +444,9 @@ export const Events: CollectionConfig<'events'> = {
     afterChange: [revalidateEvent],
     afterDelete: [revalidateDelete],
     beforeChange: [enforceSinglePinnedEvent],
+  },
+  labels: {
+    plural: 'Eventi',
+    singular: 'Evento',
   },
 }

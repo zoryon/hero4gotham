@@ -15,19 +15,20 @@ const colorField = (name: string, label: string, defaultValue: string): Field =>
 
 export const ThemeColors: GlobalConfig = {
   slug: 'themeColors',
-  label: 'Theme Colors',
+  label: 'Colori del sito',
   access: {
     read: () => true,
     update: adminOnly,
   },
   admin: {
+    group: 'Struttura e design',
     hidden: hideFromNonAdmins,
   },
   fields: [
     {
       name: 'text',
       type: 'group',
-      label: 'Text colors',
+      label: 'Colori del testo',
       fields: [
         colorField('primary', 'Text primary', '#f4f4f5'),
         colorField('secondary', 'Text secondary', '#fde68a'),
@@ -40,19 +41,15 @@ export const ThemeColors: GlobalConfig = {
     {
       name: 'background',
       type: 'group',
-      label: 'Background colors',
+      label: 'Colori dello sfondo',
       fields: [
-        colorField(
-          'backgroundContainerOverflow',
-          'Background container overflow',
-          '#050505',
-        ),
+        colorField('backgroundContainerOverflow', 'Background container overflow', '#050505'),
       ],
     },
     {
       name: 'vintageBorderImage',
       type: 'upload',
-      label: 'Vintage border image',
+      label: 'Immagine cornice vintage',
       relationTo: 'media',
       admin: {
         description: 'Image used by the optional Scribble border / cornice vintage style.',

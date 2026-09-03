@@ -62,6 +62,7 @@ export const SiteCopy: GlobalConfig = {
     update: adminOnly,
   },
   admin: {
+    group: 'Struttura e design',
     hidden: hideFromNonAdmins,
   },
   fields,

@@ -110,7 +110,8 @@ export const Activities: CollectionConfig<'activities'> = {
   },
   admin: {
     defaultColumns: ['title', 'shortName', 'color', 'order', 'updatedAt'],
-    group: 'Content',
+    description: 'Categorie utilizzate per organizzare e filtrare gli eventi.',
+    group: 'Struttura e design',
     hidden: hideFromNonAdmins,
     useAsTitle: 'title',
   },
@@ -137,7 +138,7 @@ export const Activities: CollectionConfig<'activities'> = {
       admin: {
         description: 'Short label used by event filter buttons.',
       },
-      label: 'Short Name',
+      label: 'Nome breve',
       required: true,
     },
     {
@@ -162,18 +163,18 @@ export const Activities: CollectionConfig<'activities'> = {
     {
       name: 'image',
       type: 'upload',
-      label: 'Activity image',
+      label: 'Immagine attività',
       relationTo: 'media',
     },
     {
       name: 'cta',
       type: 'text',
-      label: 'CTA label',
+      label: 'Testo del pulsante',
     },
     {
       name: 'ctaImage',
       type: 'upload',
-      label: 'CTA strip image',
+      label: 'Immagine della fascia CTA',
       relationTo: 'media',
     },
     {
@@ -186,7 +187,7 @@ export const Activities: CollectionConfig<'activities'> = {
         {
           name: 'icon',
           type: 'upload',
-          label: 'Icon',
+          label: 'Icona',
           relationTo: 'media',
         },
         {
@@ -210,7 +211,7 @@ export const Activities: CollectionConfig<'activities'> = {
       },
       defaultValue: 0,
       index: true,
-      label: 'Display order',
+      label: 'Ordine di visualizzazione',
       min: 0,
     },
   ],
@@ -220,7 +221,7 @@ export const Activities: CollectionConfig<'activities'> = {
     beforeValidate: [assignActivityColor, enforceActivitiesLimit],
   },
   labels: {
-    plural: 'Activities',
-    singular: 'Activity',
+    plural: 'Attività',
+    singular: 'Attività',
   },
 }

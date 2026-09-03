@@ -19,38 +19,6 @@ export const siteTextSources: SiteTextSource[] = [
   { area: 'Pagine', kind: 'collection', slug: 'pages', titleField: 'title' },
   { area: 'Elementi comuni', kind: 'global', slug: 'header', title: 'Header' },
   { area: 'Elementi comuni', kind: 'global', slug: 'footer', title: 'Footer' },
-  {
-    area: 'Elementi comuni',
-    kind: 'global',
-    slug: 'membershipDocuments',
-    title: 'Documenti',
-  },
-  {
-    area: 'Elementi comuni',
-    kind: 'collection',
-    respectAccess: true,
-    slug: 'variables',
-    titleField: 'name',
-  },
-  {
-    area: 'Eventi',
-    kind: 'collection',
-    respectAccess: true,
-    slug: 'events',
-    titleField: 'title',
-  },
-  { area: 'Attività', kind: 'collection', slug: 'activities', titleField: 'title' },
-  { area: 'Articoli', kind: 'collection', slug: 'posts', titleField: 'title' },
-  { area: 'Articoli', kind: 'collection', slug: 'categories', titleField: 'title' },
-  {
-    area: 'Media',
-    kind: 'collection',
-    respectAccess: true,
-    slug: 'media',
-    titleField: 'filename',
-  },
-  { area: 'Moduli', kind: 'collection', slug: 'forms', titleField: 'title' },
-  { area: 'Privacy', kind: 'global', slug: 'privacyPolicy', title: 'Privacy Policy' },
   { area: 'Elementi comuni', kind: 'global', slug: 'siteCopy', title: 'Testi comuni' },
 ]
 

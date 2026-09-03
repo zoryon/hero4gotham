@@ -10,9 +10,9 @@ import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
 import {
   adminFieldOnly,
-  adminOrEventsManager,
   adminOrEventsManagerField,
-  hideFromNonAdminOrEventsManagers,
+  adminOnly,
+  hideFromNonAdmins,
   showToAdmins,
 } from '@/access/roles'
 
@@ -144,10 +144,11 @@ export const Header: GlobalConfig = {
   slug: 'header',
   access: {
     read: () => true,
-    update: adminOrEventsManager,
+    update: adminOnly,
   },
   admin: {
-    hidden: hideFromNonAdminOrEventsManagers,
+    group: 'Struttura e design',
+    hidden: hideFromNonAdmins,
   },
   fields: [
     {
