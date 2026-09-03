@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import { adminOnly } from '@/access/roles'
 import { anyone } from '../access/anyone'
 import { slugField } from 'payload'
 
@@ -13,7 +13,7 @@ export const Categories: CollectionConfig = {
     update: adminOnly,
   },
   admin: {
-    hidden: hideFromNonAdmins,
+    hidden: true,
     useAsTitle: 'title',
   },
   fields: [

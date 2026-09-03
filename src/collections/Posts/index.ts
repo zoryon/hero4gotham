@@ -9,7 +9,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import { adminOnly } from '@/access/roles'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
@@ -50,7 +50,7 @@ export const Posts: CollectionConfig<'posts'> = {
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
-    hidden: hideFromNonAdmins,
+    hidden: true,
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({

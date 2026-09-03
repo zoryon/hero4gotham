@@ -49,9 +49,11 @@
     border-bottom: 1px solid #2a2d29;
     display: grid;
     gap: 18px;
-    grid-template-columns: minmax(260px, 1fr) auto minmax(380px, 1fr);
+    grid-template-columns: minmax(320px, 1fr) auto minmax(330px, 1fr);
     min-height: 58px;
     padding: 9px 16px;
+    position: relative;
+    z-index: 5;
   }
 
   &__title {
@@ -80,6 +82,24 @@
     }
   }
 
+  &__back {
+    align-items: center;
+    border: 1px solid #343833;
+    border-radius: 4px;
+    color: #babdb7;
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 34px;
+    justify-content: center;
+    text-decoration: none;
+    width: 34px;
+
+    &:hover {
+      background: #1b1d1a;
+      color: #fff;
+    }
+  }
+
   &__devices {
     align-items: center;
     background: transparent;
@@ -100,6 +120,11 @@
       height: 32px;
       justify-content: center;
       width: 36px;
+
+      &:hover {
+        background: #1b1d1a;
+        color: #fff;
+      }
     }
     button[aria-pressed='true'] {
       background: #292d25;
@@ -127,6 +152,10 @@
     gap: 5px;
     text-decoration: none;
     white-space: nowrap;
+
+    &:hover {
+      color: #fff;
+    }
   }
   &__dirty {
     color: #e5b769 !important;
@@ -143,6 +172,9 @@
     min-height: 38px;
     padding: 9px 15px;
     white-space: nowrap;
+    &:hover:not(:disabled) {
+      filter: brightness(1.06);
+    }
     &:disabled {
       cursor: default;
       opacity: 0.38;

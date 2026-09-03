@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  ArrowLeft,
   ExternalLink,
   Eye,
   Monitor,
@@ -185,6 +186,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
     const style = frameDocument.createElement('style')
     style.dataset.h4gVisualEditor = 'true'
     style.textContent = `
+      .admin-bar { display: none !important; }
       [data-h4g-field-id] { cursor: text !important; outline: 1px dashed transparent; outline-offset: 4px; transition: outline-color .12s, background-color .12s; }
       [data-h4g-field-id]:hover { outline-color: rgba(183, 213, 42, .9); background: rgba(183, 213, 42, .08); }
       [data-h4g-selected="true"] { outline: 2px solid #b7d52a !important; background: rgba(183, 213, 42, .13) !important; }
@@ -312,6 +314,13 @@ export function SiteTextEditor({ initialIndex }: Props) {
     <main className="site-text-editor">
       <header className="site-text-editor__topbar">
         <div className="site-text-editor__title">
+          <a
+            aria-label="Torna alla dashboard"
+            className="site-text-editor__back"
+            href="/control-room-h4g"
+          >
+            <ArrowLeft size={17} />
+          </a>
           <span>Editor visuale</span>
           <select
             aria-label="Pagina o area del sito"
