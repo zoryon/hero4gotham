@@ -1,6 +1,7 @@
 'use client'
 
-import React, { createContext, useContext, useMemo, useState } from 'react'
+import { getEventFilterParamsFromSearchParams } from '@/blocks/EventSuite/filters'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 
 export type EventFilterState = {
   activityId: 'all' | number
@@ -29,6 +30,18 @@ const EventFiltersContext = createContext<EventFiltersContextValue | null>(null)
 export const EventFiltersProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const parentContext = useContext(EventFiltersContext)
   const [filters, setFilters] = useState<EventFilterState>(initialEventFilters)
+
+  useEffect(() => {
+    const urlFilters = getEventFilterParamsFromSearchParams(
+      new URLSearchParams(window.location.search),
+    )
+    setFilters({
+      activityId: typeof urlFilters.activityId === 'number' ? urlFilters.activityId : 'all',
+      date: urlFilters.date || '',
+      query: urlFilters.query || '',
+      venue: urlFilters.venue || '',
+    })
+  }, [])
 
   const value = useMemo<EventFiltersContextValue>(
     () => ({

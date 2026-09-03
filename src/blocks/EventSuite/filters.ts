@@ -5,6 +5,11 @@ export type EventFilterParams = {
   venue?: string | null
 }
 
+export const getActivityGalleryHref = (activityID: unknown) =>
+  typeof activityID === 'number' && Number.isFinite(activityID)
+    ? `/galleria?activityId=${encodeURIComponent(String(activityID))}`
+    : null
+
 export const normalizeEventFilterParams = (
   filters: EventFilterParams | null | undefined,
 ): EventFilterParams => {

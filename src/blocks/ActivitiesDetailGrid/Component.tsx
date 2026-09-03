@@ -7,6 +7,7 @@ import type {
 } from '@/payload-types'
 
 import { Media } from '@/components/Media'
+import { getActivityGalleryHref } from '@/blocks/EventSuite/filters'
 import {
   typographyFontFamilyStyles,
   typographyFontWeightClasses,
@@ -17,6 +18,7 @@ import { formatTextTransform, textTransformClass } from '@/fields/uiOptions'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 
 type ManualActivity = NonNullable<ActivitiesDetailGridBlockProps['activities']>[number]
@@ -326,34 +328,36 @@ const ActivityCard: React.FC<{
   const surfaceFadeSize = Math.max(24, Math.min(fadeSize || 44, 72))
   const darknessOpacity = Math.min(Math.max(imageDarkness, 0), 90) / 100
   const darknessOpacityAtTop = darknessOpacity * 0.72
-
-  const imageNode = hasImage ? (
-    <div
-      className={cn(
-        'activity-detail-card__media relative min-h-0 overflow-hidden',
-        `activity-detail-card__media--${imagePosition}`,
-        !imageFirst && (imagePosition === 'right' ? 'md:order-2' : 'order-2'),
-      )}
-      style={
-        {
-          borderColor: dividerColor || undefined,
-          borderStyle: dividerColor ? 'solid' : undefined,
-          borderWidth:
-            dividerColor && imagePosition === 'left'
-              ? '0 1px 0 0'
-              : dividerColor && imagePosition === 'right'
-                ? '0 0 0 1px'
-                : dividerColor && imagePosition === 'top'
-                  ? '0 0 1px 0'
-                  : dividerColor
-                    ? '1px 0 0 0'
-                    : undefined,
-        } as React.CSSProperties
-      }
-    >
+  const galleryHref = getActivityGalleryHref(activity.id)
+  const imageClassName = cn(
+    'activity-detail-card__media relative min-h-0 overflow-hidden',
+    `activity-detail-card__media--${imagePosition}`,
+    galleryHref &&
+      'group block cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b7d52a]',
+    !imageFirst && (imagePosition === 'right' ? 'md:order-2' : 'order-2'),
+  )
+  const imageStyle = {
+    borderColor: dividerColor || undefined,
+    borderStyle: dividerColor ? 'solid' : undefined,
+    borderWidth:
+      dividerColor && imagePosition === 'left'
+        ? '0 1px 0 0'
+        : dividerColor && imagePosition === 'right'
+          ? '0 0 0 1px'
+          : dividerColor && imagePosition === 'top'
+            ? '0 0 1px 0'
+            : dividerColor
+              ? '1px 0 0 0'
+              : undefined,
+  } as React.CSSProperties
+  const imageContent = (
+    <>
       <Media
         fill
-        imgClassName="object-cover object-center"
+        imgClassName={cn(
+          'object-cover object-center',
+          galleryHref && 'transition-transform duration-300 group-hover:scale-[1.025]',
+        )}
         pictureClassName="absolute inset-0 block h-full w-full"
         resource={image}
         size="(max-width: 768px) 100vw, 46vw"
@@ -367,7 +371,24 @@ const ActivityCard: React.FC<{
           maskImage: getImageMask(imagePosition, fadeSize),
         }}
       />
-    </div>
+    </>
+  )
+
+  const imageNode = hasImage ? (
+    galleryHref ? (
+      <Link
+        aria-label={`Apri la galleria filtrata per ${activity.title}`}
+        className={imageClassName}
+        href={galleryHref}
+        style={imageStyle}
+      >
+        {imageContent}
+      </Link>
+    ) : (
+      <div className={imageClassName} style={imageStyle}>
+        {imageContent}
+      </div>
+    )
   ) : null
 
   const contentNode = (
