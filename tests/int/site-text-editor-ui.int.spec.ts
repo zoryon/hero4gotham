@@ -85,6 +85,13 @@ describe('site text editor', () => {
     window.dispatchEvent(unload)
     expect(unload.defaultPrevented).toBe(true)
 
+    vi.spyOn(window, 'confirm').mockReturnValue(false)
+    const sidebarLink = window.document.createElement('a')
+    sidebarLink.href = '/control-room-h4g/collections/events'
+    window.document.body.append(sidebarLink)
+    expect(fireEvent.click(sidebarLink)).toBe(false)
+    sidebarLink.remove()
+
     fireEvent.click(screen.getByRole('button', { name: 'Salva' }))
     await screen.findByText('Testi pubblicati.')
 
@@ -99,5 +106,23 @@ describe('site text editor', () => {
         true,
       ),
     )
+  })
+
+  it('highlights required text before sending a save request', async () => {
+    const fetchMock = vi.fn(async () => Response.json({ document: siteDocument }))
+    vi.stubGlobal('fetch', fetchMock)
+    render(React.createElement(SiteTextEditor, { initialIndex: index }))
+    await selectHome()
+
+    fireEvent.change(screen.getByRole('textbox', { name: 'Titolo' }), {
+      target: { value: '   ' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Salva' }))
+
+    expect(screen.getByRole('textbox', { name: 'Titolo' }).getAttribute('aria-invalid')).toBe(
+      'true',
+    )
+    expect(await screen.findByText('Questo testo è obbligatorio.')).toBeDefined()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 })

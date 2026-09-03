@@ -536,7 +536,7 @@ export const EventListClient: React.FC<Props> = ({
                               title={copy.eventSuite.listPinnedEvent}
                             >
                               <Pin aria-hidden className="size-3.5" strokeWidth={2.8} />
-                              In evidenza
+                              {copy.eventSuite.listPinnedLabel}
                             </span>
                           ) : null}
                           {eventTypeLabel ? (

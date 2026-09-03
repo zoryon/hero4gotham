@@ -361,7 +361,7 @@ export const EventGalleryClient: React.FC<Props> = ({
             style={buttonStyle}
             type="button"
           >
-            ← Torna agli eventi
+            {copy.eventDetail.galleryBackToEvents}
           </button>
         </div>
       ) : null}

@@ -348,7 +348,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
 
       if (!hasTaxCodeDocument || !hasIdentityDocument) {
         setSubmitState('error')
-        setFeedback('Carica codice fiscale e carta identita: foto completa oppure fronte e retro.')
+        setFeedback(copy.forms.uploadRequiredDocuments)
         return
       }
 
@@ -462,10 +462,12 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
 
   const renderDocumentUpload = (name: DocumentFileKey) => {
     const files = documentFiles[name]
-    const selectedCountLabel = `${files.length} ${files.length === 1 ? 'foto selezionata' : 'foto selezionate'}`
+    const selectedCountLabel = `${files.length} ${
+      files.length === 1 ? copy.forms.photosSelectedSingular : copy.forms.photosSelectedPlural
+    }`
     const selectedLabel = files.length
       ? files.map((file) => file.name).join(', ')
-      : 'Nessuna foto selezionata'
+      : copy.forms.noPhotosSelected
 
     return (
       <div className="contact-message-field membership-application-upload-field scribble-border relative">
@@ -496,13 +498,14 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
               {documentFileLabels[name]} *
             </span>
             <span className="membership-application-upload-hint">
-              Foto fronte retro, max {maxDocumentFilesPerDocument} foto da{' '}
-              {maxDocumentFileSizeLabel}
+              {copy.forms.documentPhotosHint
+                .replace('{count}', String(maxDocumentFilesPerDocument))
+                .replace('{size}', maxDocumentFileSizeLabel)}
             </span>
           </span>
           <span className="membership-application-upload-cta">
             <Upload aria-hidden className="size-3.5" />
-            {files.length ? 'Aggiungi altre foto' : 'Aggiungi foto'}
+            {files.length ? copy.forms.addMorePhotos : copy.forms.addPhotos}
           </span>
         </label>
         {files.length ? (
@@ -528,7 +531,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 type="button"
               >
                 <RefreshCw aria-hidden className="size-3.5" />
-                Sostituisci
+                {copy.forms.replace}
               </button>
               <button
                 aria-label={copy.accessibility.removePhotosNamed.replace(
@@ -541,7 +544,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 type="button"
               >
                 <Trash2 aria-hidden className="size-3.5" />
-                Rimuovi
+                {copy.forms.remove}
               </button>
             </div>
           </div>
@@ -956,7 +959,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     id="membership-download-modal-title"
                     style={sectionTitleTextStyle}
                   >
-                    Scarica documento
+                    {copy.forms.downloadDocumentTitle}
                   </h3>
                   <div className="membership-application-download-modal-file">
                     <FileText aria-hidden className="size-4" />
@@ -971,7 +974,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     ref={cancelDownloadButtonRef}
                     type="button"
                   >
-                    Annulla
+                    {copy.forms.cancel}
                   </button>
                   <button
                     className="membership-application-download-modal-button membership-application-download-modal-button--primary"
@@ -979,7 +982,7 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                     type="button"
                   >
                     <Download aria-hidden className="size-4" />
-                    Scarica
+                    {copy.forms.download}
                   </button>
                 </div>
               </div>

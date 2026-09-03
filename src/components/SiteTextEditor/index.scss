@@ -105,6 +105,12 @@
     background: var(--theme-error-100);
     color: var(--theme-error-800);
   }
+  &__field-error {
+    color: var(--theme-error-500);
+  }
+  [aria-invalid='true'] {
+    border-color: var(--theme-error-500);
+  }
   &__reload {
     background: var(--theme-elevation-800);
     margin-bottom: var(--base);

@@ -31,6 +31,8 @@ import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { RowLabel as RowLabel_6aeef4479734bb19554eb39549b7c334 } from '@/MembershipDocuments/RowLabel'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
+import { default as default_e2ea1a2ed4fc9f919cae43d6845f0bfe } from '@/components/SiteTextEditor/NavLink.client'
+import { default as default_e0bc779cc975e92462660531ac72ba8f } from '@/components/SiteTextEditor/View'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
 /** @type import('payload').ImportMap */
@@ -68,5 +70,7 @@ export const importMap = {
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/MembershipDocuments/RowLabel#RowLabel": RowLabel_6aeef4479734bb19554eb39549b7c334,
   "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@/components/SiteTextEditor/NavLink.client#default": default_e2ea1a2ed4fc9f919cae43d6845f0bfe,
+  "@/components/SiteTextEditor/View#default": default_e0bc779cc975e92462660531ac72ba8f,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }

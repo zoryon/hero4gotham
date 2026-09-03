@@ -112,6 +112,7 @@ const loadDocument = async (
   payload: Payload,
   user: SiteTextUser,
   sourceID: string,
+  transactionID?: number | string | null,
 ): Promise<LoadedDocument> => {
   const { id, source } = parseSourceID(sourceID)
   if (!configuredSource(payload, source)) {
@@ -124,6 +125,7 @@ const loadDocument = async (
       collection: source.slug,
       depth: 0,
       id: id as string,
+      req: transactionID ? { transactionID } : undefined,
       ...accessOptions(source, user),
     } as never)
 
@@ -139,6 +141,7 @@ const loadDocument = async (
     depth: 0,
     slug: source.slug,
     overrideAccess: true,
+    req: transactionID ? { transactionID } : undefined,
   } as never)
 
   if (!config || !isRecord(data)) {
@@ -227,51 +230,70 @@ export const saveSiteTextDocument = async (
     throw new SiteTextServiceError(400, 'INVALID_CHANGES', 'Richiesta non valida')
   }
 
-  const loaded = await loadDocument(payload, user, input.sourceID)
-  if (versionOf(loaded.data) !== input.version) {
-    throw new SiteTextServiceError(
-      409,
-      'STALE_VERSION',
-      'Il contenuto è stato modificato da un altro utente. Ricarica la pagina.',
-    )
-  }
-
-  let patch: DataRecord
+  const transactionID = await payload.db.beginTransaction({ isolationLevel: 'serializable' })
   try {
-    patch = buildSiteTextPatch(loaded.fields, loaded.data, input.changes)
+    const loaded = await loadDocument(payload, user, input.sourceID, transactionID)
+    if (versionOf(loaded.data) !== input.version) {
+      throw new SiteTextServiceError(
+        409,
+        'STALE_VERSION',
+        'Il contenuto è stato modificato da un altro utente. Ricarica la pagina.',
+      )
+    }
+
+    let patch: DataRecord
+    try {
+      patch = buildSiteTextPatch(loaded.fields, loaded.data, input.changes)
+    } catch (error) {
+      throw new SiteTextServiceError(
+        400,
+        'INVALID_CHANGES',
+        error instanceof Error ? error.message : 'Modifiche non valide',
+      )
+    }
+
+    let updated: unknown
+    if (loaded.source.kind === 'collection') {
+      const config = collectionConfig(payload, loaded.source.slug)
+      if (config?.versions?.drafts) patch._status = 'published'
+      updated = await payload.update({
+        collection: loaded.source.slug,
+        context: { siteTextEditor: true },
+        data: patch,
+        draft: false,
+        id: parseSourceID(input.sourceID).id as string,
+        req: transactionID ? { transactionID } : undefined,
+        ...accessOptions(loaded.source, user),
+      } as never)
+    } else {
+      updated = await payload.updateGlobal({
+        context: { siteTextEditor: true },
+        data: patch,
+        draft: false,
+        overrideAccess: true,
+        req: transactionID ? { transactionID } : undefined,
+        slug: loaded.source.slug,
+      } as never)
+    }
+
+    if (!isRecord(updated)) {
+      throw new SiteTextServiceError(400, 'INVALID_CHANGES', 'Risposta di salvataggio non valida')
+    }
+
+    if (transactionID) await payload.db.commitTransaction(transactionID)
+    return presentDocument({ ...loaded, data: updated })
   } catch (error) {
-    throw new SiteTextServiceError(
-      400,
-      'INVALID_CHANGES',
-      error instanceof Error ? error.message : 'Modifiche non valide',
-    )
+    if (transactionID) await payload.db.rollbackTransaction(transactionID)
+    if (
+      isRecord(error) &&
+      (error.code === '40001' || (isRecord(error.cause) && error.cause.code === '40001'))
+    ) {
+      throw new SiteTextServiceError(
+        409,
+        'STALE_VERSION',
+        'Il contenuto è stato modificato da un altro utente. Ricarica la pagina.',
+      )
+    }
+    throw error
   }
-
-  let updated: unknown
-  if (loaded.source.kind === 'collection') {
-    const config = collectionConfig(payload, loaded.source.slug)
-    if (config?.versions?.drafts) patch._status = 'published'
-    updated = await payload.update({
-      collection: loaded.source.slug,
-      context: { siteTextEditor: true },
-      data: patch,
-      draft: false,
-      id: parseSourceID(input.sourceID).id as string,
-      ...accessOptions(loaded.source, user),
-    } as never)
-  } else {
-    updated = await payload.updateGlobal({
-      context: { siteTextEditor: true },
-      data: patch,
-      draft: false,
-      overrideAccess: true,
-      slug: loaded.source.slug,
-    } as never)
-  }
-
-  if (!isRecord(updated)) {
-    throw new SiteTextServiceError(400, 'INVALID_CHANGES', 'Risposta di salvataggio non valida')
-  }
-
-  return presentDocument({ ...loaded, data: updated })
 }

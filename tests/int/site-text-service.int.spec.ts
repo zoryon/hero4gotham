@@ -51,6 +51,11 @@ const makePayload = () => {
         },
       ],
     },
+    db: {
+      beginTransaction: vi.fn(async () => 'transaction-id'),
+      commitTransaction: vi.fn(async () => undefined),
+      rollbackTransaction: vi.fn(async () => undefined),
+    },
     find: vi.fn(async () => ({ docs: [page] })),
     findByID: vi.fn(async () => page),
     findGlobal: vi.fn(async () => siteCopy),
@@ -135,6 +140,7 @@ describe('site text service', () => {
       }),
     )
     expect(updated.version).toBe('new-version')
+    expect(payload.db.commitTransaction).toHaveBeenCalledWith('transaction-id')
   })
 
   it('rejects unknown sources with a typed client error', async () => {

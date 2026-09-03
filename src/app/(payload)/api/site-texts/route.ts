@@ -23,6 +23,18 @@ const errorResponse = (error: unknown, payload: Payload) => {
     return Response.json({ code: 'NOT_FOUND', message: 'Contenuto non trovato' }, { status: 404 })
   }
 
+  if (
+    error &&
+    typeof error === 'object' &&
+    'status' in error &&
+    (error as { status?: unknown }).status === 400
+  ) {
+    return Response.json(
+      { code: 'VALIDATION_ERROR', message: 'Controlla i testi inseriti e riprova.' },
+      { status: 400 },
+    )
+  }
+
   payload.logger.error({ err: error, message: 'Errore nella gestione dei testi del sito' })
   return Response.json(
     { code: 'INTERNAL_ERROR', message: 'Errore interno del server' },

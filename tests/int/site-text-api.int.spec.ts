@@ -14,6 +14,11 @@ const manager = { id: 2, role: 'eventsManager' }
 const makePayload = () =>
   ({
     config: { collections: [{ fields, slug: 'pages', versions: { drafts: true } }], globals: [] },
+    db: {
+      beginTransaction: vi.fn(async () => 'transaction-id'),
+      commitTransaction: vi.fn(async () => undefined),
+      rollbackTransaction: vi.fn(async () => undefined),
+    },
     find: vi.fn(async () => ({ docs: [page] })),
     findByID: vi.fn(async () => page),
     findGlobal: vi.fn(),

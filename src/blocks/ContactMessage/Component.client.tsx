@@ -497,7 +497,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
                       lineHeight: 1,
                     }}
                   >
-                    Scarica documento
+                    {copy.forms.downloadDocumentTitle}
                   </h3>
                   <div className="membership-application-download-modal-file">
                     <FileText aria-hidden className="size-4" />
@@ -512,7 +512,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
                     ref={cancelDownloadButtonRef}
                     type="button"
                   >
-                    Annulla
+                    {copy.forms.cancel}
                   </button>
                   <button
                     className="membership-application-download-modal-button membership-application-download-modal-button--primary"
@@ -520,7 +520,7 @@ export const ContactMessageBlock: React.FC<Props> = ({
                     type="button"
                   >
                     <Download aria-hidden className="size-4" />
-                    Scarica
+                    {copy.forms.download}
                   </button>
                 </div>
               </div>

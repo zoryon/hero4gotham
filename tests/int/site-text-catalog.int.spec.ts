@@ -150,4 +150,14 @@ describe('site text catalog', () => {
       expect.arrayContaining(['Gestisci i cookie', 'Hero 4 Gotham']),
     )
   })
+
+  it('registers the dedicated site text admin view', async () => {
+    const config = await configPromise
+    const view = config.admin.components?.views?.siteTexts
+
+    expect(view?.path).toBe('/testi-del-sito')
+    expect(config.admin.components?.beforeNavLinks).toContain(
+      '@/components/SiteTextEditor/NavLink.client',
+    )
+  })
 })

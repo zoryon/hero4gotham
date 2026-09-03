@@ -7069,6 +7069,7 @@ export interface SiteCopy {
     galleryLoadMore: string;
     galleryLoadMoreAlbums: string;
     galleryEmpty: string;
+    galleryBackToEvents: string;
     scheduleEyebrow: string;
     scheduleTitle: string;
     timeLabel: string;
@@ -7090,6 +7091,7 @@ export interface SiteCopy {
     listPaginationLabel: string;
     listPageStatus: string;
     listPinnedEvent: string;
+    listPinnedLabel: string;
     listPrevious: string;
     listPreviousAriaLabel: string;
   };
@@ -7105,14 +7107,26 @@ export interface SiteCopy {
     twitterLabel: string;
   };
   forms: {
+    addMorePhotos: string;
+    addPhotos: string;
+    cancel: string;
     closeDownloadConfirmation: string;
+    documentPhotosHint: string;
+    download: string;
+    downloadDocumentTitle: string;
     contactDocumentsEyebrow: string;
     genericError: string;
     loading: string;
     membershipDocumentsEyebrow: string;
+    noPhotosSelected: string;
+    photosSelectedPlural: string;
+    photosSelectedSingular: string;
+    remove: string;
+    replace: string;
     requiredError: string;
     requiredLabel: string;
     serverError: string;
+    uploadRequiredDocuments: string;
   };
   notFound: {
     goHome: string;
@@ -7414,6 +7428,7 @@ export interface SiteCopySelect<T extends boolean = true> {
         galleryLoadMore?: T;
         galleryLoadMoreAlbums?: T;
         galleryEmpty?: T;
+        galleryBackToEvents?: T;
         scheduleEyebrow?: T;
         scheduleTitle?: T;
         timeLabel?: T;
@@ -7437,6 +7452,7 @@ export interface SiteCopySelect<T extends boolean = true> {
         listPaginationLabel?: T;
         listPageStatus?: T;
         listPinnedEvent?: T;
+        listPinnedLabel?: T;
         listPrevious?: T;
         listPreviousAriaLabel?: T;
       };
@@ -7456,14 +7472,26 @@ export interface SiteCopySelect<T extends boolean = true> {
   forms?:
     | T
     | {
+        addMorePhotos?: T;
+        addPhotos?: T;
+        cancel?: T;
         closeDownloadConfirmation?: T;
+        documentPhotosHint?: T;
+        download?: T;
+        downloadDocumentTitle?: T;
         contactDocumentsEyebrow?: T;
         genericError?: T;
         loading?: T;
         membershipDocumentsEyebrow?: T;
+        noPhotosSelected?: T;
+        photosSelectedPlural?: T;
+        photosSelectedSingular?: T;
+        remove?: T;
+        replace?: T;
         requiredError?: T;
         requiredLabel?: T;
         serverError?: T;
+        uploadRequiredDocuments?: T;
       };
   notFound?:
     | T

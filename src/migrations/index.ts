@@ -66,6 +66,7 @@ import * as migration_20260717_210000_torn_card_description_links from './202607
 import * as migration_20260823_200000_normalize_latest_versions from './20260823_200000_normalize_latest_versions'
 import * as migration_20260823_210000_activity_detail_image_darkness from './20260823_210000_activity_detail_image_darkness'
 import * as migration_20260901_193000_remove_payload_metadata_branding from './20260901_193000_remove_payload_metadata_branding'
+import * as migration_20260902_120000_site_copy from './20260902_120000_site_copy'
 
 export const migrations = [
   {
@@ -407,5 +408,10 @@ export const migrations = [
     up: migration_20260901_193000_remove_payload_metadata_branding.up,
     down: migration_20260901_193000_remove_payload_metadata_branding.down,
     name: '20260901_193000_remove_payload_metadata_branding',
+  },
+  {
+    up: migration_20260902_120000_site_copy.up,
+    down: migration_20260902_120000_site_copy.down,
+    name: '20260902_120000_site_copy',
   },
 ]

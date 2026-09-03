@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { SiteTextDocument, SiteTextDocumentSummary } from '@/siteText/types'
 import './index.scss'
@@ -22,7 +22,9 @@ export function SiteTextEditor({ initialIndex }: Props) {
   const [loading, setLoading] = useState(!initialIndex)
   const [saving, setSaving] = useState(false)
   const [conflict, setConflict] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [notice, setNotice] = useState<Notice>(null)
+  const loadSequence = useRef(0)
 
   const areas = useMemo(() => [...new Set(documents.map((item) => item.area))], [documents])
   const areaDocuments = useMemo(
@@ -35,6 +37,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
     setDocument(next)
     setDrafts(Object.fromEntries(next.controls.map((control) => [control.id, control.value])))
     setConflict(false)
+    setFieldErrors({})
   }
 
   useEffect(() => {
@@ -63,6 +66,19 @@ export function SiteTextEditor({ initialIndex }: Props) {
     return () => window.removeEventListener('beforeunload', warn)
   }, [dirty])
 
+  useEffect(() => {
+    if (!dirty) return
+    const warnLinkNavigation = (event: MouseEvent) => {
+      const target = event.target instanceof Element ? event.target.closest('a[href]') : null
+      if (target && !window.confirm('Vuoi uscire senza salvare le modifiche?')) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+    }
+    window.document.addEventListener('click', warnLinkNavigation, true)
+    return () => window.document.removeEventListener('click', warnLinkNavigation, true)
+  }, [dirty])
+
   const mayNavigate = () => !dirty || window.confirm('Vuoi uscire senza salvare le modifiche?')
 
   const chooseArea = (nextArea: string) => {
@@ -76,6 +92,8 @@ export function SiteTextEditor({ initialIndex }: Props) {
   const loadDocument = async (nextSourceID: string, force = false) => {
     if (!force && !mayNavigate()) return
     setSourceID(nextSourceID)
+    setDocument(null)
+    setDrafts({})
     setNotice(null)
     if (!nextSourceID) {
       setDocument(null)
@@ -83,23 +101,38 @@ export function SiteTextEditor({ initialIndex }: Props) {
     }
 
     setLoading(true)
+    const requestSequence = ++loadSequence.current
     try {
       const response = await fetch(`/api/site-texts?sourceID=${encodeURIComponent(nextSourceID)}`)
       if (!response.ok) throw new Error(await responseMessage(response))
       const body = (await response.json()) as { document: SiteTextDocument }
+      if (requestSequence !== loadSequence.current) return
       installDocument(body.document)
     } catch (error) {
-      setNotice({ kind: 'error', message: error instanceof Error ? error.message : 'Errore.' })
+      if (requestSequence === loadSequence.current) {
+        setNotice({ kind: 'error', message: error instanceof Error ? error.message : 'Errore.' })
+      }
     } finally {
-      setLoading(false)
+      if (requestSequence === loadSequence.current) setLoading(false)
     }
   }
 
   const save = async () => {
     if (!document || !dirty || saving) return
+    const requiredErrors = Object.fromEntries(
+      document.controls
+        .filter((control) => control.required && !(drafts[control.id] || '').trim())
+        .map((control) => [control.id, 'Questo testo è obbligatorio.']),
+    )
+    if (Object.keys(requiredErrors).length) {
+      setFieldErrors(requiredErrors)
+      setNotice({ kind: 'error', message: 'Controlla i campi obbligatori.' })
+      return
+    }
     setSaving(true)
     setNotice(null)
     setConflict(false)
+    setFieldErrors({})
     try {
       const changes = document.controls
         .filter((control) => drafts[control.id] !== control.value)
@@ -212,30 +245,39 @@ export function SiteTextEditor({ initialIndex }: Props) {
                       {control.control === 'textarea' ? (
                         <textarea
                           aria-label={control.label}
+                          aria-invalid={Boolean(fieldErrors[control.id])}
                           required={control.required}
                           rows={4}
                           value={drafts[control.id] ?? ''}
-                          onChange={(event) =>
+                          onChange={(event) => {
+                            setFieldErrors((current) => ({ ...current, [control.id]: '' }))
                             setDrafts((current) => ({
                               ...current,
                               [control.id]: event.target.value,
                             }))
-                          }
+                          }}
                         />
                       ) : (
                         <input
                           aria-label={control.label}
+                          aria-invalid={Boolean(fieldErrors[control.id])}
                           required={control.required}
                           type="text"
                           value={drafts[control.id] ?? ''}
-                          onChange={(event) =>
+                          onChange={(event) => {
+                            setFieldErrors((current) => ({ ...current, [control.id]: '' }))
                             setDrafts((current) => ({
                               ...current,
                               [control.id]: event.target.value,
                             }))
-                          }
+                          }}
                         />
                       )}
+                      {fieldErrors[control.id] ? (
+                        <small className="site-text-editor__field-error">
+                          {fieldErrors[control.id]}
+                        </small>
+                      ) : null}
                     </label>
                   ))}
               </div>
