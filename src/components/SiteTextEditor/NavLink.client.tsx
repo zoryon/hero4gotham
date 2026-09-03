@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { formatAdminURL } from 'payload/shared'
 
 import type { User } from '@/payload-types'
+import './index.scss'
 
 export default function SiteTextNavLink() {
   const { user } = useAuth<User>()
@@ -16,9 +17,17 @@ export default function SiteTextNavLink() {
   const active = pathname === href
 
   return (
-    <Link className="nav__link" href={href} id="nav-site-texts" prefetch={false}>
-      {active ? <div className="nav__link-indicator" /> : null}
-      <span className="nav__link-label">Testi del sito</span>
-    </Link>
+    <div className="site-text-nav">
+      <div className="site-text-nav__label">Pagine</div>
+      <Link
+        className="nav__link site-text-nav__link"
+        href={href}
+        id="nav-site-texts"
+        prefetch={false}
+      >
+        {active ? <div className="nav__link-indicator" /> : null}
+        <span className="nav__link-label">Modifica testi del sito</span>
+      </Link>
+    </div>
   )
 }

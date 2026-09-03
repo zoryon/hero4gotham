@@ -2,6 +2,7 @@
 
 import { Footer } from '@/Footer/config'
 import { Header } from '@/Header/config'
+import { MembershipDocuments } from '@/MembershipDocuments/config'
 import { PrivacyPolicy } from '@/PrivacyPolicy/config'
 import { Users } from '@/collections/Users'
 import type { Field } from 'payload'
@@ -75,7 +76,31 @@ const canUpdate = async (field: Field, role: TestRole) => {
   return await field.access.update({ req: { user: { id: `${role}-id`, role } } } as never)
 }
 
+const globalIsVisible = (global: typeof Header, role: TestRole) => {
+  const hidden = global.admin?.hidden
+  return typeof hidden === 'function'
+    ? !hidden({ user: { id: `${role}-id`, role } } as never)
+    : true
+}
+
+const canUpdateGlobal = async (global: typeof Header, role: TestRole) => {
+  const update = global.access?.update
+  return typeof update === 'function'
+    ? await update({ req: { user: { id: `${role}-id`, role } } } as never)
+    : true
+}
+
 describe('events manager admin field visibility', () => {
+  it.each([
+    ['Header', Header],
+    ['Footer', Footer],
+    ['Privacy Policy', PrivacyPolicy],
+    ['Documenti', MembershipDocuments],
+  ] as const)('keeps the %s global accessible to events managers', async (_label, global) => {
+    expect(globalIsVisible(global, 'eventsManager')).toBe(true)
+    expect(await canUpdateGlobal(global, 'eventsManager')).toBe(true)
+  })
+
   it.each(['Background', 'SEO'])(
     'hides the Privacy Policy %s tab from events managers',
     (label) => {
