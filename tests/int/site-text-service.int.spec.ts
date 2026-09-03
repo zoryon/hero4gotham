@@ -79,17 +79,10 @@ describe('site text service', () => {
     expect(payload.find).not.toHaveBeenCalled()
   })
 
-  it('lists configured documents and globals for an events manager', async () => {
+  it('lists configured editor documents without common site copy', async () => {
     const payload = makePayload()
 
     await expect(listSiteTextDocuments(payload, manager)).resolves.toEqual([
-      {
-        area: 'Elementi comuni',
-        previewPath: '/',
-        sourceID: 'global:siteCopy',
-        title: 'Testi comuni',
-        version: '2026-09-02T09:00:00.000Z',
-      },
       {
         area: 'Pagine',
         previewPath: '/',

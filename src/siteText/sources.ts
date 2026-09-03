@@ -19,7 +19,6 @@ export const siteTextSources: SiteTextSource[] = [
   { area: 'Pagine', kind: 'collection', slug: 'pages', titleField: 'title' },
   { area: 'Elementi comuni', kind: 'global', slug: 'header', title: 'Header' },
   { area: 'Elementi comuni', kind: 'global', slug: 'footer', title: 'Footer' },
-  { area: 'Elementi comuni', kind: 'global', slug: 'siteCopy', title: 'Testi comuni' },
 ]
 
 export const getSiteTextSource = (slug: string, kind: SiteTextSource['kind']) =>
