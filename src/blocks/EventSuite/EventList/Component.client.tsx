@@ -418,7 +418,8 @@ export const EventListClient: React.FC<Props> = ({
                   ) : null}
                   <div
                     className={cn(
-                      'event-list-cell-border vintage-surface grid content-center justify-items-center px-2 py-3 text-center',
+                      'event-list-cell-border vintage-surface grid content-center justify-items-center py-3 text-center',
+                      dateParts.endDay ? 'px-1' : 'px-2',
                       'scribble-border',
                     )}
                   >
@@ -435,7 +436,20 @@ export const EventListClient: React.FC<Props> = ({
                         lineHeight: 0.9,
                       })}
                     >
-                      {dateParts.day}
+                      <span
+                        aria-label={dateParts.day}
+                        className="inline-flex items-center justify-center whitespace-nowrap"
+                      >
+                        <span>{dateParts.startDay}</span>
+                        {dateParts.endDay ? (
+                          <>
+                            <span aria-hidden className="mx-[0.04em] text-[0.3em] leading-none">
+                              –
+                            </span>
+                            <span>{dateParts.endDay}</span>
+                          </>
+                        ) : null}
+                      </span>
                     </div>
                     <div
                       className={cn(

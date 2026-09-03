@@ -338,7 +338,23 @@ export const UpcomingEventsBlock = async ({
                               verticalScale: dateDayVerticalScale,
                             })}
                           >
-                            {formattedDate.day}
+                            <span
+                              aria-label={formattedDate.day}
+                              className="inline-flex items-center whitespace-nowrap"
+                            >
+                              <span>{formattedDate.startDay}</span>
+                              {formattedDate.endDay ? (
+                                <>
+                                  <span
+                                    aria-hidden
+                                    className="mx-[0.04em] text-[0.3em] leading-none"
+                                  >
+                                    –
+                                  </span>
+                                  <span>{formattedDate.endDay}</span>
+                                </>
+                              ) : null}
+                            </span>
                           </div>
                           <div
                             className={getTextClassName({

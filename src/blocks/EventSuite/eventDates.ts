@@ -98,9 +98,11 @@ export const formatEventDateRange = (startsAt: string, endsAt?: null | string) =
   if (isSingleDay) {
     return {
       day: start.day,
+      endDay: null,
       long: `${start.day} ${start.monthLong} ${start.year}`,
       month: start.month,
       short: `${start.day} ${start.month} ${start.year}`,
+      startDay: start.day,
       weekday: start.weekday,
       year: start.year,
     }
@@ -109,9 +111,11 @@ export const formatEventDateRange = (startsAt: string, endsAt?: null | string) =
   if (sameMonth) {
     return {
       day: `${start.day}–${end.day}`,
+      endDay: end.day,
       long: `${start.day}–${end.day} ${start.monthLong} ${start.year}`,
       month: start.month,
       short: `${start.day}–${end.day} ${start.month} ${start.year}`,
+      startDay: start.day,
       weekday: getWeekdayRange(start, end),
       year: start.year,
     }
@@ -121,6 +125,7 @@ export const formatEventDateRange = (startsAt: string, endsAt?: null | string) =
 
   return {
     day: `${start.day}–${end.day}`,
+    endDay: end.day,
     long: sameYear
       ? `${start.day} ${start.monthLong}–${end.day} ${end.monthLong} ${start.year}`
       : `${start.day} ${start.monthLong} ${start.year}–${end.day} ${end.monthLong} ${end.year}`,
@@ -128,6 +133,7 @@ export const formatEventDateRange = (startsAt: string, endsAt?: null | string) =
     short: sameYear
       ? `${start.day} ${start.month}–${end.day} ${end.month} ${start.year}`
       : `${start.day} ${start.month} ${start.year}–${end.day} ${end.month} ${end.year}`,
+    startDay: start.day,
     weekday: getWeekdayRange(start, end),
     year,
   }
