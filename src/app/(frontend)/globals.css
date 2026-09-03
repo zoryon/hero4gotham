@@ -445,7 +445,11 @@
     }
 
     .site-footer__main {
-      grid-template-columns: minmax(22rem, 1.15fr) minmax(20rem, 0.85fr);
+      grid-template-columns: minmax(22rem, 1.35fr) minmax(20rem, 0.65fr);
+    }
+
+    .site-footer__brand {
+      max-width: 42rem;
     }
 
     .site-footer__columns {
@@ -455,7 +459,7 @@
     }
 
     .site-footer__description {
-      max-width: 27rem;
+      max-width: 42rem;
     }
 
     .site-footer__link {
