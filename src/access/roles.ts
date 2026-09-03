@@ -62,6 +62,9 @@ export const canAccessAdmin = ({ req: { user } }: { req: { user?: unknown } }): 
 
 export const hideFromNonAdmins = ({ user }: { user?: unknown }) => getRole(user) !== 'admin'
 
+export const hideSiteCopyFromEventsManagers = ({ user }: { user?: unknown }) =>
+  getRole(user) !== 'admin'
+
 export const showToAdmins: Condition = (_data, _siblingData, { user }) =>
   getRole(user) === 'admin'
 

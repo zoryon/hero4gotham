@@ -136,6 +136,11 @@ describe('site text catalog', () => {
 
     expect(siteCopy).toBeDefined()
     expect(siteCopy?.admin?.hidden).toBeTypeOf('function')
+    const hidden = siteCopy?.admin?.hidden
+    if (typeof hidden === 'function') {
+      expect(hidden({ user: { role: 'eventsManager' } } as never)).toBe(true)
+      expect(hidden({ user: { role: 'admin' } } as never)).toBe(false)
+    }
 
     const controls = extractSiteTextControls(siteCopy?.fields || [], {
       cookie: {
@@ -155,7 +160,7 @@ describe('site text catalog', () => {
     const config = await configPromise
     const view = config.admin.components?.views?.siteTexts
 
-    expect(view?.path).toBe('/testi-del-sito')
+    expect(view?.path).toBe('/modifica-sito')
     expect(config.admin.components?.beforeNavLinks).toContain(
       '@/components/SiteTextEditor/NavLink.client',
     )

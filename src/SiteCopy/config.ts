@@ -1,6 +1,6 @@
 import type { Field, GlobalConfig } from 'payload'
 
-import { adminOnly, hideFromNonAdmins } from '@/access/roles'
+import { adminOnly, hideSiteCopyFromEventsManagers } from '@/access/roles'
 import { siteTextField } from '@/siteText/field'
 import { siteCopyDefaults } from './defaults'
 import { revalidateSiteCopy } from './hooks/revalidateSiteCopy'
@@ -63,7 +63,7 @@ export const SiteCopy: GlobalConfig = {
   },
   admin: {
     group: 'Struttura e design',
-    hidden: hideFromNonAdmins,
+    hidden: hideSiteCopyFromEventsManagers,
   },
   fields,
   hooks: {
