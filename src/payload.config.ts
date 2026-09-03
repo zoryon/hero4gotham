@@ -34,9 +34,17 @@ const adminRoute = '/control-room-h4g'
 export default buildConfig({
   admin: {
     components: {
+      beforeNavLinks: ['@/components/SiteTextEditor/NavLink.client'],
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
+      views: {
+        siteTexts: {
+          Component: '@/components/SiteTextEditor/View',
+          exact: true,
+          path: '/testi-del-sito',
+        },
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),

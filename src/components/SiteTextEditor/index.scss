@@ -1,0 +1,125 @@
+.site-text-editor {
+  max-width: 900px;
+  padding: calc(var(--base) * 2.5) var(--gutter-h);
+
+  &__header {
+    align-items: flex-start;
+    display: flex;
+    gap: calc(var(--base) * 1.5);
+    justify-content: space-between;
+    margin-bottom: calc(var(--base) * 2);
+
+    h1 {
+      margin: 0 0 calc(var(--base) * 0.35);
+    }
+    p {
+      color: var(--theme-elevation-600);
+      margin: 0;
+    }
+  }
+
+  &__save,
+  &__reload {
+    background: var(--theme-success-500);
+    border: 0;
+    border-radius: 4px;
+    color: var(--theme-success-50);
+    cursor: pointer;
+    font: inherit;
+    padding: 0.75rem 1.25rem;
+  }
+
+  &__save:disabled {
+    cursor: default;
+    opacity: 0.45;
+  }
+
+  &__selectors {
+    display: grid;
+    gap: var(--base);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: calc(var(--base) * 1.5);
+  }
+
+  label {
+    display: grid;
+    gap: calc(var(--base) * 0.35);
+  }
+  label > span {
+    font-weight: 600;
+  }
+  small {
+    color: var(--theme-elevation-600);
+  }
+
+  input,
+  select,
+  textarea {
+    background: var(--theme-input-bg);
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 4px;
+    color: var(--theme-text);
+    font: inherit;
+    padding: 0.75rem;
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 7rem;
+    resize: vertical;
+  }
+
+  &__sections {
+    display: grid;
+    gap: var(--base);
+  }
+  details {
+    border-bottom: 1px solid var(--theme-elevation-150);
+    padding-bottom: var(--base);
+  }
+  summary {
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.75rem 0;
+  }
+  &__fields {
+    display: grid;
+    gap: calc(var(--base) * 1.2);
+    padding-top: var(--base);
+  }
+  &__empty {
+    color: var(--theme-elevation-600);
+    padding: calc(var(--base) * 2) 0;
+  }
+  &__notice {
+    border-radius: 4px;
+    margin: 0 0 var(--base);
+    padding: 0.75rem 1rem;
+  }
+  &__notice--success {
+    background: var(--theme-success-100);
+    color: var(--theme-success-800);
+  }
+  &__notice--error {
+    background: var(--theme-error-100);
+    color: var(--theme-error-800);
+  }
+  &__reload {
+    background: var(--theme-elevation-800);
+    margin-bottom: var(--base);
+  }
+}
+
+@media (max-width: 700px) {
+  .site-text-editor {
+    padding-top: calc(var(--base) * 1.5);
+    &__header {
+      align-items: stretch;
+      flex-direction: column;
+    }
+    &__selectors {
+      grid-template-columns: 1fr;
+    }
+  }
+}
