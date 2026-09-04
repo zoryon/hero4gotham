@@ -64,12 +64,12 @@ export function SiteTextEditor({ initialIndex }: Props) {
   )
   const visibleControls = useMemo(() => {
     if (!document) return []
-    const normalizedQuery = normalizeText(query).toLocaleLowerCase('it')
+    const normalizedQuery = normalizePreviewText(query)
     if (!normalizedQuery) return document.controls
     return document.controls.filter((control) =>
-      `${control.label || ''} ${control.section} ${control.value}`
-        .toLocaleLowerCase('it')
-        .includes(normalizedQuery),
+      normalizePreviewText(`${control.label || ''} ${control.section} ${control.value}`).includes(
+        normalizedQuery,
+      ),
     )
   }, [document, query])
 
