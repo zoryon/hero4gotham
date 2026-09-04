@@ -12,6 +12,7 @@ import {
   resolveMediaBackground,
 } from '@/blocks/EventSuite/shared'
 import { Media } from '@/components/Media'
+import { FormResultModal } from '@/components/FormResultModal'
 import { cn } from '@/utilities/ui'
 import { useSiteCopy } from '@/providers/SiteCopy'
 
@@ -170,7 +171,6 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
   sectionTitleStyle,
   statuteDeclarationLabel = "Dichiaro di aver letto e accettare lo statuto e il regolamento dell'associazione. *",
   statuteDeclarationTriggerLinkUrl,
-  statusStyle,
   submitBackgroundImage,
   submitLabel = 'Invia candidatura',
   submitStyle,
@@ -902,24 +902,20 @@ export const MembershipApplicationBlock: React.FC<Props> = ({
                 {submitState === 'sending' ? 'Invio...' : submitLabel}
               </button>
 
-              {feedback ? (
-                <p
-                  className={getEventSuiteTextClassName(statusStyle, 'semibold')}
-                  style={getEventSuiteTextStyle(statusStyle, {
-                    fontFamily: 'geistSans',
-                    fontSizeDesktop: 13,
-                    fontSizeMobile: 12,
-                    fontWeight: 'semibold',
-                    lineHeight: 1.25,
-                  })}
-                >
-                  {feedback}
-                </p>
-              ) : null}
             </div>
           </form>
         </div>
       </div>
+
+      <FormResultModal
+        message={feedback}
+        onClose={() => {
+          setFeedback('')
+          setSubmitState('idle')
+        }}
+        open={Boolean(feedback)}
+        status={submitState === 'success' ? 'success' : 'error'}
+      />
 
       {pendingDownload
         ? createPortal(

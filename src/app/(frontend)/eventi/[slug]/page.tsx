@@ -17,6 +17,8 @@ import { cache, type ReactNode } from 'react'
 import { getPayload } from 'payload'
 import { getSiteCopy } from '@/utilities/siteCopy'
 
+import { getEventBannerImage } from './eventBanner'
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const events = await payload.find({
@@ -61,15 +63,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
     (item) => item.firstName || item.lastName,
   )
   const usefulInfoItems = (event.usefulInfo || []).filter((item) => item.title || item.description)
-  const selectedBannerGalleryItem = event.gallery.find(
-    (item) => item.isBanner && typeof item.image === 'object',
-  )
-  const bannerGalleryItem =
-    selectedBannerGalleryItem || event.gallery.find((item) => typeof item.image === 'object')
-  const bannerImage =
-    bannerGalleryItem && typeof bannerGalleryItem.image === 'object'
-      ? bannerGalleryItem.image
-      : null
+  const bannerImage = getEventBannerImage(event.gallery)
 
   return (
     <article>
@@ -77,7 +71,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
       <SiteBackgroundFrame fallbackSettings={siteBackground} isFirstPageBlock settings={event}>
         <header className="event-detail-hero">
-          <div className="container relative z-10 mt-8 lg:mt-18 flex min-h-[inherit] items-center pb-3">
+          <div className="container relative z-10 mt-2 flex min-h-[inherit] items-center pb-1 lg:mt-6">
             <div className="event-detail-hero__copy max-w-4xl pb-1">
               <Link
                 className="mb-7 inline-flex items-center gap-2 font-cinzel text-xs font-black uppercase leading-none text-[var(--theme-text-green)] underline decoration-[var(--theme-text-green)]/55 underline-offset-4 transition hover:text-[var(--theme-text-accent)]"
@@ -107,31 +101,21 @@ export default async function EventPage({ params: paramsPromise }: Args) {
           </div>
         </header>
 
-        <div className="container pb-16 pt-2">
-          <section className="event-detail-banner scribble-border mb-5 md:mb-6">
-            <div className="relative aspect-[16/7] min-h-[10rem] md:aspect-[21/6] md:min-h-0">
-              {bannerImage ? (
-                <>
-                  <Media
-                    fill
-                    imgClassName="object-cover object-center"
-                    pictureClassName="absolute inset-0"
-                    priority
-                    resource={bannerImage}
-                    size="(max-width: 1536px) calc(100vw - 2rem), 1312px"
-                  />
-                  {!selectedBannerGalleryItem ? (
-                    <div
-                      aria-hidden
-                      className="event-detail-banner__fallback-shade absolute inset-0"
-                    />
-                  ) : null}
-                </>
-              ) : (
-                <div className="event-detail-banner__placeholder absolute inset-0" />
-              )}
-            </div>
-          </section>
+        <div className="container pb-16 pt-0">
+          {bannerImage ? (
+            <section className="event-detail-banner scribble-border mb-5 md:mb-6">
+              <div className="relative aspect-[16/7] min-h-[10rem] md:aspect-[21/6] md:min-h-0">
+                <Media
+                  fill
+                  imgClassName="object-cover object-center"
+                  pictureClassName="absolute inset-0"
+                  priority
+                  resource={bannerImage}
+                  size="(max-width: 1536px) calc(100vw - 2rem), 1312px"
+                />
+              </div>
+            </section>
+          ) : null}
 
           <aside className="event-detail-info-bar scribble-border vintage-surface grid gap-0 p-5 md:grid-cols-3">
             <EventInfoItem

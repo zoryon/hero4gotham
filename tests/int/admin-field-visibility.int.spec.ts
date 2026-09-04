@@ -103,9 +103,9 @@ describe('events manager admin field visibility', () => {
     expect(await canUpdateGlobal(global, 'admin')).toBe(true)
   })
 
-  it('keeps membership documents reserved for administrators', async () => {
-    expect(globalIsVisible(MembershipDocuments, 'eventsManager')).toBe(false)
-    expect(await canUpdateGlobal(MembershipDocuments, 'eventsManager')).toBe(false)
+  it('allows events managers to manage membership documents', async () => {
+    expect(globalIsVisible(MembershipDocuments, 'eventsManager')).toBe(true)
+    expect(await canUpdateGlobal(MembershipDocuments, 'eventsManager')).toBe(true)
   })
 
   it('allows events managers to view and update existing activities', async () => {

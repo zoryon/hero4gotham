@@ -6,6 +6,7 @@ import React, { useCallback, useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import RichText from '@/components/RichText'
 import { Button } from '@/components/ui/button'
+import { FormResultModal } from '@/components/FormResultModal'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import { fields } from './fields'
@@ -41,6 +42,7 @@ export const FormBlock: React.FC<
     formState: { errors },
     handleSubmit,
     register,
+    reset,
   } = formMethods
 
   const [isLoading, setIsLoading] = useState(false)
@@ -100,6 +102,8 @@ export const FormBlock: React.FC<
             const redirectUrl = url
 
             if (redirectUrl) router.push(redirectUrl)
+          } else {
+            reset()
           }
         } catch (err) {
           console.warn(err)
@@ -112,7 +116,15 @@ export const FormBlock: React.FC<
 
       void submitForm()
     },
-    [copy.forms.genericError, copy.forms.serverError, router, formID, redirect, confirmationType],
+    [
+      confirmationType,
+      copy.forms.genericError,
+      copy.forms.serverError,
+      formID,
+      redirect,
+      reset,
+      router,
+    ],
   )
 
   return (
@@ -122,11 +134,7 @@ export const FormBlock: React.FC<
       )}
       <div className="p-4 lg:p-6 border border-border rounded-[0.8rem]">
         <FormProvider {...formMethods}>
-          {!isLoading && hasSubmitted && confirmationType === 'message' && (
-            <RichText data={confirmationMessage} />
-          )}
           {isLoading && !hasSubmitted && <p>{copy.forms.loading}</p>}
-          {error && <div>{`${error.status || '500'}: ${error.message || ''}`}</div>}
           {!hasSubmitted && (
             <form id={formID} onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 last:mb-0">
@@ -160,6 +168,23 @@ export const FormBlock: React.FC<
           )}
         </FormProvider>
       </div>
+      <FormResultModal
+        message={
+          error ? (
+            `${error.status || '500'}: ${error.message || ''}`
+          ) : confirmationMessage ? (
+            <RichText data={confirmationMessage} enableGutter={false} />
+          ) : (
+            copy.forms.genericError
+          )
+        }
+        onClose={() => {
+          setError(undefined)
+          setHasSubmitted(false)
+        }}
+        open={Boolean(error || (hasSubmitted && confirmationType === 'message'))}
+        status={error ? 'error' : 'success'}
+      />
     </div>
   )
 }
