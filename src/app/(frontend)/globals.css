@@ -515,6 +515,23 @@
     word-break: break-word;
   }
 
+  .event-detail-hero__copy::before {
+    background: radial-gradient(
+      ellipse at center,
+      rgb(0 0 0 / 0.56) 0%,
+      rgb(0 0 0 / 0.38) 34%,
+      rgb(0 0 0 / 0.16) 58%,
+      rgb(0 0 0 / 0.05) 72%,
+      transparent 86%
+    );
+    content: '';
+    filter: blur(22px);
+    inset: -2.5rem -4rem;
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+  }
+
   .event-detail-banner {
     --vintage-border-width: 12px;
     padding: calc(var(--vintage-border-width) * 0.72);
