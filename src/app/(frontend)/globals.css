@@ -3360,12 +3360,33 @@
     overflow: hidden;
   }
 
-  .activity-detail-card__description-full-mobile {
-    display: none;
+  .activity-detail-card__description-scroll {
+    max-height: clamp(7rem, 14vw, 10rem);
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 0.65rem;
+    scrollbar-color: rgb(144 164 52 / 0.8) rgb(255 255 255 / 0.08);
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
   }
 
-  .activity-detail-card__description-short {
-    display: inline;
+  .activity-detail-card__description-scroll:focus-visible {
+    outline: 1px solid rgb(183 213 42 / 0.85);
+    outline-offset: 3px;
+  }
+
+  .activity-detail-card__description-scroll::-webkit-scrollbar {
+    width: 0.35rem;
+  }
+
+  .activity-detail-card__description-scroll::-webkit-scrollbar-track {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  .activity-detail-card__description-scroll::-webkit-scrollbar-thumb {
+    background: rgb(144 164 52 / 0.8);
+    border-radius: 999px;
   }
 
   .activity-detail-card__content.vintage-surface {
@@ -3536,14 +3557,6 @@
       aspect-ratio: 16 / 9;
       min-height: clamp(11rem, 52vw, 16.5rem);
       order: 1 !important;
-    }
-
-    .activity-detail-card__description-full-mobile {
-      display: inline;
-    }
-
-    .activity-detail-card__description-short {
-      display: none;
     }
 
     .activity-detail-card__content {

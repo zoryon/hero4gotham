@@ -179,16 +179,6 @@ const getColumnAwareImagePosition = (
 const getRowsForCardCount = (cardCount: number, columns: number) =>
   Math.max(1, Math.ceil(cardCount / Math.max(columns, 1)))
 
-const activityDescriptionMaxCharacters = 80
-
-const truncateActivityDescription = (description: string) => {
-  const characters = Array.from(description)
-
-  if (characters.length <= activityDescriptionMaxCharacters) return description
-
-  return `${characters.slice(0, activityDescriptionMaxCharacters).join('').trimEnd()}...`
-}
-
 const getActivityTitleFitStyle = (title: string): React.CSSProperties | undefined => {
   const longestWordLength = title
     .split(/\s+/)
@@ -416,32 +406,34 @@ const ActivityCard: React.FC<{
       </StyledText>
 
       {activity.description ? (
-        <StyledText
-          as="p"
-          className="whitespace-pre-line"
-          fallback={{
-            color: '#f7f0df',
-            fontFamily: 'geistSans',
-            fontSizeDesktop: 12,
-            fontSizeMobile: 12,
-            fontStyle: 'normal',
-            fontWeight: 'regular',
-            letterSpacing: 'tight',
-            lineHeight: 1.35,
-            maxWidth: 520,
-            textTransform: 'normal',
-            verticalScale: 'normal',
-          }}
-          prefix={`activity-detail-${index}-description`}
-          styleConfig={activity.descriptionStyle || sharedDescriptionStyle}
+        <div
+          aria-label={`Descrizione di ${activity.title}`}
+          className="activity-detail-card__description-scroll"
+          role="region"
+          tabIndex={0}
         >
-          <span className="activity-detail-card__description-full-mobile">
+          <StyledText
+            as="p"
+            className="whitespace-pre-line"
+            fallback={{
+              color: '#f7f0df',
+              fontFamily: 'geistSans',
+              fontSizeDesktop: 12,
+              fontSizeMobile: 12,
+              fontStyle: 'normal',
+              fontWeight: 'regular',
+              letterSpacing: 'tight',
+              lineHeight: 1.35,
+              maxWidth: 520,
+              textTransform: 'normal',
+              verticalScale: 'normal',
+            }}
+            prefix={`activity-detail-${index}-description`}
+            styleConfig={activity.descriptionStyle || sharedDescriptionStyle}
+          >
             {activity.description}
-          </span>
-          <span className="activity-detail-card__description-short">
-            {truncateActivityDescription(activity.description)}
-          </span>
-        </StyledText>
+          </StyledText>
+        </div>
       ) : null}
     </div>
   )

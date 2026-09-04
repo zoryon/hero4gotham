@@ -54,4 +54,25 @@ describe('activity card content model', () => {
     expect(html).not.toContain('CTA DA RIMUOVERE')
     expect(html).not.toContain('DETTAGLIO DA RIMUOVERE')
   })
+
+  it('renders a long description once, in full, inside the scrollable text region', async () => {
+    const description =
+      'Dal Romics al Milano Games Week, dal Comicon al BeComics Torino: un racconto completo delle fiere, degli incontri e degli eventi.'
+    const element = await ActivitiesDetailGridBlock({
+      activities: [
+        {
+          description,
+          title: 'Fiere ed eventi',
+        },
+      ],
+      blockType: 'activitiesDetailGrid',
+      source: 'manual',
+    } as unknown as ActivitiesDetailGridBlockProps)
+    const html = renderToStaticMarkup(element)
+
+    expect(html).toContain('activity-detail-card__description-scroll')
+    expect(html.split(description)).toHaveLength(2)
+    expect(html).not.toContain('activity-detail-card__description-short')
+    expect(html).not.toContain('...')
+  })
 })
