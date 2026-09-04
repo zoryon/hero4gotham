@@ -69,6 +69,7 @@ import * as migration_20260901_193000_remove_payload_metadata_branding from './2
 import * as migration_20260902_120000_site_copy from './20260902_120000_site_copy'
 import * as migration_20260903_200000_event_date_ranges from './20260903_200000_event_date_ranges'
 import * as migration_20260903_220000_remove_activity_details_cta from './20260903_220000_remove_activity_details_cta'
+import * as migration_20260904_163000_event_seo_fields from './20260904_163000_event_seo_fields'
 
 export const migrations = [
   {
@@ -425,5 +426,10 @@ export const migrations = [
     up: migration_20260903_220000_remove_activity_details_cta.up,
     down: migration_20260903_220000_remove_activity_details_cta.down,
     name: '20260903_220000_remove_activity_details_cta',
+  },
+  {
+    up: migration_20260904_163000_event_seo_fields.up,
+    down: migration_20260904_163000_event_seo_fields.down,
+    name: '20260904_163000_event_seo_fields',
   },
 ]

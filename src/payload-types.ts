@@ -1975,6 +1975,13 @@ export interface Event {
    */
   audience?: string | null;
   /**
+   * Personalizza titolo e descrizione mostrati nei risultati di ricerca. Se lasci vuoto, vengono usati automaticamente i dati dell'evento.
+   */
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  /**
    * When enabled, the slug will auto-generate from the titolo campo on save and autosave.
    */
   generateSlug?: boolean | null;
@@ -6145,6 +6152,12 @@ export interface EventsSelect<T extends boolean = true> {
   venue?: T;
   venueAddress?: T;
   audience?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   generateSlug?: T;
   slug?: T;
   updatedAt?: T;

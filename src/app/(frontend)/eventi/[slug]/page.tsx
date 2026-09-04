@@ -266,12 +266,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const image = event.gallery.find((item) => typeof item.image === 'object')?.image
   const imageUrl =
     image && typeof image === 'object' ? getAbsoluteMediaUrl(image as MediaDocument) : undefined
-  const title = `${event.title} | ${copy.seo.siteName}`
+  const title = event.meta?.title?.trim() || `${event.title} | ${copy.seo.siteName}`
+  const description = event.meta?.description?.trim() || event.description
 
   return {
-    description: event.description,
+    description,
     openGraph: {
-      description: event.description,
+      description,
       images: imageUrl ? [{ url: imageUrl }] : undefined,
       title,
       url: `/eventi/${event.slug}`,

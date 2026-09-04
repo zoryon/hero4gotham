@@ -15,7 +15,16 @@ export const Events: CollectionConfig<'events'> = {
     update: adminOrEventsManager,
   },
   admin: {
-    defaultColumns: ['title', 'pinned', 'slug', 'activity', 'startsAt', 'endsAt', 'venue', 'updatedAt'],
+    defaultColumns: [
+      'title',
+      'pinned',
+      'slug',
+      'activity',
+      'startsAt',
+      'endsAt',
+      'venue',
+      'updatedAt',
+    ],
     description: 'Crea e aggiorna gli eventi pubblicati sul sito.',
     group: 'Contenuti',
     preview: (data) => (data?.slug ? `/eventi/${data.slug as string}` : null),
@@ -455,6 +464,29 @@ export const Events: CollectionConfig<'events'> = {
         description: 'Public/audience label shown on the generated event detail page.',
       },
       label: 'Pubblico',
+    },
+    {
+      name: 'meta',
+      type: 'group',
+      admin: {
+        description:
+          "Personalizza titolo e descrizione mostrati nei risultati di ricerca. Se lasci vuoto, vengono usati automaticamente i dati dell'evento.",
+      },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          label: 'Titolo SEO',
+          required: false,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Descrizione SEO',
+          required: false,
+        },
+      ],
+      label: 'SEO',
     },
     slugField(),
   ],
