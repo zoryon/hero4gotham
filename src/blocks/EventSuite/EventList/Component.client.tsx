@@ -70,7 +70,7 @@ type EventListPageResponse = {
 const batchSize = 4
 const visibleRows = 3
 const borderBleed = 11
-const eventDescriptionMaxCharacters = 75
+const eventDescriptionMaxCharacters = 100
 
 const truncateEventDescription = (description: string) => {
   const characters = Array.from(description)
