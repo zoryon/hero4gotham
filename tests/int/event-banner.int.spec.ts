@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 
-import { getEventBannerImage } from '@/app/(frontend)/eventi/[slug]/eventBanner'
+import {
+  getEventBannerImage,
+  getEventHeroClassName,
+} from '@/app/(frontend)/eventi/[slug]/eventBanner'
 import type { Event, Media } from '@/payload-types'
 
 describe('event detail banner', () => {
@@ -15,5 +18,7 @@ describe('event detail banner', () => {
 
     expect(getEventBannerImage(galleryWithoutBanner)).toBeNull()
     expect(getEventBannerImage(galleryWithBanner)).toBe(bannerImage)
+    expect(getEventHeroClassName(null)).toContain('event-detail-hero--without-banner')
+    expect(getEventHeroClassName(bannerImage)).not.toContain('event-detail-hero--without-banner')
   })
 })

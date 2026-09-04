@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { FormResultModal } from '@/components/FormResultModal'
 
 describe('FormResultModal', () => {
-  it('shows the submission result and lets the user close it', () => {
+  it('shows a minimal success result without repeating the configured message', () => {
     const onClose = vi.fn()
 
     render(
@@ -17,7 +17,8 @@ describe('FormResultModal', () => {
       }),
     )
 
-    expect(screen.getByRole('dialog').textContent).toContain('Messaggio inviato.')
+    expect(screen.getByRole('dialog').textContent).toContain('Invio riuscito')
+    expect(screen.getByRole('dialog').textContent).not.toContain('Messaggio inviato.')
     fireEvent.click(screen.getByRole('button', { name: 'Chiudi' }))
     expect(onClose).toHaveBeenCalledOnce()
   })

@@ -5,3 +5,6 @@ export const getEventBannerImage = (gallery: EventDocument['gallery']): MediaDoc
 
   return bannerItem && typeof bannerItem.image === 'object' ? bannerItem.image : null
 }
+
+export const getEventHeroClassName = (bannerImage: MediaDocument | null) =>
+  bannerImage ? 'event-detail-hero' : 'event-detail-hero event-detail-hero--without-banner'

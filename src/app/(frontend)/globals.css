@@ -498,6 +498,11 @@
     position: relative;
   }
 
+  .event-detail-hero--without-banner {
+    min-height: auto;
+    padding-bottom: 1.5rem;
+  }
+
   .event-detail-hero__copy {
     isolation: isolate;
     position: relative;

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
+import { normalizePreviewText } from '@/siteText/preview'
 import type { SiteTextControl, SiteTextDocument, SiteTextDocumentSummary } from '@/siteText/types'
 import './index.scss'
 
@@ -27,8 +28,6 @@ const deviceWidths: Record<Device, number | undefined> = {
   mobile: 390,
   tablet: 768,
 }
-
-const normalizeText = (value: string) => value.replace(/\s+/g, ' ').trim()
 
 const responseMessage = async (response: Response) => {
   const body = (await response.json().catch(() => ({}))) as { message?: string }
@@ -193,7 +192,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
 
     const controlsByText = new Map<string, SiteTextControl[]>()
     for (const control of document.controls) {
-      const value = normalizeText(control.value)
+      const value = normalizePreviewText(control.value)
       if (!value) continue
       controlsByText.set(value, [...(controlsByText.get(value) || []), control])
     }
@@ -204,7 +203,7 @@ export function SiteTextEditor({ initialIndex }: Props) {
     while (node) {
       const textNode = node as Text
       const parent = textNode.parentElement
-      const value = normalizeText(textNode.data)
+      const value = normalizePreviewText(textNode.data)
       if (
         parent &&
         value &&

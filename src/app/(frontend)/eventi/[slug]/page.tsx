@@ -17,7 +17,7 @@ import { cache, type ReactNode } from 'react'
 import { getPayload } from 'payload'
 import { getSiteCopy } from '@/utilities/siteCopy'
 
-import { getEventBannerImage } from './eventBanner'
+import { getEventBannerImage, getEventHeroClassName } from './eventBanner'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -70,7 +70,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       <SiteBackgroundFrame fallbackSettings={siteBackground} isFirstPageBlock settings={event}>
-        <header className="event-detail-hero">
+        <header className={getEventHeroClassName(bannerImage)}>
           <div className="container relative z-10 mt-2 flex min-h-[inherit] items-center pb-1 lg:mt-6">
             <div className="event-detail-hero__copy max-w-4xl pb-1">
               <Link

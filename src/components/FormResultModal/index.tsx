@@ -45,7 +45,7 @@ export const FormResultModal = ({ message, onClose, open, status }: Props) => {
 
   return createPortal(
     <div
-      aria-describedby={messageId}
+      aria-describedby={isSuccess ? undefined : messageId}
       aria-labelledby={titleId}
       aria-modal="true"
       className="fixed inset-0 z-[1000] grid place-items-center bg-black/60 p-4 backdrop-blur-[3px]"
@@ -80,11 +80,13 @@ export const FormResultModal = ({ message, onClose, open, status }: Props) => {
         </div>
 
         <h2 className="font-cinzel text-lg font-black uppercase" id={titleId}>
-          {isSuccess ? 'Invio completato' : 'Invio non riuscito'}
+          {isSuccess ? 'Invio riuscito' : 'Invio non riuscito'}
         </h2>
-        <div className="mt-3 text-sm leading-6 text-white/75" id={messageId}>
-          {message}
-        </div>
+        {!isSuccess ? (
+          <div className="mt-3 text-sm leading-6 text-white/75" id={messageId}>
+            {message}
+          </div>
+        ) : null}
         <button
           className="mt-6 min-h-10 rounded-full bg-white px-7 py-2 font-cinzel text-xs font-black uppercase text-[#17181d] transition hover:bg-white/85"
           onClick={onClose}
