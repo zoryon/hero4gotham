@@ -120,10 +120,7 @@ export const Activities: CollectionConfig<'activities'> = {
     useAsTitle: 'title',
   },
   defaultPopulate: {
-    cta: true,
-    ctaImage: true,
     description: true,
-    details: true,
     color: true,
     image: true,
     order: true,
@@ -169,42 +166,6 @@ export const Activities: CollectionConfig<'activities'> = {
       type: 'upload',
       label: 'Immagine attività',
       relationTo: 'media',
-    },
-    {
-      name: 'cta',
-      type: 'text',
-      label: 'Testo del pulsante',
-    },
-    {
-      name: 'ctaImage',
-      type: 'upload',
-      label: 'Immagine della fascia CTA',
-      relationTo: 'media',
-    },
-    {
-      name: 'details',
-      type: 'array',
-      admin: {
-        initCollapsed: true,
-      },
-      fields: [
-        {
-          name: 'icon',
-          type: 'upload',
-          label: 'Icona',
-          relationTo: 'media',
-        },
-        {
-          name: 'text',
-          type: 'text',
-          required: true,
-        },
-      ],
-      labels: {
-        plural: 'Small labels',
-        singular: 'Small label',
-      },
-      maxRows: 4,
     },
     {
       name: 'order',

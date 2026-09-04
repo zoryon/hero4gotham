@@ -71,11 +71,6 @@ export type EventSuiteTextStyle = {
 export type EventSuiteItem = {
   activity?:
     | {
-        details?:
-          | {
-              text?: null | string
-            }[]
-          | null
         color?: null | string
         shortName?: null | string
         title?: null | string

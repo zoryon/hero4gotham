@@ -549,19 +549,10 @@ export interface ActivitiesDetailGridBlock {
         imageSize?: number | null;
         title: string;
         description?: string | null;
-        cta?: string | null;
-        ctaImage?: (number | null) | Media;
         /**
          * Aggiunge il bordo vintage riutilizzabile a questa singola attivita.
          */
         border?: boolean | null;
-        details?:
-          | {
-              icon?: (number | null) | Media;
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
         titleStyle?: {
           fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
           fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
@@ -579,38 +570,6 @@ export interface ActivitiesDetailGridBlock {
           maxWidth?: number | null;
         };
         descriptionStyle?: {
-          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-          fontStyle?: ('normal' | 'italic') | null;
-          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-          fontSizeMobile?: number | null;
-          fontSizeDesktop?: number | null;
-          lineHeight?: number | null;
-          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-          /**
-           * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
-           */
-          color?: string | null;
-          maxWidth?: number | null;
-        };
-        detailStyle?: {
-          fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-          fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-          fontStyle?: ('normal' | 'italic') | null;
-          verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-          fontSizeMobile?: number | null;
-          fontSizeDesktop?: number | null;
-          lineHeight?: number | null;
-          letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-          textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-          /**
-           * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
-           */
-          color?: string | null;
-          maxWidth?: number | null;
-        };
-        ctaStyle?: {
           fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
           fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
           fontStyle?: ('normal' | 'italic') | null;
@@ -683,38 +642,6 @@ export interface ActivitiesDetailGridBlock {
     maxWidth?: number | null;
   };
   descriptionStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    fontStyle?: ('normal' | 'italic') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    fontSizeMobile?: number | null;
-    fontSizeDesktop?: number | null;
-    lineHeight?: number | null;
-    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    /**
-     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
-     */
-    color?: string | null;
-    maxWidth?: number | null;
-  };
-  detailStyle?: {
-    fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
-    fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
-    fontStyle?: ('normal' | 'italic') | null;
-    verticalScale?: ('normal' | 'tall' | 'poster' | 'extreme') | null;
-    fontSizeMobile?: number | null;
-    fontSizeDesktop?: number | null;
-    lineHeight?: number | null;
-    letterSpacing?: ('tight' | 'normal' | 'wide' | 'wider' | 'poster') | null;
-    textTransform?: ('normal' | 'sentenceCase' | 'uppercase') | null;
-    /**
-     * Colore CSS, ad esempio #90a434, white o rgba(255,255,255,0.85).
-     */
-    color?: string | null;
-    maxWidth?: number | null;
-  };
-  ctaStyle?: {
     fontFamily?: ('rye' | 'cinzel' | 'geistSans' | 'geistMono' | 'serif' | 'sans') | null;
     fontWeight?: ('regular' | 'medium' | 'semibold' | 'bold' | 'black') | null;
     fontStyle?: ('normal' | 'italic') | null;
@@ -2074,15 +2001,6 @@ export interface Activity {
   color?: string | null;
   description?: string | null;
   image?: (number | null) | Media;
-  cta?: string | null;
-  ctaImage?: (number | null) | Media;
-  details?:
-    | {
-        icon?: (number | null) | Media;
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
   /**
    * I numeri piu bassi appaiono prima nei blocchi attivita automatici.
    */
@@ -3901,16 +3819,7 @@ export interface ActivitiesDetailGridBlockSelect<T extends boolean = true> {
         imageSize?: T;
         title?: T;
         description?: T;
-        cta?: T;
-        ctaImage?: T;
         border?: T;
-        details?:
-          | T
-          | {
-              icon?: T;
-              text?: T;
-              id?: T;
-            };
         titleStyle?:
           | T
           | {
@@ -3927,36 +3836,6 @@ export interface ActivitiesDetailGridBlockSelect<T extends boolean = true> {
               maxWidth?: T;
             };
         descriptionStyle?:
-          | T
-          | {
-              fontFamily?: T;
-              fontWeight?: T;
-              fontStyle?: T;
-              verticalScale?: T;
-              fontSizeMobile?: T;
-              fontSizeDesktop?: T;
-              lineHeight?: T;
-              letterSpacing?: T;
-              textTransform?: T;
-              color?: T;
-              maxWidth?: T;
-            };
-        detailStyle?:
-          | T
-          | {
-              fontFamily?: T;
-              fontWeight?: T;
-              fontStyle?: T;
-              verticalScale?: T;
-              fontSizeMobile?: T;
-              fontSizeDesktop?: T;
-              lineHeight?: T;
-              letterSpacing?: T;
-              textTransform?: T;
-              color?: T;
-              maxWidth?: T;
-            };
-        ctaStyle?:
           | T
           | {
               fontFamily?: T;
@@ -4027,36 +3906,6 @@ export interface ActivitiesDetailGridBlockSelect<T extends boolean = true> {
         maxWidth?: T;
       };
   descriptionStyle?:
-    | T
-    | {
-        fontFamily?: T;
-        fontWeight?: T;
-        fontStyle?: T;
-        verticalScale?: T;
-        fontSizeMobile?: T;
-        fontSizeDesktop?: T;
-        lineHeight?: T;
-        letterSpacing?: T;
-        textTransform?: T;
-        color?: T;
-        maxWidth?: T;
-      };
-  detailStyle?:
-    | T
-    | {
-        fontFamily?: T;
-        fontWeight?: T;
-        fontStyle?: T;
-        verticalScale?: T;
-        fontSizeMobile?: T;
-        fontSizeDesktop?: T;
-        lineHeight?: T;
-        letterSpacing?: T;
-        textTransform?: T;
-        color?: T;
-        maxWidth?: T;
-      };
-  ctaStyle?:
     | T
     | {
         fontFamily?: T;
@@ -6233,15 +6082,6 @@ export interface ActivitiesSelect<T extends boolean = true> {
   color?: T;
   description?: T;
   image?: T;
-  cta?: T;
-  ctaImage?: T;
-  details?:
-    | T
-    | {
-        icon?: T;
-        text?: T;
-        id?: T;
-      };
   order?: T;
   updatedAt?: T;
   createdAt?: T;

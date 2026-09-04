@@ -81,7 +81,7 @@ const pageFields = new Set([
 
 const policies: Record<string, SourcePolicy> = {
   activities: {
-    fields: new Set(['cta', 'description', 'shortName', 'text', 'title']),
+    fields: new Set(['description', 'shortName', 'title']),
   },
   categories: {
     fields: new Set(['title']),

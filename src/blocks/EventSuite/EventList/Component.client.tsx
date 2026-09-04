@@ -458,7 +458,10 @@ export const EventListClient: React.FC<Props> = ({
                       )}
                     >
                       <span
-                        className={getEventSuiteTextClassName(monthStyle, 'black')}
+                        className={cn(
+                          getEventSuiteTextClassName(monthStyle, 'black'),
+                          'mt-3',
+                        )}
                         style={getEventSuiteTextStyle(monthStyle, {
                           fontFamily: 'cinzel',
                           fontSizeDesktop: 13,

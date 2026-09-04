@@ -27,21 +27,12 @@ type TextStyle =
   | ActivitiesDetailGridBlockProps['headingStyle']
   | ActivitiesDetailGridBlockProps['titleStyle']
   | ActivitiesDetailGridBlockProps['descriptionStyle']
-  | ActivitiesDetailGridBlockProps['detailStyle']
-  | ActivitiesDetailGridBlockProps['ctaStyle']
   | ManualActivity['titleStyle']
   | ManualActivity['descriptionStyle']
-  | ManualActivity['detailStyle']
-  | ManualActivity['ctaStyle']
 
-type ActivityCardData = Pick<
-  ActivityDocument,
-  'cta' | 'ctaImage' | 'description' | 'details' | 'image' | 'title'
-> & {
+type ActivityCardData = Pick<ActivityDocument, 'description' | 'image' | 'title'> & {
   border?: boolean | null
-  ctaStyle?: TextStyle | null
   descriptionStyle?: TextStyle | null
-  detailStyle?: TextStyle | null
   imagePosition?: ManualActivity['imagePosition'] | null
   imageSize?: number | null
   id?: number | string | null
@@ -49,10 +40,7 @@ type ActivityCardData = Pick<
 }
 
 const activitySelect = {
-  cta: true,
-  ctaImage: true,
   description: true,
-  details: true,
   image: true,
   order: true,
   title: true,
@@ -302,9 +290,7 @@ const ActivityCard: React.FC<{
   index: number
   panelBackgroundColor?: string | null
   contentPadding: number
-  sharedCtaStyle?: TextStyle | null
   sharedDescriptionStyle?: TextStyle | null
-  sharedDetailStyle?: TextStyle | null
   sharedTitleStyle?: TextStyle | null
 }> = ({
   activity,
@@ -314,16 +300,13 @@ const ActivityCard: React.FC<{
   imageDarkness,
   index,
   panelBackgroundColor,
-  sharedCtaStyle,
   sharedDescriptionStyle,
-  sharedDetailStyle,
   sharedTitleStyle,
 }) => {
   const image = getMedia(activity.image)
   const hasImage = Boolean(image)
   const imagePosition = activity.imagePosition || 'left'
   const imageFirst = imagePosition === 'left' || imagePosition === 'top'
-  const ctaBannerImage = getMedia(activity.ctaImage)
   const textPadding = `${contentPadding}px`
   const surfaceFadeSize = Math.max(24, Math.min(fadeSize || 44, 72))
   const darknessOpacity = Math.min(Math.max(imageDarkness, 0), 90) / 100
@@ -460,82 +443,6 @@ const ActivityCard: React.FC<{
           </span>
         </StyledText>
       ) : null}
-
-      {activity.details?.length ? (
-        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
-          {activity.details.map((detail, detailIndex) => {
-            const icon = getMedia(detail.icon)
-
-            return (
-              <div className="flex items-center gap-1.5" key={detail.id || detailIndex}>
-                {icon ? (
-                  <span className="relative inline-flex size-4 shrink-0">
-                    <Media
-                      fill
-                      imgClassName="object-contain"
-                      pictureClassName="absolute inset-0"
-                      resource={icon}
-                      size="16px"
-                    />
-                  </span>
-                ) : null}
-                <StyledText
-                  fallback={{
-                    color: '#d9d0c2',
-                    fontFamily: 'geistSans',
-                    fontSizeDesktop: 9,
-                    fontSizeMobile: 9,
-                    fontStyle: 'normal',
-                    fontWeight: 'bold',
-                    letterSpacing: 'tight',
-                    lineHeight: 1.1,
-                    maxWidth: 260,
-                    textTransform: 'uppercase',
-                    verticalScale: 'normal',
-                  }}
-                  prefix={`activity-detail-${index}-label-${detailIndex}`}
-                  styleConfig={activity.detailStyle || sharedDetailStyle}
-                >
-                  {detail.text}
-                </StyledText>
-              </div>
-            )
-          })}
-        </div>
-      ) : null}
-
-      {activity.cta ? (
-        <div className="relative mt-3 lg:mt-12 inline-flex w-fit overflow-hidden px-6 py-3">
-          {ctaBannerImage ? (
-            <Media
-              fill
-              imgClassName="object-cover object-center"
-              pictureClassName="absolute inset-0 -z-10"
-              resource={ctaBannerImage}
-              size="12rem"
-            />
-          ) : null}
-          <StyledText
-            fallback={{
-              color: '#f7f0df',
-              fontFamily: 'cinzel',
-              fontSizeDesktop: 10,
-              fontSizeMobile: 10,
-              fontStyle: 'normal',
-              fontWeight: 'black',
-              letterSpacing: 'tight',
-              lineHeight: 1,
-              maxWidth: 320,
-              textTransform: 'uppercase',
-              verticalScale: 'normal',
-            }}
-            prefix={`activity-detail-${index}-cta`}
-            styleConfig={activity.ctaStyle || sharedCtaStyle}
-          >
-            {activity.cta}
-          </StyledText>
-        </div>
-      ) : null}
     </div>
   )
 
@@ -603,9 +510,7 @@ export const ActivitiesDetailGridBlock = async ({
   cellMinHeight = 240,
   containerWidth = 'wide',
   contentPadding = 22,
-  ctaStyle,
   descriptionStyle,
-  detailStyle,
   dividerColor,
   gridGap = 0,
   heading,
@@ -673,9 +578,7 @@ export const ActivitiesDetailGridBlock = async ({
       index={index}
       key={activity.id || index}
       panelBackgroundColor={panelBg}
-      sharedCtaStyle={ctaStyle}
       sharedDescriptionStyle={descriptionStyle}
-      sharedDetailStyle={detailStyle}
       sharedTitleStyle={titleStyle}
     />
   )

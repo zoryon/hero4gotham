@@ -358,7 +358,7 @@ export const UpcomingEventsBlock = async ({
                           </div>
                           <div
                             className={getTextClassName({
-                              base: 'mt-0',
+                              base: 'mt-3',
                               fontSize: dateMonthFontSize,
                               fontWeight: dateMonthFontWeight,
                               letterSpacing: dateMonthLetterSpacing,
