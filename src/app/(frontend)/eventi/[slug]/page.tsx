@@ -18,6 +18,7 @@ import { getPayload } from 'payload'
 import { getSiteCopy } from '@/utilities/siteCopy'
 
 import { getEventBannerImage, getEventHeroClassName } from './eventBanner'
+import { EventScheduleHeading } from './EventScheduleHeading'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -159,11 +160,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
           {timelineItems.length > 0 ? (
             <section className="event-detail-section mt-14">
-              <SectionHeading
-                eyebrow={copy.eventDetail.scheduleEyebrow}
-                title={copy.eventDetail.scheduleTitle}
-                titleClassName="font-rye-western text-[var(--theme-text-green)]"
-              />
+              <EventScheduleHeading title={copy.eventDetail.scheduleEyebrow} />
               <ol className="event-detail-timeline mt-6 max-w-4xl">
                 {timelineItems.map((item, index) => (
                   <li
