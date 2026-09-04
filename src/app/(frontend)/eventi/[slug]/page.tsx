@@ -71,7 +71,12 @@ export default async function EventPage({ params: paramsPromise }: Args) {
 
       <SiteBackgroundFrame fallbackSettings={siteBackground} isFirstPageBlock settings={event}>
         <header className={getEventHeroClassName(bannerImage)}>
-          <div className="container relative z-10 mt-2 flex min-h-[inherit] items-center pb-1 lg:mt-6">
+          <div
+            className={cn(
+              'container relative z-10 flex min-h-[inherit] items-center pb-1',
+              bannerImage ? 'mt-2 lg:mt-6' : 'mt-6 lg:mt-10',
+            )}
+          >
             <div className="event-detail-hero__copy max-w-4xl pb-1">
               <Link
                 className="mb-7 inline-flex items-center gap-2 font-cinzel text-xs font-black uppercase leading-none text-[var(--theme-text-green)] underline decoration-[var(--theme-text-green)]/55 underline-offset-4 transition hover:text-[var(--theme-text-accent)]"
