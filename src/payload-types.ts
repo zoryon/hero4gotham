@@ -2003,6 +2003,10 @@ export interface Activity {
    */
   shortName: string;
   /**
+   * Se selezionato, questa attività non compare nella legenda del calendario.
+   */
+  hideFromCalendarLegend?: boolean | null;
+  /**
    * Colore randomico fisso usato dai marker e dalla legenda del calendario eventi. Generato automaticamente.
    */
   color?: string | null;
@@ -6086,6 +6090,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface ActivitiesSelect<T extends boolean = true> {
   title?: T;
   shortName?: T;
+  hideFromCalendarLegend?: T;
   color?: T;
   description?: T;
   image?: T;

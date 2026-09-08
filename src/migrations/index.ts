@@ -71,6 +71,8 @@ import * as migration_20260903_200000_event_date_ranges from './20260903_200000_
 import * as migration_20260903_220000_remove_activity_details_cta from './20260903_220000_remove_activity_details_cta'
 import * as migration_20260904_163000_event_seo_fields from './20260904_163000_event_seo_fields'
 
+import * as migration_20260908_100000_activity_calendar_legend_visibility from './20260908_100000_activity_calendar_legend_visibility'
+
 export const migrations = [
   {
     up: migration_20260430_211638_three_panel_showcase.up,
@@ -431,5 +433,10 @@ export const migrations = [
     up: migration_20260904_163000_event_seo_fields.up,
     down: migration_20260904_163000_event_seo_fields.down,
     name: '20260904_163000_event_seo_fields',
+  },
+  {
+    up: migration_20260908_100000_activity_calendar_legend_visibility.up,
+    down: migration_20260908_100000_activity_calendar_legend_visibility.down,
+    name: '20260908_100000_activity_calendar_legend_visibility',
   },
 ]

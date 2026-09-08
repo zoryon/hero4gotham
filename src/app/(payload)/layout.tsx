@@ -5,6 +5,7 @@ import '@payloadcms/next/css'
 import type { ServerFunctionClient } from 'payload'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import React from 'react'
+import { getTouchSafeFolderResults } from '@/components/FolderPickerCards/server'
 
 import { importMap } from './control-room-h4g/importMap.js'
 import './custom.scss'
@@ -19,6 +20,9 @@ const serverFunction: ServerFunctionClient = async function (args) {
     ...args,
     config,
     importMap,
+    serverFunctions: {
+      'get-folder-results-component-and-data': getTouchSafeFolderResults,
+    },
   })
 }
 

@@ -33,6 +33,7 @@ type CalendarEventResult = {
 
 type CalendarActivityResult = {
   color?: null | string
+  hideFromCalendarLegend?: boolean | null
   id: number | string
   shortName?: null | string
   title?: null | string
@@ -133,6 +134,7 @@ export const getEventCalendarLegendItems = unstable_cache(
       pagination: false,
       select: {
         color: true,
+        hideFromCalendarLegend: true,
         order: true,
         shortName: true,
         title: true,
@@ -140,13 +142,15 @@ export const getEventCalendarLegendItems = unstable_cache(
       sort: 'order',
     })
 
-    return (result.docs as CalendarActivityResult[]).map((activity) => ({
-      color: activity.color || null,
-      id: activity.id,
-      label: activity.shortName || activity.title || 'Evento',
-    }))
+    return (result.docs as CalendarActivityResult[])
+      .filter((activity) => activity.hideFromCalendarLegend !== true)
+      .map((activity) => ({
+        color: activity.color || null,
+        id: activity.id,
+        label: activity.shortName || activity.title || 'Evento',
+      }))
   },
-  ['event-calendar-legend-items'],
+  ['event-calendar-legend-items-v2'],
   {
     revalidate: 300,
     tags: ['activities'],

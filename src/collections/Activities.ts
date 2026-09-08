@@ -5,11 +5,7 @@ import type {
   CollectionConfig,
 } from 'payload'
 
-import {
-  adminOnly,
-  adminOrEventsManager,
-  hideFromNonAdminOrEventsManagers,
-} from '@/access/roles'
+import { adminOnly, adminOrEventsManager, hideFromNonAdminOrEventsManagers } from '@/access/roles'
 import { revalidateTag } from 'next/cache'
 
 export const activityColorPalette = [
@@ -141,6 +137,15 @@ export const Activities: CollectionConfig<'activities'> = {
       },
       label: 'Nome breve',
       required: true,
+    },
+    {
+      name: 'hideFromCalendarLegend',
+      type: 'checkbox',
+      label: 'Nascondi nella legenda del calendario',
+      defaultValue: false,
+      admin: {
+        description: 'Se selezionato, questa attività non compare nella legenda del calendario.',
+      },
     },
     {
       name: 'color',

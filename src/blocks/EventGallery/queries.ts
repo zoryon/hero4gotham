@@ -123,7 +123,7 @@ export const getEventGalleryPage = async ({
       startsAt: true,
       title: true,
     },
-    sort: 'startsAt',
+    sort: '-startsAt',
     where: buildEventWhere(filters),
   })
   const albums = (result.docs as EventSuiteItem[]).flatMap((event) => {
