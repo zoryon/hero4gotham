@@ -79,7 +79,16 @@ const loadPageMedia = async (payload: Payload, rows: { imageId: number }[]) => {
     depth: 0,
     limit: ids.length,
     where: { id: { in: ids } },
-    select: { alt: true, height: true, mimeType: true, updatedAt: true, url: true, width: true },
+    // Payload's upload afterRead hook needs filename to generate the public URL.
+    select: {
+      alt: true,
+      filename: true,
+      height: true,
+      mimeType: true,
+      updatedAt: true,
+      url: true,
+      width: true,
+    },
   })
   return new Map(result.docs.map((image) => [image.id, getGalleryMedia(image)]))
 }

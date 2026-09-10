@@ -8,7 +8,7 @@ type Props = React.ComponentProps<typeof EventGalleryClient>
 
 const getInitialGalleryPage = unstable_cache(
   async (photosPerPage: number) => getEventGalleryPage({ page: 1, photosPerPage }),
-  ['event-gallery-initial'],
+  ['event-gallery-initial-v2'],
   {
     revalidate: 300,
     tags: ['events'],
