@@ -1,8 +1,8 @@
-import { buildEventWhere } from '@/blocks/EventSuite/eventWhere'
 import type { EventFilterParams } from '@/blocks/EventSuite/filters'
-import type { EventSuiteItem, EventSuiteMedia } from '@/blocks/EventSuite/shared'
+import type { EventSuiteMedia } from '@/blocks/EventSuite/shared'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, type Payload } from 'payload'
+import { buildAlbumPageQuery, buildPhotoPageQuery } from './sql'
 
 export const eventGalleryDefaultPageSize = 9
 
@@ -40,7 +40,12 @@ const getMediaRatio = (image: EventSuiteMedia) => {
   return width > 0 && height > 0 ? width / height : 4 / 3
 }
 
-const getGalleryMedia = (image: EventSuiteMedia): EventSuiteMedia =>
+const getGalleryMedia = (
+  image: Pick<
+    EventSuiteMedia,
+    'alt' | 'height' | 'id' | 'mimeType' | 'updatedAt' | 'url' | 'width'
+  >,
+): EventSuiteMedia =>
   ({
     alt: image.alt,
     height: image.height,
@@ -51,51 +56,33 @@ const getGalleryMedia = (image: EventSuiteMedia): EventSuiteMedia =>
     width: image.width,
   }) as EventSuiteMedia
 
-const getPopulatedGallery = (event: EventSuiteItem) =>
-  (event.gallery || []).flatMap((item, index) => {
-    const image = item.image && typeof item.image === 'object' ? item.image : null
-
-    return image ? [{ ...item, image, index }] : []
-  })
-
-const hasGalleryPhotosBeyondArtwork = (event: EventSuiteItem) => {
-  const gallery = getPopulatedGallery(event)
-  const coverItem = gallery.find((item) => item.isCover) || gallery[0]
-  const bannerItem = gallery.find((item) => item.isBanner) || gallery[0]
-
-  return gallery.some((item) => item !== coverItem && item !== bannerItem)
+type PhotoRow = { id: string; imageId: number }
+type AlbumRow = {
+  id: number
+  imageId: number
+  title: string
+  startsAt: Date | string
+  endsAt: Date | string | null
 }
 
-const toAlbum = (event: EventSuiteItem): EventGalleryAlbum | null => {
-  const gallery = getPopulatedGallery(event)
-  const coverItem = gallery.find((item) => item.isCover) || gallery[0]
+const getSafePageSize = (value: number) =>
+  Number.isFinite(value) ? Math.max(1, Math.min(Math.floor(value || 9), 24)) : 9
+const getSafePage = (value: number) =>
+  Number.isFinite(value) ? Math.max(1, Math.floor(value || 1)) : 1
+const toISOString = (value: Date | string) => new Date(value).toISOString()
 
-  if (!coverItem) return null
-
-  const cover = getGalleryMedia(coverItem.image)
-
-  return {
-    cover,
-    endsAt: event.endsAt,
-    eventId: event.id,
-    ratio: getMediaRatio(coverItem.image),
-    startsAt: event.startsAt,
-    title: event.title,
-  }
-}
-
-const toPhotos = (event: EventSuiteItem): EventGalleryPhoto[] =>
-  getPopulatedGallery(event).map((item) => {
-    const image = getGalleryMedia(item.image)
-
-    return {
-      id: `${event.id}-${item.id || image.id || item.index}`,
-      image,
-      ratio: getMediaRatio(item.image),
-    }
+const loadPageMedia = async (payload: Payload, rows: { imageId: number }[]) => {
+  if (!rows.length) return new Map<number, EventSuiteMedia>()
+  const ids = [...new Set(rows.map((row) => row.imageId))]
+  const result = await payload.find({
+    collection: 'media',
+    depth: 0,
+    limit: ids.length,
+    where: { id: { in: ids } },
+    select: { alt: true, height: true, mimeType: true, updatedAt: true, url: true, width: true },
   })
-
-const getSafePageSize = (pageSize: number) => Math.max(Math.min(pageSize || 9, 24), 1)
+  return new Map(result.docs.map((image) => [image.id, getGalleryMedia(image)]))
+}
 
 export const getEventGalleryPage = async ({
   filters,
@@ -107,40 +94,33 @@ export const getEventGalleryPage = async ({
   photosPerPage: number
 }): Promise<EventGalleryAlbumPage> => {
   const payload = await getPayload({ config: configPromise })
-  const safePage = Math.max(page || 1, 1)
+  const safePage = getSafePage(page)
   const safePageSize = getSafePageSize(photosPerPage)
-  const result = await payload.find({
-    collection: 'events',
-    depth: 1,
-    pagination: false,
-    select: {
-      gallery: {
-        image: true,
-        isBanner: true,
-        isCover: true,
-      },
-      endsAt: true,
-      startsAt: true,
-      title: true,
-    },
-    sort: '-startsAt',
-    where: buildEventWhere(filters),
+  // Eligibility and pagination run in PostgreSQL; only this page's covers are populated.
+  // Events are publicly readable; media loading retains the existing Local API access behavior.
+  const result = await payload.db.drizzle.execute(
+    buildAlbumPageQuery(filters, safePageSize + 1, (safePage - 1) * safePageSize),
+  )
+  const rows = result.rows as AlbumRow[]
+  const pageRows = rows.slice(0, safePageSize)
+  const media = await loadPageMedia(payload, pageRows)
+  const albums = pageRows.flatMap((row): EventGalleryAlbum[] => {
+    const cover = media.get(row.imageId)
+    return cover
+      ? [
+          {
+            cover,
+            endsAt: row.endsAt ? toISOString(row.endsAt) : null,
+            eventId: row.id,
+            ratio: getMediaRatio(cover),
+            startsAt: toISOString(row.startsAt),
+            title: row.title,
+          },
+        ]
+      : []
   })
-  const albums = (result.docs as EventSuiteItem[]).flatMap((event) => {
-    if (!hasGalleryPhotosBeyondArtwork(event)) return []
-
-    const album = toAlbum(event)
-    return album ? [album] : []
-  })
-  const start = (safePage - 1) * safePageSize
-  const end = start + safePageSize
-  const hasNextPage = end < albums.length
-
-  return {
-    albums: albums.slice(start, end),
-    hasNextPage,
-    nextPage: hasNextPage ? safePage + 1 : null,
-  }
+  const hasNextPage = rows.length > safePageSize
+  return { albums, hasNextPage, nextPage: hasNextPage ? safePage + 1 : null }
 }
 
 export const getEventGalleryPhotosPage = async ({
@@ -153,26 +133,18 @@ export const getEventGalleryPhotosPage = async ({
   photosPerPage: number
 }): Promise<EventGalleryPhotoPage> => {
   const payload = await getPayload({ config: configPromise })
-  const safePage = Math.max(page || 1, 1)
+  const safePage = getSafePage(page)
   const safePageSize = getSafePageSize(photosPerPage)
-  const event = (await payload.findByID({
-    collection: 'events',
-    depth: 1,
-    id: eventId,
-    select: {
-      gallery: {
-        image: true,
-      },
-    },
-  })) as EventSuiteItem
-  const allPhotos = toPhotos(event)
-  const start = (safePage - 1) * safePageSize
-  const end = start + safePageSize
-  const hasNextPage = end < allPhotos.length
-
-  return {
-    hasNextPage,
-    nextPage: hasNextPage ? safePage + 1 : null,
-    photos: allPhotos.slice(start, end),
-  }
+  const result = await payload.db.drizzle.execute(
+    buildPhotoPageQuery(eventId, safePageSize + 1, (safePage - 1) * safePageSize),
+  )
+  const rows = result.rows as PhotoRow[]
+  const pageRows = rows.slice(0, safePageSize)
+  const media = await loadPageMedia(payload, pageRows)
+  const photos = pageRows.flatMap((row): EventGalleryPhoto[] => {
+    const image = media.get(row.imageId)
+    return image ? [{ id: `${eventId}-${row.id}`, image, ratio: getMediaRatio(image) }] : []
+  })
+  const hasNextPage = rows.length > safePageSize
+  return { photos, hasNextPage, nextPage: hasNextPage ? safePage + 1 : null }
 }
