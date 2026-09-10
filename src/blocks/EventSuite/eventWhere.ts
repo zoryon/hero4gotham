@@ -14,9 +14,9 @@ type BuildEventWhereOptions = {
 const hasActiveFilters = (filters: EventFilterParams) =>
   Boolean(
     filters.date ||
-      filters.query ||
-      filters.venue ||
-      (filters.activityId && filters.activityId !== 'all'),
+    filters.query ||
+    filters.venue ||
+    (filters.activityId && filters.activityId !== 'all'),
   )
 
 export const buildEventWhere = (
@@ -26,6 +26,7 @@ export const buildEventWhere = (
   const normalizedFilters = normalizeEventFilterParams(filters)
   const clauses: Where[] = []
   const selectedDateRange = getDateRangeFromFilterValue(normalizedFilters.date)
+  const selectedEndDateRange = getDateRangeFromFilterValue(normalizedFilters.dateTo)
 
   if (options.futureOnlyWhenUnfiltered && !hasActiveFilters(normalizedFilters)) {
     const today = getEventDayStart(options.now || new Date()).toISOString()
@@ -33,10 +34,7 @@ export const buildEventWhere = (
       or: [
         { endsAt: { greater_than_equal: today } },
         {
-          and: [
-            { endsAt: { exists: false } },
-            { startsAt: { greater_than_equal: today } },
-          ],
+          and: [{ endsAt: { exists: false } }, { startsAt: { greater_than_equal: today } }],
         },
       ],
     })
@@ -45,7 +43,7 @@ export const buildEventWhere = (
   if (selectedDateRange) {
     clauses.push({
       and: [
-        { startsAt: { less_than: selectedDateRange.end.toISOString() } },
+        { startsAt: { less_than: (selectedEndDateRange || selectedDateRange).end.toISOString() } },
         {
           or: [
             { endsAt: { greater_than_equal: selectedDateRange.start.toISOString() } },

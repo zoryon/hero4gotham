@@ -6,6 +6,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 export type EventFilterState = {
   activityId: 'all' | number
   date: string
+  dateTo: string
   query: string
   venue: string
 }
@@ -13,7 +14,7 @@ export type EventFilterState = {
 type EventFiltersContextValue = EventFilterState & {
   clearFilters: () => void
   setActivityId: (activityId: EventFilterState['activityId']) => void
-  setDate: (date: string) => void
+  setDateRange: (date: string, dateTo: string) => void
   setQuery: (query: string) => void
   setVenue: (venue: string) => void
 }
@@ -21,6 +22,7 @@ type EventFiltersContextValue = EventFilterState & {
 const initialEventFilters: EventFilterState = {
   activityId: 'all',
   date: '',
+  dateTo: '',
   query: '',
   venue: '',
 }
@@ -38,6 +40,7 @@ export const EventFiltersProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setFilters({
       activityId: typeof urlFilters.activityId === 'number' ? urlFilters.activityId : 'all',
       date: urlFilters.date || '',
+      dateTo: urlFilters.dateTo || '',
       query: urlFilters.query || '',
       venue: urlFilters.venue || '',
     })
@@ -48,7 +51,7 @@ export const EventFiltersProvider: React.FC<{ children: React.ReactNode }> = ({ 
       ...filters,
       clearFilters: () => setFilters(initialEventFilters),
       setActivityId: (activityId) => setFilters((current) => ({ ...current, activityId })),
-      setDate: (date) => setFilters((current) => ({ ...current, date })),
+      setDateRange: (date, dateTo) => setFilters((current) => ({ ...current, date, dateTo })),
       setQuery: (query) => setFilters((current) => ({ ...current, query })),
       setVenue: (venue) => setFilters((current) => ({ ...current, venue })),
     }),

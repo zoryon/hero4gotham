@@ -108,7 +108,7 @@ export const EventGalleryClient: React.FC<Props> = ({
   const albumScrollPositionRef = useRef(0)
   const galleryRef = useRef<HTMLDivElement | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
-  const { activityId, date, query, venue } = useEventFilters()
+  const { activityId, date, dateTo, query, venue } = useEventFilters()
   const debouncedQuery = useDebounce(query, 250)
   const hasMountedRef = useRef(false)
   const requestKeyRef = useRef('')
@@ -117,10 +117,11 @@ export const EventGalleryClient: React.FC<Props> = ({
       normalizeEventFilterParams({
         activityId,
         date,
+        dateTo,
         query: debouncedQuery,
         venue,
       }),
-    [activityId, date, debouncedQuery, venue],
+    [activityId, date, dateTo, debouncedQuery, venue],
   )
   const visibleItems = selectedAlbum ? photoItems : albumItems
   const hasNextPage = selectedAlbum ? photoHasNextPage : albumHasNextPage

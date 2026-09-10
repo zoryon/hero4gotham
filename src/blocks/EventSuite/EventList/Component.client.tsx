@@ -113,7 +113,7 @@ export const EventListClient: React.FC<Props> = ({
   const [totalPages, setTotalPages] = useState(initialTotalPages)
   const [hasScrolled, setHasScrolled] = useState(false)
   const [paginationFrameHeight, setPaginationFrameHeight] = useState<null | number>(null)
-  const { activityId, date, query, venue } = useEventFilters()
+  const { activityId, date, dateTo, query, venue } = useEventFilters()
   const debouncedQuery = useDebounce(query, 250)
   const loadingPageRef = useRef(false)
   const hasMountedRef = useRef(false)
@@ -129,10 +129,11 @@ export const EventListClient: React.FC<Props> = ({
       normalizeEventFilterParams({
         activityId,
         date,
+        dateTo,
         query: debouncedQuery,
         venue,
       }),
-    [activityId, date, debouncedQuery, venue],
+    [activityId, date, dateTo, debouncedQuery, venue],
   )
 
   useEffect(() => {
@@ -458,10 +459,7 @@ export const EventListClient: React.FC<Props> = ({
                       )}
                     >
                       <span
-                        className={cn(
-                          getEventSuiteTextClassName(monthStyle, 'black'),
-                          'mt-3',
-                        )}
+                        className={cn(getEventSuiteTextClassName(monthStyle, 'black'), 'mt-3')}
                         style={getEventSuiteTextStyle(monthStyle, {
                           fontFamily: 'cinzel',
                           fontSizeDesktop: 13,

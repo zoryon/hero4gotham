@@ -194,6 +194,29 @@ select,
   border-radius: 4px;
 }
 
+// On iOS, body-scroll-lock checks the dialog's scroll position. Keep the
+// destination picker scrolling on that dialog, rather than a nested element.
+.drawer:has(.move-folder-drawer) {
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+
+  > .drawer__content {
+    align-self: flex-start;
+    min-height: 100%;
+    overflow: visible;
+
+    > .drawer__content-children {
+      height: auto;
+      overflow: visible;
+    }
+  }
+
+  .move-folder-drawer__body-section {
+    overflow: visible;
+  }
+}
+
 .h4g-folder-picker {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));

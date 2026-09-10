@@ -192,8 +192,18 @@ export const EventFiltersClient: React.FC<Props> = ({
   venues,
 }) => {
   const copy = useSiteCopy()
-  const { activityId, date, query, setActivityId, setDate, setQuery, setVenue, venue } =
-    useEventFilters()
+  const {
+    activityId,
+    date,
+    dateTo,
+    query,
+    setActivityId,
+    setDateRange,
+    setQuery,
+    setVenue,
+    venue,
+  } = useEventFilters()
+  const [pendingDate, setPendingDate] = React.useState<string | null>(null)
   const filtersRef = React.useRef<HTMLElement>(null)
   const [activeDropdown, setActiveDropdown] = React.useState<ActiveDropdown>(null)
   const [calendarMonth, setCalendarMonth] = React.useState(() =>
@@ -221,8 +231,9 @@ export const EventFiltersClient: React.FC<Props> = ({
     allEventsLabel
   const uniqueVenues = Array.from(new Set(venues.filter(Boolean)))
   const selectedDate = getDateFromValue(date)
+  const selectedEndDate = getDateFromValue(dateTo || date)
   const selectedDateLabel = selectedDate
-    ? dateDisplayFormatter.format(selectedDate)
+    ? `${dateDisplayFormatter.format(selectedDate)} – ${dateDisplayFormatter.format(selectedEndDate || selectedDate)}`
     : 'Tutte le date'
   const selectedDateValue = selectedDate ? getDateValue(selectedDate) : ''
   const todayValue = getDateValue(new Date())
@@ -434,7 +445,10 @@ export const EventFiltersClient: React.FC<Props> = ({
             aria-expanded={activeDropdown === 'date'}
             aria-label={dateLabel}
             className={controlButtonClassName}
-            onClick={() => setActiveDropdown((current) => (current === 'date' ? null : 'date'))}
+            onClick={() => {
+              setPendingDate(null)
+              setActiveDropdown((current) => (current === 'date' ? null : 'date'))
+            }}
             style={controlTextStyles}
             type="button"
           >
@@ -457,6 +471,29 @@ export const EventFiltersClient: React.FC<Props> = ({
               className="absolute left-0 top-[calc(100%+0.5rem)] z-50 w-[min(20rem,calc(100vw-2rem))] overflow-hidden border sm:w-[min(22rem,calc(100vw-2rem))]"
               style={menuPanelStyles}
             >
+              <div className="border-b border-white/10 px-3 py-2" style={controlTextStyles}>
+                <div className="grid grid-cols-2 gap-3">
+                  <span>
+                    Dal:{' '}
+                    {pendingDate
+                      ? dateDisplayFormatter.format(getDateFromValue(pendingDate)!)
+                      : selectedDate
+                        ? dateDisplayFormatter.format(selectedDate)
+                        : '—'}
+                  </span>
+                  <span>
+                    Al:{' '}
+                    {pendingDate
+                      ? '—'
+                      : selectedEndDate
+                        ? dateDisplayFormatter.format(selectedEndDate)
+                        : '—'}
+                  </span>
+                </div>
+                <p aria-live="polite" className="mb-0 mt-2 text-sm">
+                  {pendingDate ? 'Seleziona la data di fine' : 'Seleziona la data di inizio'}
+                </p>
+              </div>
               <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-center border-b border-white/10 bg-[#242424]">
                 <button
                   aria-label={copy.eventSuite.calendarPreviousMonth}
@@ -502,12 +539,20 @@ export const EventFiltersClient: React.FC<Props> = ({
                 ))}
                 {calendarCells.map((cell) => {
                   const cellValue = getDateValue(cell.date)
-                  const isSelected = cellValue === selectedDateValue
+                  const isSelected = pendingDate
+                    ? cellValue === pendingDate
+                    : Boolean(
+                        selectedDateValue &&
+                        cellValue >= selectedDateValue &&
+                        cellValue <= (dateTo || date),
+                      )
                   const isToday = cellValue === todayValue
 
                   return (
                     <button
                       key={cellValue}
+                      aria-label={dateDisplayFormatter.format(cell.date)}
+                      aria-pressed={isSelected}
                       className={cn(
                         'grid h-9 place-items-center border-0 border-r border-t border-white/10 bg-transparent px-0 text-center outline-none transition hover:bg-[#2b2b2b] focus:bg-[#2b2b2b] focus:outline-none focus-visible:outline-none focus-visible:ring-0 [&:nth-child(7n)]:border-r-0',
                         isSelected && 'bg-[#3a3a3a]',
@@ -518,8 +563,14 @@ export const EventFiltersClient: React.FC<Props> = ({
                         ),
                       )}
                       onClick={() => {
-                        setDate(cellValue)
-                        setActiveDropdown(null)
+                        if (!pendingDate) {
+                          setPendingDate(cellValue)
+                        } else {
+                          const [start, end] = [pendingDate, cellValue].sort()
+                          setDateRange(start, end)
+                          setPendingDate(null)
+                          setActiveDropdown(null)
+                        }
                       }}
                       style={{
                         ...controlTextStyles,
@@ -547,7 +598,8 @@ export const EventFiltersClient: React.FC<Props> = ({
               <button
                 className={cn(menuButtonClassName, 'border-t border-white/10 bg-[#1f1f1f]')}
                 onClick={() => {
-                  setDate('')
+                  setDateRange('', '')
+                  setPendingDate(null)
                   setActiveDropdown(null)
                 }}
                 style={controlTextStyles}
