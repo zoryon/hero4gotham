@@ -110,7 +110,7 @@ export default async function EventPage({ params: paramsPromise }: Args) {
         <div className="container pb-16 pt-0">
           {bannerImage ? (
             <section className="event-detail-banner scribble-border mb-5 md:mb-6">
-              <div className="relative aspect-[16/7] min-h-[10rem] md:aspect-[21/6] md:min-h-0">
+              <div className="relative aspect-[16/7] min-h-[10rem] w-full md:aspect-[21/6] md:min-h-0">
                 <Media
                   fill
                   imgClassName="object-cover object-center"
