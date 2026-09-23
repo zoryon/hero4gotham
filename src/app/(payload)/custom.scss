@@ -181,10 +181,25 @@ select,
 // Keep the activity picker compact: its options scroll inside the dropdown
 // instead of extending the event form and forcing the page to scroll.
 .h4g-event-activity-field {
+  .rs__menu {
+    border: 2px solid var(--theme-elevation-300);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
   .rs__menu-list {
-    max-height: min(280px, 50vh) !important;
+    // Four options at 44px each.
+    max-height: min(176px, 50vh) !important;
     overflow-y: auto !important;
     overscroll-behavior-y: contain;
+    scrollbar-color: var(--theme-elevation-400) var(--theme-elevation-100);
+    scrollbar-width: auto;
+  }
+
+  .rs__option {
+    align-items: center;
+    display: flex;
+    min-height: 44px;
   }
 }
 
