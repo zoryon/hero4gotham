@@ -70,9 +70,6 @@ export const Events: CollectionConfig<'events'> = {
       type: 'relationship',
       admin: {
         className: 'h4g-event-activity-field',
-        components: {
-          Field: '@/components/ActivityRelationshipField#ActivityRelationshipField',
-        },
         description: 'Activity used by the event filters.',
       },
       label: 'Attività',
