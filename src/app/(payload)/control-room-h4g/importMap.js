@@ -18,6 +18,7 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugField as SlugField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { ActivityTouchScrollGuard as ActivityTouchScrollGuard_41a1ef29e44d20e3267b70f8e147f4ea } from '@/components/ActivityRelationshipField'
 import { ExclusiveGalleryCheckboxField as ExclusiveGalleryCheckboxField_1d5e68213bad6723cbe6d17ac5f9eba7 } from '@/components/ExclusiveGalleryCheckboxField'
 import { LockedVariableTextField as LockedVariableTextField_1236973199754b26057340b82649d895 } from '@/components/LockedVariableFields'
 import { LockedVariableSelectField as LockedVariableSelectField_1236973199754b26057340b82649d895 } from '@/components/LockedVariableFields'
@@ -58,6 +59,7 @@ export const importMap = {
   "@payloadcms/next/client#SlugField": SlugField_2b8867833a34864a02ddf429b0728a40,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/ActivityRelationshipField#ActivityTouchScrollGuard": ActivityTouchScrollGuard_41a1ef29e44d20e3267b70f8e147f4ea,
   "@/components/ExclusiveGalleryCheckboxField#ExclusiveGalleryCheckboxField": ExclusiveGalleryCheckboxField_1d5e68213bad6723cbe6d17ac5f9eba7,
   "@/components/LockedVariableFields#LockedVariableTextField": LockedVariableTextField_1236973199754b26057340b82649d895,
   "@/components/LockedVariableFields#LockedVariableSelectField": LockedVariableSelectField_1236973199754b26057340b82649d895,

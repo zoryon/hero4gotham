@@ -70,6 +70,11 @@ export const Events: CollectionConfig<'events'> = {
       type: 'relationship',
       admin: {
         className: 'h4g-event-activity-field',
+        components: {
+          beforeInput: [
+            '@/components/ActivityRelationshipField#ActivityTouchScrollGuard',
+          ],
+        },
         description: 'Activity used by the event filters.',
       },
       label: 'Attività',

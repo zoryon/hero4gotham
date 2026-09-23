@@ -192,7 +192,7 @@ select,
     max-height: min(176px, 50vh) !important;
     overflow-y: auto !important;
     overflow-anchor: none;
-    overscroll-behavior-y: contain;
+    overscroll-behavior-y: none;
     scroll-behavior: auto;
     scrollbar-color: var(--theme-elevation-400) var(--theme-elevation-100);
     scrollbar-width: auto;
