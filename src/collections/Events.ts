@@ -69,6 +69,7 @@ export const Events: CollectionConfig<'events'> = {
       name: 'activity',
       type: 'relationship',
       admin: {
+        className: 'h4g-event-activity-field',
         description: 'Activity used by the event filters.',
       },
       label: 'Attività',

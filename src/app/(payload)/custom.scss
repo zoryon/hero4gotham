@@ -178,6 +178,16 @@ select,
   line-height: 1.45;
 }
 
+// Keep the activity picker compact: its options scroll inside the dropdown
+// instead of extending the event form and forcing the page to scroll.
+.h4g-event-activity-field {
+  .rs__menu-list {
+    max-height: min(280px, 50vh) !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+  }
+}
+
 .upload-field__dropzone,
 .file-field__upload {
   background: var(--theme-elevation-50);
