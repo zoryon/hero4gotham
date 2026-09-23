@@ -191,15 +191,20 @@ select,
     // Four options at 44px each.
     max-height: min(176px, 50vh) !important;
     overflow-y: auto !important;
+    overflow-anchor: none;
     overscroll-behavior-y: contain;
+    scroll-behavior: auto;
     scrollbar-color: var(--theme-elevation-400) var(--theme-elevation-100);
     scrollbar-width: auto;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 
   .rs__option {
     align-items: center;
     display: flex;
     min-height: 44px;
+    touch-action: pan-y;
   }
 }
 
